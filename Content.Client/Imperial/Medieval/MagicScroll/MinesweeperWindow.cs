@@ -38,6 +38,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
     private const float GameEndDelay = 3.0f;
 
     private int _playerIntelligence = 10;
+    private int _requiredIntelligence = 10;
     private bool _debugBypassMinigameRequirements;
     private int _gridSize = 5;
     private int _totalMines = 2;
@@ -48,7 +49,10 @@ public sealed partial class MinesweeperWindow : DefaultWindow
     private int _restartsRemaining = -1;
     private bool _isUnstable;
     private bool _hintUsedThisTurn;
+    private bool _safeRevealAvailable = true;
 
+    public event Action? GameStarted;
+    public event Action? RestartUsed;
     public event Action<bool, bool>? GameCompleted;
 
     public MinesweeperWindow()
@@ -88,12 +92,14 @@ public sealed partial class MinesweeperWindow : DefaultWindow
 
             PrepareGame();
             StartTurn();
+            UpdateRestartButton();
         };
     }
 
     public void StartGame(
         MagicRune rune,
         int playerIntelligence,
+        int requiredIntelligence,
         int gridSize,
         int totalMines,
         int moveTimeSeconds,
@@ -109,6 +115,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
             MagicRuneData.GetSymbol(rune),
             MagicRuneData.GetMeaning(rune),
             playerIntelligence,
+            requiredIntelligence,
             gridSize,
             totalMines,
             moveTimeSeconds,
@@ -120,6 +127,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
     public void StartPairGame(
         MagicRunePair pair,
         int playerIntelligence,
+        int requiredIntelligence,
         int gridSize,
         int totalMines,
         int moveTimeSeconds,
@@ -135,6 +143,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
             MagicRuneData.GetPairDisplay(pair),
             $"{MagicRuneData.GetMeaning(pair.First)} + {MagicRuneData.GetMeaning(pair.Second)}",
             playerIntelligence,
+            requiredIntelligence,
             gridSize,
             totalMines,
             moveTimeSeconds,
@@ -147,6 +156,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         string runeDisplay,
         string runeMeaning,
         int playerIntelligence,
+        int requiredIntelligence,
         int gridSize,
         int totalMines,
         int moveTimeSeconds,
@@ -155,6 +165,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         int maxRestarts)
     {
         _playerIntelligence = playerIntelligence;
+        _requiredIntelligence = requiredIntelligence;
         _gridSize = Math.Max(1, gridSize);
         _totalMines = Math.Clamp(totalMines, 1, _gridSize * _gridSize - 1);
         _moveTimeSeconds = Math.Max(0, moveTimeSeconds);
@@ -183,6 +194,9 @@ public sealed partial class MinesweeperWindow : DefaultWindow
             return;
 
         _gameStarted = true;
+        GameStarted?.Invoke();
+
+        _gameStarted = true;
         StartButton.Disabled = true;
         UpdateRestartButton();
         PrepareGame();
@@ -197,6 +211,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         _mineCount = _totalMines;
         _revealedCount = 0;
         _hintUsedThisTurn = false;
+        _safeRevealAvailable = true;
 
         CreateMinefield();
         CreateGrid();
@@ -221,6 +236,31 @@ public sealed partial class MinesweeperWindow : DefaultWindow
             var (x, y) = positions[i];
             _mineField[x, y] = true;
         }
+    }
+    // makes first move always safe
+    private void MakeRevealSafe(int x, int y)
+    {
+        if (!_mineField[x, y])
+            return;
+
+        var safePositions = new List<(int x, int y)>();
+
+        for (var newX = 0; newX < _gridSize; newX++)
+        {
+            for (var newY = 0; newY < _gridSize; newY++)
+            {
+                if ((newX != x || newY != y) && !_mineField[newX, newY])
+                    safePositions.Add((newX, newY));
+            }
+        }
+
+        if (safePositions.Count == 0)
+            return;
+
+        var newPosition = safePositions[_random.Next(safePositions.Count)];
+
+        _mineField[x, y] = false;
+        _mineField[newPosition.x, newPosition.y] = true;
     }
 
     private void StartTurn()
@@ -364,9 +404,9 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         var targetX = x;
         var targetY = y;
 
-        if (!_debugBypassMinigameRequirements && _playerIntelligence < 10)
+        if (!_debugBypassMinigameRequirements && _playerIntelligence < _requiredIntelligence)
         {
-            var intelligenceDeficit = 10 - _playerIntelligence;
+            var intelligenceDeficit = 11 - _playerIntelligence;
             var misfireChance = intelligenceDeficit * 5;
 
             if (_random.Next(100) < misfireChance)
@@ -384,6 +424,12 @@ public sealed partial class MinesweeperWindow : DefaultWindow
                     StatusLabel.Modulate = Color.Orange;
                 }
             }
+        }
+
+        if (_safeRevealAvailable)
+        {
+            _safeRevealAvailable = false;
+            MakeRevealSafe(targetX, targetY);
         }
 
         if (_revealed[targetX, targetY] || _flagged[targetX, targetY])
@@ -568,9 +614,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         }
         else
         {
-            StatusLabel.Text = blow
-                ? "Поражение! Свиток взорвался!"
-                : "Поражение!";
+            StatusLabel.Text = "Поражение! Вы наступили на мину! (Окно закроется через 3 секунды)";
             StatusLabel.Modulate = Color.Red;
 
             for (var i = 0; i < _gridSize; i++)
@@ -683,9 +727,9 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         OpenedLabel.Text =
             $"Открыто: {_revealedCount}/{_gridSize * _gridSize - _mineCount}";
 
-        if (!_debugBypassMinigameRequirements && _playerIntelligence < 10)
+        if (!_debugBypassMinigameRequirements && _playerIntelligence < _requiredIntelligence)
         {
-            var intelligenceDeficit = 10 - _playerIntelligence;
+            var intelligenceDeficit = 11 - _playerIntelligence;
             var misfireChance = intelligenceDeficit * 5;
             StatusLabel.Text =
                 $"Найдите все безопасные клетки! Шанс промаха {misfireChance}%.";

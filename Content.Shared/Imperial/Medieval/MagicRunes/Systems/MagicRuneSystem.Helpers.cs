@@ -11,11 +11,43 @@ using Content.Shared.Imperial.Medieval.Skills;
 //=========================================================================
 
 namespace Content.Shared.Imperial.Medieval.MagicRunes.Systems;
-
+// made some of the probabilities based on 2d12 and 2d6 dice.
 public partial class MagicRuneSystem
 {
+
+    private static readonly int[] UnstableGridSizes =
+    [6, 9, 10, 12, 14, 16];
+
+    private static readonly int[] UnstableGridWeights =
+    [2, 5, 7, 9, 11, 12];
+
+    private static readonly int[] UnstableMineCounts =
+    [6, 7, 8, 9, 10, 11, 12, 14, 18];
+
+    private static readonly int[] UnstableMineWeights =
+    [6, 6, 9, 9, 13, 13, 27, 27, 34];
+
+    private static readonly int[] UnstablePairCounts =
+    [2, 3, 4, 5, 6, 7, 8];
+
+    private static readonly int[] UnstablePairWeights =
+    [10, 18, 27, 34, 27, 18, 10];
+
+    private static readonly int[] UnstableBasicPowerValues =
+    [1, 20, 25, 30, 40, 60, 80, 90, 100];
+
+    private static readonly int[] UnstableBasicPowerWeights =
+    [6, 9, 13, 27, 34, 27, 13, 9, 6];
+
+    private static readonly int[] UnstablePairPowerValues =
+    [25, 27, 30, 35, 40, 45, 50];
+
+    private static readonly int[] UnstablePairPowerWeights =
+    [6, 15, 28, 44, 28, 15, 6];
+
     public void InitializeScroll(EntityUid uid, MagicScrollComponent scroll)
     {
+        scroll.PairRestartsRemaining.Clear();
         scroll.EncryptedRunes.Clear();
         scroll.DecodedRunes.Clear();
         scroll.EncryptedPairs.Clear();
@@ -36,6 +68,8 @@ public partial class MagicRuneSystem
                 scroll.EncryptedPairs.Add(pair);
                 scroll.EncryptedRunes.Add(pair.First);
                 scroll.EncryptedRunes.Add(pair.Second);
+
+                scroll.PairRestartsRemaining.Add(scroll.MaxRestarts);
             }
         }
         else
@@ -53,34 +87,28 @@ public partial class MagicRuneSystem
 
     private void RandomizeUnstableScrollSettings(MagicScrollComponent scroll)
     {
-        // Middle values are common; extreme values are deliberately rare.
         scroll.GridSize = WeightedChoice(
-            new[] { 6, 7, 8, 9, 10, 11, 12 },
-            new[] { 2, 7, 11, 12, 9, 5, 2 });
+        UnstableGridSizes,
+        UnstableGridWeights);
 
         scroll.TotalMines = WeightedChoice(
-            new[] { 4, 5, 6, 7, 8, 9, 10, 11, 12 },
-            new[] { 3, 7, 10, 12, 13, 11, 8, 5, 2 });
+        UnstableMineCounts,
+    UnstableMineWeights);
 
         scroll.TipsAvailable = _random.Next(1, 6);
 
         // 2 and 8 are both outliers. The middle number of pairs is much more likely.
         scroll.MaxEncryptedPairs = WeightedChoice(
-            new[] { 2, 3, 4, 5, 6, 7, 8 },
-            new[] { 1, 6, 11, 13, 9, 5, 1 });
+    UnstablePairCounts,
+    UnstablePairWeights);
 
         scroll.BasicPower = WeightedChoice(
-            new[] { 8, 10, 12, 15, 18, 22, 28 },
-            new[] { 12, 10, 8, 6, 4, 2, 1 });
+    UnstableBasicPowerValues,
+    UnstableBasicPowerWeights);
 
         scroll.PowerPerSolvedPair = WeightedChoice(
-            new[] { 5, 6, 7, 8, 10, 12, 15 },
-            new[] { 12, 10, 8, 6, 4, 2, 1 });
-
-        // Unstable scrolls always use their fixed 10 second turn timer
-        // and the first second is dangerous.
-        scroll.MoveTimeSeconds = 10;
-        scroll.MinimumMoveDelaySeconds = 1;
+    UnstablePairPowerValues,
+    UnstablePairPowerWeights);
     }
 
     private int WeightedChoice(int[] values, int[] weights)

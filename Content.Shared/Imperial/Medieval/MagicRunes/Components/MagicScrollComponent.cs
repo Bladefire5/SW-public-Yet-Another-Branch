@@ -65,6 +65,15 @@ public sealed partial class MagicScrollComponent : Component
     [DataField, AutoNetworkedField, ViewVariables(VVAccess.ReadWrite)]
     public int MaxRestarts = -1;
 
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public int MaxFails = 0;
+
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public int RequiredIntelligence = 12;
+
+    [ViewVariables(VVAccess.ReadWrite)]
+    public List<int> PairRestartsRemaining = new();
+
     // For pair-based scrolls this value is awarded once per solved pair.
     [DataField, AutoNetworkedField, ViewVariables(VVAccess.ReadWrite)]
     public int PowerPerSolvedPair;
@@ -75,4 +84,11 @@ public sealed partial class MagicScrollComponent : Component
 
     [DataField, AutoNetworkedField, ViewVariables(VVAccess.ReadWrite)]
     public bool IsUnstable;
+
+    [DataField, AutoNetworkedField, ViewVariables(VVAccess.ReadWrite)]
+    public bool ConvertScroll;
+
+    [ViewVariables]
+    public HashSet<EntityUid> ActiveMinigameUsers = new();
+
 }

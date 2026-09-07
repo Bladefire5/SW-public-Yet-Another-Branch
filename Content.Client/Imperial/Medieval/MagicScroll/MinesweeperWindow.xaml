@@ -8,8 +8,8 @@
 <DefaultWindow xmlns="https://spacestation14.io"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:customControls="clr-namespace:Content.Client.Administration.UI.CustomControls"
-               Title="Расшифровка Руны - Сапёр"
-               MinSize="500 500">
+               Title="Магический Свиток"
+               MinSize="500 400">
     <BoxContainer Orientation="Vertical" Margin="10">
         <Label Name="RuneLabel"
                Text="Расшифровка: ⚵"

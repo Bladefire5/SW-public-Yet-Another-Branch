@@ -207,6 +207,7 @@ public sealed partial class MagicScrollWindow : DefaultWindow
         for (var pairIndex = 0; pairIndex < _currentState.EncryptedPairs.Count; pairIndex++)
         {
             var pair = _currentState.EncryptedPairs[pairIndex];
+            var currentPairIndex = pairIndex;
             var firstKnown = _currentState.KnownRunes.Contains(pair.First) || _currentState.DebugBypassMinigameRequirements;
             var secondKnown = _currentState.KnownRunes.Contains(pair.Second) || _currentState.DebugBypassMinigameRequirements;
             var pairSolved = _currentState.DecodedPairs.Contains(pairIndex);
@@ -229,7 +230,7 @@ public sealed partial class MagicScrollWindow : DefaultWindow
             if (canUse && !isMinesweeperOpen)
             {
                 button.Modulate = Color.White;
-                button.OnPressed += _ => StartMinesweeper(pair);
+                button.OnPressed += _ => StartMinesweeper(pair, currentPairIndex);
             }
             else
             {
@@ -263,6 +264,12 @@ public sealed partial class MagicScrollWindow : DefaultWindow
             return;
 
         _minesweeperWindow = new MinesweeperWindow();
+
+        _minesweeperWindow.GameStarted += () =>
+        {
+            Owner?.SendMessage(new MagicScrollMinigameStartedMessage());
+        };
+
         _minesweeperWindow.GameCompleted +=
             (success, blow) => OnMinesweeperCompleted(rune, success, blow);
 
@@ -278,6 +285,7 @@ public sealed partial class MagicScrollWindow : DefaultWindow
         _minesweeperWindow.StartGame(
             rune,
             _currentState?.PlayerIntelligence ?? 10,
+            _currentState?.RequiredIntelligence ?? 12,
             _currentState?.GridSize ?? 5,
             _currentState?.TotalMines ?? 2,
             _currentState?.MoveTimeSeconds ?? 0,
@@ -291,14 +299,39 @@ public sealed partial class MagicScrollWindow : DefaultWindow
         UpdateKnownRunes();
     }
 
-    private void StartMinesweeper(MagicRunePair pair)
+    private void StartMinesweeper(MagicRunePair pair, int pairIndex)
     {
         if (_minesweeperWindow != null)
             return;
+        // Restart fix
+        var restartsRemaining = _currentState?.MaxRestarts ?? -1;
+
+        if (_currentState != null &&
+            pairIndex >= 0 &&
+        pairIndex < _currentState.PairRestartsRemaining.Count)
+        {
+            restartsRemaining =
+            _currentState.PairRestartsRemaining[pairIndex];
+        }
 
         _minesweeperWindow = new MinesweeperWindow();
+
+        _minesweeperWindow.GameStarted += () =>
+        {
+            Owner?.SendMessage(new MagicScrollMinigameStartedMessage());
+        };
+
         _minesweeperWindow.GameCompleted +=
             (success, blow) => OnMinesweeperPairCompleted(pair, success, blow);
+
+
+        _minesweeperWindow.RestartUsed += () =>
+        {
+            Owner?.SendMessage(
+            new MagicScrollPairRestartUsedMessage(
+             pair.First,
+             pair.Second));
+        };
 
         _minesweeperWindow.OnClose += () =>
         {
@@ -312,12 +345,13 @@ public sealed partial class MagicScrollWindow : DefaultWindow
         _minesweeperWindow.StartPairGame(
             pair,
             _currentState?.PlayerIntelligence ?? 10,
+            _currentState?.RequiredIntelligence ?? 12,
             _currentState?.GridSize ?? 9,
             _currentState?.TotalMines ?? 9,
             _currentState?.MoveTimeSeconds ?? 30,
             _currentState?.MinimumMoveDelaySeconds ?? 0,
             _currentState?.TipsAvailable ?? 3,
-            _currentState?.MaxRestarts ?? -1,
+            restartsRemaining,
             _currentState?.IsUnstable ?? false,
             _currentState?.DebugBypassMinigameRequirements ?? false);
 
@@ -331,20 +365,20 @@ public sealed partial class MagicScrollWindow : DefaultWindow
             Owner?.SendMessage(new MagicScrollRuneUnlockedMessage(rune));
         else if (blow)
             Owner?.SendMessage(new MagicScrollExplosionMessage());
+        else
+            Owner?.SendMessage(new MagicScrollMinigameFinishedMessage());
 
     }
 
     private void OnMinesweeperPairCompleted(MagicRunePair pair, bool success, bool blow)
     {
         if (success)
-        {
             Owner?.SendMessage(
                 new MagicScrollRunePairUnlockedMessage(pair.First, pair.Second));
-        }
         else if (blow)
-        {
             Owner?.SendMessage(new MagicScrollExplosionMessage());
-        }
+        else
+            Owner?.SendMessage(new MagicScrollMinigameFinishedMessage());
 
     }
 }

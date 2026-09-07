@@ -27,6 +27,15 @@ public partial class MagicRuneSystem
         SubscribeLocalEvent<MagicScrollComponent, MagicScrollRuneUnlockedMessage>(OnRuneUnlocked);
         SubscribeLocalEvent<MagicScrollComponent, MagicScrollRunePairUnlockedMessage>(OnRunePairUnlocked);
         SubscribeLocalEvent<MagicScrollComponent, MagicScrollExplosionMessage>(OnScrollExplosion);
+        //fix for restarts and being able to throw the scrolls to avoid fail.
+        SubscribeLocalEvent<MagicScrollComponent, MagicScrollPairRestartUsedMessage>(OnPairRestartUsed);
+        SubscribeLocalEvent<MagicScrollComponent, MagicScrollMinigameStartedMessage>(OnMinigameStarted);
+        SubscribeLocalEvent<MagicScrollComponent, MagicScrollMinigameFinishedMessage>(OnMinigameFinished);
+
+        Subs.BuiEvents<MagicScrollComponent>(MagicScrollUiKey.Key, subs =>
+        {
+            subs.Event<BoundUIClosedEvent>(OnScrollUiClosed);
+        });
     }
 
     private void UIOpenAttempt(EntityUid uid, MagicScrollComponent component, ActivatableUIOpenAttemptEvent args)
@@ -64,6 +73,8 @@ public partial class MagicRuneSystem
         if (!component.EncryptedRunes.Contains(args.Rune) || component.DecodedRunes.Contains(args.Rune))
             return;
 
+        component.ActiveMinigameUsers.Remove(args.Actor);
+
         component.DecodedRunes.Add(args.Rune);
 
         RecalculateScrollPower(uid, component);
@@ -72,7 +83,7 @@ public partial class MagicRuneSystem
 
         GetPlayerEssence(args.Actor, component);
 
-        if (!component.RequiresRunePairs &&
+        if (component.ConvertScroll &&
             component.EncryptedRunes.Count > 0 &&
             component.DecodedRunes.Count >= component.EncryptedRunes.Count)
         {
@@ -102,8 +113,9 @@ public partial class MagicRuneSystem
         {
             var pair = component.EncryptedPairs[i];
 
-            if ((pair.First == args.First && pair.Second == args.Second) ||
-            (pair.First == args.Second && pair.Second == args.First))
+            if (pair.First == args.First && pair.Second == args.Second ||
+            pair.First == args.Second && pair.Second == args.First)
+
             {
                 pairIndex = i;
                 break;
@@ -112,6 +124,8 @@ public partial class MagicRuneSystem
 
         if (pairIndex < 0 || component.DecodedPairs.Contains(pairIndex))
             return;
+
+        component.ActiveMinigameUsers.Remove(args.Actor);
 
         component.DecodedPairs.Add(pairIndex);
         component.DecodedRunes.Add(args.First);
@@ -126,7 +140,34 @@ public partial class MagicRuneSystem
 
     private void OnScrollExplosion(EntityUid uid, MagicScrollComponent component, MagicScrollExplosionMessage args)
     {
+        {
+            component.ActiveMinigameUsers.Remove(args.Actor);
+
+            HandleScrollFailure(uid, component);
+        }
+    }
+
+    private void HandleScrollFailure(
+    EntityUid uid,
+    MagicScrollComponent component)
+    {
+        if (component.MaxFails > 1)
+        {
+            component.MaxFails--;
+            return;
+        }
+
         _boomSystem.TriggerExplosive(uid);
+    }
+
+    private void OnScrollUiClosed(
+    Entity<MagicScrollComponent> entity,
+    ref BoundUIClosedEvent args)
+    {
+        if (!entity.Comp.ActiveMinigameUsers.Remove(args.Actor))
+            return;
+
+        HandleScrollFailure(entity.Owner, entity.Comp);
     }
 
     private void ConvertToDecodedNormalScroll(EntityUid uid, MagicScrollComponent component)
@@ -166,6 +207,7 @@ public partial class MagicRuneSystem
             decodedRunes: scroll.DecodedRunes,
             knownRunes: knownRunes,
             playerIntelligence: intelligence,
+            requiredIntelligence: scroll.RequiredIntelligence,
             gridSize: scroll.GridSize,
             totalMines: scroll.TotalMines,
             requiresRunePairs: scroll.RequiresRunePairs,
@@ -175,6 +217,7 @@ public partial class MagicRuneSystem
             minimumMoveDelaySeconds: scroll.MinimumMoveDelaySeconds,
             tipsAvailable: scroll.TipsAvailable,
             maxRestarts: scroll.MaxRestarts,
+            pairRestartsRemaining: scroll.PairRestartsRemaining,
             isUnstable: scroll.IsUnstable,
             debugBypassMinigameRequirements: scroll.DebugBypassMinigameRequirements
         );
@@ -216,4 +259,63 @@ public partial class MagicRuneSystem
 
         Spawn(_effectes[index], Transform(user).Coordinates);
     }
+
+    private void OnMinigameStarted(
+    EntityUid uid,
+    MagicScrollComponent component,
+    MagicScrollMinigameStartedMessage args)
+    {
+        component.ActiveMinigameUsers.Add(args.Actor);
+    }
+
+    private void OnPairRestartUsed(
+    EntityUid uid,
+    MagicScrollComponent component,
+    MagicScrollPairRestartUsedMessage args)
+    {
+        if (!component.RequiresRunePairs)
+            return;
+
+        var pairIndex = -1;
+
+        for (var i = 0; i < component.EncryptedPairs.Count; i++)
+        {
+            var pair = component.EncryptedPairs[i];
+
+            if (pair.First == args.First && pair.Second == args.Second ||
+            pair.First == args.Second && pair.Second == args.First)
+            {
+                pairIndex = i;
+                break;
+            }
+        }
+
+        if (pairIndex < 0 ||
+        pairIndex >= component.PairRestartsRemaining.Count)
+            return;
+
+        var remaining = component.PairRestartsRemaining[pairIndex];
+
+        if (remaining < 0)
+            return;
+
+
+        if (remaining == 0)
+            return;
+
+        component.PairRestartsRemaining[pairIndex]--;
+
+        TryComp<MagicRuneKnowledgeComponent>(args.Actor, out var knowledge);
+
+        SendScrollState(uid, component, knowledge, args.Actor);
+    }
+
+    private void OnMinigameFinished(
+    EntityUid uid,
+    MagicScrollComponent component,
+    MagicScrollMinigameFinishedMessage args)
+    {
+        component.ActiveMinigameUsers.Remove(args.Actor);
+    }
+
 }

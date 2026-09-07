@@ -23,6 +23,7 @@ public sealed class MagicScrollBoundUserInterfaceState(
     HashSet<MagicRune> decodedRunes,
     HashSet<MagicRune> knownRunes,
     int playerIntelligence,
+    int requiredIntelligence,
     int gridSize,
     int totalMines,
     bool requiresRunePairs,
@@ -32,6 +33,7 @@ public sealed class MagicScrollBoundUserInterfaceState(
     int minimumMoveDelaySeconds,
     int tipsAvailable,
     int maxRestarts,
+    List<int> pairRestartsRemaining,
     bool isUnstable,
     bool debugBypassMinigameRequirements) : BoundUserInterfaceState
 {
@@ -40,6 +42,7 @@ public sealed class MagicScrollBoundUserInterfaceState(
     public HashSet<MagicRune> DecodedRunes = decodedRunes;
     public HashSet<MagicRune> KnownRunes = knownRunes;
     public int PlayerIntelligence = playerIntelligence;
+    public int RequiredIntelligence = requiredIntelligence;
     public int GridSize = gridSize;
     public int TotalMines = totalMines;
     public bool RequiresRunePairs = requiresRunePairs;
@@ -49,6 +52,7 @@ public sealed class MagicScrollBoundUserInterfaceState(
     public int MinimumMoveDelaySeconds = minimumMoveDelaySeconds;
     public int TipsAvailable = tipsAvailable;
     public int MaxRestarts = maxRestarts;
+    public List<int> PairRestartsRemaining = pairRestartsRemaining;
     public bool IsUnstable = isUnstable;
     public bool DebugBypassMinigameRequirements = debugBypassMinigameRequirements;
 }
@@ -73,5 +77,24 @@ public sealed class MagicScrollExplosionMessage : BoundUserInterfaceMessage
 
 [Serializable, NetSerializable]
 public sealed partial class BarrierSuicideDoAfterEvent : SimpleDoAfterEvent
+{
+}
+// fixed infinite restarts
+[Serializable, NetSerializable]
+public sealed class MagicScrollPairRestartUsedMessage(
+    MagicRune first,
+    MagicRune second) : BoundUserInterfaceMessage
+{
+    public MagicRune First = first;
+    public MagicRune Second = second;
+}
+
+[Serializable, NetSerializable]
+public sealed class MagicScrollMinigameStartedMessage : BoundUserInterfaceMessage
+{
+}
+
+[Serializable, NetSerializable]
+public sealed class MagicScrollMinigameFinishedMessage : BoundUserInterfaceMessage
 {
 }

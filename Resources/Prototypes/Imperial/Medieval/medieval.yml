@@ -4421,6 +4421,42 @@
     state: mira
 
 - type: entity
+  id: MedievalScrollBarrierNovice
+  name: Weak scroll of runes
+  parent: BaseItem
+  components:
+  - type: ActivatableUI
+    key: enum.MagicScrollUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.MagicScrollUiKey.Key:
+        type: MagicScrollBoundUserInterface
+  - type: Item
+    size: Small
+  - type: Sprite
+    sprite: Imperial/Medieval/Decor/medieval_decor.rsi
+    layers:
+    - state: scroll1
+  - type: MagicScroll
+    requiredIntelligence: 9
+    basicPower: 1
+    pointsPerDecodedRune: 2
+    maxFails: 4
+    debugBypassMinigameRequirements: true
+  - type: Tag
+    tags:
+    - MagicScroll
+  - type: TrashClear # imperial medieval
+    safe: true # imperial medieval
+  - type: Explosive
+    explosionType: Default
+    maxIntensity: 1.1
+    intensitySlope: 8
+    totalIntensity: 36
+    maxTileBreak: 0
+    deleteAfterExplosion: true
+
+- type: entity
   id: MedievalScrollBarrier
   name: scroll of runes
   parent: BaseItem
@@ -4438,7 +4474,7 @@
     layers:
     - state: scroll1
   - type: MagicScroll
-    maxRestarts: 2
+    convertScroll: true
     debugBypassMinigameRequirements: true
   - type: Tag
     tags:
@@ -4476,6 +4512,7 @@
     color: blue
     castShadows: false
   - type: MagicScroll
+    requiredIntelligence: 15
     basicPower: 30
     requiresRunePairs: true
     maxEncryptedPairs: 4
@@ -4522,16 +4559,9 @@
     color: red
     castShadows: false
   - type: MagicScroll
-    basicPower: 8
+    requiredIntelligence: 18
     requiresRunePairs: true
-    maxEncryptedPairs: 8
-    gridSize: 6
-    totalMines: 4
-    moveTimeSeconds: 10
-    minimumMoveDelaySeconds: 1
-    tipsAvailable: 1
     maxRestarts: 0
-    powerPerSolvedPair: 5
     isUnstable: true
     debugBypassMinigameRequirements: true
   - type: Tag
@@ -4539,6 +4569,9 @@
     - MagicScroll
   - type: TrashClear
     safe: true
+  - type: RadiationSource
+    intensity: 3
+    Slope: 1.5
   - type: Explosive
     explosionType: Default
     maxIntensity: 1.1
