@@ -4517,7 +4517,7 @@
     requiresRunePairs: true
     maxEncryptedPairs: 4
     gridSize: 9
-    totalMines: 9
+    totalMines: 11
     moveTimeSeconds: 30
     tipsAvailable: 3
     maxRestarts: 2
@@ -4562,6 +4562,8 @@
     requiredIntelligence: 18
     requiresRunePairs: true
     maxRestarts: 0
+    moveTimeSeconds: 10
+    minimumMoveDelaySeconds: 1
     isUnstable: true
     debugBypassMinigameRequirements: true
   - type: Tag
@@ -4570,8 +4572,8 @@
   - type: TrashClear
     safe: true
   - type: RadiationSource
-    intensity: 3
-    Slope: 1.5
+    intensity: 4
+    Slope: 0.05
   - type: Explosive
     explosionType: Default
     maxIntensity: 1.1

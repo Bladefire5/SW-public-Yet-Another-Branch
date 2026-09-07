@@ -22,7 +22,7 @@ public partial class MagicRuneSystem
     [2, 5, 7, 9, 11, 12];
 
     private static readonly int[] UnstableMineCounts =
-    [6, 7, 8, 9, 10, 11, 12, 14, 18];
+    [6, 7, 8, 9, 10, 12, 14, 16, 18];
 
     private static readonly int[] UnstableMineWeights =
     [6, 6, 9, 9, 13, 13, 27, 27, 34];
