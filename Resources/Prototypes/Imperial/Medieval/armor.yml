@@ -3301,6 +3301,42 @@
   - type: MedievalIronHitSound
 
 - type: entity
+  parent: MedievalClothingOuterArmorEbonit
+  id: MedievalClothingOuterArmorEbonitZablik
+  name: upgrade iron armor
+  description: An upgraded armor with iron plates to protect against melee weapons.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Clothing/Armor/zablik_armor.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Clothing/Armor/zablik_armor.rsi
+  - type: MedievalIronHitSound
+
+- type: entity
+  parent: MedievalClothingOuterArmorEbonit2
+  id: MedievalClothingOuterArmorEbonit2Zablik
+  name: upgrade iron armor
+  description: An upgraded armor with iron plates to protect against melee weapons.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Clothing/Armor/zablik_armor.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Clothing/Armor/zablik_armor.rsi
+  - type: MedievalIronHitSound
+
+- type: entity
+  parent: MedievalClothingOuterArmorForstone
+  id: MedievalClothingOuterArmorForstoneZablik
+  name: upgrade iron armor
+  description: An upgraded armor with iron plates to protect against melee weapons.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Clothing/Armor/zablik_armor.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Clothing/Armor/zablik_armor.rsi
+  - type: MedievalIronHitSound
+
+- type: entity
   parent: MedievalClothingFeetSteel
   id: MedievalClothingFeetSteelGreenKnight
   components:

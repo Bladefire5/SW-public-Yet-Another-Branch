@@ -482,11 +482,35 @@ ent-ClothingOuterArmorPodWarsZablik = plated adorned armor
     .desc = Gilded cavalry armor offering excellent protection for the torso. It is segmented, with the belly guarded by overlapping plates and the breast and collarbones covered by two separate sheets of steel layered over one another. Most commonly found on Hussars, it sometimes falls into someone else’s hands on the Archipelago, either as a gift from one of the original Banished Hussars or looted. Surprisingly light and comfortable to wear.
     .suffix = { "SKIN, Medieval, clothing" }
 
+ent-MedievalClothingOuterArmorEbonitZablik = plated adorned armor
+    .desc = Gilded cavalry armor offering excellent protection for the torso. It is segmented, with the belly guarded by overlapping plates and the breast and collarbones covered by two separate sheets of steel layered over one another. Most commonly found on Hussars, it sometimes falls into someone else’s hands on the Archipelago, either as a gift from one of the original Banished Hussars or looted. Surprisingly light and comfortable to wear.
+    .suffix = { "SKIN, Medieval, clothing" }
+
+ent-MedievalClothingOuterArmorEbonit2Zablik = plated adorned armor
+    .desc = Gilded cavalry armor offering excellent protection for the torso. It is segmented, with the belly guarded by overlapping plates and the breast and collarbones covered by two separate sheets of steel layered over one another. Most commonly found on Hussars, it sometimes falls into someone else’s hands on the Archipelago, either as a gift from one of the original Banished Hussars or looted. Surprisingly light and comfortable to wear.
+    .suffix = { "SKIN, Medieval, clothing" }
+
+ent-MedievalClothingOuterArmorForstoneZablik = plated adorned armor
+    .desc = Gilded cavalry armor offering excellent protection for the torso. It is segmented, with the belly guarded by overlapping plates and the breast and collarbones covered by two separate sheets of steel layered over one another. Most commonly found on Hussars, it sometimes falls into someone else’s hands on the Archipelago, either as a gift from one of the original Banished Hussars or looted. Surprisingly light and comfortable to wear.
+    .suffix = { "SKIN, Medieval, clothing" }
+
 ent-MedievalIronGlovesZablik = plated bracers
     .desc = Light steel protection for the arms, leaving movement unhindered and the hands entirely unguarded.
     .suffix = { "SKIN, Medieval, clothing" }
 
 ent-MedievalClothingHeadHelmetZablik = hussar helmet
+    .desc = A shishak-style helmet fitted to the hussar's panoply. Perhaps one of the most practical helmets for a cavalryman, and for a foot soldier as well. Decorative steel wings are fixed to it, proclaiming the host to which its wearer belongs.
+    .suffix = { "SKIN, Medieval, clothing" }
+
+ent-MedievalClothingHeadHelmetEbonitZablik = hussar helmet
+    .desc = A shishak-style helmet fitted to the hussar's panoply. Perhaps one of the most practical helmets for a cavalryman, and for a foot soldier as well. Decorative steel wings are fixed to it, proclaiming the host to which its wearer belongs.
+    .suffix = { "SKIN, Medieval, clothing" }
+
+ent-MedievalClothingHeadHelmetEbonit2Zablik = hussar helmet
+    .desc = A shishak-style helmet fitted to the hussar's panoply. Perhaps one of the most practical helmets for a cavalryman, and for a foot soldier as well. Decorative steel wings are fixed to it, proclaiming the host to which its wearer belongs.
+    .suffix = { "SKIN, Medieval, clothing" }
+
+ent-MedievalClothingHeadHelmetForstoneZablik = hussar helmet
     .desc = A shishak-style helmet fitted to the hussar's panoply. Perhaps one of the most practical helmets for a cavalryman, and for a foot soldier as well. Decorative steel wings are fixed to it, proclaiming the host to which its wearer belongs.
     .suffix = { "SKIN, Medieval, clothing" }
 

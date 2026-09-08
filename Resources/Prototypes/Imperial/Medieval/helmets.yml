@@ -2622,6 +2622,39 @@
         variation: 0.2
 
 - type: entity
+  parent: MedievalClothingHeadHelmetEbonit
+  id: MedievalClothingHeadHelmetEbonitZablik
+  name: Helmet
+  description: Helmet
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Clothing/Head/zablik_head.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Clothing/Head/zablik_head.rsi
+
+- type: entity
+  parent: MedievalClothingHeadHelmetEbonit2
+  id: MedievalClothingHeadHelmetEbonit2Zablik
+  name: Helmet
+  description: Helmet
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Clothing/Head/zablik_head.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Clothing/Head/zablik_head.rsi
+
+- type: entity
+  parent: MedievalClothingHeadHelmetForstone
+  id: MedievalClothingHeadHelmetForstoneZablik
+  name: Helmet
+  description: Helmet
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Clothing/Head/zablik_head.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Clothing/Head/zablik_head.rsi
+
+- type: entity
   parent: MedievalClothingHeadHelmetCrusader
   id: MedievalClothingHeadRoyalHelmet
   name: MedievalClothingHeadRoyalHelmet
