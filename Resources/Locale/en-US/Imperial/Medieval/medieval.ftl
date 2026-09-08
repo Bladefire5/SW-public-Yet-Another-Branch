@@ -498,6 +498,10 @@ ent-MedievalIronGlovesZablik = plated bracers
     .desc = Light steel protection for the arms, leaving movement unhindered and the hands entirely unguarded.
     .suffix = { "SKIN, Medieval, clothing" }
 
+ent-MedievalEbonitGlovesZablik = plated bracers
+    .desc = Light steel protection for the arms, leaving movement unhindered and the hands entirely unguarded.
+    .suffix = { "SKIN, Medieval, clothing" }
+
 ent-MedievalClothingHeadHelmetZablik = hussar helmet
     .desc = A shishak-style helmet fitted to the hussar's panoply. Perhaps one of the most practical helmets for a cavalryman, and for a foot soldier as well. Decorative steel wings are fixed to it, proclaiming the host to which its wearer belongs.
     .suffix = { "SKIN, Medieval, clothing" }

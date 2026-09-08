@@ -3357,6 +3357,17 @@
     sprite: Imperial/Medieval/Clothing/Gloves/greenknight.rsi
 
 - type: entity
+  parent: MedievalEbonitGloves
+  id: MedievalEbonitGlovesZablik
+  name: MedievalIronGlovesZablik
+  description: MedievalIronGlovesZablik
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Clothing/Gloves/zablik_gloves.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Clothing/Gloves/zablik_gloves.rsi
+
+- type: entity
   parent: MedievalIronGloves
   id: MedievalIronGlovesZablik
   name: MedievalIronGlovesZablik

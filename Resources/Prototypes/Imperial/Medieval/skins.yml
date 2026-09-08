@@ -484,6 +484,9 @@
     MedievalClothingHeadHelmetEbonit2: [MedievalClothingHeadHelmetEbonit2Zablik]
     MedievalClothingHeadHelmetForstone: [MedievalClothingHeadHelmetForstoneZablik]
     MedievalIronGloves: [MedievalIronGlovesZablik]
+    MedievalEbonitGloves: [MedievalEbonitGlovesZablik]
+    MedievalEbonitGloves2: [MedievalEbonitGlovesZablik]
+    MedievalForstoneGloves: [MedievalEbonitGlovesZablik]
     Log: [MedievalClothingNeckCloakZablik, MedievalClothingUniformJumpsuitShitCloth82, MedievalGussarFlagZablik]
 
 - type: customization
