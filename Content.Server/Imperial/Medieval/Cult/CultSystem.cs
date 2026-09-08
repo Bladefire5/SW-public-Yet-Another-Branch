@@ -847,7 +847,7 @@ namespace Content.Server.Cult
                     {
                         if (TryComp<ManaComponent>(args.User, out var mana) && mana.MaxManaRaceModifier != 0)
                         {
-                            mana.Regen *= 1.25f;
+                            mana.Regen *= 12.5f;
                             Spawn("ShockWaveEffect", coords);
                             _audioSystem.PlayPvs(comp.SuccesSound, uid);
                             _chat.TrySendInGameICMessage(uid, "Скорость восстановления маны у проводящего ритуал повышена", InGameICChatType.Speak, false);
