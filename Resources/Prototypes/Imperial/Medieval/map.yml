@@ -57,6 +57,8 @@
             # Collegium (15 total)
             MedievalCollegiumRecruit: [ 10, 10 ]
             MedievalCollegiumCommon: [ 7, 7 ]
+            MedievalCollegiumKnight: [ 1, 1 ]
+            MedievalCollegiumArcaneKnight: [ 1, 1 ]
             MedievalCollegiumLeader: [ 1, 1 ]
             # Cult (10 total)
             MedievalCult: [ 9, 9 ]
@@ -141,6 +143,8 @@
             # Collegium (11 total)
             MedievalCollegiumRecruit: [ 7, 7 ]
             MedievalCollegiumCommon: [ 5, 5 ]
+            MedievalCollegiumKnight: [ 1, 1 ]
+            MedievalCollegiumArcaneKnight: [ 1, 1 ]
             MedievalCollegiumLeader: [ 1, 1 ]
             # Cult (7 total)
             MedievalCult: [ 6, 6 ]
@@ -224,6 +228,8 @@
             # Collegium (7 total)
             MedievalCollegiumRecruit: [ 4, 4 ]
             MedievalCollegiumCommon: [ 3, 3 ]
+            MedievalCollegiumKnight: [ 1, 1 ]
+            MedievalCollegiumArcaneKnight: [ 1, 1 ]
             MedievalCollegiumLeader: [ 1, 1 ]
             # Cult (5 total)
             MedievalCult: [ 4, 4 ]
@@ -305,6 +311,8 @@
             # Collegium (4 total)
             MedievalCollegiumRecruit: [ 2, 2 ]
             MedievalCollegiumCommon: [ 2, 2 ]
+            MedievalCollegiumKnight: [ 1, 1 ]
+            MedievalCollegiumArcaneKnight: [ 1, 1 ]
             MedievalCollegiumLeader: [ 1, 1 ]
             # Tribe (4 total)
             MedievalTribeRecruit: [ 2, 2 ]
@@ -383,6 +391,8 @@
             # Collegium (3 total)
             MedievalCollegiumRecruit: [ 2, 2 ]
             MedievalCollegiumCommon: [ 1, 1 ]
+            MedievalCollegiumKnight: [ 1, 1 ]
+            MedievalCollegiumArcaneKnight: [ 1, 1 ]
             MedievalCollegiumLeader: [ 1, 1 ]
             # Tribe (3 total)
             MedievalTribeRecruit: [ 2, 2 ]

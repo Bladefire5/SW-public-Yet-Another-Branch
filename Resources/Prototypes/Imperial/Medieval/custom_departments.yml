@@ -82,6 +82,8 @@
   roles:
   - MedievalCollegiumRecruit
   - MedievalCollegiumCommon
+  - MedievalCollegiumKnight
+  - MedievalCollegiumArcaneKnight
   - MedievalCollegiumLeader
 
 - type: department

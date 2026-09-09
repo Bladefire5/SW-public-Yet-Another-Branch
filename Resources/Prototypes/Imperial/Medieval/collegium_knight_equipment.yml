@@ -1,0 +1,346 @@
+# College Soldier equipment placeholders.
+# Parents provide temporary sprites and existing equipment behavior.
+# TODO: When artwork is ready, override Sprite.sprite, Clothing.sprite, and
+# Item.sprite as applicable. Match the parent's worn and in-hand visual states.
+# Keep these IDs stable so starting gear does not need to change again.
+
+- type: entity
+  parent: MedievalClothingHeadHelmetBacinet
+  id: MedievalCollegiumKnightHelmet
+  name: Collegium Magic Helm
+  description: A helmet that resists magic and slowly heals the wearer. Issued only to Collegium soldiers.
+  components:
+  - type: ManaRegen
+    regen: -1.0
+  - type: MedievalArmorIntegrity
+    unbrokenResistances:
+      Blunt:
+        coefficient: 0.8
+      Slash:
+        coefficient: 0.75
+      Piercing:
+        coefficient: 0.85
+      Heat:
+        coefficient: 0.7
+      Cold:
+        coefficient: 0.9
+      Radiation:
+        coefficient: 0.9
+      Caustic:
+        coefficient: 0.9
+      Bloodloss:
+        coefficient: 0.5
+    brokenResistances:
+      Blunt:
+        coefficient: 0.95
+      Slash:
+        coefficient: 0.95
+      Piercing:
+        coefficient: 0.95
+      Heat:
+        coefficient: 0.8
+      Cold:
+        coefficient: 0.9
+      Radiation:
+        coefficient: 0.9
+      Caustic:
+        coefficient: 0.9
+      Bloodloss:
+        coefficient: 0.5
+  - type: MedievalWearerHealing
+    damage:
+      types:
+        Blunt: -0.05
+        Slash: -0.05
+        Piercing: -0.05
+        Heat: -0.05
+
+- type: entity
+  parent: MedievalClothingUniformJumpsuitShitCloth23
+  id: MedievalCollegiumKnightUniform
+  name: college soldier uniform
+  description: Equipment issued to the soldiers of the Collegium.
+
+- type: entity
+  parent: MedievalClothingOuterArmorIronCuirassLight
+  id: MedievalCollegiumKnightArmor
+  name: Collegium Magic Cuirass
+  description: A cuirass that resists magic and slowly heals the wearer. Issued only to Collegium soldiers.
+  components:
+  - type: MedievalArmorIntegrity
+    unbrokenResistances:
+      Blunt:
+        coefficient: 0.13
+      Slash:
+        coefficient: 0.115
+      Piercing:
+        coefficient: 0.15
+      Heat:
+        coefficient: 0.4
+      Cold:
+        coefficient: 0.8
+      Radiation:
+        coefficient: 0.8
+      Caustic:
+        coefficient: 0.8
+      Bloodloss:
+        coefficient: 0.5
+    brokenResistances:
+      Blunt:
+        coefficient: 0.8
+      Slash:
+        coefficient: 0.8
+      Piercing:
+        coefficient: 0.8
+      Heat:
+        coefficient: 0.8
+      Cold:
+        coefficient: 0.8
+      Radiation:
+        coefficient: 0.8
+      Caustic:
+        coefficient: 0.8
+      Bloodloss:
+        coefficient: 0.5
+  - type: MedievalWearerHealing
+    damage:
+      types:
+        Blunt: -0.05
+        Slash: -0.05
+        Piercing: -0.05
+        Heat: -0.05
+
+- type: entity
+  parent: MedievalFalshionT3
+  id: MedievalCollegiumKnightSword
+  name: college soldier sword
+  description: Equipment issued to the soldiers of the Collegium.
+
+# Arcane Knight equipment placeholders.
+# The grimoire uses a fixed pool of Skill Points for Arcane Knight abilities.
+# Parents provide temporary sprites and existing equipment behavior.
+# TODO: When artwork is ready, override Sprite.sprite, Clothing.sprite, and
+# Item.sprite as applicable. Match the parent's worn and in-hand visual states.
+# Keep these IDs stable so starting gear does not need to change again.
+
+- type: entity
+  parent: MedievalClothingHeadHelmetBacinet
+  id: MedievalCollegiumArcaneKnightHelmet
+  name: Arcane Magic Helm
+  description: A helmet that resists magic and slowly heals the wearer. Issued only to Arcane Knights.
+  components:
+  - type: ManaRegen
+    regen: -1.0
+  - type: MedievalArmorIntegrity
+    containerArmorHP: 250
+    unbrokenResistances:
+      Blunt:
+        coefficient: 0.8
+      Slash:
+        coefficient: 0.75
+      Piercing:
+        coefficient: 0.85
+      Heat:
+        coefficient: 0.7
+      Cold:
+        coefficient: 0.9
+      Radiation:
+        coefficient: 0.9
+      Caustic:
+        coefficient: 0.9
+      Bloodloss:
+        coefficient: 0.5
+    brokenResistances:
+      Blunt:
+        coefficient: 0.95
+      Slash:
+        coefficient: 0.95
+      Piercing:
+        coefficient: 0.95
+      Heat:
+        coefficient: 0.8
+      Cold:
+        coefficient: 0.9
+      Radiation:
+        coefficient: 0.9
+      Caustic:
+        coefficient: 0.9
+      Bloodloss:
+        coefficient: 0.5
+  - type: MedievalWearerHealing
+    damage:
+      types:
+        Blunt: -0.05
+        Slash: -0.05
+        Piercing: -0.05
+        Heat: -0.05
+
+- type: entity
+  parent: MedievalClothingUniformJumpsuitShitCloth23
+  id: MedievalCollegiumArcaneKnightUniform
+  name: arcane knight uniform
+  description: Equipment issued to the arcane knights of the Collegium.
+
+- type: entity
+  parent: MedievalClothingOuterArmorIronCuirass
+  id: MedievalCollegiumArcaneKnightArmor
+  name: Arcane Magic Cuirass
+  description: A cuirass that resists magic and slowly heals the wearer. Issued only to Arcane Knights.
+  components:
+  - type: MedievalArmorIntegrity
+    unbrokenResistances:
+      Blunt:
+        coefficient: 0.11
+      Slash:
+        coefficient: 0.08
+      Piercing:
+        coefficient: 0.125
+      Heat:
+        coefficient: 0.3
+      Cold:
+        coefficient: 0.8
+      Radiation:
+        coefficient: 0.8
+      Caustic:
+        coefficient: 0.8
+      Bloodloss:
+        coefficient: 0.5
+    brokenResistances:
+      Blunt:
+        coefficient: 0.8
+      Slash:
+        coefficient: 0.8
+      Piercing:
+        coefficient: 0.8
+      Heat:
+        coefficient: 0.6
+      Cold:
+        coefficient: 0.8
+      Radiation:
+        coefficient: 0.8
+      Caustic:
+        coefficient: 0.8
+      Bloodloss:
+        coefficient: 0.5
+  - type: MedievalWearerHealing
+    damage:
+      types:
+        Blunt: -0.05
+        Slash: -0.05
+        Piercing: -0.05
+        Heat: -0.05
+
+- type: entity
+  parent: MedievalShoesSapogi
+  id: MedievalCollegiumArcaneKnightBoots
+  name: arcane knight boots
+  description: Equipment issued to the arcane knights of the Collegium.
+
+- type: entity
+  parent: ClothingHandsGlovesColorBlack
+  id: MedievalCollegiumArcaneKnightGloves
+  name: arcane knight gloves
+  description: Equipment issued to the arcane knights of the Collegium.
+
+- type: entity
+  parent: MedievalFalshionT3Steel
+  id: MedievalCollegiumArcaneKnightSword
+  name: arcane knight sword
+  description: Equipment issued to the arcane knights of the Collegium.
+
+
+### SKill book for collegium knight and soilder.
+
+- type: entity
+  parent: BaseItem
+  id: MedievalCollegiumArcaneKnightGrimoire
+  name: Arcane Knight Grimoire
+  description: A grimoire issued to Arcane Knights for studying physical and magical skills. It binds to its owner and its learning resources do not regenerate.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Misc/magic_book.rsi
+    state: icon
+  - type: Item
+    sprite: Imperial/Medieval/Misc/magic_book.rsi
+  - type: Undrowable
+  - type: UserInterface
+    interfaces:
+      enum.ImperialStoreUiKey.Key:
+        type: ImperialStoreBoundUserInterface
+  - type: ActivatableUI
+    key: enum.ImperialStoreUiKey.Key
+  - type: BindStoreOnEquip
+  - type: ImperialStore
+    name: medieval-store-name
+    withdrawText: medieval-store-withdraw-button-text
+    currencyTitle: medieval-collegium-skills-currency-title
+    cannotAccessStoreText: medieval-store-cannot-access-text
+    ownerOnly: true
+    categories:
+    - MedievalCollegiumPhysicalSkills
+    - MedievalCollegiumMagicSkills
+    currencyWhitelist:
+    - MedievalSkillPoints
+    - MedievalMagicTalent
+    balance:
+      # Placeholder amounts until the ability list is finalized.
+      MedievalSkillPoints: 6
+      MedievalMagicTalent: 6
+    bonusCount: 0
+
+- type: entity
+  parent: BaseItem
+  id: MedievalCollegiumSoldierGrimoire
+  name: College Soldier Grimoire
+  description: A grimoire issued to Collegium soldiers for studying physical and magical skills. It binds to its owner and its learning resources do not regenerate.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Misc/magic_book.rsi
+    state: icon
+  - type: Item
+    sprite: Imperial/Medieval/Misc/magic_book.rsi
+  - type: Undrowable
+  - type: UserInterface
+    interfaces:
+      enum.ImperialStoreUiKey.Key:
+        type: ImperialStoreBoundUserInterface
+  - type: ActivatableUI
+    key: enum.ImperialStoreUiKey.Key
+  - type: BindStoreOnEquip
+  - type: ImperialStore
+    name: medieval-store-name
+    withdrawText: medieval-store-withdraw-button-text
+    currencyTitle: medieval-collegium-skills-currency-title
+    cannotAccessStoreText: medieval-store-cannot-access-text
+    ownerOnly: true
+    categories:
+    - MedievalCollegiumPhysicalSkills
+    - MedievalCollegiumMagicSkills
+    currencyWhitelist:
+    - MedievalSkillPoints
+    - MedievalMagicTalent
+    balance:
+      # Placeholder amounts until the ability list is finalized.
+      MedievalSkillPoints: 6
+      MedievalMagicTalent: 6
+    bonusCount: 0
+
+- type: imperialCurrency
+  id: MedievalSkillPoints
+  displayName: medieval-currency-display-skill-points
+  canWithdraw: false
+
+- type: imperialCurrency
+  id: MedievalMagicTalent
+  displayName: medieval-currency-display-magic-talent
+  canWithdraw: false
+
+- type: imperialStoreCategory
+  id: MedievalCollegiumPhysicalSkills
+  name: medieval-store-category-physical-skills
+  priority: 1
+
+- type: imperialStoreCategory
+  id: MedievalCollegiumMagicSkills
+  name: medieval-store-category-magic-skills
+  priority: 2

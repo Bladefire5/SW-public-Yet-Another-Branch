@@ -4,6 +4,7 @@ medieval-currency-display-magic-vodka = Water Essence
 medieval-currency-display-magic-earth = Earth Essence
 medieval-currency-display-magic-darkness = Dark Essence
 medieval-currency-display-magic-archmage-points = Archmage Points
+medieval-currency-display-skill-points = Skill Points
 
 medieval-currency-display-magic-fire-short = Fire ess.
 medieval-currency-display-magic-darkness-short = Dark ess.

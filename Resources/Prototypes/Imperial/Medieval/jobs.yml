@@ -4725,6 +4725,154 @@
   - MedievalCollegiumHead
   - MedievalRepair
 
+# MEDIEVAL COLLEGIUM SOLDIER
+
+- type: startingGear
+  id: MedievalCollegiumKnightGear
+  equipment:
+    pocket1: MedievalRevent25
+    pocket2: MedievalCommsCrystallColl
+    # Dedicated equipment prototypes use temporary inherited sprites.
+    head: MedievalCollegiumKnightHelmet
+    neck: MedievalClothingNeckCloakClanWiz
+    jumpsuit: MedievalCollegiumKnightUniform
+    outerClothing: MedievalCollegiumKnightArmor
+    shoes: MedievalShoesSapogi
+    gloves: ClothingHandsGlovesColorBlack
+    back: ClothingBackpackSatchelCharmerLight
+    belt: MedievalCollegiumKnightSword
+    id: MedievalKeyWizard
+  storage:
+    back:
+    - MedievalCollegiumSoldierGrimoire
+
+- type: playTimeTracker
+  id: JobMedievalCollegiumKnight
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconMedievalCollegiumKnight
+  icon:
+    sprite: /Textures/Imperial/Medieval/Misc/job_icons.rsi
+    state: collegium_common
+  jobName: job-name-collegiumKnight-medieval
+
+- type: job
+  id: MedievalCollegiumKnight
+  name: job-name-collegiumKnight-medieval
+  description: job-description-collegiumKnight-medieval
+  playTimeTracker: JobMedievalCollegiumKnight
+  requirements:
+  - !type:SpeciesRequirement
+    species:
+    - Orc
+    inverted: true
+  - !type:DepartmentTimeRequirement
+    department: Collegium
+    time: 21600 # Imperial role timers
+  startingGear: MedievalCollegiumKnightGear
+  icon: JobIconMedievalCollegiumKnight
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: Mana
+      maxMana: 25
+      regen: 3.0 # 0.5 base + 1.5 cuirass drain + 1.0 magic helm drain.
+    - type: WarningOnAttach
+      message: medieval-warning-coll
+    - type: MedievalFactionMember
+      faction: Collegium
+      factionMenuAction: CollegiumFactionMenuAction
+    - type: MedievalJobSpawn
+      spawnType: Collegium
+    - type: GiveItemObjective
+    - type: MoneyCollector
+      objectivePrototype: MedievalGetMoneyObjective300500
+    - type: MedievalPasportPerson
+      personJob: "[color=purple]Солдат коллегии[/color]"
+      pasport: MedievalPasportCollegium
+      jobPrefix: "[СолК]"
+
+- type: roleLoadout
+  id: JobMedievalCollegiumKnight
+  groups:
+  - MedievalTrinkets
+  - MedievalRepair
+
+# MEDIEVAL COLLEGIUM ARCANE KNIGHT
+
+- type: startingGear
+  id: MedievalCollegiumArcaneKnightGear
+  equipment:
+    pocket1: MedievalRevent25
+    pocket2: MedievalCommsCrystallColl
+    # Dedicated equipment prototypes use temporary inherited sprites.
+    head: MedievalCollegiumArcaneKnightHelmet
+    neck: MedievalClothingNeckCloakClanWiz
+    jumpsuit: MedievalCollegiumArcaneKnightUniform
+    outerClothing: MedievalCollegiumArcaneKnightArmor
+    shoes: MedievalCollegiumArcaneKnightBoots
+    gloves: MedievalCollegiumArcaneKnightGloves
+    back: ClothingBackpackSatchelCharmerLight
+    belt: MedievalCollegiumArcaneKnightSword
+    id: MedievalKeyWizard
+  storage:
+    back:
+    - MedievalCollegiumArcaneKnightGrimoire
+
+- type: playTimeTracker
+  id: JobMedievalCollegiumArcaneKnight
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconMedievalCollegiumArcaneKnight
+  icon:
+    sprite: /Textures/Imperial/Medieval/Misc/job_icons.rsi
+    state: collegium_common
+  jobName: job-name-collegiumArcaneKnight-medieval
+
+- type: job
+  id: MedievalCollegiumArcaneKnight
+  name: job-name-collegiumArcaneKnight-medieval
+  description: job-description-collegiumArcaneKnight-medieval
+  playTimeTracker: JobMedievalCollegiumArcaneKnight
+  requirements:
+  - !type:SpeciesRequirement
+    species:
+    - Orc
+    inverted: true
+  - !type:DepartmentTimeRequirement
+    department: Collegium
+    time: 21600 # Imperial role timers
+  startingGear: MedievalCollegiumArcaneKnightGear
+  icon: JobIconMedievalCollegiumArcaneKnight
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: Mana
+      maxMana: 25
+      regen: 3.5 # 1.0 base + 1.5 cuirass drain + 1.0 helmet drain.
+    - type: WarningOnAttach
+      message: medieval-warning-coll
+    - type: MedievalFactionMember
+      faction: Collegium
+      factionMenuAction: CollegiumFactionMenuAction
+    - type: MedievalJobSpawn
+      spawnType: Collegium
+    - type: GiveItemObjective
+    - type: MoneyCollector
+      objectivePrototype: MedievalGetMoneyObjective300500
+    - type: MedievalPasportPerson
+      personJob: "[color=purple]Арканный рыцарь[/color]"
+      pasport: MedievalPasportCollegium
+      jobPrefix: "[АркК]"
+
+- type: roleLoadout
+  id: JobMedievalCollegiumArcaneKnight
+  groups:
+  - MedievalTrinkets
+  - MedievalRepair
+
 # MEDIEVAL COLLEGIUM Leader
 
 - type: startingGear

@@ -108,6 +108,10 @@ JobMedievalCollegiumRecruit = Collegium Novice
 job-name-collegiumCommon-medieval = Collegium Mage
 job-description-collegiumCommon-medieval = Aid the Archmage, maintain the magical barrier, and carry out the Collegium's tasks.
 JobMedievalCollegiumCommon = Collegium Mage
+
+job-name-collegiumKnight-medieval = College Soldier
+job-description-collegiumKnight-medieval = Protect the Collegium and its mages, defend its grounds, and follow the Archmage's orders.
+JobMedievalCollegiumKnight = College Soldier
 job-name-collegiumLeader-medieval = Collegium Archmage
 job-description-collegiumLeader-medieval = Lead the Collegium, teach novices, maintain the magical barrier, and complete the tasks assigned to you.
 JobMedievalCollegiumLeader = Collegium Archmage
@@ -158,3 +162,7 @@ department-FactionLeaders = Leaders of the factions
 department-FactionLeaders-description = The big shots of that world.
 department-Mages = Roles of the wizards
 department-Mages-description = Magic is mightier than a sword!
+
+job-name-collegiumArcaneKnight-medieval = Arcane Knight
+job-description-collegiumArcaneKnight-medieval = Protect the Collegium and its mages, defend its grounds, and follow the Archmage's orders.
+JobMedievalCollegiumArcaneKnight = Arcane Knight

@@ -4038,6 +4038,9 @@ JobMedievalCollegiumRecruit = Послушник коллегии
 job-name-collegiumCommon-medieval = Маг коллегии
 job-description-collegiumCommon-medieval = Помогайте архимагу, поддерживайте магический барьер, выполняйте цели коллегии.
 JobMedievalCollegiumCommon = Маг коллегии
+job-name-collegiumKnight-medieval = Солдат коллегии
+job-description-collegiumKnight-medieval = Защищайте коллегию и её магов, выполняйте приказы архимага.
+JobMedievalCollegiumKnight = Солдат коллегии
 job-name-collegiumLeader-medieval = Архимаг коллегии
 job-description-collegiumLeader-medieval = Руководите коллегией, обучайте послушников, поддерживайте магический барьер, выполните поставленные вам задачи.
 JobMedievalCollegiumLeader = Архимаг коллегии
@@ -6959,3 +6962,7 @@ ent-MedievalClothingUniformJumpsuitShitCloth96 = крестьянская руб
 ent-MedievalClothingUniformJumpsuitShitCloth97 = белое крестьянское платье
     .desc = Самое то для сельской местности.
     .suffix = { "Средневековье, одежда" }
+
+job-name-collegiumArcaneKnight-medieval = Арканный рыцарь
+job-description-collegiumArcaneKnight-medieval = Защищайте коллегию и её магов, выполняйте приказы архимага.
+JobMedievalCollegiumArcaneKnight = Арканный рыцарь

@@ -1,0 +1,24 @@
+# Novice
+- type: entity
+  id: MedievalNoviceDash
+  name: Dash
+  description: Quickly move toward the selected location.
+  components:
+  - type: Action
+    useDelay: 10
+
+  - type: TargetAction
+    checkCanAccess: false
+    range: 4
+
+  - type: WorldTargetAction
+    event: !type:FullMovementEvent
+
+      - type: FullMovement
+    speed: 12
+    minPoints: 1
+    maxPoints: 1
+    lockMovement: true
+    damageImmune: false
+    passThroughWalls: false
+    passThroughMobs: false
