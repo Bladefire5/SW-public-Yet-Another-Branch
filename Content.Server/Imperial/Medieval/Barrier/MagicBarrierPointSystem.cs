@@ -395,40 +395,7 @@ namespace Content.Server.MagicBarrier
                     {
                         comp.StarfallPointsCapCurrent = GetNextStarfallInterval(comp);
                         comp.StarfallCurrentPoints = 0;
-                        var starfallspawners = EntityManager.EntityQuery<StarFallComponent>().ToArray();
-                        bool found = false;
-                        var choosenSpawner = _random.Pick(starfallspawners);
-                        while (!found)
-                        {
-                            choosenSpawner = _random.Pick(starfallspawners);
-                            if (choosenSpawner.Active)
-                            {
-                                found = true;
-                                choosenSpawner.Active = false;
-                                break;
-                            }
-                        }
-                        var starfallxform = Transform(choosenSpawner.Owner);
-                        var starfallcoords = starfallxform.Coordinates;
-                        float randomise = _random.NextFloat(0f, 100f);
-                        Spawn("ShockWaveEffect", starfallcoords);
-                        string cordX = starfallcoords.X.ToString();
-                        string cordY = starfallcoords.Y.ToString();
-                        var side = choosenSpawner.Side;
-                        if (randomise > 35)
-                        {
-                            _chat.DispatchGlobalAnnouncement(Loc.GetString("medieval-hm-barrier-fallingstar", ("side", $"{side}"), ("x", $"{cordX}"), ("y", $"{cordY}")), playSound: true, colorOverride: Color.Yellow, sender: Loc.GetString("medieval-hm-barrier-event"));
-                            Spawn("MedievalSteroidRoomMarker", starfallcoords);
-                        }
-                        else if (randomise > comp.AncientNocturneEventChance)
-                        {
-                            _chat.DispatchGlobalAnnouncement(Loc.GetString("medieval-hm-barrier-caravan", ("side", $"{side}"), ("x", $"{cordX}"), ("y", $"{cordY}")), playSound: true, colorOverride: Color.Yellow, sender: Loc.GetString("medieval-hm-barrier-event"));
-                            Spawn("MedievalKaravanRoomMarker", starfallcoords);
-                        }
-                        else
-                        {
-                            _gameTicker.StartGameRule("MedievalAncientNocturneSpawnRule");
-                        }
+                        TryStartRandomMidroundEvent(comp);
                     }
 
                     if (comp.Lose > 0.5f && _playerManager.PlayerCount < 30 && comp.PlayerLimit)
@@ -518,6 +485,47 @@ namespace Content.Server.MagicBarrier
             return MathF.Max(
                 1f,
                 component.StarfallPointsCap + _random.NextFloat(-randomise, randomise));
+        }
+
+        private bool TryStartRandomMidroundEvent(MagicBarrierComponent component)
+        {
+            var availableSpawners = EntityManager.EntityQuery<StarFallComponent>()
+                .Where(candidate => candidate.Active)
+                .ToArray();
+
+            if (availableSpawners.Length == 0)
+            {
+                Log.Warning("Unable to start barrier midround event: no active StarFallComponent spawn markers are available");
+                return false;
+            }
+
+            var chosenSpawner = _random.Pick(availableSpawners);
+            chosenSpawner.Active = false;
+
+            var starfallXform = Transform(chosenSpawner.Owner);
+            var starfallCoords = starfallXform.Coordinates;
+            var randomise = _random.NextFloat(0f, 100f);
+            Spawn("ShockWaveEffect", starfallCoords);
+            var coordX = starfallCoords.X.ToString();
+            var coordY = starfallCoords.Y.ToString();
+            var side = chosenSpawner.Side;
+
+            if (randomise > 35)
+            {
+                _chat.DispatchGlobalAnnouncement(Loc.GetString("medieval-hm-barrier-fallingstar", ("side", $"{side}"), ("x", $"{coordX}"), ("y", $"{coordY}")), playSound: true, colorOverride: Color.Yellow, sender: Loc.GetString("medieval-hm-barrier-event"));
+                Spawn("MedievalSteroidRoomMarker", starfallCoords);
+            }
+            else if (randomise > component.AncientNocturneEventChance)
+            {
+                _chat.DispatchGlobalAnnouncement(Loc.GetString("medieval-hm-barrier-caravan", ("side", $"{side}"), ("x", $"{coordX}"), ("y", $"{coordY}")), playSound: true, colorOverride: Color.Yellow, sender: Loc.GetString("medieval-hm-barrier-event"));
+                Spawn("MedievalKaravanRoomMarker", starfallCoords);
+            }
+            else
+            {
+                _gameTicker.StartGameRule("MedievalAncientNocturneSpawnRule");
+            }
+
+            return true;
         }
 
         private void OnRiftTerminating(EntityUid uid, MagicBarrierRiftComponent component, ref EntityTerminatingEvent args)
