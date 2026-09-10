@@ -1,0 +1,13 @@
+- type: imperialListing
+  id: MedievalNoviceDashListing
+  name: Novice Dash
+  description: Quickly move toward the selected location.
+  productAction: MedievalNoviceDash
+  priority: 0
+  cost:
+    MedievalSkillPoints: 1
+  categories:
+  - MedievalCollegiumPhysicalSkills
+  conditions:
+  - !type:ImperialListingLimitedStockCondition
+    stock: 1

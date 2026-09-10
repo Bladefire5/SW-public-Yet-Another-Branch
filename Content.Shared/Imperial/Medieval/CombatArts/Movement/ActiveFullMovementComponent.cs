@@ -1,47 +1,97 @@
+using Robust.Shared.GameStates;
 using Robust.Shared.Map;
+using System.Numerics;
 
 namespace Content.Shared.Imperial.Medieval.CombatArts.Movement;
 
-[RegisterComponent]
+/// <summary>
+/// Temporary state placed on an entity while it is performing Full Movement.
+/// </summary>
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class ActiveFullMovementComponent : Component
 {
-    /// <summary>
-    /// Ordered movement destinations.
-    /// </summary>
-    public List<EntityCoordinates> Points = new();
 
     /// <summary>
-    /// Index of the point currently being travelled toward.
+    /// Whether Full Movement is currently overriding movement.
     /// </summary>
-    public int CurrentPointIndex;
+    [DataField, AutoNetworkedField]
+    public bool IsActive;
+    /// <summary>
+    /// World target the entity is moving toward.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public EntityCoordinates Target;
 
     /// <summary>
-    /// Current movement speed.
+    /// Desired movement speed.
     /// </summary>
+    [DataField, AutoNetworkedField]
     public float Speed;
 
     /// <summary>
-    /// Whether normal movement input is currently disabled.
+    /// Maximum acceleration of the requested movement speed.
     /// </summary>
-    public bool LockMovement;
+    [DataField, AutoNetworkedField]
+    public float Acceleration;
 
     /// <summary>
-    /// Whether health damage should currently be prevented.
+    /// Maximum deceleration of the requested movement speed.
     /// </summary>
-    public bool DamageImmune;
+    [DataField, AutoNetworkedField]
+    public float Deceleration;
 
     /// <summary>
-    /// Whether walls may be crossed during this movement.
+    /// Current requested movement speed.
     /// </summary>
-    public bool PassThroughWalls;
+    [DataField, AutoNetworkedField]
+    public float CurrentSpeed;
 
     /// <summary>
-    /// Whether mobs may be crossed during this movement.
+    /// Distance from the target at which Full Movement ends.
     /// </summary>
-    public bool PassThroughMobs;
+    [DataField, AutoNetworkedField]
+    public float ArrivalDistance = 0.2f;
 
     /// <summary>
-    /// Action that started this movement.
+    /// How much the player can steer while Full Movement is active.
     /// </summary>
-    public EntityUid? SourceAction;
+    [DataField, AutoNetworkedField]
+    public float Steering;
+
+    /// <summary>
+    /// Maximum steering turn speed in degrees per second.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float TurnSpeed = 360f;
+
+    /// <summary>
+    /// Extra travel-distance cost caused by steering.
+    /// Only used for non-homing movement.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float SteeringDistancePenalty;
+
+    /// <summary>
+    /// Whether this movement keeps correcting toward its original target.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool Homing = true;
+
+    /// <summary>
+    /// Current travel direction for non-homing Full Movement.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public Vector2 CurrentDirection;
+
+    /// <summary>
+    /// Remaining travel distance for non-homing Full Movement.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float RemainingDistance;
+
+    /// <summary>
+    /// Previous world position, used to measure distance actually traveled.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public Vector2 LastPosition;
 }

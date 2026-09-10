@@ -1,4 +1,5 @@
 # Novice
+
 - type: entity
   id: MedievalNoviceDash
   name: Dash
@@ -8,17 +9,14 @@
     useDelay: 10
 
   - type: TargetAction
+    range: 10
     checkCanAccess: false
-    range: 4
 
   - type: WorldTargetAction
     event: !type:FullMovementEvent
 
-      - type: FullMovement
-    speed: 12
-    minPoints: 1
-    maxPoints: 1
-    lockMovement: true
-    damageImmune: false
-    passThroughWalls: false
-    passThroughMobs: false
+  - type: FullMovement
+    speed: 10
+    acceleration: 20
+    deceleration: 25
+    arrivalDistance: 0.2

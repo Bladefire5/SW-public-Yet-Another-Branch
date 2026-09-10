@@ -1,49 +1,61 @@
+using Content.Shared.Actions;
 using Robust.Shared.GameStates;
 
 namespace Content.Shared.Imperial.Medieval.CombatArts.Movement;
 
-[RegisterComponent]
+/// <summary>
+/// Configures a Full Movement world-target action.
+/// </summary>
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class FullMovementComponent : Component
 {
     /// <summary>
-    /// Default speed used while moving between points.
+    /// Desired movement speed while the dash is active.
     /// </summary>
-    [DataField]
-    public float Speed = 12f;
+    [DataField, AutoNetworkedField]
+    public float Speed = 10f;
 
     /// <summary>
-    /// Minimum number of points the player must select.
+    /// How quickly the requested Full Movement speed increases.
+    /// 0 = immediately use full Speed.
     /// </summary>
-    [DataField]
-    public int MinPoints = 1;
+    [DataField, AutoNetworkedField]
+    public float Acceleration = 0f;
 
     /// <summary>
-    /// Maximum number of points the player may select.
+    /// How quickly Full Movement slows down near the end.
+    /// 0 = no automatic deceleration.
     /// </summary>
-    [DataField]
-    public int MaxPoints = 1;
+    [DataField, AutoNetworkedField]
+    public float Deceleration = 0f;
 
     /// <summary>
-    /// Prevent normal player movement input while FullMovement is active.
+    /// How close the performer must be to the target before the dash ends.
     /// </summary>
-    [DataField]
-    public bool LockMovement = true;
+    [DataField, AutoNetworkedField]
+    public float ArrivalDistance = 0.2f;
 
     /// <summary>
-    /// Prevent health damage while FullMovement is active.
+    /// How much the player can influence the dash direction.
+    /// 0 = no control, 1 = full directional control.
     /// </summary>
-    [DataField]
-    public bool DamageImmune = false;
+    [DataField, AutoNetworkedField]
+    public float Steering = 0f;
 
     /// <summary>
-    /// Whether the movement may pass through wall-type obstacles.
+    /// Maximum steering turn speed in degrees per second.
     /// </summary>
-    [DataField]
-    public bool PassThroughWalls = false;
+    [DataField, AutoNetworkedField]
+    public float TurnSpeed = 360f;
+
+    [DataField, AutoNetworkedField]
+    public float SteeringDistancePenalty = 0.25f;
 
     /// <summary>
-    /// Whether the movement may pass through other mobs/players.
+    /// Whether Full Movement continuously corrects back toward the selected target.
+    /// True = steering bends the path while still homing toward the target.
+    /// False = steering changes the actual movement trajectory.
     /// </summary>
-    [DataField]
-    public bool PassThroughMobs = false;
+    [DataField, AutoNetworkedField]
+    public bool Homing = true;
 }

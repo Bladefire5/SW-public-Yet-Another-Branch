@@ -1,3 +1,3 @@
 
-namespace Content.Server.Imperial.Medieval.CombatArts;
+namespace Content.Server.Imperial.Medieval.CombatArts.Physical;
 
