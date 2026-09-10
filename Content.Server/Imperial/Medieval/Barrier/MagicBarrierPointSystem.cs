@@ -393,7 +393,7 @@ namespace Content.Server.MagicBarrier
                     comp.StarfallCurrentPoints++;
                     if (comp.StarfallCurrentPoints >= comp.StarfallPointsCapCurrent)
                     {
-                        comp.StarfallPointsCapCurrent = comp.StarfallPointsCapCurrent + _random.NextFloat(-comp.StarfallRandomise, comp.StarfallRandomise);
+                        comp.StarfallPointsCapCurrent = GetNextStarfallInterval(comp);
                         comp.StarfallCurrentPoints = 0;
                         var starfallspawners = EntityManager.EntityQuery<StarFallComponent>().ToArray();
                         bool found = false;
@@ -510,6 +510,14 @@ namespace Content.Server.MagicBarrier
         {
             var delayMinutes = _random.NextFloat(component.ElementalRiftMinSpawnMinutes, component.ElementalRiftMaxSpawnMinutes);
             return TimeSpan.FromMinutes(delayMinutes);
+        }
+
+        private float GetNextStarfallInterval(MagicBarrierComponent component)
+        {
+            var randomise = MathF.Abs(component.StarfallRandomise);
+            return MathF.Max(
+                1f,
+                component.StarfallPointsCap + _random.NextFloat(-randomise, randomise));
         }
 
         private void OnRiftTerminating(EntityUid uid, MagicBarrierRiftComponent component, ref EntityTerminatingEvent args)
