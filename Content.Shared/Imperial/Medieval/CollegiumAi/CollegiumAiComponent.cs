@@ -97,8 +97,13 @@ public sealed partial class CollegiumAiWatchedComponent : Component;
 public sealed partial class CollegiumAiStrippedComponent : Component
 {
     /// <summary>
-    /// Prototypes of the spell actions that were taken, in the order they were removed.
+    /// The spell action entities that were taken, parked in nullspace until they are handed back.
     /// </summary>
-    [DataField]
-    public List<EntProtoId> Spells = new();
+    /// <remarks>
+    /// These are the original entities rather than prototypes. The grimoire store tracks what a mage bought by
+    /// entity, so replacing a spell with a fresh copy leaves its upgrade listing pointing at a dead entity, and
+    /// the next upgrade purchase then takes the essence and silently does nothing.
+    /// </remarks>
+    [ViewVariables]
+    public List<EntityUid> Spells = new();
 }

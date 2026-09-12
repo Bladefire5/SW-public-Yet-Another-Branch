@@ -55,6 +55,8 @@ public sealed partial class CollegiumAiSystem : EntitySystem
         SubscribeLocalEvent<CollegiumAiComponent, ComponentShutdown>(OnWatcherShutdown);
         SubscribeLocalEvent<CollegiumAiComponent, InteractionAttemptEvent>(OnWatcherInteract);
 
+        SubscribeLocalEvent<CollegiumAiStrippedComponent, EntityTerminatingEvent>(OnStrippedTerminating);
+
         InitializeActions();
     }
 
@@ -151,6 +153,18 @@ public sealed partial class CollegiumAiSystem : EntitySystem
             return;
 
         args.Cancelled = true;
+    }
+
+    /// <summary>
+    /// Parked spells live in nullspace, so they have to go with the mage they were taken from.
+    /// </summary>
+    private void OnStrippedTerminating(Entity<CollegiumAiStrippedComponent> ent, ref EntityTerminatingEvent args)
+    {
+        foreach (var spell in ent.Comp.Spells)
+        {
+            if (!TerminatingOrDeleted(spell))
+                QueueDel(spell);
+        }
     }
 
     private void OnCoreDestroyed(Entity<CollegiumAiCoreComponent> ent, ref DestructionEventArgs args)
