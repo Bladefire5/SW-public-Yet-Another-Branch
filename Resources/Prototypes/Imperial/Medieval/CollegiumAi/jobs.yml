@@ -23,3 +23,6 @@
   # Spawns straight into the statue container; the watcher lets itself out once a player takes the wheel.
   jobEntity: MobMedievalCollegiumAi
   applyTraits: false
+  # The watcher has no body, so character skills are meaningless on it and low Vitality would make it
+  # grunt and complain about its back.
+  applySkills: false
