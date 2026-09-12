@@ -24,7 +24,6 @@ using Content.Server.Imperial.Medieval.GameTicking.Rules;
 using Content.Shared.GameTicking;
 using Content.Server.Cult.Components;
 using Content.Server.GameTicking;
-using Robust.Server.Player;
 
 namespace Content.Server.MagicBarrier
 {
@@ -42,7 +41,6 @@ namespace Content.Server.MagicBarrier
         [Dependency] private readonly AchievementSystem _achievement = default!;
         [Dependency] private readonly GameTicker _gameTicker = default!;
         [Dependency] private readonly AncientNocturneSpawnRuleSystem _ancientNocturne = default!;
-        [Dependency] private readonly IPlayerManager _playerManager = default!;
 
         public static bool IsBarrierActive = true;
         private static readonly string[] ElementalRiftPrototypes =
@@ -399,22 +397,6 @@ namespace Content.Server.MagicBarrier
                         TryStartRandomMidroundEvent(comp);
                     }
 
-                    if (comp.Lose > 0.5f && _playerManager.PlayerCount < 30 && comp.PlayerLimit)
-                    {
-                        comp.Lose = 0.5f;
-                    }
-                    if (comp.Lose > 1f && _playerManager.PlayerCount < 60 && comp.PlayerLimit)
-                    {
-                        comp.Lose = 1f;
-                    }
-                    if (comp.Lose > 2f && _playerManager.PlayerCount < 90 && comp.PlayerLimit)
-                    {
-                        comp.Lose = 2.5f;
-                    }
-                    if (comp.Lose > 5f && _playerManager.PlayerCount < 120 && comp.PlayerLimit)
-                    {
-                        comp.Lose = 5f;
-                    }
                     //if (comp.Cycle == 85)
                     //{
                     //    var cursespawners = EntityManager.EntityQuery<MagicBarrierCurseSpawnComponent>().ToArray();
