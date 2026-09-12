@@ -42,6 +42,12 @@ public sealed partial class CollegiumAiComponent : Component
     [ViewVariables]
     public TimeSpan? LeashSince;
 
+    /// <summary>
+    /// Whether the joining briefing has been sent, so it is not repeated every time a player attaches.
+    /// </summary>
+    [ViewVariables]
+    public bool Briefed;
+
     #region Actions
 
     [DataField]

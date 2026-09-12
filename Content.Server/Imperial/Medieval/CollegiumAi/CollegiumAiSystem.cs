@@ -3,6 +3,7 @@ using Content.Server.Ghost;
 using Content.Server.MagicBarrier.Components;
 using Content.Server.Popups;
 using Content.Shared.Actions;
+using Content.Shared.Chat;
 using Content.Shared.Destructible;
 using Content.Shared.Imperial.Medieval.CollegiumAi;
 using Content.Shared.Imperial.Medieval.Factions.Components;
@@ -88,7 +89,34 @@ public sealed partial class CollegiumAiSystem : EntitySystem
 
         BindToCore(ent);
         SendHome(ent, silent: true);
+        SendBriefing(ent, args.Player);
     }
+
+    /// <summary>
+    /// Tells a new watcher what the job actually is. Sent once, to that player only.
+    /// </summary>
+    private void SendBriefing(Entity<CollegiumAiComponent> ent, ICommonSession session)
+    {
+        if (ent.Comp.Briefed)
+            return;
+
+        ent.Comp.Briefed = true;
+
+        foreach (var line in new[] { "collegium-ai-briefing-role", "collegium-ai-briefing-power" })
+        {
+            var message = Loc.GetString(line);
+            _chatManager.ChatMessageToOne(
+                ChatChannel.Server,
+                message,
+                message,
+                ent.Owner,
+                false,
+                session.Channel,
+                colorOverride: BriefingColor);
+        }
+    }
+
+    private static readonly Color BriefingColor = Color.FromHex("#b48ee8");
 
     /// <summary>
     /// Attaches the watcher to a statue if it did not spawn inside one.

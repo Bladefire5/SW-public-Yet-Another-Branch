@@ -21,7 +21,7 @@
     checkCanInteract: false
     itemIconStyle: BigAction
     # Long enough that stripping a mage stays a considered decision rather than a reflex.
-    useDelay: 300
+    useDelay: 900
     icon:
       sprite: Imperial/Medieval/Magic/Darkness/ManaBurnField/icons.rsi
       state: senior
