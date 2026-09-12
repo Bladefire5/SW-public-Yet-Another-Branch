@@ -39,6 +39,9 @@
   - type: CloackMessage
     action: ActionMedievalCollegiumAiBroadcast
     faction: "collegium"
+  # The watcher carries no crystal, so it needs its own receiver to hear the channel it can talk on.
+  - type: CloackReciever
+    faction: "collegium"
   # Restricts sight to whatever the Collegium mages themselves can see.
   - type: StationAiOverlay
   - type: NoFTL
