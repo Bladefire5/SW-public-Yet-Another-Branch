@@ -66,6 +66,11 @@
   - type: ContainerSpawnPoint
     containerId: collegium_ai_mind_slot
     job: MedievalCollegiumAi
+  # Seeds sight the same way the barrier does, so the watcher can hold station over its own statue.
+  # Only covers this grid, and only while the statue is near the viewport.
+  - type: StationAiVision
+    range: 28
+    occluded: false
   - type: Sprite
     sprite: Imperial/Medieval/statues.rsi
     drawdepth: Mobs

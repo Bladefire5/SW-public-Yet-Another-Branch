@@ -352,8 +352,8 @@ public sealed partial class CollegiumAiSystem : EntitySystem
     }
 
     /// <summary>
-    /// Nearest thing the watcher may sit near: a living mage of its faction, or the barrier. The barrier counts so
-    /// the watcher can hold station over it whether or not a mage is present.
+    /// Nearest thing the watcher may sit near: a living mage of its faction, the barrier, or its own statue.
+    /// The barrier and the statue count so the watcher can hold station over either whether or not a mage is present.
     /// </summary>
     private bool TryGetNearestAnchor(Entity<CollegiumAiComponent> ent, out EntityUid anchor, out float distance)
     {
@@ -385,6 +385,12 @@ public sealed partial class CollegiumAiSystem : EntitySystem
         while (barriers.MoveNext(out var barrier, out _))
         {
             Consider(barrier, ref anchor, ref distance);
+        }
+
+        var statues = EntityQueryEnumerator<CollegiumAiCoreComponent>();
+        while (statues.MoveNext(out var statue, out _))
+        {
+            Consider(statue, ref anchor, ref distance);
         }
 
         return anchor != default;
