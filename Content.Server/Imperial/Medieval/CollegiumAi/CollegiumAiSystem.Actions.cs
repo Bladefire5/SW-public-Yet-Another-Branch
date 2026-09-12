@@ -12,6 +12,7 @@ using Content.Shared.Imperial.Medieval.Magic.SpellTypes;
 using Content.Shared.Popups;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Utility;
 
 namespace Content.Server.Imperial.Medieval.CollegiumAi;
 
@@ -243,7 +244,9 @@ public sealed partial class CollegiumAiSystem
             return;
         }
 
-        var wrapped = Loc.GetString("collegium-ai-whisper-received", ("message", message));
+        // Escaped: the client renders the wrapped message as markup, so an unescaped player string could forge a
+        // system message or plant a [cmdlink] that runs a console command on the recipient when clicked.
+        var wrapped = Loc.GetString("collegium-ai-whisper-received", ("message", FormattedMessage.EscapeText(message)));
 
         _chatManager.ChatMessageToOne(
             ChatChannel.Server,
