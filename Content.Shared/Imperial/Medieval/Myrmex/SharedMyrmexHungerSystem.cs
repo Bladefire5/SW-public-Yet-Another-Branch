@@ -38,6 +38,14 @@ namespace Content.Shared.Imperial.Medieval.Myrmex
             SubscribeLocalEvent<MyrmexHungerComponent, DamageModifyEvent>(OnGetDamageModifiers);
             SubscribeLocalEvent<MyrmexHungerComponent, ExaminedEvent>(OnExamined);
 
+            // imperial medieval - root stew's temporary shield burst
+            SubscribeLocalEvent<MyrmexTempShieldComponent, DamageModifyEvent>(OnShieldDamageModify);
+
+            // imperial medieval - mushroom stew's temporary speed burst (StatusEffectsSystem-managed)
+            SubscribeLocalEvent<MyrmexSpeedBurstComponent, RefreshMovementSpeedModifiersEvent>(OnSpeedBurstRefresh);
+            SubscribeLocalEvent<MyrmexSpeedBurstComponent, ComponentStartup>(OnSpeedBurstStartup);
+            SubscribeLocalEvent<MyrmexSpeedBurstComponent, ComponentShutdown>(OnSpeedBurstShutdown);
+
             // imperial medieval - myrmex - myrmex never attach each other, client-predicted
             SubscribeLocalEvent<MyrmexHungerComponent, AttackAttemptEvent>(OnMyrmexAttackAttempt);
             SubscribeLocalEvent<MyrmexHungerComponent, DisarmAttemptEvent>(OnMyrmexDisarmAttempt);
@@ -148,6 +156,13 @@ namespace Content.Shared.Imperial.Medieval.Myrmex
             args.Damage *= buff.Health;
         }
 
+        // imperial medieval - applies root stew's temporary damage reduction. Independent from and 
+        // stacks multiplicatively with the permanent Healt buff handled above.
+        private void OnShieldDamageModify(EntityUid uid, MyrmexTempShieldComponent comp, ref DamageModifyEvent args)
+        {
+           args.Damage *= comp.Multiplier;
+        }
+
         #endregion
 
         private void OnSpeedRefresh(EntityUid uid, MyrmexHungerComponent comp, RefreshMovementSpeedModifiersEvent args)
@@ -165,7 +180,24 @@ namespace Content.Shared.Imperial.Medieval.Myrmex
                 _alertsSystem.ClearAlert(uid, "MyrmexHungry");
             }
         }
+        // imperial medieval - applies mushroom stew's temporary speed burst while the marker
+        // (added/remove autimatically by StatusEffectsSystem) is present on this entity.
+        private void OnSpeedBurstRefresh(EntityUid uid, MyrmexSpeedBurstComponent comp, RefreshMovementSpeedModifiersEvent args)
+        {
+            args.ModifySpeed(1f + comp.Multiplier, 1f + comp.Multiplier);
+        }
 
+        // imperial medieval - force a speed recalc on add/remove, resfesh doesn't happen on its own
+        private void OnSpeedBurstStartup(EntityUid uid, MyrmexSpeedBurstComponent comp, ComponentStartup args)
+        {
+           _speedModifier.RefreshMovementSpeedModifiers(uid);
+        }
+
+        private void OnSpeedBurstShutdown(EntityUid uid, MyrmexSpeedBurstComponent comp, ComponentShutdown args)
+        {
+           _speedModifier.RefreshMovementSpeedModifiers(uid); 
+        }
+        
         public override void Update(float frameTime)
         {
             base.Update(frameTime);
