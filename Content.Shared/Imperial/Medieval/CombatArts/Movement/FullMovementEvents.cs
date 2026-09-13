@@ -7,4 +7,5 @@ namespace Content.Shared.Imperial.Medieval.CombatArts.Movement;
 /// </summary>
 public sealed partial class FullMovementEvent : WorldTargetActionEvent
 {
+    public bool Cancelled;
 }

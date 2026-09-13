@@ -1,3 +1,8 @@
+using System.Linq;
+using Content.Shared.Physics;
+using Robust.Shared.Physics;
+using Robust.Shared.Physics.Events;
+using Robust.Shared.Physics.Systems;
 using System.Numerics;
 using Content.Shared.Imperial.Medieval.MobRiding;
 using Robust.Shared.Timing;
@@ -15,6 +20,7 @@ public sealed class FullMovementSystem : EntitySystem
 {
     [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
 
     public override void Initialize()
     {
@@ -23,7 +29,9 @@ public sealed class FullMovementSystem : EntitySystem
         SubscribeLocalEvent<FullMovementEvent>(OnFullMovement);
 
         SubscribeLocalEvent<ActiveFullMovementComponent, WishDirOverrideEvent>(
-            OnWishDirOverride, after: [typeof(HorseMoverSystem)]);
+        OnWishDirOverride, after: [typeof(HorseMoverSystem)]);
+
+        SubscribeLocalEvent<ActiveFullMovementComponent, StartCollideEvent>(OnFullMovementCollide);
     }
 
     /// <summary>
@@ -31,7 +39,7 @@ public sealed class FullMovementSystem : EntitySystem
     /// </summary>
     private void OnFullMovement(FullMovementEvent args)
     {
-        if (args.Handled)
+        if (args.Handled || args.Cancelled)
             return;
 
         if (!TryComp<FullMovementComponent>(
@@ -61,6 +69,32 @@ public sealed class FullMovementSystem : EntitySystem
         if (offset == Vector2.Zero)
             return;
 
+        var distance = offset.Length();
+
+        var bounds = _physics.GetWorldAABB(args.Performer);
+
+        var halfExtents = (bounds.TopRight - bounds.BottomLeft) * 0.5f;
+
+        var direction = offset.Normalized();
+
+        var bodyRadius = MathF.Abs(direction.X) * halfExtents.X +
+             MathF.Abs(direction.Y) * halfExtents.Y;
+
+        var dt = (float)_timing.FrameTime.TotalSeconds;
+
+        var initialSpeed = movement.Acceleration > 0f ? 0f
+        : movement.Speed;
+
+        var firstTickTravel = initialSpeed * dt;
+
+        var minimumTravelDistance = firstTickTravel + bodyRadius + movement.WallDetectionDistance;
+        // The destination is too close for Full Movement to meaningfully start.
+        if (distance <= minimumTravelDistance)
+        {
+            args.Cancelled = true;
+            return;
+        }
+
         active.Target = args.Target;
         active.Speed = movement.Speed;
         active.Acceleration = MathF.Max(0f, movement.Acceleration);
@@ -72,13 +106,20 @@ public sealed class FullMovementSystem : EntitySystem
         active.TurnSpeed = MathF.Max(0f, movement.TurnSpeed);
         active.SteeringDistancePenalty = MathF.Max(0f, movement.SteeringDistancePenalty);
 
+        active.StopOnWallContact = movement.StopOnWallContact;
+        active.WallDetectionDistance = MathF.Max(0f, movement.WallDetectionDistance);
+        active.SourceAction = args.Action.Owner;
+
         // Initial heading is always toward the selected target.
         active.CurrentDirection = offset.Normalized();
 
         // Non-homing movement uses the originally selected distance
         // as its maximum travel distance.
-        active.RemainingDistance = offset.Length();
+        active.RemainingDistance = offset.Length() * MathF.Max(0f, movement.DistanceBudgetMultiplier);
         active.LastPosition = current.Position;
+        active.LastTargetPosition = target.Position;
+
+
 
         Dirty(args.Performer, active);
 
@@ -101,7 +142,7 @@ public sealed class FullMovementSystem : EntitySystem
         // Stop if the target is on another map.
         if (current.MapId != target.MapId)
         {
-            StopFullMovement(ent, ref args);
+            StopFullMovement(ent);
             return;
         }
 
@@ -110,6 +151,11 @@ public sealed class FullMovementSystem : EntitySystem
         Vector2 forcedDirection;
 
         var traveled = 0f;
+
+        if (_timing.InSimulation)
+        {
+            traveled = Vector2.Distance(current.Position, ent.Comp.LastPosition);
+        }
 
         // Start with the original dash direction as a fallback.
         var currentDirection = ent.Comp.CurrentDirection;
@@ -125,31 +171,37 @@ public sealed class FullMovementSystem : EntitySystem
         }
         if (ent.Comp.Homing)
         {
-            // Homing mode always tries to return toward
-            // the original selected destination.
-            if (offset.LengthSquared() <= ent.Comp.ArrivalDistance * ent.Comp.ArrivalDistance)
+            if (_timing.InSimulation)
             {
-                StopFullMovement(ent, ref args);
-                return;
+                // Measure the target relative to the performer on the
+                // previous and current simulation ticks.
+                //
+                // This handles BOTH the performer and the target moving.
+                var previousOffset = ent.Comp.LastTargetPosition - ent.Comp.LastPosition;
+
+                var currentOffset = target.Position - current.Position;
+
+                if (PassedArrivalRadius(previousOffset, currentOffset, ent.Comp.ArrivalDistance))
+                {
+                    StopFullMovement(ent);
+                    return;
+                }
+
+                ent.Comp.LastTargetPosition = target.Position;
+
+                Dirty(ent.Owner, ent.Comp);
             }
+
             forcedDirection = offset.Normalized();
         }
         else
         {
-            if (_timing.InSimulation)
-            {
-                traveled = Vector2.Distance(
-                current.Position,
-                ent.Comp.LastPosition);
-
-                ent.Comp.LastPosition = current.Position;
-
-                Dirty(
-                ent.Owner,
-                ent.Comp);
-            }
-
             forcedDirection = currentDirection;
+        }
+        if (_timing.InSimulation)
+        {
+            ent.Comp.LastPosition = current.Position;
+            Dirty(ent.Owner, ent.Comp);
         }
 
         var steering = Math.Clamp(ent.Comp.Steering, 0f, 1f);
@@ -201,14 +253,16 @@ public sealed class FullMovementSystem : EntitySystem
         // cause the client trajectory to drift away from the server trajectory.
         if (_timing.InSimulation)
         {
-            var maxTurnRadians =
-                MathHelper.DegreesToRadians(ent.Comp.TurnSpeed) *
-                (float)_timing.FrameTime.TotalSeconds;
+            var maxTurnRadians = MathHelper.DegreesToRadians(ent.Comp.TurnSpeed) * (float)_timing.FrameTime.TotalSeconds;
 
-            finalDirection = RotateTowards(
-            currentDirection,
-            finalDirection,
-            maxTurnRadians);
+            finalDirection = RotateTowards(currentDirection, finalDirection, maxTurnRadians);
+
+            // Save the direction Full Movement is actually trying to move.
+            // Wall collision detection uses this to determine whether
+            // an obstacle is ahead of us or merely beside us.
+            ent.Comp.CurrentDirection = finalDirection;
+
+            Dirty(ent.Owner, ent.Comp);
         }
         else
         {
@@ -218,7 +272,59 @@ public sealed class FullMovementSystem : EntitySystem
         }
 
 
-        if (!ent.Comp.Homing && _timing.InSimulation)
+
+
+
+        if (_timing.InSimulation && ent.Comp.WallDetectionDistance > 0f && finalDirection != Vector2.Zero)
+        {
+            var dt = (float)_timing.FrameTime.TotalSeconds;
+
+            // Look far enough ahead to see anything we could hit
+            // during the next simulation tick.
+            var movementLookAhead = ent.Comp.CurrentSpeed * dt + ent.Comp.WallDetectionDistance;
+
+            var destinationDistance = ent.Comp.Homing
+            ? MathF.Max(0f, offset.Length() - ent.Comp.ArrivalDistance)
+            : MathF.Max(0f, ent.Comp.RemainingDistance - ent.Comp.ArrivalDistance);
+
+            var checkDistance = MathF.Min(movementLookAhead, destinationDistance);
+
+            if (checkDistance > 0f)
+            {
+                var ray = new CollisionRay(current.Position, finalDirection.Normalized(), (int)CollisionGroup.Impassable);
+
+                var hits = _physics.IntersectRay(current.MapId, ray, checkDistance, returnOnFirstHit: true).ToList();
+
+                if (hits.Count > 0)
+                {
+                    var hit = hits[0];
+                    var bounds = _physics.GetWorldAABB(ent.Owner);
+                    var halfExtents = (bounds.TopRight - bounds.BottomLeft) * 0.5f;
+                    var direction = finalDirection.Normalized();
+
+                    // Approximate how far the performer's collider extends
+                    // toward the detected obstacle.
+                    var bodyRadius =
+                    MathF.Abs(direction.X) * halfExtents.X +
+                    MathF.Abs(direction.Y) * halfExtents.Y;
+
+                    var requiredClearance = bodyRadius + ent.Comp.WallDetectionDistance;
+                    var allowedDistance = hit.Distance - requiredClearance;
+
+                    if (allowedDistance <= 0f)
+                    {
+                        StopFullMovement(ent);
+                        return;
+                    }
+
+                    var safeSpeed = allowedDistance / dt;
+
+                    ent.Comp.CurrentSpeed = MathF.Min(ent.Comp.CurrentSpeed, safeSpeed);
+                }
+            }
+        }
+
+        if (_timing.InSimulation)
         {
             ent.Comp.RemainingDistance -= distanceCost;
 
@@ -226,7 +332,7 @@ public sealed class FullMovementSystem : EntitySystem
 
             if (ent.Comp.RemainingDistance <= ent.Comp.ArrivalDistance)
             {
-                StopFullMovement(ent, ref args);
+                StopFullMovement(ent);
                 return;
             }
         }
@@ -235,8 +341,11 @@ public sealed class FullMovementSystem : EntitySystem
 
         if (ent.Comp.Homing)
         {
-            distanceRemaining = MathF.Max(0f,
-            offset.Length() - ent.Comp.ArrivalDistance);
+            var targetDistanceRemaining = MathF.Max(0f, offset.Length() - ent.Comp.ArrivalDistance);
+
+            var budgetDistanceRemaining = MathF.Max(0f, ent.Comp.RemainingDistance - ent.Comp.ArrivalDistance);
+
+            distanceRemaining = MathF.Min(targetDistanceRemaining, budgetDistanceRemaining);
         }
         else
         {
@@ -295,15 +404,94 @@ public sealed class FullMovementSystem : EntitySystem
         args.WishDir = finalDirection * ent.Comp.CurrentSpeed;
     }
 
+    /// <summary>
+    /// Raised when an active Full Movement physically collides
+    /// with a hard impassable object.
+    /// </summary>
+    public sealed class FullMovementWallContactEvent : EntityEventArgs
+    {
+        public EntityUid Performer;
+        public EntityUid Wall;
+        public EntityUid? SourceAction;
+        public FullMovementWallContactEvent(EntityUid performer, EntityUid wall, EntityUid? sourceAction)
+        {
+            Performer = performer;
+            Wall = wall;
+            SourceAction = sourceAction;
+        }
+    }
+
+    private void OnFullMovementCollide(Entity<ActiveFullMovementComponent> ent, ref StartCollideEvent args)
+    {
+        if (!ent.Comp.IsActive || !ent.Comp.StopOnWallContact)
+        {
+            return;
+        }
+
+        // Only treat hard impassable fixtures as walls/obstacles.
+        if (!args.OtherFixture.Hard || (args.OtherFixture.CollisionLayer &
+        (int)CollisionGroup.Impassable) == 0)
+        {
+            return;
+        }
+
+        var sourceAction = ent.Comp.SourceAction;
+
+        StopFullMovement(ent);
+
+        var wallEvent = new FullMovementWallContactEvent(ent.Owner, args.OtherEntity, sourceAction);
+
+        RaiseLocalEvent(ent.Owner, wallEvent);
+    }
+
     private void StopFullMovement(
-    Entity<ActiveFullMovementComponent> ent,
-    ref WishDirOverrideEvent args)
+    Entity<ActiveFullMovementComponent> ent)
     {
         ent.Comp.IsActive = false;
+        ent.Comp.CurrentSpeed = 0f;
 
         Dirty(ent.Owner, ent.Comp);
     }
 
+    /// <summary>
+    /// Checks whether the relative movement between the performer
+    /// and target entered or crossed the arrival radius during a tick.
+    ///
+    /// The offsets are targetPosition - performerPosition, so this works
+    /// even when both entities are moving.
+    /// </summary>
+    private static bool PassedArrivalRadius(
+    Vector2 previousOffset,
+    Vector2 currentOffset,
+    float radius)
+    {
+        var radiusSquared = radius * radius;
+
+        // Already inside the arrival area.
+        if (previousOffset.LengthSquared() <= radiusSquared ||
+            currentOffset.LengthSquared() <= radiusSquared)
+        {
+            return true;
+        }
+
+        // Relative movement during this simulation tick.
+        var movement = currentOffset - previousOffset;
+
+        var movementLengthSquared = movement.LengthSquared();
+
+        if (movementLengthSquared <= 0.000001f)
+            return false;
+
+        // Find the closest point to zero along the relative-motion line.
+        //
+        // Zero represents performer and target occupying the same position.
+        var t = Math.Clamp(
+        -Vector2.Dot(previousOffset, movement) / movementLengthSquared, 0f, 1f);
+
+        var closestPoint = previousOffset + movement * t;
+
+        return closestPoint.LengthSquared() <= radiusSquared;
+    }
     /// <summary>
     /// Rotates one direction toward another without allowing
     /// an instantaneous direction change.

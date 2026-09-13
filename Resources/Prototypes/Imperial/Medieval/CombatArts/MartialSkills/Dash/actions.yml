@@ -7,16 +7,15 @@
   components:
   - type: Action
     useDelay: 10
-
   - type: TargetAction
-    range: 10
+    range: 4
     checkCanAccess: false
-
   - type: WorldTargetAction
     event: !type:FullMovementEvent
-
   - type: FullMovement
-    speed: 10
-    acceleration: 20
-    deceleration: 25
+    speed: 100
+    acceleration: 0
+    deceleration: 0
     arrivalDistance: 0.2
+  - type: MedievalPhysical
+    staminaCost: 50

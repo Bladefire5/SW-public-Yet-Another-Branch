@@ -94,4 +94,26 @@ public sealed partial class ActiveFullMovementComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public Vector2 LastPosition;
+
+    [DataField, AutoNetworkedField]
+    public Vector2 LastTargetPosition;
+
+    /// <summary>
+    /// Whether actual wall contact should stop this movement.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool StopOnWallContact;
+
+    /// <summary>
+    /// Additional forward wall-detection distance.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float WallDetectionDistance;
+
+    /// <summary>
+    /// Action that originally started this Full Movement.
+    /// Used when reporting things such as wall impacts.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public EntityUid? SourceAction;
 }

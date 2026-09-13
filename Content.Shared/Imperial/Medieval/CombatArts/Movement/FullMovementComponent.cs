@@ -58,4 +58,32 @@ public sealed partial class FullMovementComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public bool Homing = true;
+
+    /// <summary>
+    /// Multiplies the original target distance to determine the maximum
+    /// distance Full Movement is allowed to travel.
+    ///
+    /// 1 = original target distance.
+    /// 1.25 = 25% additional travel distance.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float DistanceBudgetMultiplier = 1.25f;
+
+    /// <summary>
+    /// Whether Full Movement stops when the performer physically
+    /// collides with a hard impassable object.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool StopOnWallContact = true;
+
+    /// <summary>
+    /// Extra distance ahead to check for walls before moving.
+    /// 0 disables predictive wall stopping.
+    ///
+    /// The actual check also includes the distance Full Movement
+    /// expects to travel during the next simulation tick.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float WallDetectionDistance = 0.1f;
+
 }
