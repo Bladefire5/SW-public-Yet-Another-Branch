@@ -1,3 +1,4 @@
+using Content.Shared.Popups; 
 using Content.Shared.Power;
 using Content.Shared.Myrmex.Hive;
 
@@ -6,6 +7,7 @@ namespace Content.Server.Myrmex.Structures;
 public sealed partial class MyrmexAltarSystem : EntitySystem
 {
     [Dependency] private readonly SharedMyrmexHiveSystem _hive = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!; 
 
     public override void Initialize()
     {
@@ -49,8 +51,16 @@ public sealed partial class MyrmexAltarSystem : EntitySystem
 
         if (apply)
         {
-            if (ent.Comp.Contributing || hive.Value.Comp.ActiveAltars >= hive.Value.Comp.MaxAltars)
+            if (ent.Comp.Contributing)
                 return;
+
+            // imperial medieval - tall the player their altar inst doing amynting instead of 
+            // silently ingoring it. Doesnt tiuch MaxAltars itself or the life source system at all. 
+            if (hive.Value.Comp.ActiveAltars >= hive.Value.Comp.MaxAltars)
+            {
+                _popup.PopupEntity(Loc.GetString("medieval-myrmex-altar-limit-reached", ("max", hive.Value.Comp.MaxAltars)), ent.Owner);
+                return; 
+            }
 
             ent.Comp.Contributing = true;
             hive.Value.Comp.ActiveAltars++;
