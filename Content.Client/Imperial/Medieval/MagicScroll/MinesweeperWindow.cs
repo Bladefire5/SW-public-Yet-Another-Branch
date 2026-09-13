@@ -48,6 +48,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
     private int _maxRestarts = -1;
     private int _restartsRemaining = -1;
     private bool _isUnstable;
+    private bool _isRunePair;
     private bool _hintUsedThisTurn;
     private bool _safeRevealAvailable = true;
 
@@ -113,7 +114,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         _debugBypassMinigameRequirements = debugBypassMinigameRequirements;
         ConfigureGame(
             MagicRuneData.GetSymbol(rune),
-            MagicRuneData.GetMeaning(rune),
+            MagicRuneLocalization.GetMeaning(rune),
             playerIntelligence,
             requiredIntelligence,
             gridSize,
@@ -121,7 +122,8 @@ public sealed partial class MinesweeperWindow : DefaultWindow
             moveTimeSeconds,
             minimumMoveDelaySeconds,
             tipsAvailable,
-            maxRestarts);
+            maxRestarts,
+            isRunePair: false);
     }
 
     public void StartPairGame(
@@ -141,7 +143,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         _debugBypassMinigameRequirements = debugBypassMinigameRequirements;
         ConfigureGame(
             MagicRuneData.GetPairDisplay(pair),
-            $"{MagicRuneData.GetMeaning(pair.First)} + {MagicRuneData.GetMeaning(pair.Second)}",
+            MagicRuneLocalization.GetPairMeaning(pair),
             playerIntelligence,
             requiredIntelligence,
             gridSize,
@@ -149,7 +151,8 @@ public sealed partial class MinesweeperWindow : DefaultWindow
             moveTimeSeconds,
             minimumMoveDelaySeconds,
             tipsAvailable,
-            maxRestarts);
+            maxRestarts,
+            isRunePair: true);
     }
 
     private void ConfigureGame(
@@ -162,7 +165,8 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         int moveTimeSeconds,
         int minimumMoveDelaySeconds,
         int tipsAvailable,
-        int maxRestarts)
+        int maxRestarts,
+        bool isRunePair)
     {
         _playerIntelligence = playerIntelligence;
         _requiredIntelligence = requiredIntelligence;
@@ -174,7 +178,10 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         _maxRestarts = maxRestarts;
         _restartsRemaining = maxRestarts;
 
-        RuneLabel.Text = $"Расшифровка: {runeDisplay} ({runeMeaning})";
+        _isRunePair = isRunePair;
+        RuneLabel.Text = Loc.GetString(
+            _isRunePair ? "magic-scroll-minesweeper-deciphering-pair" : "magic-scroll-minesweeper-deciphering-rune",
+            ("display", runeDisplay), ("meaning", runeMeaning));
 
         _gameStarted = false;
         _gameOver = false;
@@ -325,7 +332,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
                     UpdateHintButton();
 
                     if (!_gameOver)
-                        StatusLabel.Text = "Подсказка использована! Сделайте следующий ход.";
+                        StatusLabel.Text = Loc.GetString("magic-scroll-minesweeper-hint-used");
 
                     return;
                 }
@@ -335,7 +342,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         _hintUsedThisTurn = true;
         _tipsRemaining = 0;
         UpdateHintButton();
-        StatusLabel.Text = "Нет доступных безопасных клеток для подсказки.";
+        StatusLabel.Text = Loc.GetString("magic-scroll-minesweeper-no-safe-hint");
     }
 
     protected override void FrameUpdate(FrameEventArgs args)
@@ -420,7 +427,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
                     targetY = randomNeighbor.y;
 
                     StatusLabel.Text =
-                        "Промах! Нажали не на ту клетку из-за низкого уровня интеллекта!";
+                        Loc.GetString("magic-scroll-minesweeper-misfire");
                     StatusLabel.Modulate = Color.Orange;
                 }
             }
@@ -609,12 +616,13 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         {
             _revealedCount = _gridSize * _gridSize - _mineCount;
             StatusLabel.Text =
-                "Победа! Руна расшифрована!";
+                Loc.GetString(_isRunePair ? "magic-scroll-minesweeper-victory-pair" : "magic-scroll-minesweeper-victory-rune");
             StatusLabel.Modulate = Color.Green;
         }
         else
         {
-            StatusLabel.Text = "Поражение! Вы наступили на мину! (Окно закроется через 3 секунды)";
+            StatusLabel.Text = Loc.GetString(
+                blow ? "magic-scroll-minesweeper-defeat-explosion" : "magic-scroll-minesweeper-defeat");
             StatusLabel.Modulate = Color.Red;
 
             for (var i = 0; i < _gridSize; i++)
@@ -650,18 +658,18 @@ public sealed partial class MinesweeperWindow : DefaultWindow
     {
         if (!_gameStarted || _gameOver || !_turnEndTime.HasValue)
         {
-            TimerLabel.Text = "Время: —";
+            TimerLabel.Text = Loc.GetString("magic-scroll-minesweeper-time-none");
             return;
         }
 
         var remaining = _turnEndTime.Value - _gameTiming.CurTime;
         var seconds = Math.Max(0, (int)Math.Ceiling(remaining.TotalSeconds));
-        TimerLabel.Text = $"Время: {seconds} сек.";
+        TimerLabel.Text = Loc.GetString("magic-scroll-minesweeper-time", ("seconds", seconds));
     }
 
     private void UpdateHintButton()
     {
-        HintButton.Text = $"Подсказка ({_tipsRemaining})";
+        HintButton.Text = Loc.GetString("magic-scroll-minesweeper-hint-count", ("count", _tipsRemaining));
         HintButton.Disabled =
             !_gameStarted ||
             _gameOver ||
@@ -674,20 +682,20 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         if (_maxRestarts == 0)
         {
             RestartButton.Disabled = true;
-            RestartButton.Text = "Restart";
+            RestartButton.Text = Loc.GetString("magic-scroll-minesweeper-restart");
             return;
         }
 
         if (_maxRestarts > 0)
         {
             RestartButton.Disabled = _restartsRemaining <= 0;
-            RestartButton.Text = $"Restart ({_restartsRemaining})";
+            RestartButton.Text = Loc.GetString("magic-scroll-minesweeper-restart-count", ("count", _restartsRemaining));
             return;
         }
 
         // -1 means unlimited.
         RestartButton.Disabled = false;
-        RestartButton.Text = "Restart";
+        RestartButton.Text = Loc.GetString("magic-scroll-minesweeper-restart");
 
     }
 
@@ -697,18 +705,20 @@ public sealed partial class MinesweeperWindow : DefaultWindow
 
         if (!_gameStarted)
         {
-            StatusLabel.Text = "Нажмите «Начать», чтобы запустить мини-игру.";
+            StatusLabel.Text = Loc.GetString("magic-scroll-minesweeper-start-prompt");
             StatusLabel.Modulate = Color.White;
-            MinesLabel.Text = $"Мины: {_mineCount}";
-            OpenedLabel.Text = $"Открыто: 0/{_gridSize * _gridSize - _mineCount}";
+            MinesLabel.Text = Loc.GetString("magic-scroll-minesweeper-mines", ("count", _mineCount));
+            OpenedLabel.Text = Loc.GetString("magic-scroll-minesweeper-revealed",
+                ("revealed", 0), ("total", _gridSize * _gridSize - _mineCount));
             return;
         }
 
         if (_gameOver)
         {
             var totalSafeCells = _gridSize * _gridSize - _mineCount;
-            MinesLabel.Text = "Mines: 0";
-            OpenedLabel.Text = $"Открыто: {totalSafeCells}/{totalSafeCells}";
+            MinesLabel.Text = Loc.GetString("magic-scroll-minesweeper-mines", ("count", 0));
+            OpenedLabel.Text = Loc.GetString("magic-scroll-minesweeper-revealed",
+                ("revealed", totalSafeCells), ("total", totalSafeCells));
             return;
         }
 
@@ -723,27 +733,28 @@ public sealed partial class MinesweeperWindow : DefaultWindow
             }
         }
 
-        MinesLabel.Text = $"Мины: {_mineCount - flaggedCount}";
+        MinesLabel.Text = Loc.GetString("magic-scroll-minesweeper-mines", ("count", _mineCount - flaggedCount));
         OpenedLabel.Text =
-            $"Открыто: {_revealedCount}/{_gridSize * _gridSize - _mineCount}";
+            Loc.GetString("magic-scroll-minesweeper-revealed",
+                ("revealed", _revealedCount), ("total", _gridSize * _gridSize - _mineCount));
 
         if (!_debugBypassMinigameRequirements && _playerIntelligence < _requiredIntelligence)
         {
             var intelligenceDeficit = 11 - _playerIntelligence;
             var misfireChance = intelligenceDeficit * 5;
             StatusLabel.Text =
-                $"Найдите все безопасные клетки! Шанс промаха {misfireChance}%.";
+                Loc.GetString("magic-scroll-minesweeper-objective-misfire", ("chance", misfireChance));
             StatusLabel.Modulate = Color.Yellow;
         }
         else if (_isUnstable && _minimumMoveDelaySeconds > 0)
         {
             StatusLabel.Text =
-                $"Найдите все безопасные клетки! Не ходите первые {_minimumMoveDelaySeconds} сек. каждого хода.";
+                Loc.GetString("magic-scroll-minesweeper-objective-unstable-delay", ("seconds", _minimumMoveDelaySeconds));
             StatusLabel.Modulate = Color.Orange;
         }
         else
         {
-            StatusLabel.Text = "Найдите все безопасные клетки!";
+            StatusLabel.Text = Loc.GetString("magic-scroll-minesweeper-objective");
             StatusLabel.Modulate = Color.White;
         }
     }

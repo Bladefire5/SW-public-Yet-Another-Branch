@@ -83,6 +83,9 @@ public sealed partial class MagicScrollComponent : Component
     public bool DebugBypassMinigameRequirements;
 
     [DataField, AutoNetworkedField, ViewVariables(VVAccess.ReadWrite)]
+    public bool IsPractice;
+
+    [DataField, AutoNetworkedField, ViewVariables(VVAccess.ReadWrite)]
     public bool IsUnstable;
 
     [DataField, AutoNetworkedField, ViewVariables(VVAccess.ReadWrite)]

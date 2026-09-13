@@ -4438,6 +4438,7 @@
     layers:
     - state: scroll1
   - type: MagicScroll
+    isPractice: true
     requiredIntelligence: 9
     basicPower: 1
     pointsPerDecodedRune: 2
@@ -4543,6 +4544,7 @@
   components:
   - type: ActivatableUI
     key: enum.MagicScrollUiKey.Key
+    inHandsOnly: true
   - type: UserInterface
     interfaces:
       enum.MagicScrollUiKey.Key:
@@ -4572,8 +4574,8 @@
   - type: TrashClear
     safe: true
   - type: RadiationSource
-    intensity: 4
-    Slope: 0.05
+    intensity: 5
+    slope: 2
   - type: Explosive
     explosionType: Default
     maxIntensity: 1.1

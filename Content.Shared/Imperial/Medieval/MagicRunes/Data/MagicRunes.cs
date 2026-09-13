@@ -43,16 +43,16 @@ public static class MagicRuneData
         { MagicRune.Mira, "⚵" }
     };
 
-    private static readonly Dictionary<MagicRune, string> RuneMeanings = new()
+    private static readonly Dictionary<MagicRune, string> RuneMeaningLocKeys = new()
     {
-        { MagicRune.Kael, "Огонь / разрушение" },
-        { MagicRune.Ryn, "Вода / адаптация" },
-        { MagicRune.Vel, "Тень / наведение" },
-        { MagicRune.Oth, "Иллюзия / магия" },
-        { MagicRune.Thar, "Пустота / ничто" },
-        { MagicRune.Lun, "Тьма / звезда смерти" },
-        { MagicRune.Seth, "Яд / проклятие" },
-        { MagicRune.Mira, "Защита / барьер" }
+        { MagicRune.Kael, "magic-rune-meaning-kael" },
+        { MagicRune.Ryn, "magic-rune-meaning-ryn" },
+        { MagicRune.Vel, "magic-rune-meaning-vel" },
+        { MagicRune.Oth, "magic-rune-meaning-oth" },
+        { MagicRune.Thar, "magic-rune-meaning-thar" },
+        { MagicRune.Lun, "magic-rune-meaning-lun" },
+        { MagicRune.Seth, "magic-rune-meaning-seth" },
+        { MagicRune.Mira, "magic-rune-meaning-mira" }
     };
 
     // Every unique two-rune combination. With 8 runes this gives 28 pairs.
@@ -75,8 +75,8 @@ public static class MagicRuneData
     public static string GetSymbol(MagicRune rune) =>
         RuneSymbols.GetValueOrDefault(rune, "?");
 
-    public static string GetMeaning(MagicRune rune) =>
-        RuneMeanings.GetValueOrDefault(rune, "???");
+    public static string? GetMeaningLocKey(MagicRune rune) =>
+        RuneMeaningLocKeys.GetValueOrDefault(rune);
 
     public static string GetPairDisplay(MagicRunePair pair) =>
         $"{GetSymbol(pair.First)} + {GetSymbol(pair.Second)}";

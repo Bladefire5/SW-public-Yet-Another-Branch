@@ -46,6 +46,14 @@ public sealed partial class MagicScrollWindow : DefaultWindow
 
         _currentState = state;
 
+        Title = state.IsPractice
+                    ? Loc.GetString("magic-scroll-window-title-practice")
+                    : state.IsUnstable
+                    ? Loc.GetString("magic-scroll-window-title-unstable")
+                        : state.RequiresRunePairs
+                        ? Loc.GetString("magic-scroll-window-title-greater")
+                        : Loc.GetString("magic-scroll-window-title");
+
         UpdatePowerDisplay();
         UpdateEncryptedRunes();
         UpdateKnownRunes();
@@ -56,7 +64,7 @@ public sealed partial class MagicScrollWindow : DefaultWindow
         if (Disposed || _currentState == null)
             return;
 
-        PowerLabel.Text = $"Сила свитка: {_currentState.ScrollPower:F1}";
+        PowerLabel.Text = Loc.GetString("magic-scroll-power", ("power", _currentState.ScrollPower.ToString("F1")));
 
         var decodedCount = _currentState.DecodedRunes.Count;
         var totalCount = _currentState.EncryptedRunes.Count;
@@ -65,24 +73,27 @@ public sealed partial class MagicScrollWindow : DefaultWindow
         {
             if (_currentState.DecodedPairs.Count == _currentState.EncryptedPairs.Count)
             {
-                StatusLabel.Text = "Статус: Полностью расшифрован";
+                StatusLabel.Text = Loc.GetString("magic-scroll-status-fully-deciphered");
                 StatusLabel.Modulate = Color.Green;
             }
             else
             {
                 StatusLabel.Text =
-                    $"Статус: Решено {_currentState.DecodedPairs.Count}/{_currentState.EncryptedPairs.Count} пар";
+                    Loc.GetString("magic-scroll-status-deciphered-pairs",
+                        ("decoded", _currentState.DecodedPairs.Count),
+                        ("total", _currentState.EncryptedPairs.Count));
                 StatusLabel.Modulate = Color.White;
             }
         }
         else if (decodedCount == totalCount)
         {
-            StatusLabel.Text = "Статус: Полностью расшифрован";
+            StatusLabel.Text = Loc.GetString("magic-scroll-status-fully-deciphered");
             StatusLabel.Modulate = Color.Green;
         }
         else
         {
-            StatusLabel.Text = $"Статус: Расшифровано {decodedCount}/{totalCount} рун";
+            StatusLabel.Text = Loc.GetString("magic-scroll-status-deciphered-runes",
+                ("decoded", decodedCount), ("total", totalCount));
             StatusLabel.Modulate = Color.White;
         }
     }
@@ -170,7 +181,7 @@ public sealed partial class MagicScrollWindow : DefaultWindow
             {
                 Text = MagicRuneData.GetSymbol(rune),
                 MinSize = new Vector2(50, 50),
-                ToolTip = MagicRuneData.GetMeaning(rune)
+                ToolTip = MagicRuneLocalization.GetMeaning(rune)
             };
 
             var canUse = _currentState.RequiresRunePairs
@@ -189,9 +200,9 @@ public sealed partial class MagicScrollWindow : DefaultWindow
                 button.Disabled = true;
 
                 if (isMinesweeperOpen)
-                    button.ToolTip += " (сапёр уже открыт)";
+                    button.ToolTip = Loc.GetString("magic-scroll-tooltip-minesweeper-open", ("meaning", button.ToolTip!));
                 else if (!canUse)
-                    button.ToolTip += " (уже использована или нет подходящих рун для расшифровки)";
+                    button.ToolTip = Loc.GetString("magic-scroll-tooltip-rune-unavailable", ("meaning", button.ToolTip!));
             }
 
             KnownRunesGrid.AddChild(button);
@@ -221,7 +232,7 @@ public sealed partial class MagicScrollWindow : DefaultWindow
                 MinSize = new Vector2(100, 50),
 
                 ToolTip =
-                    $"{MagicRuneData.GetMeaning(pair.First)} + {MagicRuneData.GetMeaning(pair.Second)}"
+                    MagicRuneLocalization.GetPairMeaning(pair)
             };
 
             var canUse = firstKnown && secondKnown && !pairSolved;
@@ -238,11 +249,11 @@ public sealed partial class MagicScrollWindow : DefaultWindow
                 button.Disabled = true;
 
                 if (isMinesweeperOpen)
-                    button.ToolTip += " (сапёр уже открыт)";
+                    button.ToolTip = Loc.GetString("magic-scroll-tooltip-minesweeper-open", ("meaning", button.ToolTip!));
                 else if (!firstKnown || !secondKnown)
-                    button.ToolTip += " (нужны обе руны пары)";
+                    button.ToolTip = Loc.GetString("magic-scroll-tooltip-pair-runes-required", ("meaning", button.ToolTip!));
                 else
-                    button.ToolTip += " (пара уже использована)";
+                    button.ToolTip = Loc.GetString("magic-scroll-tooltip-pair-used", ("meaning", button.ToolTip!));
             }
 
             KnownRunesGrid.AddChild(button);
