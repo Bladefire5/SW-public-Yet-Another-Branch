@@ -4,6 +4,7 @@ using Content.Shared.Imperial.Medieval.MagicRunes.Components;
 using Content.Shared.Imperial.Medieval.MagicRunes.Data;
 using Content.Shared.Stacks;
 using Content.Shared.UserInterface;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 //=========================================================================
 // MagicRuneSystem.UI.cs
@@ -87,7 +88,7 @@ public partial class MagicRuneSystem
             component.EncryptedRunes.Count > 0 &&
             component.DecodedRunes.Count >= component.EncryptedRunes.Count)
         {
-            ConvertToDecodedNormalScroll(uid, component);
+            ConvertToDecodedNormalScroll(uid, component, args.Actor);
         }
     }
 
@@ -170,7 +171,7 @@ public partial class MagicRuneSystem
         HandleScrollFailure(entity.Owner, entity.Comp);
     }
 
-    private void ConvertToDecodedNormalScroll(EntityUid uid, MagicScrollComponent component)
+    private void ConvertToDecodedNormalScroll(EntityUid uid, MagicScrollComponent component, EntityUid user)
     {
         // The crafting system uses a separate prototype for a fully decoded normal scroll.
         // It keeps the same visible presentation, while preventing an incomplete scroll from
@@ -189,6 +190,8 @@ public partial class MagicRuneSystem
                 decodedComponent.DecodedRunes.Add(rune);
             Dirty(decodedScroll, decodedComponent);
         }
+
+        _hands.PickupOrDrop(user, decodedScroll, checkActionBlocker: false, animate: false, dropNear: true);
 
         QueueDel(uid);
     }
@@ -244,11 +247,15 @@ public partial class MagicRuneSystem
 
         if (component.IsUnstable)
         {
-            count = _random.Next(1, 20);
+            count = _random.Next(16, 42);
+        }
+        else if (component.IsPractice)
+        {
+            count = 2;
         }
         else if (component.RequiresRunePairs)
         {
-            count = _random.Next(14, 20);
+            count = _random.Next(24, 36);
         }
         else
         {

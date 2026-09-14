@@ -117,7 +117,7 @@
 - type: CP14Recipe
   id: MedievalScrollBarrierNovice
   craftTime: 8
-  Stacks:
+  stacks:
     MedievalAstrolitPiece: 1
   entities:
     MedievalPaper: 1
@@ -136,18 +136,22 @@
   id: MedievalScrollBarrierOverclocked
   craftTime: 16
   stacks:
-    MedievalAstrolit: 1
+    MedievalAstrolit: 2
   entities:
     MedievalScrollBarrierDecoded: 1
+    ShardCrystalRed: 2
+  material:
+    MedievalMagicDust: 10
   result: MedievalScrollBarrierOverclocked
 
 - type: CP14Recipe
   id: MedievalScrollBarrierUnstable
   craftTime: 16
   stacks:
-    MedievalAstrolit: 1
+    MedievalAstrolit: 4
   entities:
-    MedievalScrollBarrier: 1
+    MedievalScrollBarrierDecoded: 1
+    ShardCrystalRed: 2
   result: MedievalScrollBarrierUnstable
 
 - type: CP14Recipe
