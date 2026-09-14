@@ -569,14 +569,14 @@
     - trigger:
         !type:DamageTypeTrigger
         damageType: Blunt
-        damage: 1000
+        damage: 2500
       behaviors:
       - !type:GoSSDBehavior { }
       - !type:GibBehavior { }
     - trigger:
         !type:DamageTypeTrigger
         damageType: Heat
-        damage: 1500
+        damage: 3200
       behaviors:
       - !type:GoSSDBehavior { }
       - !type:SpawnEntitiesBehavior
@@ -592,7 +592,7 @@
     - trigger:
         !type:DamageTypeTrigger
         damageType: Caustic
-        damage: 100
+        damage: 250
       behaviors:
       - !type:GoSSDBehavior { }
       - !type:SpawnEntitiesBehavior
@@ -1091,14 +1091,14 @@
     - trigger:
         !type:DamageTypeTrigger
         damageType: Blunt
-        damage: 1000
+        damage: 2500
       behaviors:
       - !type:GoSSDBehavior { }
       - !type:GibBehavior { }
     - trigger:
         !type:DamageTypeTrigger
         damageType: Heat
-        damage: 1500
+        damage: 3200
       behaviors:
       - !type:GoSSDBehavior { }
       - !type:SpawnEntitiesBehavior
