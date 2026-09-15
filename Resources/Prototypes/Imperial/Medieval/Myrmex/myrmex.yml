@@ -629,10 +629,14 @@
       collection: MyrmexAttack
     damage:
       groups:
-        Brute: 11
+        Brute: 8
       types:
         ParryAble: 1
         Structural: 85
+  - type: APDamageOnHit
+    damage: 
+      types: 
+        Blunt: 3
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -702,10 +706,14 @@
       collection: MyrmexAttack
     damage:
       groups:
-        Brute: 12
+        Brute: 8
       types:
         ParryAble: 1
         Structural: 10
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 4
   - type: Gun
     fireRate: 0.75
     useKey: false
@@ -763,8 +771,8 @@
   - type: Projectile
     damage:
       types:
-        Caustic: 7.0
-        Blunt: 6.0
+        Caustic: 8.0
+        Blunt: 7.0
         Structural: 10
 - type: entity
   name: myrmalisk
@@ -792,10 +800,14 @@
       collection: MyrmexAttack
     damage:
       groups:
-        Brute: 26
+        Brute: 18
       types:
         ParryAble: 1
         Structural: 10
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 8
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -861,10 +873,14 @@
       collection: MyrmexAttack
     damage:
       groups:
-        Brute: 18
+        Brute: 13
       types:
         ParryAble: 1
         Structural: 10
+  - type: APDamageOnHit
+    damage: 
+      types:
+        Blunt: 5
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -1025,12 +1041,16 @@
       collection: MyrmexAttack
     damage:
       groups:
-        Brute: 30
+        Brute: 21
         Airloss: 2
       types:
         ParryAble: 0.7
         Bloodloss: 2
         Structural: 155
+  - type: APDamageOnHit
+    damage: 
+      types: 
+        Blunt: 9
   - type: MobThresholds
     thresholds:
       0: Alive
