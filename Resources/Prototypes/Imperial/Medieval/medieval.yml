@@ -4599,8 +4599,6 @@
     - state: scroll1
   - type: MagicScroll
     maxRunes: 0
-    requiresRunePairs: false
-    randomizeSettings: false
   - type: Tag
     tags:
     - MagicScroll
