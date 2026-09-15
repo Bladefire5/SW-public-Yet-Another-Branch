@@ -86,15 +86,30 @@ public sealed partial class MinesweeperWindow : DefaultWindow
             if (!_gameStarted || _gameOver)
                 return;
 
-            if (_maxRestarts == 0)
-                return;
+            if (_maxRestarts >= 0 && _restartsRemaining <= 0)
+            return;
 
             if (_restartsRemaining > 0)
+            {
                 _restartsRemaining--;
+                RestartUsed?.Invoke();
+            }
+
+            GameCompleted?.Invoke(false, false);
+
+            _gameStarted = false;
+            _gameOver = false;
+            _turnStartTime = null;
+            _turnEndTime = null;
+            _misfireForgivenessAvailable = true;
 
             PrepareGame();
-            StartTurn();
-            UpdateRestartButton();
+
+            StartButton.Disabled = false;
+            HintButton.Disabled = true;
+            RestartButton.Disabled = true;
+
+            UpdateStatus();
         };
     }
 
