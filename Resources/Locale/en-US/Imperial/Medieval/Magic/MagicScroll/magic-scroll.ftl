@@ -39,6 +39,7 @@ magic-scroll-minesweeper-restart-count = Restart ({ $count })
 magic-scroll-minesweeper-close = Close
 magic-scroll-minesweeper-hint-used = Hint used! Make your next move.
 magic-scroll-minesweeper-no-safe-hint = No safe cells are available for a hint.
+magic-scroll-minesweeper-misfire-forgiven = Your concentration slips, but you recover before making a mistake.
 magic-scroll-minesweeper-misfire = Misfire! Low intelligence caused you to reveal the wrong cell!
 
 # These notices describe the existing three-second auto-close delay.

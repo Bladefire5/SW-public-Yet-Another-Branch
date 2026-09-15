@@ -51,6 +51,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
     private bool _isRunePair;
     private bool _hintUsedThisTurn;
     private bool _safeRevealAvailable = true;
+    private bool _misfireForgivenessAvailable = true;
 
     public event Action? GameStarted;
     public event Action? RestartUsed;
@@ -187,6 +188,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         _gameOver = false;
         _turnStartTime = null;
         _turnEndTime = null;
+        _misfireForgivenessAvailable = true;
 
         PrepareGame();
         StartButton.Disabled = false;
@@ -413,22 +415,32 @@ public sealed partial class MinesweeperWindow : DefaultWindow
 
         if (!_debugBypassMinigameRequirements && _playerIntelligence < _requiredIntelligence)
         {
-            var intelligenceDeficit = 11 - _playerIntelligence;
-            var misfireChance = intelligenceDeficit * 5;
+            var intelligenceDeficit = _requiredIntelligence - _playerIntelligence;
+            var misfireChance = intelligenceDeficit * (10f / 3f);
 
-            if (_random.Next(100) < misfireChance)
+            if (_random.NextDouble() * 100 < misfireChance)
             {
-                var neighbors = GetNeighbors(x, y);
-
-                if (neighbors.Count > 0)
+                if (_misfireForgivenessAvailable)
                 {
-                    var randomNeighbor = neighbors[_random.Next(neighbors.Count)];
-                    targetX = randomNeighbor.x;
-                    targetY = randomNeighbor.y;
+                    _misfireForgivenessAvailable = false;
 
-                    StatusLabel.Text =
+                    StatusLabel.Text = Loc.GetString("magic-scroll-minesweeper-misfire-forgiven");
+                    StatusLabel.Modulate = Color.Yellow;
+                }
+                else
+                {
+                    var neighbors = GetNeighbors(x, y);
+
+                    if (neighbors.Count > 0)
+                    {
+                        var randomNeighbor = neighbors[_random.Next(neighbors.Count)];
+                        targetX = randomNeighbor.x;
+                        targetY = randomNeighbor.y;
+
+                        StatusLabel.Text =
                         Loc.GetString("magic-scroll-minesweeper-misfire");
-                    StatusLabel.Modulate = Color.Orange;
+                        StatusLabel.Modulate = Color.Orange;
+                    }
                 }
             }
         }

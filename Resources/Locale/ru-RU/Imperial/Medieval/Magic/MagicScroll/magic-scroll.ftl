@@ -39,6 +39,7 @@ magic-scroll-minesweeper-restart-count = Начать с начала ({ $count 
 magic-scroll-minesweeper-close = Закрыть
 magic-scroll-minesweeper-hint-used = Подсказка использована! Сделайте следующий ход.
 magic-scroll-minesweeper-no-safe-hint = Нет доступных безопасных клеток для подсказки.
+magic-scroll-minesweeper-misfire-forgiven = Ваша концентрация ослабевает, но вы успеваете восстановиться до того, как совершите ошибку.
 magic-scroll-minesweeper-misfire = Промах! Нажали не на ту клетку из-за низкого уровня интеллекта!
 
 # These notices describe the existing three-second auto-close delay.
