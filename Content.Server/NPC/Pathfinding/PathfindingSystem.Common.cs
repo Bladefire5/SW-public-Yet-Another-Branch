@@ -44,6 +44,15 @@ public sealed partial class PathfindingSystem
 
     private float GetTileCost(PathRequest request, PathPoly start, PathPoly end)
     {
+        if (request.Blacklist != null)
+        {
+            for (var i = 0; i < request.Blacklist.Count; i++)
+            {
+                if (request.Blacklist[i].Matches(end))
+                    return 0f;
+            }
+        }
+
         var modifier = 1f;
 
         // TODO
@@ -65,8 +74,8 @@ public sealed partial class PathfindingSystem
             {
                 modifier += 0.5f;
             }
-            // Door we can force open one way or another
-            else if (isDoor && isAccess && (request.Flags & PathFlags.Prying) != 0x0)
+            // Door we can force open one way or another. No access gate: TryHandleFlags prys any door.
+            else if (isDoor && (request.Flags & PathFlags.Prying) != 0x0)
             {
                 modifier += 10f;
             }

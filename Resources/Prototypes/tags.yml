@@ -989,6 +989,9 @@
   id: Mushroom
 
 - type: Tag
+  id: NPCUnsmashable
+
+- type: Tag
   id: NoBlockAnchoring
 
 - type: Tag

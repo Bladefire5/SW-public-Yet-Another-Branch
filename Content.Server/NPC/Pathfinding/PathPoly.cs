@@ -3,6 +3,17 @@ using Robust.Shared.Map;
 
 namespace Content.Server.NPC.Pathfinding;
 
+/// <summary>
+/// Identifies a node by position, so it still matches after a chunk rebuild.
+/// </summary>
+public readonly record struct PathNodeRef(EntityUid GraphUid, Vector2i ChunkOrigin, byte TileIndex)
+{
+    public static PathNodeRef From(PathPoly poly) => new(poly.GraphUid, poly.ChunkOrigin, poly.TileIndex);
+
+    public bool Matches(PathPoly poly) =>
+        poly.GraphUid == GraphUid && poly.ChunkOrigin == ChunkOrigin && poly.TileIndex == TileIndex;
+}
+
 public sealed class PathPoly : IEquatable<PathPoly>
 {
     [ViewVariables]

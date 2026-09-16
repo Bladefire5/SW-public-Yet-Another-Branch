@@ -10,7 +10,10 @@ using Content.Shared.Access.Components;
 using Content.Shared.Administration;
 using Content.Shared.Climbing.Components;
 using Content.Shared.Doors.Components;
+using Content.Shared.CombatMode;
 using Content.Shared.NPC;
+using Content.Shared.Prying.Components;
+using Content.Shared.Weapons.Melee;
 using Robust.Server.Player;
 using Robust.Shared.Enums;
 using Robust.Shared.Map;
@@ -354,9 +357,11 @@ namespace Content.Server.NPC.Pathfinding
             EntityCoordinates end,
             float range,
             CancellationToken cancelToken,
-            PathFlags flags = PathFlags.None)
+            PathFlags flags = PathFlags.None,
+            IReadOnlyList<PathNodeRef>? blacklist = null)
         {
             var request = GetRequest(entity, start, end, range, cancelToken, flags);
+            request.Blacklist = blacklist;
             return await GetPath(request, true);
         }
 
@@ -448,16 +453,34 @@ namespace Content.Server.NPC.Pathfinding
             return GetFlags(npc.Blackboard);
         }
 
+        private bool CanEverSmash(EntityUid uid)
+        {
+            // TryGetWeapon raises, and this runs from HTN planning off the main thread.
+            return HasComp<CombatModeComponent>(uid) && HasComp<MeleeWeaponComponent>(uid);
+        }
+
         public PathFlags GetFlags(NPCBlackboard blackboard)
         {
             var flags = PathFlags.None;
 
-            if (blackboard.TryGetValue<bool>(NPCBlackboard.NavPry, out var pry, EntityManager) && pry)
+            if (blackboard.TryGetValue<bool>(NPCBlackboard.NavPry, out var pry, EntityManager))
+            {
+                if (pry)
+                    flags |= PathFlags.Prying;
+            }
+            else if (blackboard.TryGetValue<EntityUid>(NPCBlackboard.Owner, out var pryOwner, EntityManager) &&
+                     HasComp<PryingComponent>(pryOwner))
             {
                 flags |= PathFlags.Prying;
             }
 
-            if (blackboard.TryGetValue<bool>(NPCBlackboard.NavSmash, out var smash, EntityManager) && smash)
+            if (blackboard.TryGetValue<bool>(NPCBlackboard.NavSmash, out var smash, EntityManager))
+            {
+                if (smash)
+                    flags |= PathFlags.Smashing;
+            }
+            else if (blackboard.TryGetValue<EntityUid>(NPCBlackboard.Owner, out var owner, EntityManager) &&
+                     CanEverSmash(owner))
             {
                 flags |= PathFlags.Smashing;
             }

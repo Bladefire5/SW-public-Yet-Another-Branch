@@ -8,6 +8,7 @@ using Content.Shared.Mobs;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.NPC;
 using Content.Shared.NPC.Systems;
+using Content.Shared.Prying.Components;
 using Prometheus;
 using Robust.Server.GameObjects;
 using Robust.Shared.Configuration;
@@ -48,6 +49,7 @@ namespace Content.Server.NPC.Systems
 
         public void OnPlayerNPCAttach(EntityUid uid, HTNComponent component, PlayerAttachedEvent args)
         {
+            RevokeNPCPrying(uid);
             SleepNPC(uid, component);
         }
 
@@ -60,14 +62,33 @@ namespace Content.Server.NPC.Systems
             if (TryComp<MindContainerComponent>(uid, out var mindContainer) && mindContainer.HasMind)
                 return;
 
+            GrantNPCPrying(uid);
             WakeNPC(uid, component);
         }
 
         public void OnNPCMapInit(EntityUid uid, HTNComponent component, MapInitEvent args)
         {
             component.Blackboard.SetValue(NPCBlackboard.Owner, uid);
+            GrantNPCPrying(uid);
             EnsureComp<NPCTargetMemoryComponent>(uid);
             WakeNPC(uid, component);
+        }
+
+        private void GrantNPCPrying(EntityUid uid)
+        {
+            if (HasComp<PryingComponent>(uid))
+                return;
+
+            EnsureComp<PryingComponent>(uid);
+            EnsureComp<NPCGrantedPryingComponent>(uid);
+        }
+
+        private void RevokeNPCPrying(EntityUid uid)
+        {
+            if (!RemComp<NPCGrantedPryingComponent>(uid))
+                return;
+
+            RemComp<PryingComponent>(uid);
         }
 
         public void OnNPCShutdown(EntityUid uid, HTNComponent component, ComponentShutdown args)

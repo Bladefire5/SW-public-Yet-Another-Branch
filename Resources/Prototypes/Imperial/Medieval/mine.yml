@@ -197,6 +197,10 @@
     - type: MedievalMeleeBadTarget # imperial medieval
       safeToHitGroup: ore # imperial medieval
     - type: MineCaveStone
+    - type: Tag
+      tags:
+      - Structure
+      - NPCUnsmashable
 
 - type: entity
   name: Exception Spawner

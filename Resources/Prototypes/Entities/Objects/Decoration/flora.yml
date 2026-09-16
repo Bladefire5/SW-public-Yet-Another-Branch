@@ -113,6 +113,9 @@
             max: 1
   - type: MedievalMeleeBadTarget
     safeToHitGroup: tree
+  - type: Tag
+    tags:
+    - NPCUnsmashable
   # Imperial Medieval End
 
 - type: entity

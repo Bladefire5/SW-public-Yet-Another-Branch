@@ -2,6 +2,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.Administration.Managers;
+using Content.Server.Destructible;
 using Content.Server.DoAfter;
 using Content.Server.NPC.Components;
 using Content.Server.NPC.Events;
@@ -18,13 +19,16 @@ using Content.Shared.NPC.Components;
 using Content.Shared.NPC.Systems;
 using Content.Shared.NPC.Events;
 using Content.Shared.Physics;
+using Content.Shared.Tag;
 using Content.Shared.Weapons.Melee;
+using Content.Shared.Whitelist;
 using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
@@ -54,13 +58,16 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
     [Dependency] private readonly IConfigurationManager _configManager = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IPrototypeManager _protoManager = default!;
     [Dependency] private readonly ClimbSystem _climb = default!;
+    [Dependency] private readonly DestructibleSystem _destructible = default!;
+    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly DoAfterSystem _doAfter = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
     [Dependency] private readonly PathfindingSystem _pathfindingSystem = default!;
     [Dependency] private readonly PryingSystem _pryingSystem = default!;
-    [Dependency] private readonly SharedMapSystem _mapSystem = default!;
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly SharedMeleeWeaponSystem _melee = default!;
     [Dependency] private readonly SharedMoverController _mover = default!;
@@ -68,7 +75,11 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedCombatModeSystem _combat = default!;
 
+    private EntityQuery<DestructibleComponent> _destructibleQuery;
     private EntityQuery<FixturesComponent> _fixturesQuery;
+    private EntityQuery<NPCMeleeCombatComponent> _meleeCombatQuery;
+    private EntityQuery<NPCRangedCombatComponent> _rangedCombatQuery;
+    private EntityQuery<NPCTargetMemoryComponent> _targetMemoryQuery;
     private EntityQuery<MovementSpeedModifierComponent> _modifierQuery;
     private EntityQuery<NpcFactionMemberComponent> _factionQuery;
     private EntityQuery<PhysicsComponent> _physicsQuery;
@@ -76,6 +87,11 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
 
     private ObjectPool<HashSet<EntityUid>> _entSetPool =
         new DefaultObjectPool<HashSet<EntityUid>>(new SetPolicy<EntityUid>());
+
+    /// <summary>
+    /// Something this close to the destination is occupying it, not blocking it.
+    /// </summary>
+    private const float DestinationRadius = 0.5f;
 
     /// <summary>
     /// Enabled antistuck detection so if an NPC is in the same spot for a while it will re-path.
@@ -99,7 +115,11 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
         base.Initialize();
 
         Log.Level = LogLevel.Info;
+        _destructibleQuery = GetEntityQuery<DestructibleComponent>();
         _fixturesQuery = GetEntityQuery<FixturesComponent>();
+        _meleeCombatQuery = GetEntityQuery<NPCMeleeCombatComponent>();
+        _rangedCombatQuery = GetEntityQuery<NPCRangedCombatComponent>();
+        _targetMemoryQuery = GetEntityQuery<NPCTargetMemoryComponent>();
         _modifierQuery = GetEntityQuery<MovementSpeedModifierComponent>();
         _factionQuery = GetEntityQuery<NpcFactionMemberComponent>();
         _physicsQuery = GetEntityQuery<PhysicsComponent>();
@@ -185,7 +205,10 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
             component.Flags = _pathfindingSystem.GetFlags(uid);
         }
 
-        ResetStuck(component, Transform(uid).Coordinates);
+        ResetArrival(component, Transform(uid).Coordinates);
+        component.ObstacleFailCount = 0;
+        component.ClearingObstacle = false;
+        component.BlockedNodes.Clear();
         component.Coordinates = coordinates;
         return component;
     }
@@ -427,8 +450,12 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
     private async void RequestPath(EntityUid uid, NPCSteeringComponent steering, TransformComponent xform, float targetDistance)
     {
         // If we already have a pathfinding request then don't grab another.
+        if (steering.Pathfind)
+            return;
+
         // If we're in range then just beeline them; this can avoid stutter stepping and is an easy way to look nicer.
-        if (steering.Pathfind || targetDistance < steering.RepathRange)
+        // Only while nothing is between us, or the obstacle handling never gets a node to work with.
+        if (targetDistance < steering.RepathRange && HasClearLine(uid, steering, steering.RepathRange))
             return;
 
         // Short-circuit with no path.
@@ -456,13 +483,21 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
             steering.Coordinates,
             steering.Range,
             steering.PathfindToken.Token,
-            flags);
+            flags,
+            steering.BlockedNodes.Count > 0 ? steering.BlockedNodes.ToArray() : null);
 
         steering.PathfindToken = null;
 
         if (result.Result == PathResult.NoPath)
         {
             steering.CurrentPath.Clear();
+
+            if (steering.BlockedNodes.Count > 0)
+            {
+                steering.BlockedNodes.Clear();
+                return;
+            }
+
             steering.FailedPathCount++;
 
             if (steering.FailedPathCount >= NPCSteeringComponent.FailedPathLimit)
@@ -478,6 +513,41 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
 
         PrunePath(uid, ourPos, targetPos.Position - ourPos.Position, result.Path);
         steering.CurrentPath = new Queue<PathPoly>(result.Path);
+
+        if (steering.ClearingObstacle &&
+            steering.CurrentPath.TryPeek(out var next) &&
+            IsFreeSpace(uid, steering, next))
+        {
+            ResetArrival(steering, xform.Coordinates);
+        }
+    }
+
+    /// <summary>
+    /// Whether we can go straight there, or need a path and the obstacle handling that comes with it.
+    /// </summary>
+    public bool HasClearLine(EntityUid uid, NPCSteeringComponent steering, float range)
+    {
+        if (!_physicsQuery.TryGetComponent(uid, out var physics))
+            return true;
+
+        var mask = (CollisionGroup) physics.CollisionMask;
+
+        // A zero position means the destination is the entity itself, and that overload ignores it.
+        if (steering.Coordinates.Position.Equals(Vector2.Zero))
+            return _interaction.InRangeUnobstructed(uid, steering.Coordinates.EntityId, range, mask);
+
+        var destination = _transform.ToMapCoordinates(steering.Coordinates);
+
+        return _interaction.InRangeUnobstructed(uid, destination, range, mask,
+            ent => IsAtDestination(ent, destination));
+    }
+
+    private bool IsAtDestination(EntityUid uid, MapCoordinates destination)
+    {
+        var position = _transform.GetMapCoordinates(uid);
+
+        return position.MapId == destination.MapId &&
+               (position.Position - destination.Position).LengthSquared() <= DestinationRadius * DestinationRadius;
     }
 
     // TODO: Move these to movercontroller

@@ -97,6 +97,8 @@ public sealed partial class NPCSteeringSystem
         float frameTime,
         ref bool forceSteer)
     {
+        var wasClearingObstacle = steering.ClearingObstacle;
+        steering.ClearingObstacle = false;
         var ourCoordinates = xform.Coordinates;
         var destinationCoordinates = steering.Coordinates;
         var inLos = true;
@@ -115,7 +117,7 @@ public sealed partial class NPCSteeringSystem
                 if (steering.LineOfSightTimer >= steering.LineOfSightTimeRequired)
                 {
                     steering.Status = SteeringStatus.InRange;
-                    ResetStuck(steering, ourCoordinates);
+                    ResetArrival(steering, ourCoordinates);
                     return true;
                 }
             }
@@ -133,10 +135,11 @@ public sealed partial class NPCSteeringSystem
         // We've arrived, nothing else matters.
         if (xform.Coordinates.TryDistance(EntityManager, destinationCoordinates, out var targetDistance) &&
             inLos &&
-            targetDistance <= steering.Range)
+            targetDistance <= steering.Range &&
+            HasClearLine(uid, steering, steering.Range))
         {
             steering.Status = SteeringStatus.InRange;
-            ResetStuck(steering, ourCoordinates);
+            ResetArrival(steering, ourCoordinates);
             return true;
         }
 
@@ -199,26 +202,31 @@ public sealed partial class NPCSteeringSystem
             arrived = direction.Length() <= SharedInteractionSystem.InteractionRange - 0.05f;
         }
 
+        var approachingObstacle = false;
+
+        var engagedObstacle = false;
+
         // Are we in range
         if (arrived)
         {
             // Node needs some kind of special handling like access or smashing.
             if (steering.CurrentPath.TryPeek(out var node) && !IsFreeSpace(uid, steering, node))
             {
-                // Ignore stuck while handling obstacles.
-                ResetStuck(steering, ourCoordinates);
                 SteeringObstacleStatus status;
 
                 // Breaking behaviours and the likes.
                 lock (_obstacles)
                 {
-                    // We're still coming to a stop so wait for the do_after.
-                    if (body.LinearVelocity.LengthSquared() > 0.01f)
-                    {
-                        return true;
-                    }
+                    status = TryHandleFlags(uid, steering, node, body);
+                }
 
-                    status = TryHandleFlags(uid, steering, node);
+                steering.ClearingObstacle = status is SteeringObstacleStatus.Continuing
+                    or SteeringObstacleStatus.Stationary;
+
+                if (!wasClearingObstacle)
+                {
+                    steering.LastObstacleProgress = _timing.CurTime;
+                    steering.LastObstacleRepath = _timing.CurTime;
                 }
 
                 // TODO: Need to handle re-pathing in case the target moves around.
@@ -226,15 +234,41 @@ public sealed partial class NPCSteeringSystem
                 {
                     case SteeringObstacleStatus.Completed:
                         steering.DoAfterId = null;
+                        steering.ObstacleFailCount = 0;
+                        engagedObstacle = true;
                         break;
                     case SteeringObstacleStatus.Failed:
                         steering.DoAfterId = null;
-                        // TODO: Blacklist the poly for next query
-                        steering.Status = SteeringStatus.NoPath;
-                        return false;
-                    case SteeringObstacleStatus.Continuing:
-                        CheckPath(uid, steering, xform, needsPath, targetDistance);
+                        steering.ObstacleFailCount++;
+
+                        // A single failure is usually transient: door mid-cycle, climb on cooldown.
+                        if (steering.ObstacleFailCount >= NPCSteeringComponent.ObstacleFailLimit)
+                        {
+                            steering.BlockedNodes.Clear();
+                            steering.Status = SteeringStatus.NoPath;
+                            return false;
+                        }
+
+                        steering.BlockedNodes.Add(PathNodeRef.From(node));
+                        steering.CurrentPath.Clear();
+                        CheckPath(uid, steering, xform, true, targetDistance);
                         return true;
+                    case SteeringObstacleStatus.Continuing:
+                    case SteeringObstacleStatus.Stationary:
+                        // Both reset stuck detection below, so time spent here has to be earned.
+                        if (_timing.CurTime - steering.LastObstacleProgress > NPCSteeringComponent.ObstacleStallLimit)
+                            goto case SteeringObstacleStatus.Failed;
+
+                        steering.ObstacleFailCount = 0;
+                        ResetArrival(steering, ourCoordinates);
+                        CheckPath(uid, steering, xform, TryTakeObstacleRepath(steering) || needsPath, targetDistance);
+
+                        return status == SteeringObstacleStatus.Continuing;
+                    case SteeringObstacleStatus.Approaching:
+                        // No ResetStuck: the stuck detector is what notices if we never close the gap.
+                        approachingObstacle = true;
+                        CheckPath(uid, steering, xform, needsPath, targetDistance);
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -242,10 +276,17 @@ public sealed partial class NPCSteeringSystem
 
             // Distance should already be handled above.
             // It was just a node, not the target, so grab the next destination (either the target or next node).
-            if (steering.CurrentPath.Count > 0)
+            if (approachingObstacle)
+            {
+                // Keep the blocked node as our destination.
+            }
+            else if (steering.CurrentPath.Count > 0)
             {
                 forceSteer = true;
                 steering.CurrentPath.Dequeue();
+
+                steering.ObstacleFailCount = 0;
+                steering.BlockedNodes.Clear();
 
                 // Alright just adjust slightly and grab the next node so we don't stop moving for a tick.
                 // TODO: If it's the last node just grab the target instead.
@@ -277,8 +318,52 @@ public sealed partial class NPCSteeringSystem
                 needsPath = true;
             }
         }
+
+        var goingNowhere = false;
+
+        if (engagedObstacle ||
+            !ourCoordinates.TryDistance(EntityManager, steering.LastProgressCoordinates, out var progressDistance))
+        {
+            ResetProgress(steering, ourCoordinates);
+        }
+        else if (progressDistance >= NPCSteeringComponent.ProgressDistance)
+        {
+            ResetProgress(steering, ourCoordinates);
+        }
+        else if (_timing.CurTime - steering.LastProgressTime > NPCSteeringComponent.NoProgressTime)
+        {
+            goingNowhere = true;
+        }
+
+        if (goingNowhere)
+        {
+            bool clearing;
+            bool destroyed;
+
+            lock (_obstacles)
+            {
+                clearing = TrySmashBlockingContact(uid, steering, direction, out destroyed);
+            }
+
+            if (destroyed)
+            {
+                ResetProgress(steering, ourCoordinates);
+                ResetStuck(steering, ourCoordinates);
+            }
+            else if (clearing)
+            {
+                steering.ClearingObstacle = true;
+                CheckPath(uid, steering, xform, TryTakeObstacleRepath(steering), targetDistance);
+                return false;
+            }
+        }
+
         // Stuck detection
         // Check if we have moved further than the movespeed * stuck time.
+        if (engagedObstacle)
+        {
+            ResetStuck(steering, ourCoordinates);
+        }
         else if (AntiStuck &&
                  ourCoordinates.TryDistance(EntityManager, steering.LastStuckCoordinates, out var stuckDistance) &&
                  stuckDistance < NPCSteeringComponent.StuckDistance)
@@ -290,14 +375,40 @@ public sealed partial class NPCSteeringSystem
             if (stuckTime.TotalSeconds > maxStuckTime)
             {
                 // TODO: Blacklist nodes (pathfinder factor wehn)
-                // TODO: This should be a warning but
-                // A) NPCs get stuck on non-anchored static bodies still (e.g. closets)
-                // B) NPCs still try to move in locked containers (e.g. cow, hamster)
-                // and I don't want to spam grafana even harder than it gets spammed rn.
+                // TODO: This should be a warning but NPCs still try to move in locked containers
+                // (e.g. cow, hamster) and I don't want to spam grafana even harder than it is now.
                 Log.Debug($"NPC {ToPrettyString(uid)} found stuck at {ourCoordinates}");
+
                 needsPath = true;
 
-                if (stuckTime.TotalSeconds > maxStuckTime * 3)
+                // The path can't tell us what's holding us: a gap narrower than we are reads as free.
+                if (stuckTime.TotalSeconds > maxStuckTime * 2)
+                {
+                    bool clearing;
+                    bool destroyedTarget;
+
+                    lock (_obstacles)
+                    {
+                        clearing = TrySmashBlockingContact(uid, steering, direction, out destroyedTarget);
+                    }
+
+                    if (clearing)
+                    {
+                        if (destroyedTarget)
+                        {
+                            ResetStuck(steering, ourCoordinates);
+                        }
+                        else
+                        {
+                            steering.ClearingObstacle = true;
+                            CheckPath(uid, steering, xform, TryTakeObstacleRepath(steering), targetDistance);
+                            return false;
+                        }
+                    }
+                }
+
+                if (stuckTime.TotalSeconds > maxStuckTime * 4 &&
+                    _timing.CurTime - steering.LastObstacleProgress > NPCSteeringComponent.ObstacleStallLimit)
                 {
                     steering.Status = SteeringStatus.NoPath;
                     return false;
@@ -356,6 +467,30 @@ public sealed partial class NPCSteeringSystem
     {
         component.LastStuckCoordinates = ourCoordinates;
         component.LastStuckTime = _timing.CurTime;
+    }
+
+    private void ResetProgress(NPCSteeringComponent component, EntityCoordinates ourCoordinates)
+    {
+        component.LastProgressCoordinates = ourCoordinates;
+        component.LastProgressTime = _timing.CurTime;
+    }
+
+    private void ResetArrival(NPCSteeringComponent component, EntityCoordinates ourCoordinates)
+    {
+        ResetStuck(component, ourCoordinates);
+        ResetProgress(component, ourCoordinates);
+    }
+
+    /// <summary>
+    /// Stamps the attempt, so each call that returns true is one query.
+    /// </summary>
+    private bool TryTakeObstacleRepath(NPCSteeringComponent steering)
+    {
+        if (_timing.CurTime - steering.LastObstacleRepath < NPCSteeringComponent.ObstacleRepathTime)
+            return false;
+
+        steering.LastObstacleRepath = _timing.CurTime;
+        return true;
     }
 
     private void CheckPath(EntityUid uid, NPCSteeringComponent steering, TransformComponent xform, bool needsPath, float targetDistance)

@@ -104,6 +104,13 @@ public sealed partial class NPCCombatSystem
         if (weapon.NextAttack > curTime || !Enabled)
             return;
 
+        // AttemptLightAttack re-validates this, but only after spending the cooldown.
+        if (!_interaction.InRangeUnobstructed(uid, component.Target, weapon.Range))
+        {
+            component.Status = CombatStatus.TargetOutOfRange;
+            return;
+        }
+
         if (_random.Prob(component.MissChance) &&
             physicsQuery.TryGetComponent(component.Target, out var targetPhysics) &&
             targetPhysics.LinearVelocity.LengthSquared() != 0f)

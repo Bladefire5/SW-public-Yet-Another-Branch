@@ -36,6 +36,11 @@ public abstract class PathRequest
     public readonly int CollisionLayer;
     public readonly int CollisionMask;
 
+    /// <summary>
+    /// Nodes to treat as impassable.
+    /// </summary>
+    public IReadOnlyList<PathNodeRef>? Blacklist;
+
     #endregion
 
     public PathRequest(EntityCoordinates start, PathFlags flags, int layer, int mask, CancellationToken cancelToken)

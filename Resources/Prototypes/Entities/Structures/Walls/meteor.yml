@@ -18,6 +18,10 @@
           path: /Audio/Effects/break_stone.ogg
           params:
             volume: -6
+  - type: Tag  # imperial medieval
+    tags:
+    - Wall
+    - NPCUnsmashable
 
 # Ore veins
 - type: entity
