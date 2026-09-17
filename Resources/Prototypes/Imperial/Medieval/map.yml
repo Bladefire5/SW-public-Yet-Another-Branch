@@ -23,6 +23,8 @@
             MedievalInnkeeperGuard: [ 1, 1 ]
             MedievalChaplain: [ 7, 7 ]
             MedievalWanderMag: [ 4, 4 ]
+            MedievalCitizen: [ 1, 1 ]  # Поменять Дантанат
+            MedievalCitizenRich: [ 1, 1 ] # Поменять Дантанат
             # Legion (29 total)
             MedievalLegionJailed: [ 5, 5 ]
             MedievalLegionJailer: [ 1, 1 ]
@@ -109,6 +111,8 @@
             MedievalInnkeeperGuard: [ 1, 1 ]
             MedievalChaplain: [ 5, 5 ]
             MedievalWanderMag: [ 3, 3 ]
+            MedievalCitizen: [ 1, 1 ]  # Поменять Дантанат
+            MedievalCitizenRich: [ 1, 1 ] # Поменять Дантанат
             # Legion (22 total)
             MedievalLegionRecruit: [ 6, 6 ]
             MedievalLegionLegioner: [ 8, 8 ]
@@ -193,6 +197,8 @@
             MedievalInnkeeperGuard: [ 1, 1 ]
             MedievalChaplain: [ 3, 3 ]
             MedievalWanderMag: [ 2, 2 ]
+            MedievalCitizen: [ 1, 1 ]  # Поменять Дантанат
+            MedievalCitizenRich: [ 1, 1 ] # Поменять Дантанат
             # Legion (15 total)
             MedievalLegionRecruit: [ 3, 3 ]
             MedievalLegionLegioner: [ 5, 5 ]
@@ -276,6 +282,8 @@
             MedievalInnkeeperGuard: [ 1, 1 ]
             MedievalChaplain: [ 2, 2 ]
             MedievalWanderMag: [ 1, 1 ]
+            MedievalCitizen: [ 1, 1 ]  # Поменять Дантанат
+            MedievalCitizenRich: [ 1, 1 ] # Поменять Дантанат
             # Legion (11 total)
             MedievalLegionRecruit: [ 3, 3 ]
             MedievalLegionLegioner: [ 3, 3 ]
@@ -354,6 +362,8 @@
             MedievalInnkeeperGuard: [ 1, 1 ]
             MedievalChaplain: [ 1, 1 ]
             MedievalWanderMag: [ 1, 1 ]
+            MedievalCitizen: [ 1, 1 ]  # Поменять Дантанат
+            MedievalCitizenRich: [ 1, 1 ] # Поменять Дантанат
             # Legion (8 total)
             MedievalLegionRecruit: [ 2, 2 ]
             MedievalLegionLegioner: [ 2, 2 ]
@@ -444,6 +454,8 @@
             MedievalLegionLegat: [ 1, 1 ]
             MedievalLegionMag: [ 1, 1 ]
             MedievalLegionCourier: [ 3, 3 ]
+            MedievalCitizen: [ 1, 1 ]  # Поменять Дантанат
+            MedievalCitizenRich: [ 1, 1 ] # Поменять Дантанат
             # Insurgency (5 total)
             MedievalInsurgencyRecruit: [ -1, -1 ]
             MedievalInsurgencyInsurgencyer: [ 8, 8 ]

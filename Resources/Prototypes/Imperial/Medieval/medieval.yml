@@ -8990,6 +8990,34 @@
       tags:
         - MedievalKey
 
+# Universal keys
+
+- type: entity
+  parent: MedievalKeyBase
+  id: MedievalHouseKeyBase
+  components:
+    - type: Sprite
+      sprite: Imperial/Medieval/Misc/keys.rsi
+      state: house
+    - type: Key
+      accesses: []
+    - type: Tag
+      tags:
+        - MedievalKey
+
+- type: entity
+  parent: MedievalKeyBase
+  id: MedievalRichHouseKeyBase
+  components:
+    - type: Sprite
+      sprite: Imperial/Medieval/Misc/keys.rsi
+      state: richhouse
+    - type: Key
+      accesses: []
+    - type: Tag
+      tags:
+        - MedievalKey
+
 - type: entity
   id: MedievalGussarFlagZablik
   description: A barricade made out of wood planks. It looks like it can take a few solid hits.
