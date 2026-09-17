@@ -456,6 +456,38 @@ public sealed partial class NPCSteeringSystem
         return true;
     }
 
+    /// <summary>
+    /// Returns true while it's swinging. The obstacle handling can't do this, it skips mobs on purpose.
+    /// </summary>
+    private bool TryFightHolder(EntityUid uid, EntityUid holder)
+    {
+        // Same rule as NPCRetaliationSystem.
+        if (_npcFaction.IsEntityFriendly(uid, holder))
+            return false;
+
+        if (!_melee.TryGetWeapon(uid, out var weaponUid, out var weapon) ||
+            !TryComp<CombatModeComponent>(uid, out var combatMode))
+        {
+            return false;
+        }
+
+        if (weapon.NextAttack > _timing.CurTime)
+            return true;
+
+        if (!_interaction.InRangeUnobstructed(uid, holder, weapon.Range))
+            return false;
+
+        var wasInCombatMode = combatMode.IsInCombatMode;
+        _combat.SetInCombatMode(uid, true, combatMode);
+
+        var hit = _melee.AttemptLightAttack(uid, weaponUid, weapon, holder);
+
+        if (!wasInCombatMode)
+            _combat.SetInCombatMode(uid, false, combatMode);
+
+        return hit;
+    }
+
     private enum SteeringObstacleStatus : byte
     {
         Completed,

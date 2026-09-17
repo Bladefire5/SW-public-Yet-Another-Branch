@@ -10,9 +10,11 @@ using Content.Server.NPC.Pathfinding;
 using Content.Shared.CCVar;
 using Content.Shared.Climbing.Systems;
 using Content.Shared.CombatMode;
+using Content.Shared.Imperial.Medieval.Grab.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Events;
+using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Movement.Systems;
 using Content.Shared.NPC;
 using Content.Shared.NPC.Components;
@@ -77,6 +79,8 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
 
     private EntityQuery<DestructibleComponent> _destructibleQuery;
     private EntityQuery<FixturesComponent> _fixturesQuery;
+    private EntityQuery<GrabbableComponent> _grabbableQuery;
+    private EntityQuery<PullableComponent> _pullableQuery;
     private EntityQuery<NPCMeleeCombatComponent> _meleeCombatQuery;
     private EntityQuery<NPCRangedCombatComponent> _rangedCombatQuery;
     private EntityQuery<NPCTargetMemoryComponent> _targetMemoryQuery;
@@ -117,6 +121,8 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
         Log.Level = LogLevel.Info;
         _destructibleQuery = GetEntityQuery<DestructibleComponent>();
         _fixturesQuery = GetEntityQuery<FixturesComponent>();
+        _grabbableQuery = GetEntityQuery<GrabbableComponent>();
+        _pullableQuery = GetEntityQuery<PullableComponent>();
         _meleeCombatQuery = GetEntityQuery<NPCMeleeCombatComponent>();
         _rangedCombatQuery = GetEntityQuery<NPCRangedCombatComponent>();
         _targetMemoryQuery = GetEntityQuery<NPCTargetMemoryComponent>();
@@ -520,6 +526,34 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
         {
             ResetArrival(steering, xform.Coordinates);
         }
+    }
+
+    /// <summary>
+    /// Nothing we do about the route frees us, so the stuck handling has to stay out of it.
+    /// </summary>
+    private bool IsHeld(EntityUid uid)
+    {
+        if (TryGetGrabber(uid, out _))
+            return true;
+
+        return _pullableQuery.TryGetComponent(uid, out var pullable) && pullable.BeingPulled;
+    }
+
+    /// <summary>
+    /// A grab, not an ordinary pull. Only a grab takes combat mode, so only a grab is worth hitting back over.
+    /// </summary>
+    private bool TryGetGrabber(EntityUid uid, out EntityUid grabber)
+    {
+        grabber = default;
+
+        if (!_grabbableQuery.TryGetComponent(uid, out var grabbable) ||
+            grabbable.Grabber is not { Valid: true } holder)
+        {
+            return false;
+        }
+
+        grabber = holder;
+        return true;
     }
 
     /// <summary>

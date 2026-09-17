@@ -143,6 +143,23 @@ public sealed partial class NPCSteeringSystem
             return true;
         }
 
+        if (TryGetGrabber(uid, out var grabber))
+        {
+            bool fighting;
+
+            lock (_obstacles)
+            {
+                fighting = TryFightHolder(uid, grabber);
+            }
+
+            if (fighting)
+            {
+                steering.ClearingObstacle = true;
+                ResetArrival(steering, ourCoordinates);
+                return false;
+            }
+        }
+
         // Grab the target position, either the next path node or our end goal..
         var targetCoordinates = GetTargetCoordinates(steering);
 
@@ -319,9 +336,11 @@ public sealed partial class NPCSteeringSystem
             }
         }
 
+        var held = IsHeld(uid);
+
         var goingNowhere = false;
 
-        if (engagedObstacle ||
+        if (engagedObstacle || held ||
             !ourCoordinates.TryDistance(EntityManager, steering.LastProgressCoordinates, out var progressDistance))
         {
             ResetProgress(steering, ourCoordinates);
@@ -360,7 +379,7 @@ public sealed partial class NPCSteeringSystem
 
         // Stuck detection
         // Check if we have moved further than the movespeed * stuck time.
-        if (engagedObstacle)
+        if (engagedObstacle || held)
         {
             ResetStuck(steering, ourCoordinates);
         }
