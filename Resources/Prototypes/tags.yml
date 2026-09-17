@@ -988,8 +988,10 @@
 - type: Tag
   id: Mushroom
 
+# Imperial Medieval npc-obstacle-handling Start
 - type: Tag
   id: NPCUnsmashable
+# Imperial Medieval npc-obstacle-handling End
 
 - type: Tag
   id: NoBlockAnchoring

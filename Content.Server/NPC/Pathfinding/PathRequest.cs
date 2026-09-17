@@ -36,10 +36,12 @@ public abstract class PathRequest
     public readonly int CollisionLayer;
     public readonly int CollisionMask;
 
+    // Imperial Medieval npc-obstacle-handling Start
     /// <summary>
     /// Nodes to treat as impassable.
     /// </summary>
     public IReadOnlyList<PathNodeRef>? Blacklist;
+    // Imperial Medieval npc-obstacle-handling End
 
     #endregion
 

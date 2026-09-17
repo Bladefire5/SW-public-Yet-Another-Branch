@@ -110,6 +110,7 @@ public sealed partial class NPCSteeringComponent : Component
     /// </summary>
     [ViewVariables] public int FailedPathCount;
 
+    // Imperial Medieval npc-obstacle-handling Start
     public const int ObstacleFailLimit = 3;
 
     public static readonly TimeSpan ObstacleStallLimit = TimeSpan.FromSeconds(5);
@@ -142,6 +143,7 @@ public sealed partial class NPCSteeringComponent : Component
     [ViewVariables] public EntityCoordinates LastProgressCoordinates;
 
     [ViewVariables] public TimeSpan LastProgressTime;
+    // Imperial Medieval npc-obstacle-handling End
 
     [ViewVariables] public SteeringStatus Status = SteeringStatus.Moving;
 

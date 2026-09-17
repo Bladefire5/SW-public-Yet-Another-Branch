@@ -22,6 +22,8 @@ using Robust.Shared.Utility;
 using ClimbableComponent = Content.Shared.Climbing.Components.ClimbableComponent;
 using ClimbingComponent = Content.Shared.Climbing.Components.ClimbingComponent;
 
+// Imperial Medieval npc-obstacle-handling: reworked end to end, treat this file as fork-owned.
+
 namespace Content.Server.NPC.Systems;
 
 public sealed partial class NPCSteeringSystem

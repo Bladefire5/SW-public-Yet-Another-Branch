@@ -97,8 +97,10 @@ public sealed partial class NPCSteeringSystem
         float frameTime,
         ref bool forceSteer)
     {
+        // Imperial Medieval npc-obstacle-handling Start
         var wasClearingObstacle = steering.ClearingObstacle;
         steering.ClearingObstacle = false;
+        // Imperial Medieval npc-obstacle-handling End
         var ourCoordinates = xform.Coordinates;
         var destinationCoordinates = steering.Coordinates;
         var inLos = true;
@@ -117,7 +119,7 @@ public sealed partial class NPCSteeringSystem
                 if (steering.LineOfSightTimer >= steering.LineOfSightTimeRequired)
                 {
                     steering.Status = SteeringStatus.InRange;
-                    ResetArrival(steering, ourCoordinates);
+                    ResetArrival(steering, ourCoordinates); // Imperial Medieval npc-obstacle-handling
                     return true;
                 }
             }
@@ -132,6 +134,7 @@ public sealed partial class NPCSteeringSystem
             steering.ForceMove = false;
         }
 
+        // Imperial Medieval npc-obstacle-handling Start
         // We've arrived, nothing else matters.
         if (xform.Coordinates.TryDistance(EntityManager, destinationCoordinates, out var targetDistance) &&
             inLos &&
@@ -142,7 +145,9 @@ public sealed partial class NPCSteeringSystem
             ResetArrival(steering, ourCoordinates);
             return true;
         }
+        // Imperial Medieval npc-obstacle-handling End
 
+        // Imperial Medieval npc-obstacle-handling Start
         if (TryGetGrabber(uid, out var grabber))
         {
             bool fighting;
@@ -159,6 +164,7 @@ public sealed partial class NPCSteeringSystem
                 return false;
             }
         }
+        // Imperial Medieval npc-obstacle-handling End
 
         // Grab the target position, either the next path node or our end goal..
         var targetCoordinates = GetTargetCoordinates(steering);
@@ -219,9 +225,11 @@ public sealed partial class NPCSteeringSystem
             arrived = direction.Length() <= SharedInteractionSystem.InteractionRange - 0.05f;
         }
 
+        // Imperial Medieval npc-obstacle-handling Start
         var approachingObstacle = false;
 
         var engagedObstacle = false;
+        // Imperial Medieval npc-obstacle-handling End
 
         // Are we in range
         if (arrived)
@@ -232,6 +240,7 @@ public sealed partial class NPCSteeringSystem
                 SteeringObstacleStatus status;
 
                 // Breaking behaviours and the likes.
+                // Imperial Medieval npc-obstacle-handling Start
                 lock (_obstacles)
                 {
                     status = TryHandleFlags(uid, steering, node, body);
@@ -245,17 +254,21 @@ public sealed partial class NPCSteeringSystem
                     steering.LastObstacleProgress = _timing.CurTime;
                     steering.LastObstacleRepath = _timing.CurTime;
                 }
+                // Imperial Medieval npc-obstacle-handling End
 
                 // TODO: Need to handle re-pathing in case the target moves around.
                 switch (status)
                 {
                     case SteeringObstacleStatus.Completed:
                         steering.DoAfterId = null;
+                        // Imperial Medieval npc-obstacle-handling Start
                         steering.ObstacleFailCount = 0;
                         engagedObstacle = true;
+                        // Imperial Medieval npc-obstacle-handling End
                         break;
                     case SteeringObstacleStatus.Failed:
                         steering.DoAfterId = null;
+                        // Imperial Medieval npc-obstacle-handling Start
                         steering.ObstacleFailCount++;
 
                         // A single failure is usually transient: door mid-cycle, climb on cooldown.
@@ -286,6 +299,7 @@ public sealed partial class NPCSteeringSystem
                         approachingObstacle = true;
                         CheckPath(uid, steering, xform, needsPath, targetDistance);
                         break;
+                        // Imperial Medieval npc-obstacle-handling End
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -293,6 +307,7 @@ public sealed partial class NPCSteeringSystem
 
             // Distance should already be handled above.
             // It was just a node, not the target, so grab the next destination (either the target or next node).
+            // Imperial Medieval npc-obstacle-handling: the dequeue below used to be an unconditional if.
             if (approachingObstacle)
             {
                 // Keep the blocked node as our destination.
@@ -302,8 +317,10 @@ public sealed partial class NPCSteeringSystem
                 forceSteer = true;
                 steering.CurrentPath.Dequeue();
 
+                // Imperial Medieval npc-obstacle-handling Start
                 steering.ObstacleFailCount = 0;
                 steering.BlockedNodes.Clear();
+                // Imperial Medieval npc-obstacle-handling End
 
                 // Alright just adjust slightly and grab the next node so we don't stop moving for a tick.
                 // TODO: If it's the last node just grab the target instead.
@@ -336,6 +353,7 @@ public sealed partial class NPCSteeringSystem
             }
         }
 
+        // Imperial Medieval npc-obstacle-handling Start
         var held = IsHeld(uid);
 
         var goingNowhere = false;
@@ -383,6 +401,7 @@ public sealed partial class NPCSteeringSystem
         {
             ResetStuck(steering, ourCoordinates);
         }
+        // Imperial Medieval npc-obstacle-handling End
         else if (AntiStuck &&
                  ourCoordinates.TryDistance(EntityManager, steering.LastStuckCoordinates, out var stuckDistance) &&
                  stuckDistance < NPCSteeringComponent.StuckDistance)
@@ -394,6 +413,7 @@ public sealed partial class NPCSteeringSystem
             if (stuckTime.TotalSeconds > maxStuckTime)
             {
                 // TODO: Blacklist nodes (pathfinder factor wehn)
+                // Imperial Medieval npc-obstacle-handling Start
                 // TODO: This should be a warning but NPCs still try to move in locked containers
                 // (e.g. cow, hamster) and I don't want to spam grafana even harder than it is now.
                 Log.Debug($"NPC {ToPrettyString(uid)} found stuck at {ourCoordinates}");
@@ -432,6 +452,7 @@ public sealed partial class NPCSteeringSystem
                     steering.Status = SteeringStatus.NoPath;
                     return false;
                 }
+                // Imperial Medieval npc-obstacle-handling End
             }
         }
         else
@@ -488,6 +509,7 @@ public sealed partial class NPCSteeringSystem
         component.LastStuckTime = _timing.CurTime;
     }
 
+    // Imperial Medieval npc-obstacle-handling Start
     private void ResetProgress(NPCSteeringComponent component, EntityCoordinates ourCoordinates)
     {
         component.LastProgressCoordinates = ourCoordinates;
@@ -511,6 +533,7 @@ public sealed partial class NPCSteeringSystem
         steering.LastObstacleRepath = _timing.CurTime;
         return true;
     }
+    // Imperial Medieval npc-obstacle-handling End
 
     private void CheckPath(EntityUid uid, NPCSteeringComponent steering, TransformComponent xform, bool needsPath, float targetDistance)
     {

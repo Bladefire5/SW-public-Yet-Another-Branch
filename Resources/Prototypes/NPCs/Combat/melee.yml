@@ -97,6 +97,7 @@
           operator: !type:InteractWithOperator
             targetKey: Target
 
+# Imperial Medieval npc-obstacle-handling Start
 # Goes and looks where we last saw our target, once it's out of sight for good.
 - type: htnCompound
   id: InvestigateLastKnownCompound
@@ -112,6 +113,7 @@
             targetKey: TargetCoordinates
             pathfindKey: TargetPathfind
             rangeKey: MovementRange
+# Imperial Medieval npc-obstacle-handling End
 
 # Tries to melee attack our target.
 - type: htnCompound

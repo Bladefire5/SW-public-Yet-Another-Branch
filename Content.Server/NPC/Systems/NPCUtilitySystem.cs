@@ -1,6 +1,6 @@
 using Content.Server.Fluids.EntitySystems;
 using Content.Server.Hands.Systems;
-using Content.Server.NPC.Components;
+using Content.Server.NPC.Components; // Imperial Medieval npc-obstacle-handling
 using Content.Server.NPC.Queries;
 using Content.Server.NPC.Queries.Considerations;
 using Content.Server.NPC.Queries.Curves;
@@ -28,7 +28,7 @@ using Content.Shared.Whitelist;
 using Microsoft.Extensions.ObjectPool;
 using Robust.Server.Containers;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Timing;
+using Robust.Shared.Timing; // Imperial Medieval npc-obstacle-handling
 using Robust.Shared.Utility;
 using Content.Shared.Atmos.Components;
 using System.Linq;
@@ -40,7 +40,7 @@ namespace Content.Server.NPC.Systems;
 /// </summary>
 public sealed class NPCUtilitySystem : EntitySystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IGameTiming _timing = default!; // Imperial Medieval npc-obstacle-handling
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly ContainerSystem _container = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
@@ -149,6 +149,7 @@ public sealed class NPCUtilitySystem : EntitySystem
         return result;
     }
 
+    // Imperial Medieval npc-obstacle-handling Start
     private bool StillTracking(EntityUid owner)
     {
         if (!TryComp<NPCTargetMemoryComponent>(owner, out var memory))
@@ -156,6 +157,7 @@ public sealed class NPCUtilitySystem : EntitySystem
 
         return _timing.CurTime - memory.LastSeen <= memory.TrackDuration;
     }
+    // Imperial Medieval npc-obstacle-handling End
 
     private float GetScore(IUtilityCurve curve, float conScore)
     {
@@ -332,10 +334,10 @@ public sealed class NPCUtilitySystem : EntitySystem
                 var radius = blackboard.GetValueOrDefault<float>(blackboard.GetVisionRadiusKey(EntityManager), EntityManager);
                 const float bufferRange = 0.5f;
 
-                // Holding the target through walls is what rounds the corner. Time-limited so it lets go.
+                // Imperial Medieval npc-obstacle-handling: holds the target through walls, time-limited.
                 if (blackboard.TryGetValue<EntityUid>("Target", out var currentTarget, EntityManager) &&
                     currentTarget == targetUid &&
-                    StillTracking(owner) &&
+                    StillTracking(owner) && // Imperial Medieval npc-obstacle-handling
                     TryComp(owner, out TransformComponent? xform) &&
                     TryComp(targetUid, out TransformComponent? targetXform) &&
                     xform.Coordinates.TryDistance(EntityManager, _transform, targetXform.Coordinates, out var distance) &&

@@ -44,6 +44,7 @@ public sealed partial class PathfindingSystem
 
     private float GetTileCost(PathRequest request, PathPoly start, PathPoly end)
     {
+        // Imperial Medieval npc-obstacle-handling Start
         if (request.Blacklist != null)
         {
             for (var i = 0; i < request.Blacklist.Count; i++)
@@ -52,6 +53,7 @@ public sealed partial class PathfindingSystem
                     return 0f;
             }
         }
+        // Imperial Medieval npc-obstacle-handling End
 
         var modifier = 1f;
 
@@ -74,8 +76,9 @@ public sealed partial class PathfindingSystem
             {
                 modifier += 0.5f;
             }
-            // Door we can force open one way or another. No access gate: TryHandleFlags prys any door.
-            else if (isDoor && (request.Flags & PathFlags.Prying) != 0x0)
+            // Imperial Medieval npc-obstacle-handling: no access gate, TryHandleFlags prys any door.
+            // Door we can force open one way or another
+            else if (isDoor && (request.Flags & PathFlags.Prying) != 0x0) // Imperial Medieval npc-obstacle-handling
             {
                 modifier += 10f;
             }
