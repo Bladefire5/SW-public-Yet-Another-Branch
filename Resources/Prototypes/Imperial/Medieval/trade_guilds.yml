@@ -1832,3 +1832,9 @@
   - productEntity: PottedPlantRandomSW
     cost: 50
     reputationForBuying: 1.5
+  - productEntity: PerfumeBottleRose
+    cost: 75
+  - productEntity: PerfumeBottleLavender
+    cost: 75
+  - productEntity: PerfumeBottleAmber
+    cost: 75
