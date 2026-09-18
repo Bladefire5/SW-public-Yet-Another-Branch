@@ -2402,19 +2402,19 @@
           RockForstoneDestructSpawner:
             min: 1
             max: 1
-    - type: Sprite
-      layers:
-      - state: rock_wall
-      - map: [ "enum.EdgeLayer.South" ]
-        state: rock_wall_south
-      - map: [ "enum.EdgeLayer.East" ]
-        state: rock_wall_east
-      - map: [ "enum.EdgeLayer.North" ]
-        state: rock_wall_north
-      - map: [ "enum.EdgeLayer.West" ]
-        state: rock_wall_west
-      - state: rock_bananium
-        map: [ "enum.MiningScannerVisualLayers.Overlay" ]
+  - type: Sprite
+    layers:
+    - state: rock_wall
+    - map: [ "enum.EdgeLayer.South" ]
+      state: rock_wall_south
+    - map: [ "enum.EdgeLayer.East" ]
+      state: rock_wall_east
+    - map: [ "enum.EdgeLayer.North" ]
+      state: rock_wall_north
+    - map: [ "enum.EdgeLayer.West" ]
+      state: rock_wall_west
+    - state: rock_bananium
+      map: [ "enum.MiningScannerVisualLayers.Overlay" ]
 
 - type: entity
   name: BlastDoor
