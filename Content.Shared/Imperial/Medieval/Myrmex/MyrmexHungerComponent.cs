@@ -10,13 +10,18 @@ namespace Content.Shared.Imperial.Medieval.Myrmex
         public TimeSpan? LastEaten;
 
         [DataField, AutoNetworkedField]
-        public float EatCooldownSeconds = 120;
+        public float EatCooldownSeconds = 90;
 
         [DataField, AutoNetworkedField]
-        public float SecondsToHungry = 1500;
+        public float SecondsToHungry = 1000;
 
         [DataField, AutoNetworkedField]
-        public float HungrySpeedModifier = 0.3f;
+        public float HungrySpeedModifier = 0.5f;
+
+        // imperial medieval - caste-specific extra resist to incoming stamina damage, on top of
+        // whatever food buffs give. 1 = no effect (default for every caste except Queen).
+        [DataField, AutoNetworkedField]
+        public float CasteStaminaDamageResist = 1f;
 
         [DataField, AutoNetworkedField]
         public List<MyrmexBuff> Buffs = [];

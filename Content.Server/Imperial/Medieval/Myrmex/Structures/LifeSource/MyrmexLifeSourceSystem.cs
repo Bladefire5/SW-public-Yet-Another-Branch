@@ -1,3 +1,4 @@
+using Content.Shared.Popups;
 using Content.Shared.Power;
 using Content.Shared.Myrmex.Hive;
 
@@ -6,6 +7,7 @@ namespace Content.Server.Myrmex.Structures;
 public sealed partial class MyrmexLifeSourceSystem : EntitySystem
 {
     [Dependency] private readonly SharedMyrmexHiveSystem _hive = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!; 
 
     public override void Initialize()
     {
@@ -49,8 +51,16 @@ public sealed partial class MyrmexLifeSourceSystem : EntitySystem
 
         if (apply)
         {
-            if (ent.Comp.Contributing || hive.Value.Comp.ActiveLifeSources >= hive.Value.Comp.MaxLifeSources)
+            if (ent.Comp.Contributing)
                 return;
+
+            // imperial medieval - same as the altar fix: tall the player instead of silently
+            // ignoring it. Doesnt touch MaxLifeSources itself or the altar system. 
+            if (hive.Value.Comp.ActiveLifeSources >= hive.Value.Comp.MaxLifeSources)
+            {
+                _popup.PopupEntity(Loc.GetString("medieval-myrmex-lifesource-limit-reached", ("max", hive.Value.Comp.MaxLifeSources)), ent.Owner);
+                return; 
+            }
 
             ent.Comp.Contributing = true;
             hive.Value.Comp.ActiveLifeSources++;
