@@ -461,6 +461,12 @@
       state: base
   - type: MyrmexHunger
   - type: MyrmexThreshold
+  # imperial medieval - required for TryAddStatusEffect (speed/shield bursts) to work at all;
+  # StatusEffectsSystem resolves this component and silently faild if its missing. 
+  - type: StatusEffects
+    allowed: 
+    - MedievalMyrmexSpeedBurst
+    - MedievalMyrmexShieldBurst
   - type: BorgHandsImperial
     whitelistHandTag: MyrmexCanTake
   - type: Hands
@@ -563,14 +569,14 @@
     - trigger:
         !type:DamageTypeTrigger
         damageType: Blunt
-        damage: 1000
+        damage: 2500
       behaviors:
       - !type:GoSSDBehavior { }
       - !type:GibBehavior { }
     - trigger:
         !type:DamageTypeTrigger
         damageType: Heat
-        damage: 1500
+        damage: 3200
       behaviors:
       - !type:GoSSDBehavior { }
       - !type:SpawnEntitiesBehavior
@@ -586,7 +592,7 @@
     - trigger:
         !type:DamageTypeTrigger
         damageType: Caustic
-        damage: 100
+        damage: 250
       behaviors:
       - !type:GoSSDBehavior { }
       - !type:SpawnEntitiesBehavior
@@ -623,20 +629,24 @@
       collection: MyrmexAttack
     damage:
       groups:
-        Brute: 11
+        Brute: 8
       types:
         ParryAble: 1
         Structural: 85
+  - type: APDamageOnHit
+    damage: 
+      types: 
+        Blunt: 3
   - type: MobThresholds
     thresholds:
       0: Alive
       65: Critical
       140: Dead
   - type: Stamina
-    critThreshold: 120 
+    critThreshold: 130 
     stunTime: 5
     cooldown: 2.5
-    decay: 3.5
+    decay: 4.8
     afterCritDecayMultiplier: 5
   - type: MovementSpeedModifier
     baseWalkSpeed: 3.2
@@ -696,10 +706,14 @@
       collection: MyrmexAttack
     damage:
       groups:
-        Brute: 12
+        Brute: 8
       types:
         ParryAble: 1
         Structural: 10
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 4
   - type: Gun
     fireRate: 0.75
     useKey: false
@@ -713,10 +727,10 @@
       100: Critical
       170: Dead
   - type: Stamina
-    critThreshold: 115
+    critThreshold: 125
     stunTime: 5
     cooldown: 2.5
-    decay: 3.5
+    decay: 4.9
     afterCritDecayMultiplier: 5
   - type: MovementSpeedModifier
     baseWalkSpeed: 3.4
@@ -757,8 +771,8 @@
   - type: Projectile
     damage:
       types:
-        Caustic: 7.0
-        Blunt: 6.0
+        Caustic: 8.0
+        Blunt: 7.0
         Structural: 10
 - type: entity
   name: myrmalisk
@@ -772,6 +786,9 @@
     layers:
     - map: [ "enum.DamageStateVisualLayers.Base" ]
       state: base
+  # imperial medieval - Elite (tank archetype, armored) resist incoming stamina damage
+  - type: MyrmexHunger
+    casteStaminaDamageResist: 0.7
   - type: Physics
   - type: MeleeWeapon
     animation: WeaponArcBite
@@ -783,20 +800,24 @@
       collection: MyrmexAttack
     damage:
       groups:
-        Brute: 26
+        Brute: 18
       types:
         ParryAble: 1
         Structural: 10
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 8
   - type: MobThresholds
     thresholds:
       0: Alive
       310: Critical # curse of 220. no. 310.
       450: Dead
   - type: Stamina
-    critThreshold: 160
+    critThreshold: 180
     stunTime: 4
     cooldown: 2.5
-    decay: 4
+    decay: 5.3 
     afterCritDecayMultiplier: 5
   - type: MovementSpeedModifier
     baseWalkSpeed: 3
@@ -852,20 +873,24 @@
       collection: MyrmexAttack
     damage:
       groups:
-        Brute: 18
+        Brute: 13
       types:
         ParryAble: 1
         Structural: 10
+  - type: APDamageOnHit
+    damage: 
+      types:
+        Blunt: 5
   - type: MobThresholds
     thresholds:
       0: Alive
       155: Critical
       270: Dead
   - type: Stamina
-    critThreshold: 140
+    critThreshold: 165
     stunTime: 5
     cooldown: 2.5
-    decay: 4
+    decay: 5.2
     afterCritDecayMultiplier: 5
   - type: MovementSpeedModifier
     baseWalkSpeed: 4.2
@@ -990,6 +1015,9 @@
   description: muravey ebanniy
   components:
   - type: MyrmexQueen
+  # imperial medieval - queen resists incoming stamina damage more than other castes
+  - type: MyrmexHunger
+    casteStaminaDamageResist: 0.65
   - type: Sprite
     drawdepth: Mobs
     sprite: Imperial/Medieval/Myrmex/Castes/myrmex_queen.rsi
@@ -1013,22 +1041,26 @@
       collection: MyrmexAttack
     damage:
       groups:
-        Brute: 30
+        Brute: 21
         Airloss: 2
       types:
-        ParryAble: 1
+        ParryAble: 0.7
         Bloodloss: 2
         Structural: 155
+  - type: APDamageOnHit
+    damage: 
+      types: 
+        Blunt: 9
   - type: MobThresholds
     thresholds:
       0: Alive
       750: Critical
       900: Dead
   - type: Stamina
-    critThreshold: 200
+    critThreshold: 220
     stunTime: 3
-    cooldown: 2.5
-    decay: 4
+    cooldown: 2.0
+    decay: 5.5
     afterCritDecayMultiplier: 5
   - type: MovementSpeedModifier
     baseWalkSpeed: 3
@@ -1079,14 +1111,14 @@
     - trigger:
         !type:DamageTypeTrigger
         damageType: Blunt
-        damage: 1000
+        damage: 2500
       behaviors:
       - !type:GoSSDBehavior { }
       - !type:GibBehavior { }
     - trigger:
         !type:DamageTypeTrigger
         damageType: Heat
-        damage: 1500
+        damage: 3200
       behaviors:
       - !type:GoSSDBehavior { }
       - !type:SpawnEntitiesBehavior
