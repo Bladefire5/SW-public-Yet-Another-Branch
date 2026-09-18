@@ -24,9 +24,13 @@
   id: DefaultMapPool
   maps:
   - MedievalStationMax
+  - MedievalStationVeryHighNR
   - MedievalStationVeryHigh
+  - MedievalStationNR
   - MedievalStation
+  - MedievalStationMediumOnlineNR
   - MedievalStationMediumOnline
+  - MedievalStationLowOnlineNR
   - MedievalStationLowOnline
 
 # Imperial Medieval End

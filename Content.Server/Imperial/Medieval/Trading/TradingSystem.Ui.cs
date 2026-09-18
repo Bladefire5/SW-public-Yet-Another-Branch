@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Server.Imperial.Medieval.UserInterface;
 using Content.Server.Verbs;
 using Content.Shared.FixedPoint;
 using Content.Shared.Examine;
@@ -31,9 +32,12 @@ public sealed partial class TradingSystem
     [Dependency] private readonly ExamineSystemShared _examine = default!;
     [Dependency] private readonly VerbSystem _verbSystem = default!;
     [Dependency] private readonly TradingItemDeliverySystem _delivery = default!;
+    [Dependency] private readonly MedievalUserInterfaceRateLimitSystem _uiRateLimit = default!;
 
     private void InitializeUi()
     {
+        _uiRateLimit.Register<TradingComponent>("TradingUi", OnUiMessageAttempt);
+
         Subs.BuiEvents<TradingComponent>(TradingUiKey.Key, subs =>
         {
             subs.Event<BoundUIOpenedEvent>(OnUiOpened);
@@ -58,7 +62,6 @@ public sealed partial class TradingSystem
         SubscribeLocalEvent<TradingComponent, TradingExamineCommodityMessage>(OnExamineCommodity);
         SubscribeLocalEvent<TradingComponent, TradingExecuteExamineVerbMessage>(OnExecuteExamineVerb);
         SubscribeLocalEvent<TradingComponent, TradingRequestWithdrawMessage>(OnRequestWithdraw);
-        SubscribeLocalEvent<TradingComponent, BoundUserInterfaceMessageAttempt>(OnUiMessageAttempt);
     }
 
     public void CloseUi(EntityUid uid, TradingComponent? component = null)
@@ -113,9 +116,9 @@ public sealed partial class TradingSystem
             viewer.SelectedOffer = null;
         }
 
-        RefreshVisibleMarketItems(user, store, component, market, isOwner, isPublic);
-        var selectedCommodity = viewer.SelectedCommodity;
         var offersByCommodity = visibleOffers.ToLookup(offer => offer.CommodityId);
+        RefreshVisibleMarketItems(user, store, component, market, isOwner, isPublic, publicCommodities, offersByCommodity);
+        var selectedCommodity = viewer.SelectedCommodity;
 
         var items = market.Comp.Commodities.Values
             .Where(commodity => isPublic
@@ -200,7 +203,9 @@ public sealed partial class TradingSystem
                 sale.Id,
                 sale.ItemName,
                 sale.BuyerName,
-                sale.Price))
+                sale.Price,
+                sale.ReceiptAmount,
+                sale.SellerRevenue))
             .ToList();
 
         _ui.ServerSendUiMessage(
@@ -358,6 +363,9 @@ public sealed partial class TradingSystem
             offer.ParticipantKind,
             offer.ParticipantName,
             offer.Price,
+            isOwner && offer.Pit == store && offer.Side == TradingOfferSide.Sell
+                ? GetPendingBidReceiptAmount(offer.Id)
+                : 0,
             isOwner && offer.Pit == store,
             displayName,
             preview);
@@ -1051,7 +1059,7 @@ public sealed partial class TradingSystem
 
         var sale = component.PendingSales[index];
         component.PendingSales.RemoveAt(index);
-        component.Balance += sale.Price;
+        component.Balance += sale.SellerRevenue;
         component.MarketArchive.Add(
             Loc.GetString(
                 "trading-ui-archive-sell-entry",
@@ -1330,7 +1338,9 @@ public sealed partial class TradingSystem
         TradingComponent component,
         Entity<TradingMarketComponent> market,
         bool isOwner,
-        bool isPublic)
+        bool isPublic,
+        HashSet<Guid> publicCommodities,
+        ILookup<Guid, TradingMarketOffer> offersByCommodity)
     {
         if (!TryComp<ActorComponent>(user, out var actor))
             return;
@@ -1338,12 +1348,12 @@ public sealed partial class TradingSystem
         var viewer = EnsureComp<TradingMarketViewerComponent>(user);
         var desired = market.Comp.Commodities.Values
             .Where(commodity => isPublic
-                ? GetLowestPublicSellOffer(market.Comp.Offers.Values, commodity.Id) != null
+                ? publicCommodities.Contains(commodity.Id)
                 : isOwner || (commodity.Sections & TradingMarketSection.Unique) != 0)
             .Select(commodity => (isPublic
-                ? GetLowestPublicSellOffer(market.Comp.Offers.Values, commodity.Id)
+                ? GetLowestPublicSellOffer(offersByCommodity[commodity.Id], commodity.Id)
                 : GetLowestSellOffer(
-                    market.Comp.Offers.Values,
+                    offersByCommodity[commodity.Id],
                     commodity.Id,
                     isOwner ? store : null))?.Item)
             .Where(item => item != null && Exists(item.Value))

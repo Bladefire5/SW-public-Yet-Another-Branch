@@ -1,5 +1,8 @@
 using System.Numerics;
 using Content.Server.DoAfter;
+using Content.Server.Body.Systems;
+using Content.Shared.Damage.Systems;
+using Content.Shared.DoAfter;
 using Content.Server.Interaction;
 using Content.Server.Myrmex.Components;
 using Content.Server.Stealth;
@@ -26,6 +29,8 @@ public sealed partial class MyrmexSystem : EntitySystem
     [Dependency] private readonly InteractionSystem _actSys = default!;
     [Dependency] private readonly StealthSystem _stealthSys = default!;
     [Dependency] private readonly ITimerManager _timerMan = default!;
+    [Dependency] private readonly SharedStaminaSystem _staminaSys = default!;
+    [Dependency] private readonly BloodstreamSystem _bloodstreamSys = default!;
 
     public void InitializeActions()
     {
@@ -83,12 +88,10 @@ public sealed partial class MyrmexSystem : EntitySystem
     {
         if (!_actSys.InRangeUnobstructed(ent, GetPosInfront(ent)))
             return;
-
-        ActionMyrmexSpawnDoAfterEvent ev = new() { Proto = args.Proto };
+        // imperial medieval - no args.Handled here, cooldown starts in OnSpawnDoAfter on success
+        ActionMyrmexSpawnDoAfterEvent ev = new() { Proto = args.Proto, ActionUid = GetNetEntity(args.Action) };
         DoAfterArgs doAfterArgs = new(EntityManager, ent, args.DoAfterDuration, ev, ent) { BreakOnMove = true, BreakOnDamage = true };
         _doAfterSys.TryStartDoAfter(doAfterArgs);
-
-        args.Handled = true;
     }
 
     private void OnToggleStealth(Entity<MyrmexComponent> ent, ref ActionMyrmexToggleStealthEvent args)
@@ -101,6 +104,11 @@ public sealed partial class MyrmexSystem : EntitySystem
     private void OnHeal(Entity<MyrmexComponent> ent, ref ActionMyrmexHealEvent args)
     {
         _damageable.TryChangeDamage(args.Target, args.HealedDamage, true);
+
+        // imperial medieval - stop bleeding too, not just raw damage
+        if (args.BleedReduction > 0f)
+            _bloodstreamSys.TryModifyBleedAmount(args.Target, -args.BleedReduction);
+
         args.Handled = true;
     }
 
@@ -128,9 +136,16 @@ public sealed partial class MyrmexSystem : EntitySystem
 
         ent.Comp.StunActive = false;
 
+        // imperial medieval - HitEntities isnt friendly-fire filtered yet at this point, 
+        // unlike the later damage pass, so check manually
         foreach (EntityUid hitEnt in args.HitEntities)
         {
-            _stunSys.TryAddStunDuration(hitEnt, ent.Comp.StunDuration);
+            if(HasComp<MyrmexHungerComponent>(hitEnt))
+               continue;
+
+            // imperial medieval - real knockdown = full stamina wipe, ignoring the targets resist
+            _staminaSys.TakeStaminaDamage(hitEnt, 9999f, ignoreResist: true);
+            _stunSys.TryKnockdown(hitEnt, ent.Comp.StunDuration, true);
         }
     }
 
@@ -150,6 +165,8 @@ public sealed partial class MyrmexSystem : EntitySystem
         if (_actSys.InRangeUnobstructed(ent, coords))
         {
             Spawn(args.Proto, coords);
+            // imperial medieval - cooldown starts on success. not on DoAfter start
+            _actions.StartUseDelay(GetEntity(args.ActionUid));
             args.Handled = true;
         }
     }

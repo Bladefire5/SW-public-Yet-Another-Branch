@@ -3,6 +3,7 @@ using Content.Server.Humanoid;
 using Content.Shared.Chat.TypingIndicator;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Prototypes;
+using Content.Shared.Imperial.LocalLight;
 using Content.Shared.Imperial.Medieval.Magic.Mana;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
@@ -56,6 +57,12 @@ public sealed class NocturneConversionSystem : EntitySystem
 
         var nocturne = EnsureComp<NocturnComponent>(target);
         nocturne.UnmaskedSpecies = configuration.ConversionSpecies;
+        var localLight = EnsureComp<LocalLightComponent>(target);
+        localLight.Radius = configuration.ConversionNightVisionRadius;
+        localLight.Energy = configuration.ConversionNightVisionEnergy;
+        localLight.Enabled = true;
+        Dirty(target, localLight);
+
         if (TryComp<TypingIndicatorComponent>(target, out var typingIndicator))
         {
             typingIndicator.TypingIndicatorPrototype = nocturne.TypingIndicatorPrototypeMod;

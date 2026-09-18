@@ -243,6 +243,8 @@
       prob: 0.1
     - id: MedievalClothingHeadArcherHat
       prob: 0.1
+    - id: MedievalWeaponCrossbowHeavy
+      prob: 0.1
     - id: MedievalClothingBackpackBox
       prob: 0.09
     - id: MedievalClothingOuterArmorLeather

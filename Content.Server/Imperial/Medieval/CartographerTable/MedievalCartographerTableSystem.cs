@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Numerics;
+using Content.Server.Imperial.Medieval.UserInterface;
 using Content.Shared.Examine;
 using Content.Shared.Imperial.Medieval;
 using Content.Shared.Imperial.Medieval.CartographerTable;
@@ -23,12 +24,15 @@ public sealed class MedievalCartographerTableSystem : EntitySystem
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly MedievalUserInterfaceRateLimitSystem _uiRateLimit = default!;
 
     private float _updateTimer;
 
     public override void Initialize()
     {
         base.Initialize();
+
+        _uiRateLimit.Register<MedievalCartographerTableComponent>("CartographerUi");
 
         Subs.BuiEvents<MedievalCartographerTableComponent>(RadarConsoleUiKey.Key, subs =>
         {

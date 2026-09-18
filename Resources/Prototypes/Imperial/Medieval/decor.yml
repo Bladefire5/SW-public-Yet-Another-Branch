@@ -3219,6 +3219,11 @@
     color: red
     castShadows: false
   - type: MagicBarrier
+  # Seeds sight for the Collegium watcher the way a camera does for the station AI. Unoccluded so the watcher can
+  # oversee the whole hall. Only covers this grid, and only while the barrier is near the viewport.
+  - type: StationAiVision
+    range: 28
+    occluded: false
   - type: MagicPotionsRecipes
   - type: AmbientSound
     volume: -3

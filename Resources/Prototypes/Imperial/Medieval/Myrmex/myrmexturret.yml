@@ -4,6 +4,7 @@
   name: myrmex turret
   description: Shoots 9mm acid projectiles.
   components:
+  - type: MyrmexHunger # imperial medieval - marks the turret as "myrmex-owned" so its bullets don't hurt the hive
   - type: NpcFactionMember
     factions:
     - Dragon

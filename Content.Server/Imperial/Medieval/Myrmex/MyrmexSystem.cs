@@ -11,6 +11,7 @@ using Content.Shared.Body.Components;
 using Content.Shared.Damage;
 using Content.Shared.Examine;
 using Content.Shared.Imperial.Zlevels;
+using Content.Shared.Imperial.Medieval.Myrmex; // imperial medieval - MyrmexHungerComponent
 using Content.Shared.Inventory;
 using Content.Shared.Jittering;
 using Content.Shared.Maps;
@@ -55,11 +56,23 @@ namespace Content.Server.Myrmex
         public override void Initialize()
         {
             SubscribeLocalEvent<MyrmexComponent, ComponentStartup>(OnMyrmexStartup);
+            SubscribeLocalEvent<MyrmexHungerComponent, BeforeDamageChangedEvent>(OnFriendlyFirePrevention); //imperial medieval - backstop for indirect damage (acid,turret)
             SubscribeLocalEvent<MyrmexEggComponent, ExaminedEvent>(OnEggExamined);
             SubscribeLocalEvent<MyrmexEggComponent, ComponentStartup>(OnEggStartup);
             SubscribeLocalEvent<MyrmexHoleComponent, ComponentStartup>(OnHoleStartup);
 
             InitializeActions();
+        }
+
+        // imperial medieval - backstop for indirect myrmex damage (spitter acid, turret)
+        private void OnFriendlyFirePrevention(EntityUid uid, MyrmexHungerComponent comp, ref BeforeDamageChangedEvent args)
+        {
+            if (args.Origin is not { } origin)
+                return;
+
+            if (!HasComp<MyrmexHungerComponent>(origin))
+                return;
+            args.Cancelled = true; 
         }
 
         private void OnMyrmexStartup(Entity<MyrmexComponent> myrmex, ref ComponentStartup args)

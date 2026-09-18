@@ -7,4 +7,7 @@ public sealed partial class NocturnBloodDrainSpellComponent : Component
 {
     [DataField(required: true)]
     public float BloodDrain;
+
+    [DataField]
+    public float BloodDrainFraction;
 }

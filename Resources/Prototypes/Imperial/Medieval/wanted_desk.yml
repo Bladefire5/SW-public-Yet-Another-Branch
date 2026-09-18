@@ -6,7 +6,7 @@
   components:
   - type: Transform
     noRot: true
-  - type: WantedDesk
+  - type: CalendarBoard
   - type: Damageable
     damageContainer: StructuralInorganic
   - type: Destructible
@@ -18,11 +18,13 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: ActivatableUI
-    key: enum.WantedDeskUiKey.Key
+    requireActiveHand: false
+    requiresComplex: false
+    key: enum.CalendarBoardUiKey.Key
   - type: UserInterface
     interfaces:
-        enum.WantedDeskUiKey.Key:
-          type: WantedDeskBoundUserInterface
+      enum.CalendarBoardUiKey.Key:
+        type: CalendarBoardBoundUserInterface
   - type: InteractionOutline
   - type: Sprite
     sprite: Imperial/Medieval/Structures/wanted_desk.rsi

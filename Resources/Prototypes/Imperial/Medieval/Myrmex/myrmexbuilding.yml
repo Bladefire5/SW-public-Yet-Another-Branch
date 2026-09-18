@@ -1127,18 +1127,6 @@
           sprite: Imperial/Medieval/Myrmex/resin.rsi
           state: clearresin
         doAfter: 1
-      - tag: MyrmexResourceYant
-        name: янтарь # Imperial Recipes Locale
-        icon:
-          sprite: Imperial/Medieval/Myrmex/resin.rsi
-          state: clearresin
-        doAfter: 1
-      - tag: MyrmexResourceYant
-        name: янтарь # Imperial Recipes Locale
-        icon:
-          sprite: Imperial/Medieval/Myrmex/resin.rsi
-          state: clearresin
-        doAfter: 1
       - tag: MedievalAntHitin
         name: хитин # Imperial Recipes Locale
         icon:

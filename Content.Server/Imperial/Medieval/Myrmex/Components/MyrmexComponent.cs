@@ -10,7 +10,7 @@ namespace Content.Server.Myrmex.Components;
 public sealed partial class MyrmexComponent : Component
 {
     [DataField]
-    public List<EntProtoId> Actions;
+    public List<EntProtoId> Actions = new();
 
     [DataField]
     public float CurrentSpeedMultiplier = 1;

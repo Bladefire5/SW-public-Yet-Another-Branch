@@ -5,6 +5,9 @@ using Content.Server.Chat.Systems;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
 using Content.Server.Humanoid;
+using Content.Server.Imperial.Medieval.IdentityManagement;
+using Content.Server.Imperial.Medieval.TTS;
+using Content.Server.Mind;
 using Content.Server.Nocturn;
 using Content.Server.Preferences.Managers;
 using Content.Server.Roles;
@@ -12,8 +15,11 @@ using Content.Shared.GameTicking.Components;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Mind;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Nocturn.Components;
 using Content.Shared.Preferences;
+using Robust.Shared.Map;
+using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Player;
 using Robust.Shared.Random;
@@ -24,8 +30,14 @@ public sealed class AncientNocturneSpawnRuleSystem : GameRuleSystem<AncientNoctu
 {
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly HumanoidAppearanceSystem _humanoidAppearance = default!;
+    [Dependency] private readonly MedievalIdentitySystem _identity = default!;
+    [Dependency] private readonly MarkingManager _markingManager = default!;
     [Dependency] private readonly MetaDataSystem _metaData = default!;
+    [Dependency] private readonly MedievalTtsSystem _tts = default!;
+    [Dependency] private readonly MindSystem _mind = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly IServerPreferencesManager _preferences = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly RoleSystem _role = default!;
 
@@ -35,6 +47,12 @@ public sealed class AncientNocturneSpawnRuleSystem : GameRuleSystem<AncientNoctu
 
         SubscribeLocalEvent<AncientNocturneComponent, PlayerAttachedEvent>(OnAncientNocturneAttached);
         SubscribeLocalEvent<HellfireInquisitionMemberComponent, PlayerAttachedEvent>(OnInquisitorAttached);
+    }
+
+    public bool CanStartNocturneEvent()
+    {
+        return EntityManager.AllEntities<AncientNocturneSpawnMarkerComponent>()
+            .Any(marker => !marker.Comp.Used);
     }
 
     protected override void Started(
@@ -84,39 +102,38 @@ public sealed class AncientNocturneSpawnRuleSystem : GameRuleSystem<AncientNoctu
         if (component.ProfileApplied)
             return;
 
-        if (!_preferences.TryGetCachedPreferences(args.Player.UserId, out var preferences))
-        {
-            Log.Error($"Ancient nocturne ghost role taken without cached preferences for {args.Player.UserId}");
-            return;
-        }
-
-        var profiles = preferences.Characters.Values
-            .OfType<HumanoidCharacterProfile>()
-            .Where(profile => !string.IsNullOrWhiteSpace(profile.Name))
-            .ToList();
-
-        if (profiles.Count == 0)
-        {
-            Log.Error($"Ancient nocturne ghost role taken without character profiles for {args.Player.UserId}");
-            return;
-        }
-
         if (!TryComp<HumanoidAppearanceComponent>(uid, out var humanoid))
         {
             Log.Error($"Ancient nocturne ghost role spawned without humanoid appearance for {args.Player.UserId}");
             return;
         }
 
-        var profile = _random.Pick(profiles);
+        var profile = GetProfile(args.Player.UserId, out var randomProfile);
+        var appearance = HumanoidCharacterAppearance.EnsureValid(profile.Appearance, humanoid.Species, profile.Sex);
         _metaData.SetEntityName(uid, profile.Name);
+        if (_mind.TryGetMind(args.Player, out var mindUid, out var mind))
+        {
+            mind.CharacterName = profile.Name;
+            Dirty(mindUid, mind);
+        }
+
         _humanoidAppearance.SetSex(uid, profile.Sex, false, humanoid);
         _humanoidAppearance.SetGender((uid, humanoid), profile.Gender);
         humanoid.MarkingSet.RemoveCategory(MarkingCategories.Hair);
-        _humanoidAppearance.AddMarking(
-            uid,
-            profile.Appearance.HairStyleId,
-            profile.Appearance.HairColor,
-            humanoid: humanoid);
+
+        if (_markingManager.Markings.TryGetValue(appearance.HairStyleId, out var hair) &&
+            _markingManager.CanBeApplied(humanoid.Species, profile.Sex, hair, _prototypeManager))
+        {
+            _humanoidAppearance.AddMarking(
+                uid,
+                appearance.HairStyleId,
+                appearance.HairColor,
+                false,
+                humanoid: humanoid);
+        }
+
+        Dirty(uid, humanoid);
+        _tts.ApplyProfileVoice(uid, profile, randomProfile);
         component.ProfileApplied = true;
     }
 
@@ -157,13 +174,23 @@ public sealed class AncientNocturneSpawnRuleSystem : GameRuleSystem<AncientNoctu
             var name = mind.Comp.CharacterName;
             if (string.IsNullOrWhiteSpace(name))
             {
-                name = owner is { } ownerUid
-                    ? Name(ownerUid)
+                name = owner is { } ownerUid && TryName(ownerUid, out var ownerName)
+                    ? ownerName
                     : Loc.GetString("medieval-ancient-nocturne-round-end-unknown-name");
             }
 
-            if (owner is not { } bloodRubyOwner ||
-                !TryComp<BloodRubyOwnerComponent>(bloodRubyOwner, out var ownerComponent) ||
+            if (owner is not { } nocturneUid ||
+                TerminatingOrDeleted(nocturneUid) ||
+                Transform(nocturneUid).MapID == MapId.Nullspace ||
+                _mobState.IsDead(nocturneUid))
+            {
+                args.AddLine(Loc.GetString(
+                    "medieval-ancient-nocturne-round-end-did-not-survive",
+                    ("name", name)));
+                continue;
+            }
+
+            if (!TryComp<BloodRubyOwnerComponent>(nocturneUid, out var ownerComponent) ||
                 ownerComponent.BloodRuby is not { } ruby ||
                 TerminatingOrDeleted(ruby) ||
                 !TryComp<BloodRubyComponent>(ruby, out var rubyComponent))
@@ -189,33 +216,62 @@ public sealed class AncientNocturneSpawnRuleSystem : GameRuleSystem<AncientNoctu
         if (component.ProfileApplied)
             return;
 
-        if (!_preferences.TryGetCachedPreferences(args.Player.UserId, out var preferences))
-        {
-            Log.Error($"Hellfire inquisitor ghost role taken without cached preferences for {args.Player.UserId}");
-            return;
-        }
-
-        var profiles = preferences.Characters.Values
-            .OfType<HumanoidCharacterProfile>()
-            .Where(profile => !string.IsNullOrWhiteSpace(profile.Name))
-            .ToList();
-
-        if (profiles.Count == 0)
-        {
-            Log.Error($"Hellfire inquisitor ghost role taken without character profiles for {args.Player.UserId}");
-            return;
-        }
-
         if (!TryComp<HumanoidAppearanceComponent>(uid, out var humanoid))
         {
             Log.Error($"Hellfire inquisitor ghost role spawned without humanoid appearance for {args.Player.UserId}");
             return;
         }
 
-        var profile = _random.Pick(profiles).WithSpecies("Human");
-        _metaData.SetEntityName(uid, profile.Name);
-        _humanoidAppearance.LoadProfile(uid, profile, humanoid);
+        var profile = GetProfile(args.Player.UserId, out var randomProfile);
+        var appearance = HumanoidCharacterAppearance.EnsureValid(profile.Appearance, humanoid.Species, profile.Sex);
+        var inquisitionProfile = profile
+            .WithSpecies(humanoid.Species)
+            .WithCharacterAppearance(appearance);
+
+        _metaData.SetEntityName(uid, inquisitionProfile.Name);
+        _humanoidAppearance.LoadProfile(uid, inquisitionProfile, humanoid);
+        _tts.ApplyProfileVoice(uid, profile, randomProfile);
         component.ProfileApplied = true;
+        IntroduceInquisition(uid);
+    }
+
+    private HumanoidCharacterProfile GetProfile(NetUserId userId, out bool randomProfile)
+    {
+        if (_preferences.TryGetCachedPreferences(userId, out var preferences))
+        {
+            var profiles = preferences.Characters.Values
+                .OfType<HumanoidCharacterProfile>()
+                .Where(profile => !string.IsNullOrWhiteSpace(profile.Name))
+                .ToList();
+
+            if (profiles.Count > 0)
+            {
+                randomProfile = false;
+                return _random.Pick(profiles);
+            }
+        }
+
+        randomProfile = true;
+        return HumanoidCharacterProfile.RandomWithSpecies();
+    }
+
+    private void IntroduceInquisition(EntityUid inquisitor)
+    {
+        var mapId = Transform(inquisitor).MapID;
+        var query = EntityQueryEnumerator<HellfireInquisitionMemberComponent, TransformComponent>();
+        while (query.MoveNext(out var other, out _, out var otherTransform))
+        {
+            if (other == inquisitor || otherTransform.MapID != mapId)
+                continue;
+
+            IntroduceInquisitors(inquisitor, other);
+        }
+    }
+
+    private void IntroduceInquisitors(EntityUid inquisitor, EntityUid other)
+    {
+        _identity.IntroduceSilently(other, inquisitor);
+        _identity.IntroduceSilently(inquisitor, other);
     }
 
     private void StartInquisitionTimer(EntityUid uid, AncientNocturneSpawnRuleComponent component)

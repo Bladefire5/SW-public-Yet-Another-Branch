@@ -46,6 +46,7 @@ public sealed partial class TradingMenu : DefaultWindow
     public event Action<Guid, int>? OnCreateBuyOffer;
     public event Action<int>? OnCreateBuyOfferFromHeld;
     public event Action<Guid>? OnCancelOffer;
+    public event Action<Guid, int>? OnCreateBidReceipt;
     public event Action<NetEntity>? OnCollectStoredItem;
     public event Action<Guid>? OnCollectSaleRevenue;
     public event Action<NetEntity>? OnExamineItem;
@@ -62,6 +63,8 @@ public sealed partial class TradingMenu : DefaultWindow
     private StoreWithdrawWindow? _withdrawWindow;
     private TradingUnitSellWindow? _unitSellWindow;
     private Guid? _unitSellRequest;
+    private TradingBidReceiptWindow? _bidReceiptWindow;
+    private Guid? _bidReceiptOffer;
     private TradingHelpWindow? _helpWindow;
     private bool _management;
     private bool _archive;
@@ -116,6 +119,8 @@ public sealed partial class TradingMenu : DefaultWindow
             _withdrawWindow?.Close();
             _unitSellWindow?.Close();
             _unitSellRequest = null;
+            _bidReceiptWindow?.Close();
+            _bidReceiptOffer = null;
         }
         else if (!state.IsOwner)
         {
@@ -126,6 +131,8 @@ public sealed partial class TradingMenu : DefaultWindow
             _withdrawWindow?.Close();
             _unitSellWindow?.Close();
             _unitSellRequest = null;
+            _bidReceiptWindow?.Close();
+            _bidReceiptOffer = null;
         }
 
         UpdateBalance();
@@ -159,6 +166,7 @@ public sealed partial class TradingMenu : DefaultWindow
         RebuildArchive();
         UpdateSectionVisibility();
         UpdateHeldItem();
+        UpdateBidReceiptWindow();
     }
 
     private void SelectSection(TradingMarketSection section)
@@ -612,15 +620,42 @@ public sealed partial class TradingMenu : DefaultWindow
 
         foreach (var offer in ownOffers)
         {
+            var status = Loc.GetString(
+                "trading-ui-managed-offer-status",
+                ("side", GetOfferSideText(offer.Side)),
+                ("price", offer.Price));
+            if (offer.Side == TradingOfferSide.Sell)
+            {
+                status += "\n" + Loc.GetString(
+                    "trading-ui-managed-offer-seller-revenue",
+                    ("amount", Math.Max(0, offer.Price - offer.ReceiptAmount)));
+                if (offer.ReceiptAmount > 0)
+                {
+                    status += "\n" + Loc.GetString(
+                        "trading-ui-managed-offer-receipt-revenue",
+                        ("amount", offer.ReceiptAmount));
+                }
+            }
+
             var row = CreateManagementRow(
                 offer.ProductEntity,
                 offer.PreviewEntity,
                 offer.CommodityId,
                 offer.DisplayName,
-                Loc.GetString(
-                    "trading-ui-managed-offer-status",
-                    ("side", GetOfferSideText(offer.Side)),
-                    ("price", offer.Price)));
+                status);
+            if (offer.Side == TradingOfferSide.Sell)
+            {
+                var available = Math.Max(0, offer.Price - offer.ReceiptAmount);
+                var createReceipt = new Button
+                {
+                    Text = Loc.GetString("trading-ui-create-bid-receipt-button"),
+                    MinWidth = 150,
+                    Disabled = available <= 0,
+                };
+                createReceipt.OnPressed += _ => OpenBidReceiptWindow(offer, available);
+                row.AddChild(createReceipt);
+            }
+
             var cancel = new Button
             {
                 Text = Loc.GetString(offer.Side == TradingOfferSide.Sell
@@ -654,14 +689,37 @@ public sealed partial class TradingMenu : DefaultWindow
                 HorizontalExpand = true,
                 Margin = new Thickness(4),
             };
-            row.AddChild(new Label
+            var labels = new BoxContainer
+            {
+                Orientation = BoxContainer.LayoutOrientation.Vertical,
+                HorizontalExpand = true,
+                VerticalAlignment = VAlignment.Center,
+            };
+            labels.AddChild(new Label
             {
                 Text = message,
                 ToolTip = message,
-                HorizontalExpand = true,
                 ClipText = true,
-                VerticalAlignment = VAlignment.Center,
             });
+            labels.AddChild(new Label
+            {
+                Text = Loc.GetString(
+                    "trading-ui-pending-sale-seller-revenue",
+                    ("amount", sale.SellerRevenue)),
+                StyleClasses = { "LabelSubText" },
+            });
+            if (sale.ReceiptAmount > 0)
+            {
+                labels.AddChild(new Label
+                {
+                    Text = Loc.GetString(
+                        "trading-ui-pending-sale-receipt-revenue",
+                        ("amount", sale.ReceiptAmount)),
+                    StyleClasses = { "LabelSubText" },
+                });
+            }
+
+            row.AddChild(labels);
             var collect = new Button
             {
                 Text = Loc.GetString("trading-ui-collect-sale-revenue-button"),
@@ -940,6 +998,53 @@ public sealed partial class TradingMenu : DefaultWindow
         _unitSellWindow.OpenCentered();
     }
 
+    private void OpenBidReceiptWindow(TradingMarketOfferState offer, int maximumAmount)
+    {
+        if (_state is not { IsOwner: true } || maximumAmount <= 0)
+            return;
+
+        if (_bidReceiptWindow is { IsOpen: true } && _bidReceiptOffer == offer.Id)
+        {
+            _bidReceiptWindow.SetMaximumAmount(maximumAmount);
+            _bidReceiptWindow.MoveToFront();
+            return;
+        }
+
+        _bidReceiptWindow?.Close();
+        _bidReceiptOffer = offer.Id;
+        _bidReceiptWindow = new TradingBidReceiptWindow(maximumAmount);
+        _bidReceiptWindow.OnConfirm += amount =>
+        {
+            if (_bidReceiptOffer is not { } offerId)
+                return;
+
+            _bidReceiptOffer = null;
+            OnCreateBidReceipt?.Invoke(offerId, amount);
+        };
+        _bidReceiptWindow.OpenCentered();
+    }
+
+    private void UpdateBidReceiptWindow()
+    {
+        if (_bidReceiptWindow is not { IsOpen: true } ||
+            _state is not { IsOwner: true } ||
+            _bidReceiptOffer is not { } offerId)
+        {
+            return;
+        }
+
+        var offer = _state.Offers.FirstOrDefault(candidate => candidate.Id == offerId);
+        var maximumAmount = offer == null ? 0 : Math.Max(0, offer.Price - offer.ReceiptAmount);
+        if (offer == null || offer.Side != TradingOfferSide.Sell || maximumAmount <= 0)
+        {
+            _bidReceiptWindow.Close();
+            _bidReceiptOffer = null;
+            return;
+        }
+
+        _bidReceiptWindow.SetMaximumAmount(maximumAmount);
+    }
+
     private void OpenWithdrawWindow()
     {
         if (_state is not { IsOwner: true } || _currency == null)
@@ -991,6 +1096,7 @@ public sealed partial class TradingMenu : DefaultWindow
         base.Close();
         _withdrawWindow?.Close();
         _unitSellWindow?.Close();
+        _bidReceiptWindow?.Close();
         _helpWindow?.Close();
 
         foreach (var entity in _prototypeExamineEntities.Values)

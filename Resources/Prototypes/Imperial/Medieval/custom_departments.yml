@@ -85,6 +85,7 @@
   - MedievalCollegiumRecruit
   - MedievalCollegiumCommon
   - MedievalCollegiumLeader
+  - MedievalCollegiumAi
 
 - type: department
   id: Tribe

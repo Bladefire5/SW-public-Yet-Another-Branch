@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Numerics;
+using Content.Server.Imperial.Medieval.UserInterface;
 using Content.Server.Popups;
 using Content.Server.Stack;
 using Content.Server.Store.Components;
@@ -40,10 +41,13 @@ public sealed class ShipBuyTerminalSystem : EntitySystem
     [Dependency] private readonly MapSystem _map = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly MedievalUserInterfaceRateLimitSystem _uiRateLimit = default!;
 
     public override void Initialize()
     {
         base.Initialize();
+
+        _uiRateLimit.Register<ShipBuyTerminalComponent>("ShipBuyTerminalUi");
 
         SubscribeLocalEvent<ShipBuyTerminalComponent, ActivatableUIOpenAttemptEvent>(OnOpenAttempt);
         SubscribeLocalEvent<ShipBuyTerminalComponent, BeforeActivatableUIOpenEvent>(OnBeforeUiOpen);

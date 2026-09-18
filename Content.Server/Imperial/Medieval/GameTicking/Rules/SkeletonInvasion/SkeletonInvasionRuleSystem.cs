@@ -25,6 +25,7 @@ using Content.Shared.Chat;
 using Robust.Shared.Player;
 using Content.Server.Ghost.Roles.Events;
 using Content.Shared.Imperial.Medieval.SkeletonInvasion;
+using Content.Server.GameTicking.Systems;
 
 namespace Content.Server.Imperial.Medieval.GameTicking.Rules;
 
@@ -41,6 +42,8 @@ public sealed class SkeletonInvasionRuleSystem : GameRuleSystem<SkeletonInvasion
     [Dependency] private readonly AudioSystem _audio = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly StorageSystem _storage = default!;
+
+    [Dependency] private readonly AutoRoundExtendSystem _autoRoundExtend = default!;
 
     private EntityUid _bossUid = EntityUid.Invalid;
     private RoundResult _result = RoundResult.NoBoss;
@@ -190,6 +193,8 @@ public sealed class SkeletonInvasionRuleSystem : GameRuleSystem<SkeletonInvasion
 
         _boss.StartBossfight(bossfightPlayers, _bossUid);
         _result = RoundResult.BossWon;
+
+        _autoRoundExtend.ForceExtendRound(TimeSpan.FromMinutes(10));
     }
 
     private void OnBossDefeated(ref BossDefeatedEvent args)

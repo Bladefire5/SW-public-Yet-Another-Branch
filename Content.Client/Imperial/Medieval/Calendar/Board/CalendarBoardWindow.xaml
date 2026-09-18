@@ -1,0 +1,42 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               xmlns:controls="clr-namespace:Robust.Client.UserInterface.Controls;assembly=Robust.Client"
+               Title="{Loc 'calendar-board-window-title'}"
+               MinSize="1075 550">
+    <TabContainer Name="Tabs" HorizontalExpand="True" VerticalExpand="True">
+
+        <BoxContainer Name="WantedTab" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="5">
+            <ScrollContainer HorizontalExpand="True" VerticalExpand="True">
+                <GridContainer Name="WantedGrid" Columns="4" HorizontalExpand="True" VerticalExpand="True" />
+            </ScrollContainer>
+        </BoxContainer>
+
+        <BoxContainer Name="CalendarTab" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="5">
+            <TabContainer Name="CalendarSubTabs" HorizontalExpand="True" VerticalExpand="True">
+
+                <BoxContainer Name="DayDeckTab" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="5">
+                    <ScrollContainer HorizontalExpand="True" VerticalExpand="True">
+                        <GridContainer Name="DayCalendarGrid" Columns="4" HorizontalExpand="True" VerticalExpand="True" />
+                    </ScrollContainer>
+                </BoxContainer>
+
+                <BoxContainer Name="NightDeckTab" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="5">
+                    <ScrollContainer HorizontalExpand="True" VerticalExpand="True">
+                        <GridContainer Name="NightCalendarGrid" Columns="4" HorizontalExpand="True" VerticalExpand="True" />
+                    </ScrollContainer>
+                </BoxContainer>
+
+            </TabContainer>
+        </BoxContainer>
+
+        <BoxContainer Name="AnnouncementsTab" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="5">
+            <ScrollContainer HorizontalExpand="True" VerticalExpand="True" HScrollEnabled="False">
+                <BoxContainer Name="AnnouncementsList" Orientation="Vertical" HorizontalExpand="True" />
+            </ScrollContainer>
+
+            <BoxContainer Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5 0 0">
+                <Button Name="CreateAnnouncementButton" Text="{Loc 'calendar-board-create-announcement'}" />
+            </BoxContainer>
+        </BoxContainer>
+
+    </TabContainer>
+</DefaultWindow>

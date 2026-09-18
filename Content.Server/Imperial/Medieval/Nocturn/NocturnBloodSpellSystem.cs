@@ -50,10 +50,11 @@ public sealed class NocturnBloodSpellSystem : EntitySystem
             return;
         }
 
+        var bloodCost = component.BloodDrain + nocturn.BloodLevel * component.BloodDrainFraction;
         var reservedBlood = nocturn.CastedBloodSpells.Values.Sum();
         var availableBlood = nocturn.BloodLevel - nocturn.MinimumBloodLevelForSpells - reservedBlood;
 
-        if (availableBlood < component.BloodDrain)
+        if (availableBlood < bloodCost)
         {
             _popup.PopupEntity(
                 Loc.GetString("medieval-nocturn-not-enough-blood"),
@@ -64,7 +65,7 @@ public sealed class NocturnBloodSpellSystem : EntitySystem
             return;
         }
 
-        nocturn.CastedBloodSpells.Add(uid, component.BloodDrain);
+        nocturn.CastedBloodSpells.Add(uid, bloodCost);
         args.HasResourceReservation = true;
     }
 

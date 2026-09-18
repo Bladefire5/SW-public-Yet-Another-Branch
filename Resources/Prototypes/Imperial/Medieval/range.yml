@@ -5,7 +5,7 @@
   description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
   components:
   - type: RDWeight
-    value: 7
+    value: 5
   - type: Sprite
     sprite: Imperial/Medieval/Gun/crossbow.rsi
   - type: Clothing
@@ -22,7 +22,7 @@
   - type: Gun
     defaultSpread: 10
     resetOnHandSelected: false
-    fireRate: 0.12
+    fireRate: 0.25
     selectedMode: FullAuto
     availableModes:
     - FullAuto
@@ -31,14 +31,17 @@
   - type: StealTarget # imperial medieval
     stealGroup: MedievalGetMedievalWeaponCrossbow # imperial medieval
   - type: HeldSpeedModifier
-    walkModifier: 0.7
-    sprintModifier: 0.7
+    walkModifier: 0.8
+    sprintModifier: 0.8
     mirrorClothingModifier: false
   - type: UseDelayOnMelee
+  - type: UseDelayOnShoot
   - type: UseDelay
-    delay: 7
+    delay: 6
   - type: TrashClear
     safe: true
+  - type: Item
+    size: Large
   - type: MedievalWeaponSkillCategory
     skill: Crossbow
 
@@ -46,6 +49,17 @@
   name: crossbow
   parent: MedievalWeaponCrossbow
   id: MedievalWeaponCrossbowWhois
+  description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Gun/crossbow_whois.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Gun/crossbow_whois.rsi
+
+- type: entity
+  name: crossbow
+  parent: MedievalWeaponCrossbowHeavy
+  id: MedievalWeaponCrossbowHeavyWhois
   description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
   components:
   - type: Sprite
@@ -133,6 +147,8 @@
   - type: SpentAmmoVisuals
   - type: Item
     size: Small
+  - type: RDWeight
+    value: 0.1
 
 - type: entity
   id: MedievalBoltBulletSteel
@@ -171,6 +187,8 @@
   - type: SpentAmmoVisuals
   - type: Item
     size: Small
+  - type: RDWeight
+    value: 0.1
 
 - type: entity
   id: MedievalBoltBullet
@@ -763,3 +781,105 @@
     rotation: 180
     layers:
     - state: proto
+
+- type: entity
+  name: crossbowheavy
+  parent: BaseWeaponSniper
+  id: MedievalWeaponCrossbowHeavy
+  description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
+  components:
+  - type: RDWeight
+    value: 25
+  - type: Sprite
+    sprite: Imperial/Medieval/Gun/crossbowheavy.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Gun/crossbowheavy.rsi
+  - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - BoltHeavy
+    cartridgeFillDelay: 13
+    capacity: 1
+    proto: MedievalBoltHeavy
+    autoCycle: true
+    soundInsert:
+      path: /Audio/Imperial/Medieval/ES_Crossbow_Fire_10_-_SFX_Producer.ogg
+  - type: Wieldable
+    wieldSound:
+      path: /Audio/Items/bow_pull.ogg
+    unwieldOnUse: false
+    useDelayOnWield: true
+  - type: UseDelay
+    delay: 3
+  - type: NoShootOnUseDelay
+  - type: GunRequiresWield
+  - type: Gun
+    defaultSpread: 10
+    resetOnHandSelected: false
+    fireRate: 1
+    selectedMode: FullAuto
+    availableModes:
+    - FullAuto
+    soundGunshot:
+      path: /Audio/Imperial/Medieval/ES_Arrow_Release_1_-_SFX_Producer.ogg
+  - type: HeldSpeedModifier
+    walkModifier: 0.75
+    sprintModifier: 0.75
+    mirrorClothingModifier: false
+  - type: SpeedModifiedOnWield
+    walkModifier: 0.2
+    sprintModifier: 0.2
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 1
+    pvsIncrease: 0.3
+  - type: TrashClear
+    safe: true
+  - type: Item
+    size: Huge
+  - type: MedievalWeaponSkillCategory
+    skill: Crossbow
+
+- type: entity
+  parent: BaseCartridge
+  id: MedievalBoltHeavy
+  name: MedievalBoltHeavy
+  components:
+  - type: Tag
+    tags:
+    - Cartridge
+    - BoltHeavy
+  - type: CartridgeAmmo
+    proto: MedievalBoltHeavyBullet
+  - type: Sprite
+    sprite: Imperial/Medieval/Gun/boltheavy.rsi
+    rotation: -135
+    layers:
+    - state: base
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Appearance
+  - type: SpentAmmoVisuals
+  - type: Item
+    size: Normal
+  - type: RDWeight
+    value: 0.3
+
+- type: entity
+  id: MedievalBoltHeavyBullet
+  name: base bolt
+  parent: BaseBullet
+  noSpawn: true
+  components:
+  - type: Projectile
+    damage:
+      groups:
+        Brute: 130
+  - type: Sprite
+    sprite: Imperial/Medieval/Gun/boltheavy.rsi
+    rotation: -135
+    layers:
+    - state: proto
+  - type: APDamageOnHit
+    damage:
+      types:
+        Piercing: 20

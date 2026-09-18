@@ -1,6 +1,6 @@
 using System.Linq;
 using Content.Shared.DetailExaminable;
-using Content.Server.MedievalPasport.Components;
+using Content.Server.Imperial.Medieval.Calendar.Board;
 using Content.Shared.Imperial.Medieval.Factions;
 using Content.Shared.Imperial.Medieval.Factions.Components;
 using Content.Shared.Imperial.Medieval.Factions.Prototypes;
@@ -18,25 +18,18 @@ namespace Content.Server.Imperial.Medieval.Factions;
 public sealed partial class MedievalFactionsSystem
 {
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
-    [Dependency] private readonly AppearanceSystem _appearance = default!;
+    [Dependency] private readonly CalendarBoardSystem _calendarBoard = default!;
 
     public readonly Dictionary<int, WantedData> WantedList = new();
 
     private void InitializeWanted()
     {
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRestartCleanup);
-
-        SubscribeLocalEvent<WantedDeskComponent, MapInitEvent>(OnDeskInit);
     }
 
     private void OnRestartCleanup(RoundRestartCleanupEvent args)
     {
         WantedList.Clear();
-    }
-
-    private void OnDeskInit(EntityUid uid, WantedDeskComponent comp, MapInitEvent args)
-    {
-        UpdateUi(uid);
     }
 
     public void AddWanted(EntityUid uid, string job, string performer, string details, ProtoId<MedievalFactionPrototype> proto)
@@ -61,7 +54,8 @@ public sealed partial class MedievalFactionsSystem
 
         var wanted = new WantedData(profile, job, proto, performer, flavorText, details);
         WantedList.Add(friends.MemberID, wanted);
-        UpdateUi();
+
+        _calendarBoard.UpdateAllBoards();
 
         _action.RemoveAction(uid, friends.FactionMenuActionEntity);
         _ui.CloseUis(uid);
@@ -124,24 +118,7 @@ public sealed partial class MedievalFactionsSystem
             return;
 
         WantedList.Remove(friends.MemberID);
-        UpdateUi();
-    }
 
-    public void UpdateUi()
-    {
-        var state = new WantedDeskBoundUserInterfaceState(WantedList);
-        var query = EntityQueryEnumerator<WantedDeskComponent>();
-        while (query.MoveNext(out var uid, out _))
-        {
-            _ui.SetUiState(uid, WantedDeskUiKey.Key, state);
-            _appearance.SetData(uid, WantedDeskVisuals.Appearance, WantedList.Count switch { <= 0 => WantedDeskVisualState.None, < 3 => WantedDeskVisualState.Min, < 6 => WantedDeskVisualState.Medium, > 6 => WantedDeskVisualState.Full, _ => WantedDeskVisualState.None });
-        }
-    }
-
-    public void UpdateUi(EntityUid uid)
-    {
-        var state = new WantedDeskBoundUserInterfaceState(WantedList);
-        _ui.SetUiState(uid, WantedDeskUiKey.Key, state);
-        _appearance.SetData(uid, WantedDeskVisuals.Appearance, WantedList.Count switch { <= 0 => WantedDeskVisualState.None, < 3 => WantedDeskVisualState.Min, < 6 => WantedDeskVisualState.Medium, > 6 => WantedDeskVisualState.Full, _ => WantedDeskVisualState.None });
+        _calendarBoard.UpdateAllBoards();
     }
 }

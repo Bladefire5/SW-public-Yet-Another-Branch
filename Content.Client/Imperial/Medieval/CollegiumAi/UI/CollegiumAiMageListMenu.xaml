@@ -1,0 +1,24 @@
+<DefaultWindow
+    xmlns="https://spacestation14.io"
+    Title="{Loc 'collegium-ai-mage-list-title'}"
+    MinSize="360 480"
+    SetSize="360 480">
+    <BoxContainer Orientation="Vertical"
+                  HorizontalExpand="True"
+                  VerticalExpand="True"
+                  Margin="4">
+        <LineEdit Name="SearchBar"
+                  PlaceHolder="{Loc 'collegium-ai-mage-list-search'}"
+                  HorizontalExpand="True" />
+        <ScrollContainer HScrollEnabled="False"
+                         VerticalExpand="True"
+                         HorizontalExpand="True"
+                         Margin="0 4 0 0">
+            <BoxContainer Name="Mages"
+                          Orientation="Vertical"
+                          HorizontalExpand="True">
+                <!-- Filled in code -->
+            </BoxContainer>
+        </ScrollContainer>
+    </BoxContainer>
+</DefaultWindow>

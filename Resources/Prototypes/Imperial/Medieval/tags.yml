@@ -17,6 +17,9 @@
   id: Bolt
 
 - type: Tag
+  id: BoltHeavy
+
+- type: Tag
   id: MedievalStone
 
 - type: Tag

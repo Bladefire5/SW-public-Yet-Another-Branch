@@ -3,6 +3,8 @@
   description: Yep, it's a tree.
   abstract: true
   components:
+  - type: TimedDespawn
+    lifetime: 300
   - type: CP14WaveShader
     speed: 1
     dis: 6.5

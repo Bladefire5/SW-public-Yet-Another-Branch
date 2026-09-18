@@ -72,6 +72,20 @@ public sealed class MedievalIdentitySystem : SharedMedievalIdentitySystem
         return true;
     }
 
+    public bool IntroduceSilently(EntityUid introducer, EntityUid observer)
+    {
+        if (!TryComp<IdentityRequiresKnowledgeComponent>(observer, out var observerComp) ||
+            !CanIntroduce(introducer, observer, observerComp) ||
+            !TryComp<IdentityRequiresKnowledgeComponent>(introducer, out var introducerComp))
+        {
+            return false;
+        }
+
+        observerComp.KnownIds.Add(introducerComp.Identifier);
+        Dirty(observer, observerComp);
+        return true;
+    }
+
     private void OnComponentInit(EntityUid uid, IdentityRequiresKnowledgeComponent component, ComponentInit args)
     {
         component.Identifier = _nextId;

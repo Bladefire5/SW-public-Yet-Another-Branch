@@ -101,6 +101,7 @@ public sealed class TradingMarketOfferState
     public TradingParticipantKind ParticipantKind;
     public string ParticipantName;
     public int Price;
+    public int ReceiptAmount;
     public bool IsOwn;
     public string DisplayName;
     public NetEntity? PreviewEntity;
@@ -113,6 +114,7 @@ public sealed class TradingMarketOfferState
         TradingParticipantKind participantKind,
         string participantName,
         int price,
+        int receiptAmount,
         bool isOwn,
         string displayName,
         NetEntity? previewEntity)
@@ -124,6 +126,7 @@ public sealed class TradingMarketOfferState
         ParticipantKind = participantKind;
         ParticipantName = participantName;
         Price = price;
+        ReceiptAmount = receiptAmount;
         IsOwn = isOwn;
         DisplayName = displayName;
         PreviewEntity = previewEntity;
@@ -152,13 +155,23 @@ public sealed class TradingPendingSaleState
     public string ItemName;
     public string BuyerName;
     public int Price;
+    public int ReceiptAmount;
+    public int SellerRevenue;
 
-    public TradingPendingSaleState(Guid id, string itemName, string buyerName, int price)
+    public TradingPendingSaleState(
+        Guid id,
+        string itemName,
+        string buyerName,
+        int price,
+        int receiptAmount,
+        int sellerRevenue)
     {
         Id = id;
         ItemName = itemName;
         BuyerName = buyerName;
         Price = price;
+        ReceiptAmount = receiptAmount;
+        SellerRevenue = sellerRevenue;
     }
 }
 
@@ -292,6 +305,13 @@ public sealed class TradingCreateBuyOfferFromHeldMessage(int price) : BoundUserI
 public sealed class TradingCancelOfferMessage(Guid offerId) : BoundUserInterfaceMessage
 {
     public Guid OfferId = offerId;
+}
+
+[Serializable, NetSerializable]
+public sealed class TradingCreateBidReceiptMessage(Guid offerId, int amount) : BoundUserInterfaceMessage
+{
+    public Guid OfferId = offerId;
+    public int Amount = amount;
 }
 
 [Serializable, NetSerializable]

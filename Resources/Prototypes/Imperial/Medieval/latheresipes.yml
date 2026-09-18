@@ -1240,12 +1240,22 @@
   id: MedievalWeaponCrossbow
   craftTime: 25
   stacks:
-    MedievalRope: 3
-    WoodPlank: 9
-    MedievalSteelIngot: 2
-    MedievalGear: 3
+    MedievalRope: 2
+    WoodPlank: 7
+    MedievalSteelIngot: 1
+    MedievalGear: 2
   result: MedievalWeaponCrossbow
 
+- type: CP14Recipe
+  id: MedievalWeaponCrossbowHeavy
+  craftTime: 25
+  stacks:
+    MedievalRope: 6
+    MedievalLeather1: 3
+    WoodPlank: 14
+    MedievalSteelIngot: 7
+    MedievalGear: 5
+  result: MedievalWeaponCrossbowHeavy
 
 - type: CP14Recipe
   id: MedievalGoldCup
@@ -1415,6 +1425,14 @@
     WoodPlank: 1
     MedievalSteelIngot: 1
   result: MedievalBoltSteel
+
+- type: CP14Recipe
+  id: MedievalBoltHeavy
+  craftTime: 1
+  stacks:
+    WoodPlank: 3
+    MedievalIronIngot: 3
+  result: MedievalBoltHeavy
 
 - type: CP14Recipe
   id: MedievalBoltPractice

@@ -5,8 +5,8 @@ using Content.Shared.Popups;
 using Content.Shared.StepTrigger.Systems;
 using Content.Shared.Trigger.Systems;
 using Robust.Shared.Audio.Systems;
-using Content.Server.Myrmex.Components; // imperial medieval
-
+using Content.Server.Myrmex.Components;// imperial medieval
+using Content.Shared.Imperial.Medieval.Myrmex; // imperial medieval - larvacomponent
 namespace Content.Server.LandMines;
 
 public sealed class LandMineSystem : EntitySystem
@@ -29,7 +29,7 @@ public sealed class LandMineSystem : EntitySystem
     /// </summary>
     private void HandleStepOnTriggered(EntityUid uid, LandMineComponent component, ref StepTriggeredOnEvent args)
     {
-        if (HasComp<MyrmexComponent>(args.Tripper)) return; // imperial medieval
+        if (HasComp<MyrmexComponent>(args.Tripper) || HasComp<LarvaComponent>(args.Tripper)) return; // imperial medieval
         if (!string.IsNullOrEmpty(component.TriggerText))
           {
               _popupSystem.PopupCoordinates(
@@ -46,6 +46,7 @@ public sealed class LandMineSystem : EntitySystem
     /// </summary>
     private void HandleStepOffTriggered(EntityUid uid, LandMineComponent component, ref StepTriggeredOffEvent args)
     {
+        if (HasComp<MyrmexComponent>(args.Tripper) || HasComp<LarvaComponent>(args.Tripper)) return; // imperial medieval - safety net
         // TODO: Adjust to the new trigger system
         _trigger.Trigger(uid, args.Tripper, TriggerSystem.DefaultTriggerKey);
     }
@@ -56,10 +57,16 @@ public sealed class LandMineSystem : EntitySystem
     /// </summary>
     private void HandleStepTriggerAttempt(EntityUid uid, LandMineComponent component, ref StepTriggerAttemptEvent args)
     {
-        if (HasComp<MyrmexComponent>(args.Tripper)) return; // imperial medieval
+        // imperial medieval - myrmex and their larvae never set off their own traps
+        if (HasComp<MyrmexComponent>(args.Tripper) || HasComp<LarvaComponent>(args.Tripper))
+        {
+           args.Cancelled = true;
+           return;
+        }
+
         args.Continue = true;
 
         if (HasComp<ArmableComponent>(uid) && TryComp<ItemToggleComponent>(uid, out var itemToggle))
-            args.Continue = itemToggle.Activated;
+           args.Continue = itemToggle.Activated;
     }
 }

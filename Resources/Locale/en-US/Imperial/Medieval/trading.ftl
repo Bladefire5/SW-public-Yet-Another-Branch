@@ -69,10 +69,15 @@ trading-ui-sell-offer = Lot
 trading-ui-buy-order = Order
 trading-ui-no-active-offers = No active lots or orders
 trading-ui-managed-offer-status = {$side} · {$price}
+trading-ui-managed-offer-seller-revenue = Merchant: {$amount} revents
+trading-ui-managed-offer-receipt-revenue = Receipts: {$amount} revents
+trading-ui-create-bid-receipt-button = Create receipt
 trading-ui-cancel-and-collect-button = Cancel and collect
 trading-ui-cancel-button = Cancel
 trading-ui-no-pending-sales = No revenue to collect
 trading-ui-pending-sale-entry = “{$item}” was sold to {$trader} for {$price} revents
+trading-ui-pending-sale-seller-revenue = You receive: {$amount} revents
+trading-ui-pending-sale-receipt-revenue = Receipts: {$amount} revents
 trading-ui-collect-sale-revenue-button = Collect revents
 trading-ui-no-stored-items = No items awaiting collection
 trading-ui-received-from-order = Received from an order
@@ -103,6 +108,12 @@ trading-ui-unit-sell-question = How many {$item} do you want to list at {$price}
 trading-ui-unit-sell-confirm-button = List lots
 trading-ui-unit-sell-offers-created = Lots listed successfully
 trading-ui-unit-sell-offer-invalidated = The items were moved or changed. Try again
+trading-ui-bid-receipt-window-title = Lot receipt
+trading-ui-bid-receipt-question = What amount should the receipt be created for?
+trading-ui-bid-receipt-confirm-button = Create receipt
+trading-bid-receipt-examine-lot = Lot: [color=yellow]{$lot}[/color]
+trading-bid-receipt-examine-share = Share of sale: [color=yellow]{$amount}[/color] revents
+trading-bid-receipt-examine-failed = Lot [color=yellow]{$lot}[/color] was withdrawn from sale
 trading-ui-sale-revenue-collected = Revents collected
 trading-ui-buy-order-created = Order created successfully
 trading-ui-insufficient-order-funds = Insufficient funds for the order
@@ -116,4 +127,7 @@ trading-personal-pit-name = personal trading pit
 ent-MedievalPublicShopHole = public trading pit
     .desc = A shared market where anyone can buy lots listed by merchants.
     .suffix = { "Medieval" }
+
+ent-MedievalBidReceipt = lot receipt
+    .desc = A receipt assigning part of the proceeds from a lot.
 

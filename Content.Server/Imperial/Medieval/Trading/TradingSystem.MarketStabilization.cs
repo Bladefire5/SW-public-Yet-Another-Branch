@@ -11,10 +11,11 @@ public sealed partial class TradingSystem
         Entity<TradingMarketComponent> market,
         TradingMarketConfigPrototype config)
     {
+        var offersByCommodity = market.Comp.Offers.Values.ToLookup(offer => offer.CommodityId);
         foreach (var commodityId in market.Comp.CommonCommodities.Values)
         {
             if (market.Comp.Commodities.TryGetValue(commodityId, out var commodity))
-                TryCreateGuildIntervention(market, commodity, config);
+                TryCreateGuildIntervention(market, commodity, config, offersByCommodity[commodityId]);
         }
     }
 
@@ -22,12 +23,12 @@ public sealed partial class TradingSystem
         Entity<TradingMarketComponent> market,
         TradingMarketConfigPrototype config)
     {
+        var offersByCommodity = market.Comp.Offers.Values.ToLookup(offer => offer.CommodityId);
         foreach (var commodityId in market.Comp.CommonCommodities.Values)
         {
             if (!market.Comp.Commodities.TryGetValue(commodityId, out var commodity))
                 continue;
 
-            var referencePrice = GetGuildReferencePrice(commodity);
             var marketPrice = GetCachedMarketPrice(commodity);
             if (!float.IsFinite(marketPrice))
                 continue;
@@ -37,13 +38,15 @@ public sealed partial class TradingSystem
                 commodity,
                 TradingOfferSide.Sell,
                 marketPrice,
-                config.GuildOfferRemovalChanceScale);
+                config.GuildOfferRemovalChanceScale,
+                offersByCommodity[commodityId]);
             TryRemoveUncompetitiveGuildOffer(
                 market,
                 commodity,
                 TradingOfferSide.Buy,
                 marketPrice,
-                config.GuildOfferRemovalChanceScale);
+                config.GuildOfferRemovalChanceScale,
+                offersByCommodity[commodityId]);
         }
     }
 
@@ -52,9 +55,10 @@ public sealed partial class TradingSystem
         TradingCommodity commodity,
         TradingOfferSide side,
         float marketPrice,
-        float chanceScale)
+        float chanceScale,
+        IEnumerable<TradingMarketOffer> offers)
     {
-        var offer = GetReplaceableGuildOffer(market, commodity, side);
+        var offer = GetReplaceableGuildOffer(offers, commodity, side);
         if (offer == null ||
             _random.NextFloat() >= GetGuildOfferRemovalChance(offer.Price, marketPrice, chanceScale))
         {
@@ -67,7 +71,8 @@ public sealed partial class TradingSystem
     private void TryCreateGuildIntervention(
         Entity<TradingMarketComponent> market,
         TradingCommodity commodity,
-        TradingMarketConfigPrototype config)
+        TradingMarketConfigPrototype config,
+        IEnumerable<TradingMarketOffer> offers)
     {
         var referencePrice = GetGuildReferencePrice(commodity);
         var buyCount = commodity.BuyBook.Prices.Count;
@@ -110,7 +115,7 @@ public sealed partial class TradingSystem
         TradingMarketOffer? replaceable = null;
         if (GetGuildOfferCount(commodity, side) >= maximumOffers)
         {
-            replaceable = GetReplaceableGuildOffer(market, commodity, side);
+            replaceable = GetReplaceableGuildOffer(offers, commodity, side);
             if (replaceable == null || !IsMoreCompetitivePrice(price, replaceable.Price, side))
                 return;
         }
@@ -190,11 +195,11 @@ public sealed partial class TradingSystem
     }
 
     private static TradingMarketOffer? GetReplaceableGuildOffer(
-        Entity<TradingMarketComponent> market,
+        IEnumerable<TradingMarketOffer> commodityOffers,
         TradingCommodity commodity,
         TradingOfferSide side)
     {
-        var offers = market.Comp.Offers.Values.Where(offer =>
+        var offers = commodityOffers.Where(offer =>
             offer.CommodityId == commodity.Id &&
             offer.ParticipantKind == TradingParticipantKind.Guild &&
             offer.Side == side);

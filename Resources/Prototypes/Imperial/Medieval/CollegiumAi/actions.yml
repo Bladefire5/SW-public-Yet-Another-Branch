@@ -1,0 +1,126 @@
+# Abilities of the Collegium watcher. See Content.Server/Imperial/Medieval/CollegiumAi.
+
+- type: entity
+  id: ActionMedievalCollegiumAiTeleport
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    checkCanInteract: false
+    itemIconStyle: BigAction
+    icon:
+      sprite: Imperial/Medieval/Magic/Light/Blink/icons.rsi
+      state: beginner
+  - type: InstantAction
+    event: !type:CollegiumAiTeleportActionEvent
+
+- type: entity
+  id: ActionMedievalCollegiumAiStripMagic
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    checkCanInteract: false
+    itemIconStyle: BigAction
+    # Long enough that stripping a mage stays a considered decision rather than a reflex.
+    useDelay: 900
+    icon:
+      sprite: Imperial/Medieval/CollegiumAi/actions.rsi
+      state: strip_magic
+  - type: TargetAction
+    checkCanAccess: false
+    interactOnMiss: false
+    range: 12
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - MedievalFactionMember
+    event: !type:CollegiumAiStripMagicActionEvent
+
+- type: entity
+  id: ActionMedievalCollegiumAiWhisper
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    checkCanInteract: false
+    itemIconStyle: BigAction
+    useDelay: 15
+    icon:
+      sprite: Imperial/Medieval/Misc/cloack_message.rsi
+      state: kollegiya
+  - type: TargetAction
+    checkCanAccess: false
+    interactOnMiss: false
+    range: 12
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - MedievalFactionMember
+    event: !type:CollegiumAiWhisperActionEvent
+
+# Telepathy to every mage at once. Reuses the faction comms crystal plumbing, so it lands in their ears the same
+# way an archmage broadcast does.
+- type: entity
+  id: ActionMedievalCollegiumAiBroadcast
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    checkCanInteract: false
+    itemIconStyle: BigAction
+    useDelay: 60
+    icon:
+      sprite: Imperial/Medieval/Misc/cloack_message.rsi
+      state: kollegiya
+  - type: InstantAction
+    event: !type:CloackMessageActionEvent
+
+- type: entity
+  id: ActionMedievalCollegiumAiReturn
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    checkCanInteract: false
+    itemIconStyle: BigAction
+    useDelay: 10
+    icon:
+      sprite: Imperial/Medieval/CollegiumAi/actions.rsi
+      state: return_statue
+  - type: InstantAction
+    event: !type:CollegiumAiReturnActionEvent
+
+- type: entity
+  id: ActionMedievalCollegiumAiRestoreMagic
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    checkCanInteract: false
+    itemIconStyle: BigAction
+    useDelay: 15
+    icon:
+      sprite: Imperial/Medieval/CollegiumAi/actions.rsi
+      state: restore_magic
+  - type: TargetAction
+    checkCanAccess: false
+    interactOnMiss: false
+    range: 12
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - MedievalFactionMember
+    event: !type:CollegiumAiRestoreMagicActionEvent
+
+# The barrier is what the Collegium is for, so the watcher can always get back to it.
+- type: entity
+  id: ActionMedievalCollegiumAiBarrier
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    checkCanInteract: false
+    itemIconStyle: BigAction
+    useDelay: 10
+    icon:
+      sprite: Imperial/Medieval/CollegiumAi/actions.rsi
+      state: return_barrier
+  - type: InstantAction
+    event: !type:CollegiumAiBarrierActionEvent

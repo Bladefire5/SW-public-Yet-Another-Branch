@@ -34,6 +34,12 @@ public sealed partial class TradingComponent : Component
 
     [DataField]
     public SoundSpecifier BuySuccessSound = new SoundPathSpecifier("/Audio/Effects/kaching.ogg");
+
+    [DataField]
+    public SoundSpecifier BidReceiptFailureSound = new SoundPathSpecifier("/Audio/Effects/Cargo/buzz_two.ogg");
+
+    [DataField]
+    public EntProtoId BidReceiptPrototype = "MedievalBidReceipt";
 }
 
 public sealed class TradingPendingSale
@@ -42,4 +48,6 @@ public sealed class TradingPendingSale
     public string ItemName = string.Empty;
     public string BuyerName = string.Empty;
     public int Price;
+    public int ReceiptAmount;
+    public int SellerRevenue;
 }

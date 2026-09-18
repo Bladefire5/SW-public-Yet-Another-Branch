@@ -50,6 +50,7 @@ public sealed partial class TradingSystem : EntitySystem
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
 
         InitializeUi();
+        InitializeBidReceipts();
         InitializePublicTrading();
     }
 

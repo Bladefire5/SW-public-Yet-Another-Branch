@@ -1,0 +1,29 @@
+- type: entity
+  parent: BaseItem
+  id: MedievalBidReceipt
+  name: bid receipt
+  description: A receipt assigning part of the proceeds from a lot.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Interface/Trading/bid_receipt.rsi
+    layers:
+    - state: gray
+      map: [ "bidReceipt" ]
+  - type: Item
+    size: Tiny
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.BidReceiptVisuals.Status:
+        bidReceipt:
+          Pending:
+            state: gray
+          Succeeded:
+            state: green
+          Failed:
+            state: red
+          Redeemed:
+            state: gray
+  - type: BidReceipt
+  - type: Undrowable

@@ -1,9 +1,12 @@
-﻿using Content.Shared.Alert;
+using Content.Shared.Actions.Events;
+using Content.Shared.Alert;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Events;
 using Content.Shared.Examine;
 using Content.Shared.Imperial.Dash;
 using Content.Shared.Imperial.Medieval.Sprint;
+using Content.Shared.Interaction.Events;
+using Content.Shared.Mobs.Components;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Projectiles;
 using Content.Shared.Weapons.Melee.Events;
@@ -34,6 +37,33 @@ namespace Content.Shared.Imperial.Medieval.Myrmex
             SubscribeLocalEvent<MyrmexHungerComponent, GunShotEvent>(OnGunShot);
             SubscribeLocalEvent<MyrmexHungerComponent, DamageModifyEvent>(OnGetDamageModifiers);
             SubscribeLocalEvent<MyrmexHungerComponent, ExaminedEvent>(OnExamined);
+
+            // imperial medieval - root stew's temporary shield burst
+            SubscribeLocalEvent<MyrmexTempShieldComponent, DamageModifyEvent>(OnShieldDamageModify);
+
+            // imperial medieval - mushroom stew's temporary speed burst (StatusEffectsSystem-managed)
+            SubscribeLocalEvent<MyrmexSpeedBurstComponent, RefreshMovementSpeedModifiersEvent>(OnSpeedBurstRefresh);
+            SubscribeLocalEvent<MyrmexSpeedBurstComponent, ComponentStartup>(OnSpeedBurstStartup);
+            SubscribeLocalEvent<MyrmexSpeedBurstComponent, ComponentShutdown>(OnSpeedBurstShutdown);
+
+            // imperial medieval - myrmex - myrmex never attach each other, client-predicted
+            SubscribeLocalEvent<MyrmexHungerComponent, AttackAttemptEvent>(OnMyrmexAttackAttempt);
+            SubscribeLocalEvent<MyrmexHungerComponent, DisarmAttemptEvent>(OnMyrmexDisarmAttempt);
+        }
+
+        private bool IsMyrmex(EntityUid uid) => HasComp<MyrmexHungerComponent>(uid);
+
+        private void OnMyrmexAttackAttempt(EntityUid uid, MyrmexHungerComponent comp, AttackAttemptEvent args)
+        {
+            if (args.Target is { } target && IsMyrmex(target))
+                args.Cancel();
+        }
+        
+        
+        private void OnMyrmexDisarmAttempt(EntityUid uid, MyrmexHungerComponent comp, ref DisarmAttemptEvent args)
+        {
+            if (IsMyrmex(args.DisarmerUid) && IsMyrmex(args.TargetUid))
+               args.Cancelled = true;
         }
 
         private void OnInit(EntityUid uid, MyrmexHungerComponent comp, ref ComponentInit args)
@@ -64,6 +94,10 @@ namespace Content.Shared.Imperial.Medieval.Myrmex
 
         private void OnExamined(EntityUid uid, MyrmexHungerComponent comp, ref ExaminedEvent args)
         {
+            // imperial medieval - only living myrmex show buff stats, not myrmex-owned structures like the turret
+            if (!HasComp<MobStateComponent>(uid))
+                return;
+                
             var buff = MyrmexBuff.MultiplyBuffs(comp.Buffs);
             args.PushMarkup(Loc.GetString("medieval-myrmex-buff-health-examine", ("value", Math.Round(buff.Health, 2))));
             args.PushMarkup(Loc.GetString("medieval-myrmex-buff-damage-examine", ("value", Math.Round(buff.Damage, 2))));
@@ -122,6 +156,13 @@ namespace Content.Shared.Imperial.Medieval.Myrmex
             args.Damage *= buff.Health;
         }
 
+        // imperial medieval - applies root stew's temporary damage reduction. Independent from and 
+        // stacks multiplicatively with the permanent Healt buff handled above.
+        private void OnShieldDamageModify(EntityUid uid, MyrmexTempShieldComponent comp, ref DamageModifyEvent args)
+        {
+           args.Damage *= comp.Multiplier;
+        }
+
         #endregion
 
         private void OnSpeedRefresh(EntityUid uid, MyrmexHungerComponent comp, RefreshMovementSpeedModifiersEvent args)
@@ -139,7 +180,24 @@ namespace Content.Shared.Imperial.Medieval.Myrmex
                 _alertsSystem.ClearAlert(uid, "MyrmexHungry");
             }
         }
+        // imperial medieval - applies mushroom stew's temporary speed burst while the marker
+        // (added/remove autimatically by StatusEffectsSystem) is present on this entity.
+        private void OnSpeedBurstRefresh(EntityUid uid, MyrmexSpeedBurstComponent comp, RefreshMovementSpeedModifiersEvent args)
+        {
+            args.ModifySpeed(1f + comp.Multiplier, 1f + comp.Multiplier);
+        }
 
+        // imperial medieval - force a speed recalc on add/remove, resfesh doesn't happen on its own
+        private void OnSpeedBurstStartup(EntityUid uid, MyrmexSpeedBurstComponent comp, ComponentStartup args)
+        {
+           _speedModifier.RefreshMovementSpeedModifiers(uid);
+        }
+
+        private void OnSpeedBurstShutdown(EntityUid uid, MyrmexSpeedBurstComponent comp, ComponentShutdown args)
+        {
+           _speedModifier.RefreshMovementSpeedModifiers(uid); 
+        }
+        
         public override void Update(float frameTime)
         {
             base.Update(frameTime);

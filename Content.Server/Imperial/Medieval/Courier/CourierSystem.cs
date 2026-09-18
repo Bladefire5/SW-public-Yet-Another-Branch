@@ -1,6 +1,7 @@
 using System.Linq;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Imperial.Medieval.Recipient;
+using Content.Server.Imperial.Medieval.UserInterface;
 using Content.Server.Mind;
 using Content.Server.Station.Systems;
 using Content.Server.Storage.Components;
@@ -50,11 +51,14 @@ public sealed class CourierSystem : EntitySystem
     [Dependency] private readonly RecipientDataSystem _recipientData = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly StationJobsSystem _stationJobs = default!;
+    [Dependency] private readonly MedievalUserInterfaceRateLimitSystem _uiRateLimit = default!;
     private TimeSpan _nextMinuteCheck;
 
     public override void Initialize()
     {
         base.Initialize();
+
+        _uiRateLimit.Register<CourierPitComponent>("CourierUi");
 
         SubscribeLocalEvent<CourierPitComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<CourierPitComponent, ActivatableUIOpenAttemptEvent>(OnOpenAttempt);

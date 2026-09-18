@@ -53,10 +53,15 @@ trading-ui-sell-offer = Лот
 trading-ui-buy-order = Заказ
 trading-ui-no-active-offers = Нет активных лотов и заказов
 trading-ui-managed-offer-status = {$side} · {$price}
+trading-ui-managed-offer-seller-revenue = Торговцу: {$amount} ревентов
+trading-ui-managed-offer-receipt-revenue = Выпискам: {$amount} ревентов
+trading-ui-create-bid-receipt-button = Создать выписку
 trading-ui-cancel-and-collect-button = Отменить и забрать
 trading-ui-cancel-button = Отменить
 trading-ui-no-pending-sales = Нет выручки для получения
 trading-ui-pending-sale-entry = «{$item}» продан торговцу {$trader} за {$price} ревентов
+trading-ui-pending-sale-seller-revenue = Вы получите: {$amount} ревентов
+trading-ui-pending-sale-receipt-revenue = Выпискам: {$amount} ревентов
 trading-ui-collect-sale-revenue-button = Получить ревенты
 trading-ui-no-stored-items = Нет предметов для получения
 trading-ui-received-from-order = Получен по заказу
@@ -87,6 +92,14 @@ trading-ui-unit-sell-question = Сколько штук {$item} вы хотит�
 trading-ui-unit-sell-confirm-button = Выставить лоты
 trading-ui-unit-sell-offers-created = Лоты успешно выставлены
 trading-ui-unit-sell-offer-invalidated = Предметы были перемещены или изменены. Попробуйте ещё раз
+trading-ui-bid-receipt-window-title = Выписка на лот
+trading-ui-bid-receipt-question = На какую сумму создать выписку?
+trading-ui-bid-receipt-confirm-button = Создать выписку
+trading-bid-receipt-examine-lot = Лот: [color=yellow]{$lot}[/color]
+trading-bid-receipt-examine-share = Доля с продажи: [color=yellow]{$amount}[/color] ревентов
+trading-bid-receipt-examine-failed = Лот [color=yellow]{$lot}[/color] был снят с торгов
+trading-bid-receipt-succeeded-popup = Лот «{$lot}» продан. Выписка готова к погашению
+trading-bid-receipt-failed-popup = Лот «{$lot}» снят с торгов. Выписка утратила силу
 trading-ui-sale-revenue-collected = Ревенты получены
 trading-ui-buy-order-created = Заказ успешно создан
 trading-ui-insufficient-order-funds = Недостаточно средств для заказа
@@ -100,3 +113,6 @@ trading-personal-pit-name = личная торговая яма
 ent-MedievalPublicShopHole = общая торговая яма
     .desc = Общий рынок, где любой желающий может покупать лоты, выставленные торговцами.
     .suffix = { "Средневековье" }
+
+ent-MedievalBidReceipt = выписка на лот
+    .desc = Выписка, закрепляющая часть выручки с продажи лота.
