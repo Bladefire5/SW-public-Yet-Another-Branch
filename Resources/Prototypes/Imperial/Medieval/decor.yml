@@ -2837,6 +2837,7 @@
           Log:
             min: 2
             max: 8
+  - type: NPCUnsmashable
 
 - type: entity
   parent: MedievalBaseTree
@@ -3744,6 +3745,7 @@
           Log:
             min: 1
             max: 3
+  - type: NPCUnsmashable
 
 - type: entity
   id: MedievalBaseTreeAutumn
@@ -3805,6 +3807,7 @@
           Log:
             min: 2
             max: 8
+  - type: NPCUnsmashable
 
 - type: entity
   parent: MedievalBaseTreeAutumn
