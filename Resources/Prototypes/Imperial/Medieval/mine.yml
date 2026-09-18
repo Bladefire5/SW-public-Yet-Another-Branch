@@ -136,7 +136,7 @@
   name: rock
   components:
     - type: Damageable
-      damageContainer: Inorganic
+      damageContainer: StructuralInorganic
       damageModifierSet: Metallic
     - type: MedievalDiggAble
     - type: Destructible
