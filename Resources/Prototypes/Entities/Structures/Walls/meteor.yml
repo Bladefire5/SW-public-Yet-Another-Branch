@@ -18,12 +18,7 @@
           path: /Audio/Effects/break_stone.ogg
           params:
             volume: -6
-  # Imperial Medieval npc-obstacle-handling Start
-  - type: Tag  # imperial medieval
-    tags:
-    - Wall
-    - NPCUnsmashable
-  # Imperial Medieval npc-obstacle-handling End
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
 
 # Ore veins
 - type: entity

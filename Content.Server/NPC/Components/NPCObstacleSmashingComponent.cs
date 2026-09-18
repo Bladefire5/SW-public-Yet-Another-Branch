@@ -19,7 +19,7 @@ public sealed partial class NPCObstacleSmashingComponent : Component
     public EntityWhitelist? Whitelist;
 
     /// <summary>
-    /// On top of the global NPCUnsmashable tag.
+    /// On top of the global <see cref="Imperial.Medieval.NPC.NPCUnsmashableComponent"/>.
     /// </summary>
     [DataField]
     public EntityWhitelist? Blacklist;

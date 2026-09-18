@@ -1568,10 +1568,7 @@
   - type: MedievalMeleeBadTarget # imperial medieval
     safeToHitGroup: ore # imperial medieval
     breakMultiplier: 10
-  - type: Tag
-    tags:
-    - Structure
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
 
 - type: entity
   id: MedievalOreCoal
@@ -1622,10 +1619,7 @@
   - type: MedievalMeleeBadTarget # imperial medieval
     safeToHitGroup: ore # imperial medieval
     breakMultiplier: 10
-  - type: Tag
-    tags:
-    - Structure
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
 
 - type: entity
   id: MedievalOreGold
@@ -1676,10 +1670,7 @@
   - type: MedievalMeleeBadTarget # imperial medieval
     safeToHitGroup: ore # imperial medieval
     breakMultiplier: 10
-  - type: Tag
-    tags:
-    - Structure
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
 
 - type: entity
   id: MedievalOreTopaz
@@ -1730,10 +1721,7 @@
   - type: MedievalMeleeBadTarget # imperial medieval
     safeToHitGroup: ore # imperial medieval
     breakMultiplier: 10
-  - type: Tag
-    tags:
-    - Structure
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
 
 - type: entity
   id: MedievalOreAstrolit
@@ -1784,10 +1772,7 @@
   - type: MedievalMeleeBadTarget # imperial medieval
     safeToHitGroup: ore # imperial medieval
     breakMultiplier: 10
-  - type: Tag
-    tags:
-    - Structure
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
 
 
 - type: entity
@@ -1921,10 +1906,7 @@
   - type: MedievalMeleeBadTarget # imperial medieval
     safeToHitGroup: ore # imperial medieval
     breakMultiplier: 10
-  - type: Tag
-    tags:
-    - Structure
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
 
 - type: entity
   id: MedievalOreAdam
@@ -1975,10 +1957,7 @@
   - type: MedievalMeleeBadTarget # imperial medieval
     safeToHitGroup: ore # imperial medieval
     breakMultiplier: 10
-  - type: Tag
-    tags:
-    - Structure
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
 
 - type: entity
   name: BlastDoor
@@ -2318,10 +2297,7 @@
   - type: MedievalMeleeBadTarget # imperial medieval
     safeToHitGroup: ore # imperial medieval
     breakMultiplier: 10
-  - type: Tag
-    tags:
-    - Structure
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
 
 - type: entity
   name: BlastDoor
@@ -2361,10 +2337,7 @@
   components:
   - type: MineCaveStone
   - type: MedievalDiggAble
-  - type: Tag
-    tags:
-    - Wall
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
   - type: Destructible
     thresholds:
     - trigger: !type:DamageTrigger
@@ -2407,10 +2380,7 @@
   components:
   - type: MineCaveStone
   - type: MedievalDiggAble
-  - type: Tag
-    tags:
-    - Wall
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
   - type: Destructible
     thresholds:
     - trigger: !type:DamageTrigger
@@ -2810,8 +2780,5 @@
   - type: MedievalMeleeBadTarget # imperial medieval
     safeToHitGroup: ore # imperial medieval
     breakMultiplier: 10
-  - type: Tag
-    tags:
-    - Structure
-    - NPCUnsmashable
+  - type: NPCUnsmashable # Imperial Medieval npc-obstacle-handling
 

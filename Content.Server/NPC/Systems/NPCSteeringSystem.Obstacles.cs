@@ -13,7 +13,6 @@ using Content.Shared.FixedPoint;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Physics;
 using Content.Shared.NPC;
-using Content.Shared.Tag;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
@@ -45,8 +44,6 @@ public sealed partial class NPCSteeringSystem
      *  then do the thing like from dishonored where it gets passed to a search system that opens random stuff.
      */
 
-    private static readonly ProtoId<TagPrototype> UnsmashableTag = "NPCUnsmashable";
-
     private static readonly NPCObstacleSmashingComponent DefaultSmashing = new();
 
     // Must match what PathfindingSystem.BuildBreadcrumbs counts.
@@ -76,7 +73,7 @@ public sealed partial class NPCSteeringSystem
         if (!_destructibleQuery.TryGetComponent(target, out var destructible))
             return false;
 
-        if (_tag.HasTag(target, UnsmashableTag))
+        if (_unsmashableQuery.HasComponent(target))
             return false;
 
         if (!_whitelist.IsWhitelistPassOrNull(settings.Whitelist, target) ||

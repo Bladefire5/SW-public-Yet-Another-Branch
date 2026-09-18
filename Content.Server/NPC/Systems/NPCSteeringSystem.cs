@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Content.Server.Administration.Managers;
 using Content.Server.Destructible; // Imperial Medieval npc-obstacle-handling
 using Content.Server.DoAfter;
+using Content.Server.Imperial.Medieval.NPC; // Imperial Medieval npc-obstacle-handling
 using Content.Server.NPC.Components;
 using Content.Server.NPC.Events;
 using Content.Server.NPC.Pathfinding;
@@ -22,7 +23,6 @@ using Content.Shared.NPC.Systems;
 using Content.Shared.NPC.Events;
 using Content.Shared.Physics;
 // Imperial Medieval npc-obstacle-handling Start
-using Content.Shared.Tag;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Whitelist;
 // Imperial Medieval npc-obstacle-handling End
@@ -67,7 +67,6 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
     [Dependency] private readonly ClimbSystem _climb = default!;
     [Dependency] private readonly DestructibleSystem _destructible = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
-    [Dependency] private readonly TagSystem _tag = default!;
     // Imperial Medieval npc-obstacle-handling End
     [Dependency] private readonly DoAfterSystem _doAfter = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
@@ -89,6 +88,7 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
     private EntityQuery<NPCMeleeCombatComponent> _meleeCombatQuery;
     private EntityQuery<NPCRangedCombatComponent> _rangedCombatQuery;
     private EntityQuery<NPCTargetMemoryComponent> _targetMemoryQuery;
+    private EntityQuery<NPCUnsmashableComponent> _unsmashableQuery;
     // Imperial Medieval npc-obstacle-handling End
     private EntityQuery<MovementSpeedModifierComponent> _modifierQuery;
     private EntityQuery<NpcFactionMemberComponent> _factionQuery;
@@ -135,6 +135,7 @@ public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
         _meleeCombatQuery = GetEntityQuery<NPCMeleeCombatComponent>();
         _rangedCombatQuery = GetEntityQuery<NPCRangedCombatComponent>();
         _targetMemoryQuery = GetEntityQuery<NPCTargetMemoryComponent>();
+        _unsmashableQuery = GetEntityQuery<NPCUnsmashableComponent>();
         // Imperial Medieval npc-obstacle-handling End
         _modifierQuery = GetEntityQuery<MovementSpeedModifierComponent>();
         _factionQuery = GetEntityQuery<NpcFactionMemberComponent>();
