@@ -9345,3 +9345,54 @@
     - id: TowercapSeeds
     - id: TowercapSeeds
 
+- type: entity
+  id: SimpleMarker
+  parent: MarkerBase
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Sprite
+    layers:
+    - state: location
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+        hard: false
+
+- type: entity
+  id: CitizenSpawnMarker
+  parent: MarkerBase
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Sprite
+    layers:
+    - state: location
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+        hard: false
+  - type: CitizenSpawner
+    keyAccess: House
