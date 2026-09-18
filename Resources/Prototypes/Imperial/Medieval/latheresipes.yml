@@ -137,11 +137,10 @@
   craftTime: 16
   stacks:
     MedievalAstrolit: 2
+    MedievalMagicDust: 10
   entities:
     MedievalScrollBarrierDecoded: 1
     ShardCrystalRed: 2
-  material:
-    MedievalMagicDust: 10
   result: MedievalScrollBarrierOverclocked
 
 - type: CP14Recipe
