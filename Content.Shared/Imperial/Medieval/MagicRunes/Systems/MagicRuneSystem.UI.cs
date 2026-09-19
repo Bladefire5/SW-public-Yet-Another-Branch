@@ -262,11 +262,11 @@ public partial class MagicRuneSystem
         else if (component.IsUnstable)
         {
             var multiplier = _random.NextFloat(2f, 3f);
-            count = Math.Max(1, (int) MathF.Round(baseCount * multiplier));
+            count = (int)MathF.Round(baseCount * multiplier);
         }
         else if (component.RequiresRunePairs)
         {
-            count = Math.Max(1, (int) MathF.Round(baseCount * 2.5f));
+            count = (int)MathF.Round(baseCount * 2.5f);
         }
         else
         {
