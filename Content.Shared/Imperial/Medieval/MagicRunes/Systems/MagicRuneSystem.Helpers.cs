@@ -221,8 +221,8 @@ public partial class MagicRuneSystem
         if (!TryComp<MagicRuneKnowledgeComponent>(target, out var comp))
             return 0;
 
-        const int basePoints = 10;
-        var bonus = comp.KnownRunes.Count * 6;
+        const int basePoints = 50;
+        var bonus = comp.KnownRunes.Count * 10;
 
         return basePoints + bonus;
     }
