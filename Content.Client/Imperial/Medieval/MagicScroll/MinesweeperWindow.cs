@@ -261,30 +261,70 @@ public sealed partial class MinesweeperWindow : DefaultWindow
             _mineField[x, y] = true;
         }
     }
-    // makes first move always safe
+
+    // Makes the first reveal and its 3x3 area safe.
     private void MakeRevealSafe(int x, int y)
     {
-        if (!_mineField[x, y])
+        var minesToMove = new List<(int x, int y)>();
+        var adjacentMines = new List<(int x, int y)>();
+
+        for (var dx = -1; dx <= 1; dx++)
+        {
+            for (var dy = -1; dy <= 1; dy++)
+            {
+                var safeX = x + dx;
+                var safeY = y + dy;
+
+                if (safeX < 0 || safeX >= _gridSize || safeY < 0 || safeY >= _gridSize)
+                    continue;
+
+                if (!_mineField[safeX, safeY])
+                    continue;
+
+
+                if (dx == 0 && dy == 0)
+                    minesToMove.Add((safeX, safeY));
+                else
+                    adjacentMines.Add((safeX, safeY));
+            }
+        }
+
+
+        if (adjacentMines.Count > 0)
+        {
+            _random.Shuffle(CollectionsMarshal.AsSpan(adjacentMines));
+            for (var i = 1; i < adjacentMines.Count; i++)
+            {
+                minesToMove.Add(adjacentMines[i]);
+            }
+        }
+
+        if (minesToMove.Count == 0)
             return;
 
-        var safePositions = new List<(int x, int y)>();
+        var availablePositions = new List<(int x, int y)>();
 
         for (var newX = 0; newX < _gridSize; newX++)
         {
             for (var newY = 0; newY < _gridSize; newY++)
             {
-                if ((newX != x || newY != y) && !_mineField[newX, newY])
-                    safePositions.Add((newX, newY));
+                if (Math.Abs(newX - x) <= 1 && Math.Abs(newY - y) <= 1) continue;
+
+                if (!_mineField[newX, newY])
+                    availablePositions.Add((newX, newY));
             }
         }
 
-        if (safePositions.Count == 0)
-            return;
+        _random.Shuffle(CollectionsMarshal.AsSpan(availablePositions));
 
-        var newPosition = safePositions[_random.Next(safePositions.Count)];
+        for (var i = 0; i < minesToMove.Count && i < availablePositions.Count; i++)
+        {
+            var oldPosition = minesToMove[i];
+            var newPosition = availablePositions[i];
 
-        _mineField[x, y] = false;
-        _mineField[newPosition.x, newPosition.y] = true;
+            _mineField[oldPosition.x, oldPosition.y] = false;
+            _mineField[newPosition.x, newPosition.y] = true;
+        }
     }
 
     private void StartTurn()
