@@ -283,7 +283,10 @@ public sealed partial class MinesweeperWindow : DefaultWindow
 
         _random.Shuffle(CollectionsMarshal.AsSpan(adjacentMines));
 
-        for (var i = 1; i < adjacentMines.Count; i++)
+        var clearArea = _random.Next(2) == 0;
+        var startIndex = clearArea ? 0 : 1;
+
+        for (var i = startIndex; i < adjacentMines.Count; i++)
             minesToMove.Add(adjacentMines[i]);
 
         if (minesToMove.Count == 0)
