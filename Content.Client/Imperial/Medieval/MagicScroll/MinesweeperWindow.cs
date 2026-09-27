@@ -44,6 +44,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
     private int _totalMines = 2;
     private int _moveTimeSeconds;
     private int _minimumMoveDelaySeconds;
+    private int _tipsAvailable;
     private int _tipsRemaining;
     private int _maxRestarts = -1;
     private int _restartsRemaining = -1;
@@ -190,7 +191,8 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         _totalMines = Math.Clamp(totalMines, 1, _gridSize * _gridSize - 1);
         _moveTimeSeconds = Math.Max(0, moveTimeSeconds);
         _minimumMoveDelaySeconds = Math.Max(0, minimumMoveDelaySeconds);
-        _tipsRemaining = Math.Max(0, tipsAvailable);
+        _tipsAvailable = Math.Max(0, tipsAvailable);
+        _tipsRemaining = _tipsAvailable;
         _maxRestarts = maxRestarts;
         _restartsRemaining = maxRestarts;
 
@@ -234,6 +236,7 @@ public sealed partial class MinesweeperWindow : DefaultWindow
         _flagged = new bool[_gridSize, _gridSize];
         _mineCount = _totalMines;
         _revealedCount = 0;
+        _tipsRemaining = _tipsAvailable;
         _hintUsedThisTurn = false;
         _safeRevealAvailable = true;
 
