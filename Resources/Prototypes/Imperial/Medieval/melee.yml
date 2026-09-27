@@ -1466,6 +1466,29 @@
 
 - type: entity
   name: falshion
+  parent: MedievalFalshionT3
+  id: MedievalFalshionT3McDonalds
+  description: An ancient war blade.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/mcdonalds_axe.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/mcdonalds_axe.rsi
+
+- type: entity
+  name: falshion
+  parent: MedievalFalshionT3Steel
+  id: MedievalFalshionT3SteelMcDonalds
+  description: An ancient war blade.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/mcdonalds_axe.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/mcdonalds_axe.rsi
+
+
+- type: entity
+  name: falshion
   parent: MedievalFalshionT3Steel
   id: MedievalFalshionT3SteelFoxei
   description: An ancient war blade.

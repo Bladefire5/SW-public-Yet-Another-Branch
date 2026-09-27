@@ -601,6 +601,8 @@
     MedievalClothingOuterArmorChainMailLight: [MedievalClothingOuterArmorChainMailLightMcDonalds]
     MedievalClothingOuterArmorIron: [MedievalClothingOuterArmorIronMcDonalds]
     ClothingOuterArmorPodWars: [ClothingOuterArmorPodWarsMcDonalds]
+    MedievalFalshionT3: [MedievalFalshionT3McDonalds]
+    MedievalFalshionT3Steel: [MedievalFalshionT3SteelMcDonalds]
 
 - type: customization
   id: CrookLv
