@@ -4445,6 +4445,7 @@
     basicPower: 1
     pointsPerDecodedRune: 2
     maxFails: 4
+    maxRestarts: -1
   - type: Tag
     tags:
     - MagicScroll
@@ -4478,6 +4479,7 @@
     - state: scroll1
   - type: MagicScroll
     convertScroll: true
+    maxRestarts: 5
   - type: Tag
     tags:
     - MagicScroll
