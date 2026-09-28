@@ -74,7 +74,7 @@ public partial class MagicRuneSystem
 
         TryComp<MagicRuneKnowledgeComponent>(args.Actor, out var knowledge);
 
-        if (!component.DebugBypassMinigameRequirements &&
+        if (!component.DebugBypassMinigameRequirements && !component.IsPractice &&
             (knowledge == null || !knowledge.KnownRunes.Contains(args.Rune)))
             return;
 
@@ -208,7 +208,7 @@ public partial class MagicRuneSystem
         var intelligence = ComponentDebugIntelligence(scroll, user);
         var knownRunes = knowledge?.KnownRunes ?? new HashSet<MagicRune>();
 
-        if (scroll.DebugBypassMinigameRequirements)
+        if (scroll.DebugBypassMinigameRequirements || scroll.IsPractice)
             knownRunes = scroll.EncryptedRunes.ToHashSet();
 
         var state = new MagicScrollBoundUserInterfaceState(
@@ -267,7 +267,9 @@ public partial class MagicRuneSystem
 
         if (component.IsPractice)
         {
-            count = Math.Max(1, baseCount / 4);
+            count = _random.Next(0, 2);
+            if (count == 0)
+                return;
         }
         else if (component.IsUnstable)
         {

@@ -4443,7 +4443,7 @@
     isPractice: true
     requiredIntelligence: 9
     basicPower: 1
-    pointsPerDecodedRune: 2
+    pointsPerDecodedRune: 1
     maxFails: 4
     maxRestarts: -1
   - type: Tag
