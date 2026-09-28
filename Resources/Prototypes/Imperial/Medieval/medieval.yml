@@ -4518,14 +4518,14 @@
     castShadows: false
   - type: MagicScroll
     requiredIntelligence: 15
-    basicPower: 30
+    basicPower: 50
     requiresRunePairs: true
-    maxEncryptedPairs: 4
+    maxEncryptedPairs: 6
     gridSize: 9
     totalMines: 11
-    moveTimeSeconds: 30
+    moveTimeSeconds: 20
     tipsAvailable: 3
-    maxRestarts: 2
+    maxRestarts: 3
     powerPerSolvedPair: 20
   - type: Tag
     tags:
