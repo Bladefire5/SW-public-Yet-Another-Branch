@@ -4797,6 +4797,8 @@
       pasport: MedievalPasportCollegium
       jobPrefix: "[МагК]"
     - type: MagicRuneKnowledge
+      startingRunes: 2
+      MaxRunesKnowledge: 6
 
 - type: roleLoadout
   id: JobMedievalCollegiumCommon
@@ -4885,6 +4887,8 @@
       action: CloackMessageActionCollegium
       faction: "collegium"
     - type: MagicRuneKnowledge
+      startingRunes: 3
+      MaxRunesKnowledge: 8
 
 - type: roleLoadout
   id: JobMedievalCollegiumLeader

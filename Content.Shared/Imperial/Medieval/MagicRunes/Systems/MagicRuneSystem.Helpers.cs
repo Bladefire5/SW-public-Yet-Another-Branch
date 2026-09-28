@@ -148,7 +148,7 @@ public partial class MagicRuneSystem
 
     public void PopulateStartRunes(EntityUid uid, MagicRuneKnowledgeComponent comp, int intelligence)
     {
-        PopulateRandomRunes(uid, comp, 1);
+        PopulateRandomRunes(uid, comp, comp.StartingRunes);
     }
 
     public void PopulateRandomRunes(EntityUid uid, MagicRuneKnowledgeComponent comp, int count)

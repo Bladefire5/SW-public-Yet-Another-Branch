@@ -17,6 +17,9 @@ public sealed partial class MagicRuneKnowledgeComponent : Component
     [AutoNetworkedField]
     public HashSet<MagicRune> KnownRunes = new();
 
-    [AutoNetworkedField, ViewVariables(VVAccess.ReadWrite)]
-    public int MaxRunesKnowledge = 5;
+    [DataField, AutoNetworkedField, ViewVariables(VVAccess.ReadWrite)]
+    public int MaxRunesKnowledge = 4;
+
+    [DataField, AutoNetworkedField, ViewVariables(VVAccess.ReadWrite)]
+    public int StartingRunes = 1;
 }
