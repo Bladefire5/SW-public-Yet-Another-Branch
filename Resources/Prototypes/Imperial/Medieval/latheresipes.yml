@@ -137,7 +137,6 @@
   craftTime: 16
   stacks:
     MedievalAstrolit: 2
-    MedievalMagicDust: 10
   entities:
     MedievalScrollBarrierDecoded: 1
     ShardCrystalRed: 1
@@ -147,9 +146,9 @@
   id: MedievalScrollBarrierUnstable
   craftTime: 16
   stacks:
-    MedievalAstrolit: 4
+    MedievalAstrolit: 2
   entities:
-    MedievalScrollBarrierDecoded: 1
+    MedievalScrollBarrier: 1
     ShardCrystalRed: 1
   result: MedievalScrollBarrierUnstable
 
