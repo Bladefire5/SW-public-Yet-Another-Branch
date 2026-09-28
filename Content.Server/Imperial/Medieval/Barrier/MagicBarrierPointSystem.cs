@@ -189,6 +189,7 @@ namespace Content.Server.MagicBarrier
             var coords = xform.Coordinates;
             Spawn("ShardCrystalRed", coords);
             Spawn("ShockWaveEffect", coords);
+            Spawn("MedievalMagicStoneRandom", coords);
             RemComp(uid, component);
             QueueDel(uid);
             _chat.DispatchGlobalAnnouncement(Loc.GetString("medieval-hm-barrier-wart"), playSound: false, colorOverride: Color.LimeGreen, sender: Loc.GetString("medieval-hm-barrier-barrier"));

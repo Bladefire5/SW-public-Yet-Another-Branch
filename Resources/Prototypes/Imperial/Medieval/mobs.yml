@@ -233,7 +233,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.01
+      prob: 0.03
   - type: Bloodstream
     bloodMaxVolume: 0
   #- type: ReplacementAccent
@@ -371,7 +371,7 @@
       prob: 0.4
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.04
+      prob: 0.08
   - type: Bloodstream
     bloodMaxVolume: 40
   #- type: ReplacementAccent
@@ -509,7 +509,7 @@
       prob: 0.2
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.01
+      prob: 0.02
   - type: Bloodstream
     bloodMaxVolume: 10
   #- type: ReplacementAccent
@@ -820,7 +820,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.18
+      prob: 0.25
   - type: Bloodstream
     bloodMaxVolume: 200
   #- type: ReplacementAccent
@@ -947,7 +947,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.13
+      prob: 0.20
   - type: Bloodstream
     bloodMaxVolume: 140
   #- type: ReplacementAccent
@@ -1224,7 +1224,7 @@
       prob: 0.7
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.1
+      prob: 0.15
   - type: Access
     tags:
     - Maintenance
@@ -1369,7 +1369,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.1
+      prob: 0.15
   - type: Access
     tags:
     - Maintenance
@@ -2249,7 +2249,7 @@
       amount: 4
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.08
+      prob: 0.15
   - type: IgnoreSpiderWeb
   - type: MedievalPlagueInfectOnHit
     active: false
@@ -2342,7 +2342,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.08
+      prob: 0.15
   - type: IgnoreSpiderWeb
   - type: MedievalPlagueInfectOnHit
     active: false
@@ -2431,7 +2431,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.08
+      prob: 0.15
   - type: IgnoreSpiderWeb
   - type: HTN
     rootTask:
@@ -2556,7 +2556,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.08
+      prob: 0.15
   - type: IgnoreSpiderWeb
   - type: HTN
     rootTask:
@@ -2742,7 +2742,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.025
+      prob: 0.08
 
 - type: entity
   name: weak skeleton
@@ -2832,7 +2832,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.04
+      prob: 0.10
 
 - type: entity
   name: meat skeleton
@@ -2923,7 +2923,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.09
+      prob: 0.15
   - type: Hands
   - type: ComplexInteraction
 
@@ -3017,7 +3017,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.16
+      prob: 0.20
   - type: Hands
   - type: ComplexInteraction
   - type: AchievementTarget
@@ -3088,7 +3088,7 @@
       prob: 0.2
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.05
+      prob: 0.10
   - type: HTN
     rootTask:
       task: SimpleRangedHostileCompound
@@ -3143,7 +3143,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.12
+      prob: 0.15
   - type: HTN
     rootTask:
       task: SimpleRangedHostileCompound
@@ -3197,7 +3197,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.17
+      prob: 0.20
 
 - type: entity
   name: skeleton with a mace
@@ -3240,7 +3240,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.17
+      prob: 0.20
   - type: MedievalUnthrowable
   - type: Hands
   - type: ComplexInteraction
@@ -3299,7 +3299,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.17
+      prob: 0.20
   - type: Hands
   - type: ComplexInteraction
 
@@ -3360,7 +3360,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.17
+      prob: 0.20
   - type: Hands
   - type: ComplexInteraction
 
@@ -3418,7 +3418,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.17
+      prob: 0.20
   - type: Hands
   - type: ComplexInteraction
 
@@ -3524,7 +3524,7 @@
       prob: 0.1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.1
+      prob: 0.15
   - type: IgnoreSpiderWeb
   - type: StaminaDamageOnHit
     damage: 10
@@ -3885,7 +3885,7 @@
       amount: 1
     - id: MedievalMagicStoneRandom
       amount: 1
-      prob: 0.06
+      prob: 0.10
   - type: IgnoreSpiderWeb
   - type: StaminaDamageOnHit
     damage: 8
