@@ -96,6 +96,8 @@ public partial class MagicRuneSystem
 
     private void RandomizeUnstableScrollSettings(MagicScrollComponent scroll)
     {
+        scroll.MaxRestarts = _random.Next(0, 100) < 20 ? 1 : 0;
+
         scroll.TipsAvailable = _random.Next(1, 6);
 
         scroll.MaxEncryptedPairs = WeightedChoice(UnstablePairCounts, UnstablePairWeights);
