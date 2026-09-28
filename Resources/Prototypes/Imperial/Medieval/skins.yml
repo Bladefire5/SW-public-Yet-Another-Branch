@@ -598,8 +598,11 @@
     MedievalClothingOuterArmorBrigantin: [MedievalClothingOuterArmorBrigantinMcDonalds]
     MedievalClothingOuterArmorIronCuirass: [MedievalClothingOuterArmorIronCuirassMcDonalds]
     MedievalClothingOuterArmorChainMail: [MedievalClothingOuterArmorChainMailMcDonalds]
+    MedievalClothingOuterArmorChainMailLight: [MedievalClothingOuterArmorChainMailLightMcDonalds]
     MedievalClothingOuterArmorIron: [MedievalClothingOuterArmorIronMcDonalds]
     ClothingOuterArmorPodWars: [ClothingOuterArmorPodWarsMcDonalds]
+    MedievalFalshionT3: [MedievalFalshionT3McDonalds]
+    MedievalFalshionT3Steel: [MedievalFalshionT3SteelMcDonalds]
 
 - type: customization
   id: CrookLv
@@ -622,6 +625,7 @@
     MedievalClothingOuterArmorBrigantin: [MedievalClothingOuterArmorBrigantinCrookLv]
     MedievalClothingOuterArmorIronCuirass: [MedievalClothingOuterArmorIronCuirassCrookLv]
     MedievalClothingOuterArmorChainMail: [MedievalClothingOuterArmorChainMailCrookLv]
+    MedievalClothingOuterArmorChainMailLight: [MedievalClothingOuterArmorChainMailLightCrookLv]
     MedievalClothingOuterArmorIron: [MedievalClothingOuterArmorIronCrookLv]
     ClothingOuterArmorPodWars: [ClothingOuterArmorPodWarsCrookLv]
     MedievalClothingHeadHelmetCharmer: [MedievalClothingHeadHelmetCharmerCrookLv]
