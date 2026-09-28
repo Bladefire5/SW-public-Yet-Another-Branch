@@ -34,13 +34,13 @@ public partial class MagicRuneSystem
     [3, 70, 15, 7, 5];
 
     private static readonly int[] UnstableBasicPowerValues =
-    [1, 20, 25, 30, 40, 60, 80, 90, 100];
+    [1, 5, 10, 15, 40, 60, 80, 90, 100];
 
     private static readonly int[] UnstableBasicPowerWeights =
     [40, 18, 12, 8, 7, 5, 4, 3, 3];
 
     private static readonly int[] UnstablePairPowerValues =
-    [30, 35, 40, 60, 70, 80, 100];
+    [35, 40, 45, 70, 80, 90, 100];
 
     private static readonly int[] UnstablePairPowerWeights =
     [3, 5, 7, 30, 25, 18, 12];
