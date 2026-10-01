@@ -1,0 +1,1030 @@
+- type: entity
+  name: falshion
+  parent: [ BaseItem, BaseOneHandedCharged, BasePoiseSlashLarge ]
+  id: MedievalFalshionT3
+  description: An ancient war blade.
+  components:
+  - type: RDWeight
+    value: 2
+  - type: QuestItem
+    contractName: "любые одноручные мечи"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+          variation: 0.02
+          volume: 1
+  - type: Sharp
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_sword.rsi
+    state: icon
+  - type: MeleeParry
+    parryChanse: 0.7
+  - type: MeleeWeapon
+    clickDamageModifier: 1.15
+    wideAnimationRotation: -140
+    attackRate: 1
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1
+    damage:
+      types:
+        Slash: 16.5
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+    soundSwing:
+      path: /Audio/Imperial/Medieval/sword_swing.ogg
+  - type: MedievalMeleeResource
+    resourceWaste: 0.4
+  - type: Item
+    size: Normal
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/iron_sword.rsi
+    slots:
+    - back
+    - suitStorage
+    - belt
+    quickEquip: false
+    equipSound:
+      path: /Audio/Imperial/Medieval/sword_uneqip.ogg
+    unequipSound:
+      path: /Audio/Imperial/Medieval/sword_eqip.ogg
+  - type: DisarmMalus
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 6
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  #- type: MedievalItemRust
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  - type: MeleeThrowOnHit
+    distance: 0.5
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 4
+
+- type: entity
+  name: falshion
+  parent: [ BaseItem, BaseOneHandedCharged, BasePoiseSlashLarge ]
+  id: MedievalFalshionT3Steel
+  description: An ancient war blade.
+  components:
+  - type: RDWeight
+    value: 2
+  - type: QuestItem
+    contractName: "любые одноручные мечи"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+          variation: 0.02
+          volume: 1
+  - type: Sharp
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_sword.rsi
+    state: icon
+  - type: MeleeParry
+    parryChanse: 0.7
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1
+    clickDamageModifier: 1.15
+    wideAnimationRotation: -140
+    attackRate: 1
+    damage:
+      types:
+        Slash: 20.5
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+    soundSwing:
+      path: /Audio/Imperial/Medieval/sword_swing.ogg
+  - type: MedievalMeleeResource
+    resourceWaste: 0.35
+  - type: Item
+    size: Normal
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/iron_sword.rsi
+    slots:
+    - back
+    - suitStorage
+    - belt
+    quickEquip: false
+    equipSound:
+      path: /Audio/Imperial/Medieval/sword_uneqip.ogg
+    unequipSound:
+      path: /Audio/Imperial/Medieval/sword_eqip.ogg
+  - type: DisarmMalus
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 10.5
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  - type: MeleeThrowOnHit
+    distance: 0.7
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 4
+
+- type: entity
+  name: falshion
+  parent: [ BaseItem, BaseOneHandedCharged, BasePoiseSlashLarge ]
+  id: MedievalFalshionRusty
+  description: An ancient war blade.
+  components:
+  - type: PoiseDamage
+    poiseDamage: 7
+  - type: RDWeight
+    value: 2
+  - type: QuestItem
+    contractName: "любые одноручные мечи"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+          variation: 0.02
+          volume: 1
+  - type: Sharp
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_sword_rusty.rsi
+    state: icon
+  - type: MeleeParry
+    parryChanse: 0.7
+  - type: MeleeWeapon
+    clickDamageModifier: 1.15
+    wideAnimationRotation: -140
+    attackRate: 1
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1
+    damage:
+      types:
+        Slash: 12.5
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+    soundSwing:
+      path: /Audio/Imperial/Medieval/sword_swing.ogg
+  - type: MedievalMeleeResource
+    resourceWaste: 0.4
+  - type: Item
+    size: Normal
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/iron_sword_rusty.rsi
+    slots:
+    - back
+    - suitStorage
+    - belt
+    quickEquip: false
+    equipSound:
+      path: /Audio/Imperial/Medieval/sword_uneqip.ogg
+    unequipSound:
+      path: /Audio/Imperial/Medieval/sword_eqip.ogg
+  - type: DisarmMalus
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 6
+  - type: StaminaDamageOnHit
+    damage: 1 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 2
+
+- type: entity
+  name: dagger
+  parent: [ BaseKnife, BaseOneHandedCharged, BasePoiseSlashLarge ]
+  id: MedievalShortSword
+  description: A deadly knife intended for melee confrontations.
+  components:
+  - type: PoiseDamage
+    poiseDamage: 5
+  - type: RDWeight
+    value: 1.5
+  - type: QuestItem
+    contractName: "любые одноручные мечи"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+          variation: 0.02
+          volume: 1
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_short_sword.rsi
+    size: Small
+    state: icon
+  - type: Item
+    size: Small
+    sprite: Imperial/Medieval/Melee/iron_short_sword.rsi
+  - type: MeleeParry
+    parryChanse: 0.55
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1
+    clickDamageModifier: 1.29
+    #resetOnHandSelected: false
+    attackRate: 1.1
+    range: 1.4
+    damage:
+      types:
+        Slash: 14.5
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Imperial/Medieval/ES_Knife_Stab_2_-_SFX_Producer.ogg
+    soundSwing:
+      path: /Audio/Imperial/Medieval/sword_swing.ogg
+  - type: MedievalMeleeResource
+    resourceWaste: 0.4
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 17
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    - Spear
+    - Knife
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/iron_short_sword.rsi
+    slots:
+    - belt
+    quickEquip: false
+    equipSound:
+      path: /Audio/Imperial/Medieval/sword_uneqip.ogg
+    unequipSound:
+      path: /Audio/Imperial/Medieval/sword_eqip.ogg
+  - type: MeleeThrowOnHit
+    distance: 0.3
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 3
+
+- type: entity
+  name: dagger
+  parent: MedievalShortSword
+  id: MedievalShortSwordSteel
+  description: A deadly knife intended for melee confrontations.
+  components:
+  - type: QuestItem
+    contractName: "любые одноручные мечи"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+          variation: 0.02
+          volume: 1
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_short_sword.rsi
+    size: Small
+    state: icon
+  - type: Item
+    size: Small
+    sprite: Imperial/Medieval/Melee/iron_short_sword.rsi
+  - type: MeleeParry
+    parryChanse: 0.65
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1
+    clickDamageModifier: 1.3
+    #resetOnHandSelected: false
+    attackRate: 1.15
+    range: 1.4
+    damage:
+      types:
+        Slash: 17
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Imperial/Medieval/ES_Knife_Stab_2_-_SFX_Producer.ogg
+  - type: MedievalMeleeResource
+    resourceWaste: 0.35
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 19
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    - Spear
+    - Knife
+  - type: MeleeThrowOnHit
+    distance: 0.32
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 3
+
+- type: entity
+  name: dagger
+  parent: [ BaseKnife, BaseOneHandedCharged, BasePoiseSlashLarge ]
+  id: MedievalShortSwordRusty
+  description: A deadly knife intended for melee confrontations.
+  components:
+  - type: PoiseDamage
+    poiseDamage: 4
+  - type: RDWeight
+    value: 1.5
+  - type: QuestItem
+    contractName: "любые одноручные мечи"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+          variation: 0.02
+          volume: 1
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_short_sword_rusty.rsi
+    size: Small
+    state: icon
+  - type: Item
+    size: Small
+    sprite: Imperial/Medieval/Melee/iron_short_sword_rusty.rsi
+  - type: MeleeParry
+    parryChanse: 0.55
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1
+    clickDamageModifier: 1.29
+    #resetOnHandSelected: false
+    attackRate: 1.1
+    range: 1.4
+    damage:
+      types:
+        Slash: 11
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Imperial/Medieval/ES_Knife_Stab_2_-_SFX_Producer.ogg
+    soundSwing:
+      path: /Audio/Imperial/Medieval/sword_swing.ogg
+  - type: MedievalMeleeResource
+    resourceWaste: 0.4
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 13
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    - Spear
+    - Knife
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/iron_short_sword_rusty.rsi
+    slots:
+    - belt
+    quickEquip: false
+    equipSound:
+      path: /Audio/Imperial/Medieval/sword_uneqip.ogg
+    unequipSound:
+      path: /Audio/Imperial/Medieval/sword_eqip.ogg
+  - type: StaminaDamageOnHit
+    damage: 1 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 2
+
+- type: entity
+  name: dagger
+  parent: [ BaseKnife, BaseSaberCharged, BasePoiseSlashLarge ]
+  id: MedievalSaber
+  description: A deadly knife intended for melee confrontations.
+  components:
+  - type: PoiseDamage
+    poiseDamage: 8
+  - type: RDWeight
+    value: 1.7
+  - type: QuestItem
+    contractName: "любые одноручные мечи"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+          variation: 0.02
+          volume: 1
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_saber.rsi
+    size: Small
+    state: icon
+  - type: Item
+    size: Normal
+    sprite: Imperial/Medieval/Melee/iron_saber.rsi
+  - type: MeleeParry
+    parryChanse: 0.62
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: false
+    cPAnimationOffset: 1
+    range: 1.42
+    clickDamageModifier: 0.6
+    wideAnimationRotation: -140
+    attackRate: 1.1
+    damage:
+      types:
+        Slash: 15.2
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+    soundSwing:
+      path: /Audio/Imperial/Medieval/sword_swing.ogg
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 4
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    - Spear
+    - Knife
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/iron_saber.rsi
+    slots:
+    - back
+    - suitStorage
+    - belt
+    quickEquip: false
+    equipSound:
+      path: /Audio/Imperial/Medieval/sword_uneqip.ogg
+    unequipSound:
+      path: /Audio/Imperial/Medieval/sword_eqip.ogg
+  - type: MeleeThrowOnHit
+    distance: 0.6
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 3
+
+- type: entity
+  name: dagger
+  parent: MedievalSaber
+  id: MedievalSaberSteel
+  description: A deadly knife intended for melee confrontations.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_saber.rsi
+    size: Small
+    state: icon
+  - type: Item
+    size: Normal
+    sprite: Imperial/Medieval/Melee/iron_saber.rsi
+  - type: MeleeParry
+    parryChanse: 0.62
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: false
+    cPAnimationOffset: 1
+    range: 1.45
+    clickDamageModifier: 0.6
+    wideAnimationRotation: -140
+    attackRate: 1.05
+    damage:
+      types:
+        Slash: 17.8
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 5
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    - Spear
+    - Knife
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/iron_saber.rsi
+    slots:
+    - back
+    - suitStorage
+    - belt
+    quickEquip: false
+  - type: MeleeThrowOnHit
+    distance: 0.6
+    speed: 5
+
+- type: entity
+  name: dagger
+  parent: [ BaseKnife, BaseSaberCharged, BasePoiseSlashLarge ]
+  id: MedievalSaberRusty
+  description: A deadly knife intended for melee confrontations.
+  components:
+  - type: PoiseDamage
+    poiseDamage: 7
+  - type: RDWeight
+    value: 1.7
+  - type: QuestItem
+    contractName: "любые одноручные мечи"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+          variation: 0.02
+          volume: 1
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_saber_rusty.rsi
+    size: Small
+    state: icon
+  - type: Item
+    size: Normal
+    sprite: Imperial/Medieval/Melee/iron_saber_rusty.rsi
+  - type: MeleeParry
+    parryChanse: 0.62
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: false
+    cPAnimationOffset: 1
+    range: 1.42
+    clickDamageModifier: 0.6
+    wideAnimationRotation: -140
+    attackRate: 1.1
+    damage:
+      types:
+        Slash: 13
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+    soundSwing:
+      path: /Audio/Imperial/Medieval/sword_swing.ogg
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 4
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    - Spear
+    - Knife
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/iron_saber_rusty.rsi
+    slots:
+    - back
+    - suitStorage
+    - belt
+    quickEquip: false
+    equipSound:
+      path: /Audio/Imperial/Medieval/sword_uneqip.ogg
+    unequipSound:
+      path: /Audio/Imperial/Medieval/sword_eqip.ogg
+  - type: StaminaDamageOnHit
+    damage: 1 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 2
+
+- type: entity
+  name: iron claymore
+  parent: [ BaseItem, BaseTwoHandedCharged, BasePoiseTwoHanded ]
+  id: MedievalIronClaymore
+  description: A medieval claymore.
+  components:
+  - type: RDWeight
+    value: 7
+  - type: QuestItem
+    contractName: "любое двуручное оружие"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+        variation: 0.02
+        volume: 1
+  - type: Sharp
+  - type: MeleeParry
+    parryChanse: 0.55
+  - type: MeleeWeapon
+    angle: 140
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1
+    clickDamageModifier: 1.5 # higher damage modifier because quirk
+    wideAnimationRotation: -140
+    attackRate: 0.375
+    range: 1.8
+    damage:
+      types:
+        Piercing: 6
+        Slash: 6
+        Structural: 2
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+  - type: MedievalMeleeResource
+    resourceWaste: 0.6
+    safeToHitGroup: structure
+  - type: Wieldable
+    useDelayOnWield: false
+    #wieldTime: 3
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Blunt: 10
+        Structural: 9
+        Slash: 11
+  - type: Item
+    size: Huge
+    sprite: Imperial/Medieval/Melee/claymore_inhand.rsi
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 19
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: MeleeRequiresWield
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  - type: MeleeThrowOnHit
+    distance: 1.2
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 3 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 7
+  - type: HeldSpeedModifier
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/claymore_inhand.rsi
+    slots:
+    - back
+    - suitStorage
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/claymore.rsi
+    state: icon
+
+- type: entity
+  name: steel claymore
+  parent: [ BaseItem, BaseTwoHandedCharged, BasePoiseTwoHanded ]
+  id: MedievalIronClaymoreSteel
+  description: A medieval claymore.
+  components:
+  - type: PoiseDamage
+    poiseDamage: 25
+  - type: RDWeight
+    value: 7
+  - type: QuestItem
+    contractName: "любое двуручное оружие"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+        variation: 0.02
+        volume: 1
+  - type: Sharp
+  - type: MeleeParry
+    parryChanse: 0.55
+  - type: MeleeWeapon
+    angle: 140
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1
+    clickDamageModifier: 1.5 # higher lmb modifier because quirk
+    wideAnimationRotation: -140
+    attackRate: 0.375
+    range: 1.8
+    damage:
+      types:
+        Piercing: 4
+        Slash: 17
+        Structural: 3
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+  - type: MedievalMeleeResource
+    resourceWaste: 0.5
+    safeToHitGroup: structure
+  - type: Wieldable
+    useDelayOnWield: false
+    #wieldTime: 3
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Blunt: 15
+        Structural: 17
+        Slash: 6
+  - type: Item
+    size: Huge
+    sprite: Imperial/Medieval/Melee/claymore_inhand.rsi
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 19
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: MeleeRequiresWield
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  - type: MeleeThrowOnHit
+    distance: 1.2
+    speed: 5
+  - type: Meltable
+    resourceCount: 7
+  - type: HeldSpeedModifier
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/claymore_inhand.rsi
+    slots:
+    - back
+    - suitStorage
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/claymore.rsi
+    state: icon
+
+- type: entity
+  name: iron zweihander
+  parent: [ BaseItem, BaseTwoHandedCharged, BasePoiseTwoHanded ]
+  id: MedievalIronZweihander
+  description: A medieval zweihander.
+  components:
+  - type: PoiseDamage
+    poiseDamage: 25
+  - type: RDWeight
+    value: 7
+  - type: QuestItem
+    contractName: "любое двуручное оружие"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+        variation: 0.02
+        volume: 1
+  - type: Sharp
+  - type: MeleeParry
+    parryChanse: 0.55
+  - type: MeleeWeapon
+    angle: 140
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1
+    clickDamageModifier: 1.5 # higher lmb modifier because quirk
+    wideAnimationRotation: -140
+    attackRate: 0.375
+    range: 1.8
+    damage:
+      types:
+        Piercing: 6
+        Slash: 6
+        Structural: 2
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+  - type: MedievalMeleeResource
+    resourceWaste: 0.6
+    safeToHitGroup: structure
+  - type: Wieldable
+    useDelayOnWield: false
+    #wieldTime: 3
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Blunt: 6
+        Structural: 9
+        Slash: 15
+  - type: Item
+    size: Huge
+    sprite: Imperial/Medieval/Melee/zweihander_inhand.rsi
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 19
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: MeleeRequiresWield
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  - type: MeleeThrowOnHit
+    distance: 1.2
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 3 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 7
+  - type: HeldSpeedModifier
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/zweihander_inhand.rsi
+    slots:
+    - back
+    - suitStorage
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/zweihander.rsi
+    state: icon
+
+- type: entity
+  name: steel zweihander
+  parent: [ BaseItem, BaseTwoHandedCharged, BasePoiseTwoHanded ]
+  id: MedievalIronZweihanderSteel
+  description: A medieval zweihander.
+  components:
+  - type: PoiseDamage
+    poiseDamage: 30
+  - type: RDWeight
+    value: 7
+  - type: QuestItem
+    contractName: "любое двуручное оружие"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+        variation: 0.02
+        volume: 1
+  - type: Sharp
+  - type: MeleeParry
+    parryChanse: 0.55
+  - type: MeleeWeapon
+    angle: 140
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1
+    clickDamageModifier: 1.5 # higher lmb modifier because quirk
+    wideAnimationRotation: -140
+    attackRate: 0.375
+    range: 1.8
+    damage:
+      types:
+        Piercing: 10
+        Slash: 15
+        Structural: 3
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+  - type: MedievalMeleeResource
+    resourceWaste: 0.5
+    safeToHitGroup: structure
+  - type: Wieldable
+    useDelayOnWield: false
+    #wieldTime: 3
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Blunt: 5
+        Structural: 17
+        Slash: 12
+  - type: Item
+    size: Huge
+    sprite: Imperial/Medieval/Melee/zweihander_inhand.rsi
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 19
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: MeleeRequiresWield
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  - type: MeleeThrowOnHit
+    distance: 1.2
+    speed: 5
+  - type: Meltable
+    resourceCount: 7
+  - type: HeldSpeedModifier
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/zweihander_inhand.rsi
+    slots:
+    - back
+    - suitStorage
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/zweihander.rsi
+    state: icon

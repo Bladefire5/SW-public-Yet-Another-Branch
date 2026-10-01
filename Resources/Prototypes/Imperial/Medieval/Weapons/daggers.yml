@@ -1,0 +1,190 @@
+- type: entity
+  name: dagger
+  parent: [ BaseKnife, BaseDaggerCharged, BasePoiseSlashSmall ]
+  id: MedievalDaggerT3
+  description: A deadly knife intended for melee confrontations.
+  components:
+  - type: QuestItem
+    contractName: "любые кинжалы"
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/dagger.rsi
+    size: Small
+    state: icon
+  - type: Item
+    size: Small
+    sprite: Imperial/Medieval/Melee/dagger.rsi
+  - type: MeleeParry
+    parryChanse: 0.12
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 0.8
+    clickDamageModifier: 1.33
+    resetOnHandSelected: false
+    attackRate: 1.34
+    range: 1
+    damage:
+      types:
+        Slash: 9.5
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Imperial/Medieval/ES_Knife_Stab_2_-_SFX_Producer.ogg
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 14
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  - type: EmbeddableProjectile
+    offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    - Spear
+    - Knife
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/dagger.rsi
+    slots:
+    - belt
+    quickEquip: false
+  - type: MeleeThrowOnHit
+    distance: 0.3
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 1 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 1
+
+- type: entity
+  name: dagger
+  parent:  MedievalDaggerT3
+  id: MedievalDaggerT3Steel
+  description: A deadly knife intended for melee confrontations.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/dagger.rsi
+    size: Small
+    state: icon
+  - type: Item
+    size: Small
+    sprite: Imperial/Medieval/Melee/dagger.rsi
+  - type: MeleeParry
+    parryChanse: 0.12
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 0.8
+    clickDamageModifier: 1.33
+    attackRate: 1.35
+    range: 1
+    damage:
+      types:
+        Slash: 11.6
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Imperial/Medieval/ES_Knife_Stab_2_-_SFX_Producer.ogg
+    resetOnHandSelected: false
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 16
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  - type: EmbeddableProjectile
+    offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    - Spear
+    - Knife
+  - type: MeleeThrowOnHit
+    distance: 0.3
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 1 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 2
+
+- type: entity
+  name: dagger
+  parent: [ BaseKnife, BaseDaggerCharged, BasePoiseSlashSmall ]
+  id: MedievalDaggerT3Bone
+  description: A deadly knife intended for melee confrontations.
+  components:
+  - type: QuestItem
+    contractName: "любые кинжалы"
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/dagger_bone.rsi
+    size: Small
+    state: icon
+  - type: Item
+    size: Small
+    sprite: Imperial/Medieval/Melee/dagger_bone.rsi
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 0.8
+    clickDamageModifier: 1.3
+    attackRate: 1.32
+    range: 1
+    damage:
+      types:
+        Slash: 8.5
+        Poison: 0.5
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Imperial/Medieval/ES_Knife_Stab_2_-_SFX_Producer.ogg
+    resetOnHandSelected: false
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 14
+        Poison: 3
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    #- Spear
+    - Knife
+  - type: StealTarget # imperial medieval
+    stealGroup: MedievalGetMedievalDaggerT3Bone # imperial medieval
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/dagger_bone.rsi
+    slots:
+    - belt
+    quickEquip: false
+  - type: MeleeThrowOnHit
+    distance: 0.3
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 1 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
