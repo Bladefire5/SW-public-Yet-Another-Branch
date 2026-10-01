@@ -61,20 +61,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -340,20 +326,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -417,20 +389,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -469,20 +427,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -520,20 +464,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -661,20 +591,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -718,20 +634,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -784,20 +686,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
   - type: Meltable
     resourceCount: 2
   - type: Tag
@@ -841,20 +729,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
   - type: Meltable
     resourceCount: 2
   - type: Tag
@@ -897,20 +771,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -961,20 +821,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -1070,20 +916,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -1540,20 +1372,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -1678,20 +1496,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -2060,20 +1864,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -2215,20 +2005,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -2302,20 +2078,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -2389,20 +2151,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
   - type: ExplosionResistance
     damageCoefficient: 0.8
   - type: Tag
@@ -2457,20 +2205,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
   - type: ExplosionResistance
     damageCoefficient: 0.8
   - type: Tag
@@ -2532,20 +2266,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -2619,20 +2339,6 @@
         coefficient: 0.85
       Heat:
         coefficient: 0.6
-    brokenResistances:
-      Blunt:
-        coefficient: 0.95
-      Slash:
-        coefficient: 0.95
-      Piercing:
-        coefficient: 0.95
-      Heat:
-        coefficient: 0.9
-    breakageMultipliers:
-      Piercing: 1
-      Blunt: 1.2
-      Slash: 1.1
-      Heat: 1
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
