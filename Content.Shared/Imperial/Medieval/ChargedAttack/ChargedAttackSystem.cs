@@ -197,7 +197,8 @@ public sealed class ChargedAttackSystem : EntitySystem
 
     private void ChargedAttack(EntityUid entity, EntityCoordinates coordinates, Entity<MeleeWeaponComponent> weapon, ChargedAttackComponent charged, TimeSpan attackTime, ICommonSession session)
     {
-        var ratio = Math.Min(attackTime.Seconds / charged.MaxAttackTime, 1f);
+        var ratio = Math.Min((float)attackTime.TotalSeconds / charged.MaxAttackTime, 1f);
+        charged.PoiseChargeRatio = ratio;
         charged.Modifier = charged.StaticModifier * ratio + 1f;
         Dirty(weapon.Owner, charged);
 
@@ -244,6 +245,7 @@ public sealed class ChargedAttackSystem : EntitySystem
         charged.CurrentAttacking = false;
         charged.AttackStart = TimeSpan.FromSeconds(0f);
         charged.Modifier = 0f;
+        charged.PoiseChargeRatio = 0f;
         _modifierSystem.RefreshMovementSpeedModifiers(user);
         EndEffect(entity, charged);
         Dirty(entity, charged);

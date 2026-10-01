@@ -23,6 +23,9 @@ public sealed partial class ChargedAttackComponent : Component
     [ViewVariables, AutoNetworkedField]
     public float Modifier;
 
+    [ViewVariables]
+    public float PoiseChargeRatio;
+
     [ViewVariables, AutoNetworkedField]
     public bool CurrentAttacking;
 

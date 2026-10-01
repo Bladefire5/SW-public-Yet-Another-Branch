@@ -288,7 +288,7 @@ public abstract partial class SharedStaminaSystem : EntitySystem
         if (!Resolve(uid, ref component, false))
             return;
 
-        var ev = new BeforeStaminaDamageEvent(value, Origin: source); // Добавлен источник урона, нужен для системы парирования
+        var ev = new BeforeStaminaDamageEvent(value, Origin: source, With: with); // Добавлен источник урона, нужен для системы парирования
         RaiseLocalEvent(uid, ref ev);
         if (ev.Cancelled)
             return;
