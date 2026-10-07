@@ -7113,3 +7113,23 @@ ent-MedievalClothingUniformJumpsuitShitCloth96 = крестьянская руб
 ent-MedievalClothingUniformJumpsuitShitCloth97 = белое крестьянское платье
     .desc = Самое то для сельской местности.
     .suffix = { "Средневековье, одежда" }
+
+dual-chamber-arrow-examine =
+    Выбрана камера: {$active}.
+    Камера 1: {$one}/{$oneMax}u.
+    Камера 2: {$two}/{$twoMax}u.
+
+dual-chamber-arrow-select-one = Выбрать камеру 1
+dual-chamber-arrow-select-two = Выбрать камеру 2
+
+dual-chamber-arrow-toggle-chamber = Переключить камеру
+dual-chamber-arrow-selected = Выбрана камера {$chamber}.
+
+dual-chamber-arrow-filled-switched = Камера {$filled} заполнена. Выбрана камера {$active}.
+dual-chamber-arrow-filled-both = Камера {$filled} заполнена. Обе камеры заполнены.
+dual-chamber-arrow-spill-chamber = Вылить камеру {$chamber}
+dual-chamber-arrow-spilled = Камера {$chamber} опустошена.
+dual-chamber-arrow-spill-empty = Камера {$chamber} уже пуста.
+
+dual-chamber-arrow-filled = Камера {$chamber}: {$volume}/{$max}u.
+dual-chamber-arrow-transfer = Перенесено {$amount}u в контейнер

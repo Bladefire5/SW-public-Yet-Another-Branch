@@ -15,6 +15,8 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Maths;
 using Robust.Shared.Timing;
+using Content.Shared.Imperial.Medieval.Poise;
+using Content.Shared.CombatMode;
 
 namespace Content.Client.Imperial.Medieval.UserInterface.Elements;
 
@@ -28,6 +30,8 @@ public sealed class HotbarVitalsControl : BoxContainer
     private const float DefaultFillTopInset = 4f;
     private const float DefaultFillBottomInset = 3f;
     private const float VitalBarHeight = 20f;
+    private const int PoisePerSection = 10;
+    private const float PoiseGuideThickness = 2f;
     private const string BarFrameTexturePath = "/Textures/Imperial/Medieval/Interface/StatusBars/vitals_frame.png";
     private const string BarFillTexturePath = "/Textures/Imperial/Medieval/Interface/StatusBars/vitals_fill.png";
 
@@ -37,12 +41,18 @@ public sealed class HotbarVitalsControl : BoxContainer
     private static readonly Color StaminaColor = Color.FromHex("#39D64B");
     private static readonly Color ManaColor = Color.FromHex("#2F84FF");
     private static readonly Color HungerColor = Color.FromHex("#E67E22");
+    private static readonly Color PoiseColor = Color.FromHex("#D8D8D2");
+    private static readonly Color PoiseGuideColor = Color.FromHex("#74746F");
+    private static readonly Color PoiseBrokenColor = Color.FromHex("#D92F2F");
     private static readonly TimeSpan ManaHideDelay = TimeSpan.FromSeconds(3);
 
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IResourceCache _resourceCache = default!;
+
+    private readonly PoiseStatBar _poiseBar;
+    private float? _displayedPoiseRatio;
 
     private readonly BoxContainer _content;
     private readonly FramedStatBar _healthBar;
@@ -114,6 +124,12 @@ public sealed class HotbarVitalsControl : BoxContainer
             Visible = false
         };
 
+        _poiseBar = new PoiseStatBar(_resourceCache)
+        {
+            SetHeight = VitalBarHeight,
+            FillColor = PoiseColor,
+        };
+
         var lowerRow = new BoxContainer
         {
             Orientation = LayoutOrientation.Horizontal,
@@ -139,6 +155,7 @@ public sealed class HotbarVitalsControl : BoxContainer
 
         _content.AddChild(_hungerBar);
         _content.AddChild(_manaBar);
+        _content.AddChild(_poiseBar);
         _content.AddChild(lowerRow);
         AddChild(_content);
 
@@ -175,6 +192,7 @@ public sealed class HotbarVitalsControl : BoxContainer
 
         var hasHealth = UpdateHealth(entity, frameTime);
         var hasStamina = UpdateStamina(entity, frameTime);
+        var hasPoise = UpdatePoise(entity, frameTime);
 
         var isForged = _entityManager.HasComponent<ForgedComponent>(entity);
 
@@ -185,7 +203,7 @@ public sealed class HotbarVitalsControl : BoxContainer
         _hungerBar.Visible = hasHunger;
         if (isForged) _manaBar.Visible = false;
 
-        _content.Visible = hasHealth || hasStamina || hasMana || hasHunger;
+        _content.Visible = hasHealth || hasStamina || hasMana || hasHunger || hasPoise;
     }
 
     private bool UpdateHealth(EntityUid entity, float frameTime)
@@ -273,6 +291,83 @@ public sealed class HotbarVitalsControl : BoxContainer
         _staminaBar.Visible = true;
         _staminaBar.Value = _displayedStaminaRatio.Value;
         return true;
+    }
+
+    private bool UpdatePoise(EntityUid entity, float frameTime)
+    {
+        if (!_entityManager.TryGetComponent(entity, out PoiseComponent? poise))
+        {
+            HidePoiseBar();
+            return false;
+        }
+
+        var effectivePoiseThreshold = PoiseSystem.GetEffectivePoiseThreshold(poise);
+
+        if (effectivePoiseThreshold <= 0)
+        {
+            HidePoiseBar();
+            return false;
+        }
+
+        var inCombat = false;
+
+        if (_entityManager.TryGetComponent(entity, out CombatModeComponent? combatMode)) inCombat = combatMode.IsInCombatMode;
+
+        var shouldShow = inCombat || poise.PoiseDamage > 0 || poise.PoiseBroken;
+
+        if (!shouldShow)
+        {
+            HidePoiseBar();
+            return false;
+        }
+
+        _poiseBar.Visible = true;
+
+        var ratio = Math.Clamp(1f - (float)poise.PoiseDamage / effectivePoiseThreshold, 0f, 1f);
+
+        if (poise.PoiseBroken)
+        {
+            _displayedPoiseRatio = 0f;
+        }
+        else if (_displayedPoiseRatio == null)
+        {
+            _displayedPoiseRatio = ratio;
+        }
+        else
+        {
+            var smoothing = 1f - MathF.Exp(-BarSmoothingSpeed * frameTime);
+
+            _displayedPoiseRatio = MathHelper.Lerp(_displayedPoiseRatio.Value, ratio, smoothing);
+
+            if (Math.Abs(_displayedPoiseRatio.Value - ratio) < 0.002f)
+                _displayedPoiseRatio = ratio;
+        }
+
+        _poiseBar.Value = _displayedPoiseRatio.Value;
+        _poiseBar.Visible = true;
+
+        if (poise.PoiseBroken)
+        {
+            var remaining = poise.PoiseBreakEnds - _timing.CurTime;
+
+            if (remaining < TimeSpan.Zero)
+                remaining = TimeSpan.Zero;
+
+            _poiseBar.SetState(true, remaining, effectivePoiseThreshold);
+        }
+        else
+        {
+            _poiseBar.SetState(false, TimeSpan.Zero, effectivePoiseThreshold);
+        }
+
+        return true;
+    }
+
+    private void HidePoiseBar()
+    {
+        _poiseBar.Visible = false;
+        _poiseBar.ResetState();
+        _displayedPoiseRatio = null;
     }
 
     private bool UpdateMana(EntityUid entity, float frameTime)
@@ -378,10 +473,15 @@ public sealed class HotbarVitalsControl : BoxContainer
         _displayedManaRatio = null;
         _displayedStaminaRatio = null;
         _displayedHungerRatio = null;
+        _displayedPoiseRatio = null;
         _manaBar.Visible = false;
+
+        _poiseBar.ResetState();
+        _poiseBar.Visible = false;
     }
 
-    private sealed class FramedStatBar : LayoutContainer
+    [Virtual]
+    private class FramedStatBar : LayoutContainer
     {
         private readonly LayoutContainer _fillRegion;
         private readonly PanelContainer _fillSprite;
@@ -400,6 +500,7 @@ public sealed class HotbarVitalsControl : BoxContainer
             set
             {
                 var clamped = Math.Clamp(value, 0f, 1f);
+
                 if (Math.Abs(_value - clamped) < 0.001f)
                     return;
 
@@ -416,6 +517,7 @@ public sealed class HotbarVitalsControl : BoxContainer
             SetHeight = 14f;
 
             var fillTexture = resourceCache.GetResource<TextureResource>(BarFillTexturePath).Texture;
+
             var frameTexture = resourceCache.GetResource<TextureResource>(BarFrameTexturePath).Texture;
 
             var backgroundStyleBox = new StyleBoxTexture
@@ -425,9 +527,13 @@ public sealed class HotbarVitalsControl : BoxContainer
                 Modulate = BarBackground,
                 Texture = fillTexture,
             };
+
             backgroundStyleBox.SetPatchMargin(StyleBox.Margin.Left, DefaultFillPatchMargin);
+
             backgroundStyleBox.SetPatchMargin(StyleBox.Margin.Top, DefaultFillPatchMargin);
+
             backgroundStyleBox.SetPatchMargin(StyleBox.Margin.Right, DefaultFillPatchMargin);
+
             backgroundStyleBox.SetPatchMargin(StyleBox.Margin.Bottom, DefaultFillPatchMargin);
 
             _fillStyleBox = new StyleBoxTexture
@@ -437,9 +543,13 @@ public sealed class HotbarVitalsControl : BoxContainer
                 Modulate = Color.White,
                 Texture = fillTexture,
             };
+
             _fillStyleBox.SetPatchMargin(StyleBox.Margin.Left, DefaultFillPatchMargin);
+
             _fillStyleBox.SetPatchMargin(StyleBox.Margin.Top, DefaultFillPatchMargin);
+
             _fillStyleBox.SetPatchMargin(StyleBox.Margin.Right, DefaultFillPatchMargin);
+
             _fillStyleBox.SetPatchMargin(StyleBox.Margin.Bottom, DefaultFillPatchMargin);
 
             var frameStyleBox = new StyleBoxTexture
@@ -448,9 +558,13 @@ public sealed class HotbarVitalsControl : BoxContainer
                 TextureScale = Vector2.One * BarTextureScale,
                 Texture = frameTexture,
             };
+
             frameStyleBox.SetPatchMargin(StyleBox.Margin.Left, DefaultFramePatchMargin);
+
             frameStyleBox.SetPatchMargin(StyleBox.Margin.Top, DefaultFramePatchMargin);
+
             frameStyleBox.SetPatchMargin(StyleBox.Margin.Right, DefaultFramePatchMargin);
+
             frameStyleBox.SetPatchMargin(StyleBox.Margin.Bottom, DefaultFramePatchMargin);
 
             _fillRegion = new LayoutContainer
@@ -459,6 +573,7 @@ public sealed class HotbarVitalsControl : BoxContainer
                 RectClipContent = true,
                 InheritChildMeasure = false,
             };
+
             SetAnchorPreset(_fillRegion, LayoutPreset.Wide);
             SetMarginLeft(_fillRegion, DefaultFillHorizontalInset);
             SetMarginTop(_fillRegion, DefaultFillTopInset);
@@ -470,6 +585,7 @@ public sealed class HotbarVitalsControl : BoxContainer
                 PanelOverride = backgroundStyleBox,
                 MouseFilter = MouseFilterMode.Ignore,
             };
+
             SetAnchorPreset(background, LayoutPreset.Wide);
 
             _fillSprite = new PanelContainer
@@ -478,6 +594,7 @@ public sealed class HotbarVitalsControl : BoxContainer
                 MouseFilter = MouseFilterMode.Ignore,
                 Visible = false,
             };
+
             SetAnchorPreset(_fillSprite, LayoutPreset.LeftWide);
             SetMarginLeft(_fillSprite, 0f);
             SetMarginTop(_fillSprite, 0f);
@@ -488,10 +605,12 @@ public sealed class HotbarVitalsControl : BoxContainer
                 PanelOverride = frameStyleBox,
                 MouseFilter = MouseFilterMode.Ignore,
             };
+
             SetAnchorPreset(frame, LayoutPreset.Wide);
 
             AddChild(_fillRegion);
             AddChild(frame);
+
             _fillRegion.AddChild(background);
             _fillRegion.AddChild(_fillSprite);
 
@@ -502,9 +621,197 @@ public sealed class HotbarVitalsControl : BoxContainer
         private void UpdateFill()
         {
             var maxWidth = MathF.Round(_fillRegion.Size.X * UIScale) / UIScale;
+
             var width = Math.Clamp(MathF.Ceiling(_fillRegion.Size.X * _value * UIScale) / UIScale, 0f, maxWidth);
+
             _fillSprite.Visible = width > 0.5f;
+
             SetMarginRight(_fillSprite, width);
+        }
+    }
+
+    private sealed class PoiseStatBar : FramedStatBar
+    {
+        private readonly PoiseOverlay _overlay;
+
+        public PoiseStatBar(IResourceCache resourceCache) : base(resourceCache)
+        {
+            _overlay = new PoiseOverlay
+            {
+                MouseFilter = MouseFilterMode.Ignore, InheritChildMeasure = false,
+            };
+
+            SetAnchorPreset(_overlay, LayoutPreset.Wide);
+            AddChild(_overlay);
+        }
+
+        public void SetState(bool broken, TimeSpan remaining, int poiseThreshold)
+        {
+            _overlay.SetState(broken, remaining, poiseThreshold);
+        }
+
+        public void ResetState()
+        {
+            _overlay.ResetState();
+        }
+    }
+    private sealed class PoiseOverlay : LayoutContainer
+    {
+        private readonly Label _recoveryLabel;
+
+        private bool _broken;
+        private int _poiseThreshold;
+        private int _lastRecoveryTenths = -1;
+
+        public PoiseOverlay()
+        {
+            MouseFilter = MouseFilterMode.Ignore;
+            RectClipContent = true;
+            InheritChildMeasure = false;
+
+            _recoveryLabel = new Label
+            {
+                Text = string.Empty,
+                Align = Label.AlignMode.Center,
+                VAlign = Label.VAlignMode.Center,
+                FontColorOverride = Color.White,
+                MouseFilter = MouseFilterMode.Ignore,
+                Visible = false,
+            };
+
+            SetAnchorPreset(_recoveryLabel, LayoutPreset.Wide);
+            AddChild(_recoveryLabel);
+        }
+
+        public void SetState(bool broken, TimeSpan remaining, int poiseThreshold)
+        {
+            _broken = broken;
+            _poiseThreshold = Math.Max(1, poiseThreshold);
+
+            _recoveryLabel.Visible = broken;
+
+            if (broken)
+            {
+                var tenths = Math.Max(0, (int)Math.Ceiling(remaining.TotalSeconds * 10.0));
+
+                if (tenths != _lastRecoveryTenths)
+                {
+                    _lastRecoveryTenths = tenths;
+
+                    var seconds = tenths / 10f;
+                    _recoveryLabel.Text = $"RECOVERY {seconds:0.0}s";
+                }
+            }
+            else
+            {
+                _lastRecoveryTenths = -1;
+                _recoveryLabel.Text = string.Empty;
+            }
+
+            UpdateDraw();
+        }
+
+        public void ResetState()
+        {
+            _broken = false;
+            _poiseThreshold = 0;
+            _lastRecoveryTenths = -1;
+
+            _recoveryLabel.Text = string.Empty;
+            _recoveryLabel.Visible = false;
+
+            UpdateDraw();
+        }
+
+        protected override void Draw(DrawingHandleScreen handle)
+        {
+            base.Draw(handle);
+
+            var scale = UIScale;
+
+            var left = DefaultFillHorizontalInset * scale;
+            var right = PixelWidth - DefaultFillHorizontalInset * scale;
+
+            var top = DefaultFillTopInset * scale;
+            var bottom = PixelHeight - DefaultFillBottomInset * scale;
+
+            if (right <= left || bottom <= top)
+                return;
+
+            DrawGuideLines(
+            handle,
+            left,
+            right,
+            top,
+            bottom);
+
+            if (_broken)
+            {
+                DrawBrokenX(
+                handle,
+                left,
+                right,
+                top,
+                bottom);
+            }
+        }
+
+        private void DrawGuideLines(
+        DrawingHandleScreen handle,
+        float left,
+        float right,
+        float top,
+        float bottom)
+        {
+            if (_poiseThreshold <= 0)
+                return;
+
+            var width = right - left;
+
+            for (var poise = PoisePerSection; poise < _poiseThreshold;
+             poise += PoisePerSection)
+            {
+                var fraction = (float)poise / _poiseThreshold;
+
+                var x = left + width * fraction;
+
+                DrawThickLine(handle, new Vector2(x, top), new Vector2(x, bottom), PoiseGuideColor, PoiseGuideThickness * UIScale);
+            }
+        }
+
+        private void DrawBrokenX(
+        DrawingHandleScreen handle,
+        float left,
+        float right,
+        float top,
+        float bottom)
+        {
+            var thickness = Math.Max(2f, 3f * UIScale);
+
+            DrawThickLine(handle, new Vector2(left, top), new Vector2(right, bottom), PoiseBrokenColor, thickness);
+
+            DrawThickLine(handle, new Vector2(right, top), new Vector2(left, bottom), PoiseBrokenColor, thickness);
+        }
+
+        private static void DrawThickLine(DrawingHandleScreen handle, Vector2 from, Vector2 to, Color color, float thickness)
+        {
+            var direction = to - from;
+
+            if (direction.LengthSquared() <= float.Epsilon)
+                return;
+
+            var normal = Vector2.Normalize(new Vector2(-direction.Y, direction.X));
+
+            var halfThickness = Math.Max(
+            1,
+            (int)MathF.Ceiling(thickness / 2f));
+
+            for (var i = -halfThickness; i <= halfThickness; i++)
+            {
+                var offset = normal * i;
+
+                handle.DrawLine(from + offset, to + offset, color);
+            }
         }
     }
 }

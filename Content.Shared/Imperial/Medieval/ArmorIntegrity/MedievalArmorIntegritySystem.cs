@@ -140,6 +140,8 @@ public sealed partial class MedievalArmorIntegritySystem : EntitySystem
 
         ent.Comp.IsBroken = value;
         SetArmorResistances(ent, value ? ent.Comp.BrokenResistances : ent.Comp.UnbrokenResistances);
+        var ev = new MedievalArmorBrokenStateChangedEvent(value);
+        RaiseLocalEvent(ent.Owner, ref ev);
 
         if (value && _net.IsServer)
         {

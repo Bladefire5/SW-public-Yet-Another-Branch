@@ -954,3 +954,22 @@ ent-MedievalAnglerWeb6 = thinly stretched thread
     .desc = A thin thread stretched by an unknown creature.
     .suffix = { "angler" }
 
+dual-chamber-arrow-examine =
+    Selected chamber: {$active}.
+    Chamber 1: {$one}/{$oneMax}u.
+    Chamber 2: {$two}/{$twoMax}u.
+
+dual-chamber-arrow-select-one = Select chamber 1
+dual-chamber-arrow-select-two = Select chamber 2
+
+dual-chamber-arrow-toggle-chamber = Toggle chamber
+dual-chamber-arrow-selected = Chamber {$chamber} selected.
+
+dual-chamber-arrow-filled-switched = Chamber {$filled} filled. Chamber {$active} selected.
+dual-chamber-arrow-filled-both = Chamber {$filled} filled. Both chambers are full.
+dual-chamber-arrow-spill-chamber = Spill chamber {$chamber}
+dual-chamber-arrow-spilled = Chamber {$chamber} emptied.
+dual-chamber-arrow-spill-empty = Chamber {$chamber} is already empty.
+
+dual-chamber-arrow-filled = Chamber {$chamber}: {$volume}/{$max}u.
+dual-chamber-arrow-transfer = Transferred {$amount}u to container

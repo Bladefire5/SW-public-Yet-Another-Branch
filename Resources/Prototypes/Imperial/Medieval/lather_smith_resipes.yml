@@ -983,6 +983,16 @@
   result: MedievalChemistryEmptyBottleTempering04
 
 - type: CP14Recipe
+  id: MedievalChemistryVialTemperingPackCraft
+  craftTime: 3
+  iconOverride: MedievalChemistryVialTemperingPack
+  stacks:
+    MedievalIronIngot: 1
+  entities:
+    MedievalPaper: 1
+  result: MedievalChemistryVialTemperingPack
+
+- type: CP14Recipe
   id: MedievalKotel
   iconOverride: MedievalKotel
   craftTime: 11

@@ -57,6 +57,27 @@
     regen: -0.5
 
 - type: entity
+  id: MedievalPoiseArmorLight
+  abstract: true
+  components:
+  - type: PoiseArmor
+    armorClass: Light
+
+- type: entity
+  id: MedievalPoiseArmorMedium
+  abstract: true
+  components:
+  - type: PoiseArmor
+    armorClass: Medium
+
+- type: entity
+  id: MedievalPoiseArmorHeavy
+  abstract: true
+  components:
+  - type: PoiseArmor
+    armorClass: Heavy
+
+- type: entity
   parent: MedievalClothingOuterArmorStudded
   id: MedievalClothingOuterArmorFurRoyal
   name: fur armor
@@ -711,7 +732,7 @@
     sprite: Imperial/Medieval/Clothing/Armor/viking.rsi
 
 - type: entity
-  parent: ClothingOuterBase
+  parent: [ClothingOuterBase, MedievalPoiseArmorLight]
   id: MedievalClothingOuterArmorIronCuirassLight
   name: iron armor cuirass
   description: An armored iron plate to protect against melee weapons.

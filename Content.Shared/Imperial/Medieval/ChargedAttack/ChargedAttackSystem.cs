@@ -19,6 +19,7 @@ using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using Content.Shared.CombatMode;
+using Content.Shared.Imperial.Medieval.Archery;
 
 namespace Content.Shared.Imperial.Medieval.ChargedAttack;
 
@@ -147,9 +148,19 @@ public sealed class ChargedAttackSystem : EntitySystem
         }
     }
 
+
     private void OnRefreshMovespeed(EntityUid uid, HumanoidAppearanceComponent component, RefreshMovementSpeedModifiersEvent args)
     {
-        var item = _handsSystem.EnumerateHeld(uid).Where(c => HasComp<ChargedAttackComponent>(c)).FirstOrNull();
+        // Bow slowdown.
+        if (_handsSystem.TryGetActiveItem(uid, out var activeItem) && TryComp<MedievalBowChargeComponent>(activeItem, out var bowCharge) && bowCharge.IsCharging && bowCharge.ChargingUser == uid)
+        {
+            args.ModifySpeed(bowCharge.ChargingMoveSpeedMultiplier, bowCharge.ChargingMoveSpeedMultiplier);
+        }
+
+        // Charged melee slowdown.
+        var item = _handsSystem.EnumerateHeld(uid)
+        .Where(c => HasComp<ChargedAttackComponent>(c))
+        .FirstOrNull();
 
         if (item == null || !TryComp<ChargedAttackComponent>(item, out var comp))
             return;
@@ -159,6 +170,7 @@ public sealed class ChargedAttackSystem : EntitySystem
             args.ModifySpeed(comp.SpeedModifer, comp.SpeedModifer);
         }
     }
+
 
     private void OnStart(ChargedAttackStart msg, EntitySessionEventArgs args)
     {

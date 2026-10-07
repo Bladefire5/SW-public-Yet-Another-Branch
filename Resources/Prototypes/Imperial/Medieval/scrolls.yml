@@ -92,7 +92,7 @@
 
 - type: entity
   name: MedievalDraftBaseBow
-  parent: BaseItem # imperial medieval no contraband
+  parent: BaseMedievalBowCharged
   id: MedievalDraftBaseBow
   description: The original rooty tooty point and shooty.
   abstract: true
@@ -201,7 +201,7 @@
     color: "#39a1ff"
 
 - type: entity
-  parent: BaseArrow
+  parent: BasePoiseArrow
   id: MedievalDraftBaseArrow
   abstract: true
   components:
@@ -220,10 +220,6 @@
   name: draft arrow
   description: You can feel the power of the steppe within you.
   components:
-  - type: Projectile
-    damage:
-      types:
-        Piercing: 28
   - type: TimedDespawn
     lifetime: 300    # 900 = 15 minutes
   - type: SpawnOnDespawn

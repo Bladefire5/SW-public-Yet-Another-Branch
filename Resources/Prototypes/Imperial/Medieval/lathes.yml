@@ -538,6 +538,7 @@
     state: mixer_loaded
   - type: ChemMaster
     pillDosageLimit: 50
+  - type: MedievalAlchemy
   - type: Physics
     bodyType: Static
   - type: Fixtures
@@ -555,22 +556,25 @@
   - type: Destructible
     thresholds:
     - trigger: !type:DamageTrigger
-        damage: 250
+        damage: 500
       behaviors:
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: ActivatableUI
-    key: enum.ChemMasterUiKey.Key
+    key: enum.MedievalAlchemyUiKey.Key
   - type: UserInterface
     interfaces:
       enum.ChemMasterUiKey.Key:
         type: ChemMasterBoundUserInterface
+      enum.MedievalAlchemyUiKey.Key:
+        type: MedievalAlchemyBoundUserInterface
   - type: Appearance
   - type: Machine
     board: ChemMasterMachineCircuitboard
   - type: ContainerContainer
     containers:
       beakerSlot: !type:ContainerSlot ""
+      alchemyBottles: !type:Container ""
       outputSlot: !type:ContainerSlot ""
       machine_board: !type:Container ""
       machine_parts: !type:Container ""
@@ -581,14 +585,31 @@
           components:
           - FitsInDispenser
       outputSlot:
-        whitelistFailPopup: chem-master-component-cannot-put-entity-message
+        priority: 0
+        swap: false
+        ejectOnBreak: true
         whitelist:
           tags:
-          - Bottle
           - PillCanister
+  - type: EmptyOnMachineDeconstruct
+    containers:
+    - alchemyBottles
   - type: SolutionContainerManager
     solutions:
       buffer: {}
+      alchemyWater:
+        maxVol: 200
+        reagents:
+        - ReagentId: Water
+          Quantity: 200
+      alchemyNutriment:
+        maxVol: 200
+  - type: SolutionRegeneration
+    solution: alchemyWater
+    generated:
+      reagents:
+      - ReagentId: Water
+        Quantity: 1
   - type: GenericVisualizer
     visuals:
       enum.PowerDeviceVisuals.Powered:

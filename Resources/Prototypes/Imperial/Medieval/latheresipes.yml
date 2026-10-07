@@ -1476,7 +1476,7 @@
   stacks:
     MedievalRope: 2
     WoodPlank: 6
-  result: BowImprovised
+  result: MedievalBowImprovised
 
 - type: CP14Recipe
   id: MedievalArrow

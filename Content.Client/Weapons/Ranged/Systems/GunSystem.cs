@@ -23,6 +23,9 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using SharedGunSystem = Content.Shared.Weapons.Ranged.Systems.SharedGunSystem;
 using TimedDespawnComponent = Robust.Shared.Spawners.TimedDespawnComponent;
+// imperial medieval start
+using Content.Shared.Imperial.Medieval.Archery;
+// imperial medieval end
 
 namespace Content.Client.Weapons.Ranged.Systems;
 
@@ -171,6 +174,11 @@ public sealed partial class GunSystem : SharedGunSystem
         {
             return;
         }
+
+        // imperial medieval start
+        if (HasComp<MedievalBowChargeComponent>(gunUid))
+            return;
+        // imperial medieval end
 
         var useKey = gun.UseKey ? EngineKeyFunctions.Use : EngineKeyFunctions.UseSecondary;
 

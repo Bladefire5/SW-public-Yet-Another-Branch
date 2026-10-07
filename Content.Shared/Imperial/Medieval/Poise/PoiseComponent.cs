@@ -1,4 +1,6 @@
 using Robust.Shared.GameStates;
+using Robust.Shared.Serialization;
+
 
 namespace Content.Shared.Imperial.Medieval.Poise;
 
@@ -15,6 +17,10 @@ public sealed partial class PoiseComponent : Component
     [DataField, AutoNetworkedField]
     public int PoiseThreshold = 50;
 
+    // Дополнительная стойка от экипированной брони.
+    [DataField, AutoNetworkedField]
+    public int ArmorPoiseIncrease;
+
     // Количество урона по стойке, восстанавливаемое за один тик восстановления.
     [DataField, AutoNetworkedField]
     public int PoiseRecoveryPerTick = 5;
@@ -25,7 +31,19 @@ public sealed partial class PoiseComponent : Component
 
     // Снижение входящего урона по здоровью, пока стойка активна.
     [DataField, AutoNetworkedField]
-    public float HealthDamageReduction = 0.5f;
+    public float HealthDamageReduction = 0.4f;
+
+    [DataField, AutoNetworkedField]
+    public float HealthDamageReductionCap = 0.8f;
+
+    [DataField, AutoNetworkedField]
+    public float UnarmoredHealthDamageReduction = 0.1f;
+
+    [DataField, AutoNetworkedField]
+    public float PoiseMultiplier = 1.0f;
+
+    [DataField, AutoNetworkedField]
+    public bool HasPoiseArmor;
 
     // Указывает, пробита ли стойка в данный момент.
     [DataField, AutoNetworkedField]
@@ -51,4 +69,27 @@ public sealed partial class PoiseComponent : Component
     [AutoPausedField, AutoNetworkedField]
     public TimeSpan PoiseBreakEnds;
 
+    public bool ProtectBreakingHit;
+
+}
+
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+public sealed partial class PoiseArmorComponent : Component
+{
+    [DataField, AutoNetworkedField]
+    public PoiseArmorClass ArmorClass = PoiseArmorClass.Light;
+
+    [DataField, AutoNetworkedField]
+    public float? MultiplierOverride;
+
+    [DataField, AutoNetworkedField]
+    public float? PoiseIncreaseOverride;
+}
+
+[Serializable, NetSerializable]
+public enum PoiseArmorClass : byte
+{
+    Light,
+    Medium,
+    Heavy
 }

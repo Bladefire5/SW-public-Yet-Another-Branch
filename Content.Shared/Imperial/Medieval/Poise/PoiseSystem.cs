@@ -11,7 +11,6 @@ using Content.Shared.Imperial.Medieval.ChargedAttack;
 
 namespace Content.Shared.Imperial.Medieval.Poise;
 
-
 public sealed class PoiseSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
@@ -47,6 +46,11 @@ public sealed class PoiseSystem : EntitySystem
         TakePoiseDamage(uid, damage, source: args.User, with: args.Used == args.User ? null : args.Used);
     }
 
+    public static int GetEffectivePoiseThreshold(PoiseComponent component)
+    {
+        return component.PoiseThreshold + component.ArmorPoiseIncrease;
+    }
+
     public void TakePoiseDamage(
     EntityUid uid,
     int amount,
@@ -72,7 +76,7 @@ public sealed class PoiseSystem : EntitySystem
 
         var oldDamage = component.PoiseDamage;
 
-        component.PoiseDamage = Math.Clamp(component.PoiseDamage + amount, 0, component.PoiseThreshold);
+        component.PoiseDamage = Math.Clamp(component.PoiseDamage + amount, 0, GetEffectivePoiseThreshold(component));
 
         var actualDamage = component.PoiseDamage - oldDamage;
 
@@ -85,7 +89,7 @@ public sealed class PoiseSystem : EntitySystem
                 _adminLogger.Add(
                 LogType.Poise,
                 $"{ToPrettyString(source.Value):user} caused {actualDamage} poise damage to {ToPrettyString(uid):target}" +
-                $"{(with != null ? $" using {ToPrettyString(with.Value):using}" : "")}" + $" ({component.PoiseDamage}/{component.PoiseThreshold})");
+                $"{(with != null ? $" using {ToPrettyString(with.Value):using}" : "")}" + $" ({component.PoiseDamage}/{GetEffectivePoiseThreshold(component)})");
             }
             else
             {
@@ -94,15 +98,12 @@ public sealed class PoiseSystem : EntitySystem
             }
         }
 
-        if (component.PoiseDamage >= component.PoiseThreshold)
+        if (component.PoiseDamage >= GetEffectivePoiseThreshold(component))
         {
+
             BreakPoise(uid, component);
             return;
         }
-
-        component.PoiseRecoveryStarts = _timing.CurTime + component.PoiseRecoveryDelay;
-
-        component.NextPoiseRecoveryTick = component.PoiseRecoveryStarts;
 
         Dirty(uid, component);
     }
@@ -139,11 +140,18 @@ public sealed class PoiseSystem : EntitySystem
         }
     }
 
-    private void BreakPoise(EntityUid uid, PoiseComponent component)
+    public void BreakPoise(EntityUid uid, PoiseComponent component, bool protectBreakingHit = false)
     {
-        component.PoiseBroken = true;
+        if (component.PoiseBroken)
+            return;
 
+        component.ProtectBreakingHit = protectBreakingHit;
+        component.PoiseBroken = true;
+        component.PoiseRecoveryStarts = _timing.CurTime + component.PoiseRecoveryDelay;
+        component.NextPoiseRecoveryTick = component.PoiseRecoveryStarts;
         component.PoiseBreakEnds = _timing.CurTime + component.PoiseBreakDuration;
+
+        EnsureComp<ActivePoiseComponent>(uid);
 
         _adminLogger.Add(
         LogType.Poise,
@@ -158,13 +166,28 @@ public sealed class PoiseSystem : EntitySystem
         if (!TryComp<CombatModeComponent>(uid, out var combatMode) || !combatMode.IsInCombatMode)
             return;
 
-        if (component.PoiseBroken)
+        var protectBreakingHit = component.ProtectBreakingHit;
+        component.ProtectBreakingHit = false;
+
+        if (component.PoiseBroken && !protectBreakingHit)
             return;
 
-        if (component.HealthDamageReduction <= 0f)
+        float resistance;
+
+        if (component.HasPoiseArmor)
+        {
+            var cap = component.HealthDamageReductionCap;
+
+            resistance = Math.Clamp(component.HealthDamageReduction * component.PoiseMultiplier, 0f, cap);
+        }
+        else
+        {
+            resistance = component.UnarmoredHealthDamageReduction;
+        }
+
+        if (resistance <= 0f)
             return;
 
-        var resistance = Math.Clamp(component.HealthDamageReduction, 0f, 1f);
         var multiplier = 1f - resistance;
 
         var modifiedDamage = new DamageSpecifier(args.Damage);
@@ -217,6 +240,8 @@ public sealed class PoiseSystem : EntitySystem
             }
             if (component.PoiseBroken)
             {
+                component.ProtectBreakingHit = false;
+
                 if (_timing.CurTime >= component.PoiseBreakEnds)
                     ReturnPoise(uid, component);
 
@@ -246,7 +271,7 @@ public sealed class PoiseSystem : EntitySystem
         component.PoiseBroken = false;
 
         component.PoiseDamage = (int)
-        Math.Round(component.PoiseThreshold * (1f - component.PoiseBreakRecoveryFraction));
+        Math.Round(GetEffectivePoiseThreshold(component) * (1f - component.PoiseBreakRecoveryFraction));
 
         component.PoiseRecoveryStarts = _timing.CurTime + component.PoiseRecoveryDelay;
 

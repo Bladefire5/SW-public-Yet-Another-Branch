@@ -18,6 +18,9 @@ using Robust.Client.State;
 using Robust.Shared.Input;
 using Robust.Shared.Map;
 using Robust.Shared.Player;
+// imperial medieval start
+using Content.Shared.Imperial.Medieval.Archery;
+// imperial medieval end
 
 namespace Content.Client.Weapons.Melee;
 
@@ -109,6 +112,19 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
         {
             coordinates = TransformSystem.ToCoordinates(_map.GetMap(mousePos.MapId), mousePos);
         }
+
+        // imperial medieval start
+        if (TryComp<MedievalBowChargeComponent>(weaponUid, out var bowCharge))
+        {
+            if (!bowCharge.IsCharging && useDown == BoundKeyState.Down && altDown != BoundKeyState.Down)
+            {
+                ClientLightAttack(entity, mousePos, coordinates, weaponUid, weapon);
+            }
+
+            return;
+        }
+        // imperial medieval end
+
 
         // If the gun has AltFireComponent, it can be used to attack.
         if (TryComp<GunComponent>(weaponUid, out var gun) && gun.UseKey)
