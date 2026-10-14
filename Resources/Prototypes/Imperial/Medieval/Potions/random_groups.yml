@@ -54,11 +54,10 @@
   id: EasyPack
   priority: 1
   potions:
-  - medievalexplosion
   - medievalhealburn
-  - medievalhealbloodandoxygen
+  - medievalpoison
   - medievalacid
-  - medievaldrughealmech
+  - medievalradiation
   - medievalvomit
   - medievalAmmonia
   - medievalPlantBGone
@@ -67,9 +66,7 @@
   - medievalslow
   - medievalfast
   - medievalstamina
-  - medievalsmoke
   - medievalAntihol
-  - medievalcryoexplosion
   - medievalhealslash
   - medievalhealpiercing
   - medievalhealblunt
@@ -79,6 +76,20 @@
   - medievalsleep
   - medievalignite
   - medievalhealandstopblood
+  - medievalhealeverything
+  - medievalexplosivet1
+  # Output units per full reaction cycle. Unlisted potions keep the existing yield.
+  productAmounts:
+    medievalhealburn: 0.90
+    medievalpoison: 1.00
+    medievalacid: 0.50
+    medievalradiation: 0.50
+    medievalhealslash: 0.60
+    medievalhealpiercing: 0.60
+    medievalhealblunt: 0.60
+    medievalignite: 0.50
+    medievalhealandstopblood: 0.30
+    medievalhealeverything: 0.50
   colors:
   - "#ff1414"
   - "#ffdc14"
@@ -102,13 +113,15 @@
   - "#ffffff"
   - "#3d3d3d"
   recipeCount: 2
-  potionCount: 25
+  potionCount: 24
+
 
 - type: chemRandom
   id: MediumPack
   priority: 2
   potions:
   - medievaladvancedhealeverything
+  - medievaladvancedpoison
   - medievaladvancedhealslash
   - medievaladvancedhealpiercing
   - medievaladvancedhealblunt
@@ -117,12 +130,30 @@
   - medievaladvancedslow
   - medievaladvancedpacifism
   - medievaladvancedradiation
+  - medievaladvancedacid
+  - medievaladvancedcoldpoison
   - medievaladvancedteleport
   - medievaladvancedhealandstopblood
+  - medievaladvancedantidote
   - medievaladvancedstimulant
-  - medievaladvancedignite
   - medievaladvancednocturnblood
-  - medievaladvancedsmokeandexplosion
+  - medievalexplosivet2
+  productAmounts:
+    medievaladvancedhealeverything: 0.60
+    medievaladvancedpoison: 0.50
+    medievaladvancedhealslash: 0.80
+    medievaladvancedhealpiercing: 0.80
+    medievaladvancedhealblunt: 0.80
+    medievaladvancedhealburn: 1.20
+    medievaladvancedradiation: 0.25
+    medievaladvancedacid: 0.25
+    medievaladvancedcoldpoison: 0.25
+    medievaladvancedhealandstopblood: 0.35
+    medievaladvancedantidote: 2.00
+  # Cry Flower occupies an existing raw slot alongside the randomized ingredients.
+  requiredReagents:
+    medievaladvancedcoldpoison:
+      - MedievalFlowerCryo
   reactants: 0
   usedGroups:
   - EasyPack
@@ -150,18 +181,31 @@
   - "#5a7e45"
   - "#ffffff"
   - "#3d3d3d"
-  potionCount: 8
+  potionCount: 18
 
 - type: chemRandom
   id: HardPack
   potions:
-  - medievalbestexplosion
   - medievalbestheal
   - medievalbestpoison
-  - medievalbestacidradiation
+  - medievalbestacid
+  - medievalbestradiation
+  - medievalbestcoldpoison
+  - medievalbestignite
   - medievalbeststimulant
+  productAmounts:
+    medievalbestheal: 0.85
+    medievalbestpoison: 0.50
+    medievalbestacid: 0.25
+    medievalbestradiation: 0.25
+    medievalbestcoldpoison: 0.25
+    medievalbestignite: 0.50
+  # Keep both potion precursors; Cry Flower occupies the single raw slot.
+  requiredReagents:
+    medievalbestcoldpoison:
+      - MedievalFlowerCryo
   reactants: 1
-  potionCount: 2
+  potionCount: 7
   priority: 3
   usedGroups:
   - EasyPack

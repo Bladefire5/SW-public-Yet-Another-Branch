@@ -1,0 +1,26 @@
+# Phase 4 explosive bases. Reaction definitions provide activation and payloads.
+# Neither reagent has standalone metabolism, contact or tile effects.
+# Randomized production access is configured in random_groups.yml:
+# T1 belongs to EasyPack and T2 belongs to MediumPack.
+
+- type: reagent
+  id: medievalexplosivet1
+  name: spellward-potion-medievalexplosivet1
+  desc: spellward-potion-medievalexplosivet1-desc
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#A39B8B"
+
+- type: reagent
+  id: medievalexplosivet2
+  name: spellward-potion-medievalexplosivet2
+  desc: spellward-potion-medievalexplosivet2-desc
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#6E566F"

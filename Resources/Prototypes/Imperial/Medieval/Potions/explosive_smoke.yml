@@ -1,0 +1,12 @@
+# spellward start
+# Keep the old medieval smoke visuals and stock spreading, with the normal
+# smoke solution capacity so the reaction can supply an isolated Blind payload.
+- type: entity
+  id: MedievalAlchemyBlindSmoke
+  parent: MedievalEmptySmoke
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      solutionArea:
+        maxVol: 600
+# spellward end

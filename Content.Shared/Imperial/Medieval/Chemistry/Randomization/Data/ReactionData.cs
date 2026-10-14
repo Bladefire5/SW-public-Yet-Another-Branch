@@ -72,6 +72,29 @@ public class ReactionData : IComparable<ReactionData>
     [DataField("quantized")] public bool Quantized = false;
 
     /// <summary>
+    /// Maximum reaction units processed in one activation. Each consumed reactant
+    /// amount is its coefficient multiplied by these units. Null means uncapped.
+    /// This is an upper limit, not a minimum amount required to react.
+    /// </summary>
+    [DataField("maxReactionUnits")]
+    public FixedPoint2? MaxReactionUnits;
+
+    /// <summary>
+    /// Minimum time between activations of this reaction in the same solution.
+    /// Zero preserves the existing immediate reaction behavior.
+    /// </summary>
+    [DataField("reactionCooldown")]
+    public TimeSpan ReactionCooldown = TimeSpan.Zero;
+
+    /// <summary>
+    /// Reactions with the same non-empty group share a cooldown in one solution.
+    /// An empty group uses a separate cooldown for each reaction.
+    /// Explosive partner reactions use one shared group to pace their activations.
+    /// </summary>
+    [DataField("reactionCooldownGroup")]
+    public string ReactionCooldownGroup = string.Empty;
+
+    /// <summary>
     /// Determines the order in which reactions occur. This should used to ensure that (in general) descriptive /
     /// pop-up generating and explosive reactions occur before things like foam/area effects.
     /// </summary>

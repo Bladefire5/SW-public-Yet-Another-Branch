@@ -19,6 +19,7 @@ using Robust.Client.UserInterface.CustomControls;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using static Robust.Client.UserInterface.Controls.BoxContainer;
+using Content.Shared.Imperial.Medieval.ChemistryRandomization;
 
 namespace Content.Client.Imperial.Chemistry;
 
@@ -102,14 +103,45 @@ public sealed class PotionBookWindow
         return false;
     }
 
+
     public void UpdateState(PotionBookUserInterfaceState state)
     {
         _container.DisposeAllChildren();
+
         foreach (var id in state.Ids)
         {
             var proto = _proto.Index<ReagentPrototype>(id);
-            _container.AddChild(new GuideReagentEmbed(proto, true) { HorizontalExpand = true });
+            var embed = new GuideReagentEmbed(proto, true)
+            {
+                HorizontalExpand = true
+            };
+
+            var name = SharedChemistryRandomizationSystem.GetStaticName(proto);
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                var color = proto.ShowInBook
+                ? proto.SubstanceColor
+                : SharedChemistryRandomizationSystem.GetColor(proto);
+
+                var textColor = 0.2126f * color.R + 0.7152f * color.G + 0.0722f * color.B > 0.5f
+                ? Color.Black
+                : Color.White;
+
+                embed.FindControl<RichTextLabel>("ReagentName").SetMarkup(Loc.GetString("guidebook-reagent-name", ("color", textColor), ("name", name)));
+            }
+            ApplyStaticRecipeNames(embed);
+            _container.AddChild(embed);
         }
+    }
+
+    private void ApplyStaticRecipeNames(Control control)
+    {
+        if (control is GuideReagentReaction reaction)
+            reaction.UseStaticRecipeNames();
+
+        foreach (var child in control.Children)
+            ApplyStaticRecipeNames(child);
     }
 
     protected override DragMode GetDragModeFor(Vector2 relativeMousePos)

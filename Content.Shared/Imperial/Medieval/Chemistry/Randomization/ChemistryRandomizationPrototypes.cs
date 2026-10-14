@@ -1,8 +1,11 @@
 using Content.Shared.Chemistry.Reaction;
+using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Destructible.Thresholds;
 using Content.Shared.EntityEffects;
+using Content.Shared.FixedPoint;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Dictionary;
 
 namespace Content.Shared.Imperial.Medieval.ChemistryRandomization;
 
@@ -22,6 +25,21 @@ public sealed partial class ChemistryRandomizationGroupPrototype : IPrototype
     /// </summary>
     [DataField(required: true)]
     public List<string> Potions = new();
+
+    /// <summary>
+    /// Output reagent units per reaction cycle, keyed by a potion ID from Potions.
+    /// Missing entries preserve the generated recipe's reactant-count yield.
+    /// </summary>
+    [DataField("productAmounts", customTypeSerializer: typeof(PrototypeIdDictionarySerializer<FixedPoint2, ReagentPrototype>))]
+    public Dictionary<string, FixedPoint2> ProductAmounts = new();
+
+    /// <summary>
+    /// Raw reagents required in every recipe for each listed potion.
+    /// The generator reserves existing raw-ingredient slots for these reagents.
+    /// Missing entries leave normal recipe generation unchanged.
+    /// </summary>
+    [DataField("requiredReagents")]
+    public Dictionary<string, List<string>> RequiredReagents = new();
 
     /// <summary>
     /// НА ДАННЫЙ МОМЕНТ НЕ ИСПОЛЬЗУЕТСЯ
@@ -55,7 +73,6 @@ public sealed partial class ChemistryRandomizationGroupPrototype : IPrototype
         "MedievalMushroom2",
         "MedievalMushroom3"
     };
-
 
     /// <summary>
     /// Описания зелий

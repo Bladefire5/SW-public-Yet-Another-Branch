@@ -100,12 +100,10 @@
     - type: ReagentAllergy
       randomReagents:
       - medievalhealburn
-      - medievalhealbloodandoxygen
-      - medievaldrughealmech
+      - medievalhealandstopblood
       - medievalslow
       - medievalfast
       - medievalstamina
-      - medievalsmoke
       - medievalhealslash
       - medievalhealpiercing
       - medievalhealblunt

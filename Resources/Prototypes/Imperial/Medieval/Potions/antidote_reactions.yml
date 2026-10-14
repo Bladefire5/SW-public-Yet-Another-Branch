@@ -1,0 +1,137 @@
+# Antidotes release a shared pool of medievalpoisonneutralizer into the bloodstream.
+# Each unit consumes one unit of an eligible potion poison and produces two units of Water.
+# Fractional reactions allow each 0.50u T1 release to react immediately when chemistry updates.
+# Higher priorities run first: Caustic, Cold, Radiation, then Regular; strongest tier first.
+# Agricultural chemicals and other medicines are intentionally excluded.
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeCausticT3
+  priority: 11
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievalbestacid:
+      amount: 1
+  products:
+    Water: 2
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeCausticT2
+  priority: 10
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievaladvancedacid:
+      amount: 1
+  products:
+    Water: 2
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeCausticT1
+  priority: 9
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievalacid:
+      amount: 1
+  products:
+    Water: 2
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeColdT3
+  priority: 8
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievalbestcoldpoison:
+      amount: 1
+  products:
+    Water: 2
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeColdT2
+  priority: 7
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievaladvancedcoldpoison:
+      amount: 1
+  products:
+    Water: 2
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeRadiationT3
+  priority: 6
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievalbestradiation:
+      amount: 1
+  products:
+    Water: 2
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeRadiationT2
+  priority: 5
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievaladvancedradiation:
+      amount: 1
+  products:
+    Water: 2
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeRadiationT1
+  priority: 4
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievalradiation:
+      amount: 1
+  products:
+    Water: 2
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeRegularT3
+  priority: 3
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievalbestpoison:
+      amount: 1
+  products:
+    Water: 2
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeRegularT2
+  priority: 2
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievaladvancedpoison:
+      amount: 1
+  products:
+    Water: 2
+
+- type: reaction
+  id: MedievalAntidoteNeutralizeRegularT1
+  priority: 1
+  quantized: false
+  reactants:
+    medievalpoisonneutralizer:
+      amount: 1
+    medievalpoison:
+      amount: 1
+  products:
+    Water: 2

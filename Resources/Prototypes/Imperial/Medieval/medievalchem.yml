@@ -154,8 +154,9 @@
     size: Tiny
   - type: MedievalRandomChemistryRecipe
     weights:
-      EasyPack: 70
-      MediumPack: 30
+      EasyPack: 65
+      MediumPack: 25
+      HardPack: 10
 
 - type: entity
   name: mortar

@@ -513,6 +513,7 @@
       machine_parts:
 
         !type:Container ""
+
 - type: entity
   id: Medievalalchem_dispenser
   name: alchemical dispenser
@@ -536,8 +537,6 @@
   - type: Icon
     sprite: Imperial/Medieval/Lathe/alchem.rsi
     state: mixer_loaded
-  - type: ChemMaster
-    pillDosageLimit: 50
   - type: MedievalAlchemy
   - type: Physics
     bodyType: Static
@@ -564,8 +563,6 @@
     key: enum.MedievalAlchemyUiKey.Key
   - type: UserInterface
     interfaces:
-      enum.ChemMasterUiKey.Key:
-        type: ChemMasterBoundUserInterface
       enum.MedievalAlchemyUiKey.Key:
         type: MedievalAlchemyBoundUserInterface
   - type: Appearance

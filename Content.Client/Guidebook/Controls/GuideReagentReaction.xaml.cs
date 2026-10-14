@@ -15,6 +15,7 @@ using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Graphics.RSI;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
+using Content.Shared.Imperial.Medieval.ChemistryRandomization;
 
 namespace Content.Client.Guidebook.Controls;
 
@@ -24,6 +25,7 @@ public sealed partial class GuideReagentReaction : BoxContainer, ISearchableCont
     private static readonly ProtoId<MixingCategoryPrototype> DefaultMixingCategory = "DummyMix";
 
     private readonly IPrototypeManager _protoMan;
+    private ReactionData? _medievalRecipe;
 
     public GuideReagentReaction(IPrototypeManager protoMan)
     {
@@ -33,6 +35,7 @@ public sealed partial class GuideReagentReaction : BoxContainer, ISearchableCont
 
     public GuideReagentReaction(Shared.Imperial.Medieval.ChemistryRandomization.ReactionData prototype, IPrototypeManager protoMan, IEntitySystemManager sysMan) : this(protoMan) // Imperial Medieval Chemistry Change
     {
+        _medievalRecipe = prototype;
         Container container = ReactantsContainer;
         SetReagents(prototype.Reactants, ref container, protoMan);
         Container productContainer = ProductsContainer;
@@ -57,6 +60,50 @@ public sealed partial class GuideReagentReaction : BoxContainer, ISearchableCont
             mixingCategories.Add(protoMan.Index(DefaultMixingCategory));
         }
         SetMixingCategory(mixingCategories, prototype, sysMan);
+    }
+
+
+    public void UseStaticRecipeNames()
+    {
+        if (_medievalRecipe == null)
+            return;
+
+        var reactants = _medievalRecipe.Reactants.ToDictionary(x => x.Key, x => x.Value.Amount);
+
+        UpdateStaticRecipeLabels(ReactantsContainer, reactants);
+
+        var products = new Dictionary<string, FixedPoint2>(_medievalRecipe.Products);
+
+        foreach (var (id, reactant) in _medievalRecipe.Reactants)
+        {
+            if (reactant.Catalyst)
+                products.Add(id, reactant.Amount);
+        }
+
+        UpdateStaticRecipeLabels(ProductsContainer, products);
+    }
+
+    private void UpdateStaticRecipeLabels(Container container, Dictionary<string, FixedPoint2> amounts)
+    {
+        var labels = container.Children.OfType<GuidebookRichPrototypeLink>().ToList();
+        var ordered = amounts.OrderByDescending(x => x.Value).ToList();
+
+        for (var i = 0; i < labels.Count && i < ordered.Count; i++)
+        {
+            var (id, amount) = ordered[i];
+            var proto = _protoMan.Index<ReagentPrototype>(id);
+
+            var name = SharedChemistryRandomizationSystem.GetStaticName(proto);
+
+            if (string.IsNullOrWhiteSpace(name))
+                name = proto.LocalizedName;
+
+            var message = new FormattedMessage();
+
+            message.AddMarkupOrThrow(Loc.GetString("guidebook-reagent-recipes-reagent-display", ("reagent", name), ("ratio", amount)));
+
+            labels[i].SetMessage(message);
+        }
     }
 
     public GuideReagentReaction(EntityPrototype prototype,

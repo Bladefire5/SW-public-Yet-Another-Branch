@@ -1,0 +1,36 @@
+# spellward start
+# Separate chemical ground-fire patches using the abstract Fire Wall visuals
+# and soft contact fixture. Fixed tile patterns are placed by the reaction effect.
+
+- type: entity
+  id: MedievalAlchemyGroundFireT1
+  parent: MedievalFireWall
+  name: alchemical fire
+  components:
+  - type: DamageContacts
+    damage:
+      types:
+        Heat: 2
+  - type: IgniteOnCollide
+    fixtureId: fix1
+    fireStacks: 1
+    count: -1
+  - type: TimedDespawn
+    lifetime: 6
+
+- type: entity
+  id: MedievalAlchemyGroundFireT3
+  parent: MedievalFireWall
+  name: alchemical fire
+  components:
+  - type: DamageContacts
+    damage:
+      types:
+        Heat: 3
+  - type: IgniteOnCollide
+    fixtureId: fix1
+    fireStacks: 3
+    count: -1
+  - type: TimedDespawn
+    lifetime: 18
+# spellward end

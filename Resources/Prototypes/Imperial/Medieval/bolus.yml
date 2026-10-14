@@ -1,0 +1,63 @@
+
+- type: entity
+  id: MedievalBolus
+  parent: Pill
+  name: bolus
+  description: A prepared medicinal bolus.
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Chemistry/pills.rsi
+    state: pill1
+  - type: Tag
+    tags:
+    - Pill
+    - Bolus
+
+- type: entity
+  id: MedievalBolusBottle
+  parent: PillCanister
+  name: bolus bottle
+  description: A small clay container that holds up to ten boluses.
+  components:
+  - type: Tag
+    tags:
+    - PillCanister
+  - type: Storage
+    grid:
+    - 0,0,4,1
+    quickInsert: true
+    areaInsert: true
+    areaInsertRadius: 1
+    storageInsertSound: /Audio/Effects/pill_insert.ogg
+    storageRemoveSound: /Audio/Effects/pill_remove.ogg
+    whitelist:
+      tags:
+      - Bolus
+
+- type: construction
+  id: MedievalBolusBottleCraft
+  name: bolus bottle
+  description: A clay bottle used to store medicinal boluses.
+  graph: MedievalBolusBottleGraph
+  startNode: start
+  targetNode: bottle
+  category: construction-category-misc
+  icon:
+    sprite: Objects/Specific/Chemistry/pills_canister.rsi
+    state: pill_canister
+  objectType: Item
+
+- type: constructionGraph
+  id: MedievalBolusBottleGraph
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: bottle
+      steps:
+      - material: MedievalGlina
+        amount: 2
+        doAfter: 3
+  - node: bottle
+    entity: MedievalBolusBottle
+

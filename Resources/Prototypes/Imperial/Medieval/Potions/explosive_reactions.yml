@@ -1,0 +1,845 @@
+# Spellward Phase 4: static 1:1 explosive reactions and dedicated damage prototypes.
+# Install alongside the preceding Phase 4 reagent, reaction-engine, cloud, fire,
+# and shockwave files. Existing arrows use their normal mixing implementation.
+#
+# Initial test settings:
+# T1 blast: current MedievalGrenade total intensity 60, slope 1, peak cap 4.
+# T2 blast: total intensity 120, retaining slope 1 and peak cap 4.
+# Radiation reference damage at intensity 4: 25 / 50 / 75 by poison tier.
+# Actual blast damage follows stock intensity, propagation and resistance handling.
+# Caustic/Cold payloads and status effects use the current potion values as a baseline.
+# Cold damage coefficients are rounded to the engine's hundredth precision.
+# Smoke: 1u Blind per full activation, 10s lifetime, stock gradual spreading.
+# Foam: 20u matching poison over 10s, giving a nominal 2u/s transfer rate per cloud.
+# Cloud payloads scale by consumed units / 5; small values follow stock rounding.
+# Smoke spread budgets target a broader footprint and need in-game tuning.
+# Fire placement retains the approved fixed 5-tile T1 and 11-tile T3 patterns.
+# The chemistry engine enforces a maximum 5u of each input and one-second spacing.
+
+- type: explosion
+  id: MedievalAlchemyBlast
+  damagePerIntensity:
+    types:
+      Heat: 5
+      Blunt: 5
+      Piercing: 5
+  tileBreakChance:
+    - 0
+  tileBreakIntensity:
+    - 0
+  tileBreakRerollReduction: 20
+  lightColor: Orange
+  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
+  fireStates: 1
+- type: explosion
+  id: MedievalAlchemyRadiationT1
+  damagePerIntensity:
+    types:
+      Heat: 5
+      Blunt: 5
+      Piercing: 5
+      Radiation: 6.25
+  tileBreakChance:
+    - 0
+  tileBreakIntensity:
+    - 0
+  tileBreakRerollReduction: 20
+  lightColor: Green
+  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
+  fireStates: 1
+- type: explosion
+  id: MedievalAlchemyRadiationT2
+  damagePerIntensity:
+    types:
+      Heat: 5
+      Blunt: 5
+      Piercing: 5
+      Radiation: 12.5
+  tileBreakChance:
+    - 0
+  tileBreakIntensity:
+    - 0
+  tileBreakRerollReduction: 20
+  lightColor: Green
+  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
+  fireStates: 1
+- type: explosion
+  id: MedievalAlchemyRadiationT3
+  damagePerIntensity:
+    types:
+      Heat: 5
+      Blunt: 5
+      Piercing: 5
+      Radiation: 18.75
+  tileBreakChance:
+    - 0
+  tileBreakIntensity:
+    - 0
+  tileBreakRerollReduction: 20
+  lightColor: Green
+  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
+  fireStates: 1
+- type: explosion
+  id: MedievalAlchemyCausticT1
+  damagePerIntensity:
+    types:
+      Heat: 5
+      Blunt: 5
+      Piercing: 5
+      Caustic: 0.75
+  tileBreakChance:
+    - 0
+  tileBreakIntensity:
+    - 0
+  tileBreakRerollReduction: 20
+  lightColor: Lime
+  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
+  fireStates: 1
+- type: explosion
+  id: MedievalAlchemyCausticT2
+  damagePerIntensity:
+    types:
+      Heat: 5
+      Blunt: 5
+      Piercing: 5
+      Caustic: 1.0
+  tileBreakChance:
+    - 0
+  tileBreakIntensity:
+    - 0
+  tileBreakRerollReduction: 20
+  lightColor: Lime
+  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
+  fireStates: 1
+- type: explosion
+  id: MedievalAlchemyCausticT3
+  damagePerIntensity:
+    types:
+      Heat: 5
+      Blunt: 5
+      Piercing: 5
+      Caustic: 1.25
+  tileBreakChance:
+    - 0
+  tileBreakIntensity:
+    - 0
+  tileBreakRerollReduction: 20
+  lightColor: Lime
+  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
+  fireStates: 1
+- type: explosion
+  id: MedievalAlchemyColdT2
+  damagePerIntensity:
+    types:
+      Heat: 5
+      Blunt: 5
+      Piercing: 5
+      Cold: 0.19
+  tileBreakChance:
+    - 0
+  tileBreakIntensity:
+    - 0
+  tileBreakRerollReduction: 20
+  lightColor: LightBlue
+  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
+  fireStates: 1
+- type: explosion
+  id: MedievalAlchemyColdT3
+  damagePerIntensity:
+    types:
+      Heat: 5
+      Blunt: 5
+      Piercing: 5
+      Cold: 0.38
+  tileBreakChance:
+    - 0
+  tileBreakIntensity:
+    - 0
+  tileBreakRerollReduction: 20
+  lightColor: LightBlue
+  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
+  fireStates: 1
+- type: reaction
+  id: SpellwardExplosiveT1RegularT1
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievalpoison:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalChemicalCloudReactionEffect
+      prototypeId: Foam
+      reagent: medievalpoison
+      quantity: 20
+      duration: 10
+      spreadAmount: 32
+- type: reaction
+  id: SpellwardExplosiveT1RegularT2
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievaladvancedpoison:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalChemicalCloudReactionEffect
+      prototypeId: Foam
+      reagent: medievaladvancedpoison
+      quantity: 20
+      duration: 10
+      spreadAmount: 32
+- type: reaction
+  id: SpellwardExplosiveT1RegularT3
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievalbestpoison:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalChemicalCloudReactionEffect
+      prototypeId: Foam
+      reagent: medievalbestpoison
+      quantity: 20
+      duration: 10
+      spreadAmount: 32
+- type: reaction
+  id: SpellwardExplosiveT1RadiationT1
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievalradiation:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyRadiationT1
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+- type: reaction
+  id: SpellwardExplosiveT1RadiationT2
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievaladvancedradiation:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyRadiationT2
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+- type: reaction
+  id: SpellwardExplosiveT1RadiationT3
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievalbestradiation:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyRadiationT3
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+- type: reaction
+  id: SpellwardExplosiveT1CausticT1
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievalacid:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyCausticT1
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalBurstReactionEffect
+      radius: 4
+      falloff: None
+      effects:
+        - !type:ModifyStatusEffect
+          effectProto: StatusEffectStunned
+          time: 0.5
+          type: Add
+          refresh: true
+          probability: 0.3
+- type: reaction
+  id: SpellwardExplosiveT1CausticT2
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievaladvancedacid:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyCausticT2
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalBurstReactionEffect
+      radius: 4
+      falloff: None
+      effects:
+        - !type:ModifyStatusEffect
+          effectProto: StatusEffectStunned
+          time: 0.5
+          type: Add
+          refresh: true
+          probability: 0.6
+- type: reaction
+  id: SpellwardExplosiveT1CausticT3
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievalbestacid:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyCausticT3
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalBurstReactionEffect
+      radius: 4
+      falloff: None
+      effects:
+        - !type:ModifyStatusEffect
+          effectProto: StatusEffectStunned
+          time: 0.5
+          type: Add
+          refresh: true
+          probability: 0.9
+- type: reaction
+  id: SpellwardExplosiveT1ColdT2
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievaladvancedcoldpoison:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyColdT2
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalBurstReactionEffect
+      radius: 4
+      falloff: None
+      effects:
+        - !type:MovespeedModifier
+          walkSpeedModifier: 0.7
+          sprintSpeedModifier: 0.7
+          statusLifetime: 1
+        - !type:Jitter
+          time: 1
+          refresh: true
+        - !type:ModifyStatusEffect
+          effectProto: StatusEffectStutter
+          time: 1
+          type: Add
+          refresh: true
+- type: reaction
+  id: SpellwardExplosiveT1ColdT3
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievalbestcoldpoison:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyColdT3
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalBurstReactionEffect
+      radius: 4
+      falloff: None
+      effects:
+        - !type:MovespeedModifier
+          walkSpeedModifier: 0.5
+          sprintSpeedModifier: 0.5
+          statusLifetime: 1
+        - !type:Jitter
+          time: 1
+          refresh: true
+        - !type:ModifyStatusEffect
+          effectProto: StatusEffectStutter
+          time: 1
+          type: Add
+          refresh: true
+- type: reaction
+  id: SpellwardExplosiveT1FireT1
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievalignite:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalGroundFireReactionEffect
+      fireTier: T1
+- type: reaction
+  id: SpellwardExplosiveT1FireT3
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievalbestignite:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalGroundFireReactionEffect
+      fireTier: T3
+- type: reaction
+  id: SpellwardExplosiveT1BlindT1
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet1:
+      amount: 1
+    medievalblind:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 60
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalChemicalCloudReactionEffect
+      prototypeId: MedievalAlchemyBlindSmoke
+      reagent: medievalblind
+      quantity: 1
+      duration: 10
+      spreadAmount: 2048
+- type: reaction
+  id: SpellwardExplosiveT2RegularT1
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievalpoison:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalChemicalCloudReactionEffect
+      prototypeId: Foam
+      reagent: medievalpoison
+      quantity: 20
+      duration: 10
+      spreadAmount: 64
+- type: reaction
+  id: SpellwardExplosiveT2RegularT2
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievaladvancedpoison:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalChemicalCloudReactionEffect
+      prototypeId: Foam
+      reagent: medievaladvancedpoison
+      quantity: 20
+      duration: 10
+      spreadAmount: 64
+- type: reaction
+  id: SpellwardExplosiveT2RegularT3
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievalbestpoison:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalChemicalCloudReactionEffect
+      prototypeId: Foam
+      reagent: medievalbestpoison
+      quantity: 20
+      duration: 10
+      spreadAmount: 64
+- type: reaction
+  id: SpellwardExplosiveT2RadiationT1
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievalradiation:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyRadiationT1
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+- type: reaction
+  id: SpellwardExplosiveT2RadiationT2
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievaladvancedradiation:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyRadiationT2
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+- type: reaction
+  id: SpellwardExplosiveT2RadiationT3
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievalbestradiation:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyRadiationT3
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+- type: reaction
+  id: SpellwardExplosiveT2CausticT1
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievalacid:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyCausticT1
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalBurstReactionEffect
+      radius: 5
+      falloff: None
+      effects:
+        - !type:ModifyStatusEffect
+          effectProto: StatusEffectStunned
+          time: 0.5
+          type: Add
+          refresh: true
+          probability: 0.3
+- type: reaction
+  id: SpellwardExplosiveT2CausticT2
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievaladvancedacid:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyCausticT2
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalBurstReactionEffect
+      radius: 5
+      falloff: None
+      effects:
+        - !type:ModifyStatusEffect
+          effectProto: StatusEffectStunned
+          time: 0.5
+          type: Add
+          refresh: true
+          probability: 0.6
+- type: reaction
+  id: SpellwardExplosiveT2CausticT3
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievalbestacid:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyCausticT3
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalBurstReactionEffect
+      radius: 5
+      falloff: None
+      effects:
+        - !type:ModifyStatusEffect
+          effectProto: StatusEffectStunned
+          time: 0.5
+          type: Add
+          refresh: true
+          probability: 0.9
+- type: reaction
+  id: SpellwardExplosiveT2ColdT2
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievaladvancedcoldpoison:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyColdT2
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalBurstReactionEffect
+      radius: 5
+      falloff: None
+      effects:
+        - !type:MovespeedModifier
+          walkSpeedModifier: 0.7
+          sprintSpeedModifier: 0.7
+          statusLifetime: 1
+        - !type:Jitter
+          time: 1
+          refresh: true
+        - !type:ModifyStatusEffect
+          effectProto: StatusEffectStutter
+          time: 1
+          type: Add
+          refresh: true
+- type: reaction
+  id: SpellwardExplosiveT2ColdT3
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievalbestcoldpoison:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyColdT3
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalBurstReactionEffect
+      radius: 5
+      falloff: None
+      effects:
+        - !type:MovespeedModifier
+          walkSpeedModifier: 0.5
+          sprintSpeedModifier: 0.5
+          statusLifetime: 1
+        - !type:Jitter
+          time: 1
+          refresh: true
+        - !type:ModifyStatusEffect
+          effectProto: StatusEffectStutter
+          time: 1
+          type: Add
+          refresh: true
+- type: reaction
+  id: SpellwardExplosiveT2FireT1
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievalignite:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalGroundFireReactionEffect
+      fireTier: T1
+- type: reaction
+  id: SpellwardExplosiveT2FireT3
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievalbestignite:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalGroundFireReactionEffect
+      fireTier: T3
+- type: reaction
+  id: SpellwardExplosiveT2BlindT1
+  quantized: false
+  maxReactionUnits: 5
+  reactionCooldown: 1
+  reactionCooldownGroup: MedievalExplosive
+  reactants:
+    medievalexplosivet2:
+      amount: 1
+    medievalblind:
+      amount: 1
+  products: {}
+  effects:
+    - !type:MedievalExplosionReactionEffect
+      explosionType: MedievalAlchemyBlast
+      totalIntensity: 120
+      intensitySlope: 1
+      maxIntensity: 4
+    - !type:MedievalChemicalCloudReactionEffect
+      prototypeId: MedievalAlchemyBlindSmoke
+      reagent: medievalblind
+      quantity: 1
+      duration: 10
+      spreadAmount: 8192

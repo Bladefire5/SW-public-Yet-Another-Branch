@@ -1,0 +1,3 @@
+# Legacy step-based alchemy recipes removed.
+# Active potion recipes use chemRandom and generated ReactionData.
+[]

@@ -24,6 +24,30 @@ public sealed partial class ShockWaveComponent : Component
     [DataField]
     public List<EntityEffect> Effects = new();
 
+    // spellward start
+    /// <summary>
+    /// Optional chemical effect strength. One represents a full 5u + 5u
+    /// activation; a fractional activation supplies its consumed amount / 5.
+    /// Null retains the existing spell effect handling.
+    /// </summary>
+    [DataField]
+    public float? ChemicalEffectScale;
+
+    /// <summary>
+    /// Optional maximum wave radius in world units, independent of travel speed.
+    /// Null retains the existing lifetime-based expansion.
+    /// </summary>
+    [DataField]
+    public float? MaxRadius;
+
+    /// <summary>
+    /// Include targets exactly at the wave's origin on its first expansion.
+    /// Chemical reactions enable this so a direct impact can affect its target.
+    /// </summary>
+    [DataField]
+    public bool IncludeCenter;
+    // spellward end
+
 
     [ViewVariables]
     public TimeSpan NextUpdate = TimeSpan.FromSeconds(0);

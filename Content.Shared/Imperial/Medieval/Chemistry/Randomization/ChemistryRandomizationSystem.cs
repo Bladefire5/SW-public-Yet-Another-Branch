@@ -193,6 +193,34 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
     private void GenerateFromGroup(ProtoId<ChemistryRandomizationGroupPrototype> randomProtoId, ref List<Dictionary<string, ReactantPrototype>> recipes, ref int offset)
     {
         var randomProto = _prototypeManager.Index(randomProtoId);
+
+        // Validate every override, including potions not selected for this round.
+        var productAmounts = new Dictionary<string, FixedPoint2>();
+        foreach (var (potion, amount) in randomProto.ProductAmounts)
+        {
+            if (!randomProto.Potions.Contains(potion))
+            {
+                Log.Error($"Chemistry group {randomProto.ID}: productAmounts key '{potion}' is not in potions. Override ignored.");
+                continue;
+            }
+
+            if (!_prototypeManager.TryIndex<ReagentPrototype>(potion, out _))
+            {
+                Log.Error($"Chemistry group {randomProto.ID}: productAmounts key '{potion}' is not a known reagent. Override ignored.");
+                continue;
+            }
+
+            if (amount <= FixedPoint2.Zero || amount == FixedPoint2.MaxValue)
+            {
+                Log.Error($"Chemistry group {randomProto.ID}: productAmounts for '{potion}' must be positive and cannot be MaxValue (got {amount}). Using each recipe's reactants.Count instead.");
+                continue;
+            }
+
+            productAmounts.Add(potion, amount);
+        }
+
+        var requiredReagents = ValidateRequiredReagents(randomProto);
+
         var generated = new GeneratedGroupData()
         {
             ID = randomProtoId.Id
@@ -204,13 +232,19 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
             Random = new System.Random(Seed + offset);
             offset++;
             var item = Random.PickAndTake(copyJustInCase);
-            var reactantList = GetReactants(ref recipes, randomProto.RecipeCount);
+            var reactantList = requiredReagents.TryGetValue(item, out var required)
+                ? GetRequiredReactants(recipes, randomProto.RecipeCount, randomProto.Reagents, required, randomProto.ID, item)
+                : GetReactants(ref recipes, randomProto.RecipeCount);
             var reactions = new List<ReactionData>();
             foreach (var reactants in reactantList)
             {
                 //var randomEffects = GetEffects(randomProto.EffectRandom);
                 //var randomMixer = GetMixer(randomProto.MixerRandom);
                 var (minTemp, maxTemp) = GetTemperatures(randomProto.MinTemperature, randomProto.MaxTemperature);
+
+                var productAmount = productAmounts.TryGetValue(item, out var amount)
+                    ? amount
+                    : FixedPoint2.New(reactants.Count);
 
                 var resultReaction = new ReactionData()
                 {
@@ -220,7 +254,7 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
                     MinimumTemperature = minTemp,
                     MaximumTemperature = maxTemp,
                     Sound = Random.Pick(randomProto.Sounds),
-                    Products = new() { { item, reactants.Count } }
+                    Products = new() { { item, productAmount } }
                 };
                 if (_prototypeManager.TryIndex<ReactionPrototype>(item, out var reaction))
                 {
@@ -238,7 +272,7 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
             var reagentData = new GeneratedReagentData()
             {
                 //Name = Loc.GetString(Random.PickAndTake(names)),  // Если хотите сделать полноценные названия
-                Name = $"Зелье {Random.Next(1000, 9999)}",
+                Name = Random.Next(1000, 9999).ToString(),
                 Description = Random.Pick(randomProto.Descriptions),
                 Flavor = Random.Pick(randomProto.Flavors),
                 Color = Random.Pick(randomProto.Colors),
@@ -280,6 +314,115 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
             result.Add(Random.PickAndTake(recipes));
         }
         return result;
+    }
+
+    private Dictionary<string, List<string>> ValidateRequiredReagents(ChemistryRandomizationGroupPrototype group)
+    {
+        var result = new Dictionary<string, List<string>>();
+        if (group.RequiredReagents.Count == 0)
+            return result;
+
+        var randomizedPotions = _prototypeManager.EnumeratePrototypes<ChemistryRandomizationGroupPrototype>()
+            .SelectMany(proto => proto.Potions).ToHashSet();
+        foreach (var (potion, reagents) in group.RequiredReagents)
+        {
+            if (!group.Potions.Contains(potion) || !_prototypeManager.TryIndex<ReagentPrototype>(potion, out _))
+                throw new System.InvalidOperationException($"Chemistry group {group.ID}: requiredReagents key '{potion}' must be a known potion in this group.");
+
+            if (reagents == null || reagents.Distinct().Count() != reagents.Count)
+                throw new System.InvalidOperationException($"Chemistry group {group.ID}: requiredReagents for '{potion}' must be a list without duplicates.");
+
+            foreach (var reagent in reagents)
+            {
+                if (!group.Reagents.Contains(reagent) || randomizedPotions.Contains(reagent) ||
+                    !_prototypeManager.TryIndex<ReagentPrototype>(reagent, out _))
+                    throw new System.InvalidOperationException($"Chemistry group {group.ID}: required reagent '{reagent}' for '{potion}' must be a known raw reagent from this group's reagents.");
+            }
+
+            if (reagents.Count > 0)
+                result.Add(potion, reagents);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Reserves existing raw slots, preserving potion precursors and reactant coefficients.
+    /// Only the selected recipe is removed from the original pool.
+    /// </summary>
+    private List<Dictionary<string, ReactantPrototype>> GetRequiredReactants(
+        List<Dictionary<string, ReactantPrototype>> recipes, int recipesCount,
+        List<string> rawReagents, List<string> required, string group, string potion)
+    {
+        var result = new List<Dictionary<string, ReactantPrototype>>();
+        for (var i = 0; i < recipesCount; i++)
+        {
+            var candidates = new List<(int Index, Dictionary<string, ReactantPrototype> Reactants)>();
+            for (var index = 0; index < recipes.Count; index++)
+            {
+                var recipe = ReserveRequiredReagents(recipes[index], rawReagents, required);
+                if (recipe == null || result.Any(previous => SameReactants(previous, recipe)) ||
+                    candidates.Any(candidate => SameReactants(candidate.Reactants, recipe)))
+                    continue;
+
+                // A reserved recipe must not duplicate a reaction already assigned to another potion.
+                if (_reactions.TryGetValue(recipe.First().Key, out var existing) &&
+                    existing.Any(reaction => SameReactants(reaction.Reactants, recipe)))
+                    continue;
+
+                // If this exact recipe is already in the pool, consume that entry so it cannot
+                // be assigned again later by the normal, unconstrained selection path.
+                var originalIndex = recipes.FindIndex(original => SameReactants(original, recipe));
+                candidates.Add(originalIndex >= 0
+                    ? (originalIndex, recipes[originalIndex])
+                    : (index, recipe));
+            }
+
+            if (candidates.Count == 0)
+                throw new System.InvalidOperationException($"Chemistry group {group}: cannot generate {recipesCount} unique recipes for '{potion}' with its required raw reagents. Check the available raw slots and recipe pool.");
+
+            var selected = Random.PickAndTake(candidates);
+            recipes.RemoveAt(selected.Index);
+            result.Add(selected.Reactants);
+        }
+
+        return result;
+    }
+
+    private static Dictionary<string, ReactantPrototype>? ReserveRequiredReagents(
+        Dictionary<string, ReactantPrototype> recipe, List<string> rawReagents, List<string> required)
+    {
+        var missing = required.Where(reagent => !recipe.ContainsKey(reagent)).ToList();
+        if (missing.Count == 0)
+            return recipe;
+
+        var replaceable = recipe.Keys.Where(reagent => rawReagents.Contains(reagent) && !required.Contains(reagent)).ToList();
+        if (replaceable.Count < missing.Count)
+            return null;
+
+        var replacements = new Dictionary<string, string>();
+        for (var i = 0; i < missing.Count; i++)
+            replacements.Add(replaceable[replaceable.Count - 1 - i], missing[i]);
+
+        var result = new Dictionary<string, ReactantPrototype>();
+        foreach (var (reagent, reactant) in recipe)
+            result.Add(replacements.TryGetValue(reagent, out var replacement) ? replacement : reagent, reactant);
+
+        return result;
+    }
+
+    private static bool SameReactants(Dictionary<string, ReactantPrototype> first, Dictionary<string, ReactantPrototype> second)
+    {
+        if (first.Count != second.Count)
+            return false;
+
+        foreach (var (reagent, reactant) in first)
+        {
+            if (!second.TryGetValue(reagent, out var other) || reactant.Amount != other.Amount || reactant.Catalyst != other.Catalyst)
+                return false;
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -349,7 +492,30 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
         if (!_reagentsData.TryGetValue(proto.ID, out var value))
             return Robust.Shared.Localization.Loc.GetString(proto.Name);
 
-        return Robust.Shared.Localization.Loc.GetString(value.Name);
+        return Robust.Shared.Localization.Loc.GetString("spellward-random-potion-name", ("number", value.Name));
+    }
+
+    public static string GetStaticName(ReagentPrototype proto)
+    {
+        var staticName = Robust.Shared.Localization.Loc.GetString(proto.Name);
+
+        if (!_reagentsData.TryGetValue(proto.ID, out var value))
+            return staticName;
+
+        var generatedName = value.Name;
+
+        if (generatedName.Length < 4)
+            return staticName;
+
+        var number = generatedName.Substring(generatedName.Length - 4);
+
+        foreach (var digit in number)
+        {
+            if (digit < '0' || digit > '9')
+                return staticName;
+        }
+
+        return $"{staticName} {number}";
     }
 
     /// <summary>
@@ -494,7 +660,18 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
         if (reaction.Quantized)
             lowestUnitReactions = (int)lowestUnitReactions;
 
-        return lowestUnitReactions > 0;
+        if (lowestUnitReactions <= FixedPoint2.Zero)
+            return false;
+
+        // FixedPoint2 stores hundredths. Do not consume inputs if a positive product
+        // would truncate below the smallest representable output (0.01 units).
+        foreach (var product in reaction.Products)
+        {
+            if (product.Value > FixedPoint2.Zero && (long)product.Value.Value * lowestUnitReactions.Value < 100)
+                return false;
+        }
+
+        return true;
     }
 
     /// <summary>

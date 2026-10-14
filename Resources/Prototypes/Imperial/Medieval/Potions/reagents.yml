@@ -1,6 +1,6 @@
 - type: reagent
   id: medievalexplosion
-  name: ""
+  name: spellward-potion-medievalexplosion
   desc: imperial-medieval-medievalexplosion-desc
   physicalDesc: ""
   showinbook: false
@@ -32,7 +32,7 @@
 
 - type: reagent
   id: medievalhealburn
-  name: ""
+  name: spellward-potion-medievalhealburn
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -42,84 +42,56 @@
   color: "#215263"
   metabolisms:
     Medicine:
+      metabolismRate: 0.03
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Heat: -30
-            Shock: -20
-            Cold: -15
-          groups:
-            Brute: -7
-      - !type:ProgressPlague
-        progressAmount: -10
-        curePower: 10
-    Poison:
-      effects:
-      - !type:Jitter
+            Heat: -10
+            Shock: -5
+            Cold: -5
+            Caustic: -5
         conditions:
         - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 15
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
+          min: 1.74
+          max: 1.80
 
 - type: reagent
-  id: medievalhealbloodandoxygen
-  name: ""
+  id: medievalpoison
+  name: spellward-potion-medievalpoison
   desc: ""
   physicalDesc: ""
   showinbook: false
   evaporationSpeed: 0.3
   absorbent: true
   flavor: null
-  color: "#0041a8"
+  color: "#63806e"
   metabolisms:
-    Medicine:
+    Poison:
+      metabolismRate: 0.06
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Asphyxiation: -10
-            Bloodloss: -10
-          groups:
-            Brute: -6
-      - !type:ProgressPlague
-        progressAmount: -7
-        curePower: 10
-    Poison:
-      effects:
-      - !type:Jitter
+            Poison: 0.33
+      - !type:Emote
+        emote: Cough
+        showInChat: true
+        probability: 0.1
+      - !type:AdjustReagent
+        reagent: medievalpoison
+        amount: -0.94
         conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 15
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
+        - !type:MobStateCondition
+          mobstate: Critical
 
 - type: reagent
   id: medievalacid
-  name: ""
+  name: spellward-potion-medievalacid
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -138,41 +110,60 @@
     amount: -8
   metabolisms:
     Poison:
-      metabolismRate: 0.1
+      metabolismRate: 1.00
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Caustic: 0.65 # balanced around arrows+bow perk, t1 = ~15 arrows per kill with ONLY pure damage
-      - !type:PopupMessage
-        type: Local
-        visualType: Large
-        messages: [ "generic-reagent-effect-burning-insides" ]
+            Caustic: 3
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectStunned
+        time: 0.5
+        type: Add
+        refresh: true
         probability: 0.3
       - !type:Emote
         emote: Scream
-        probability: 0.3
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+        showInChat: true
+        probability: 0.1
+
+- type: reagent
+  id: medievalradiation
+  name: spellward-potion-medievalradiation
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#00ff5f"
+  metabolisms:
+    Poison:
+      metabolismRate: 0.17
+      effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
-          groups:
-            Toxin: 6
+          types:
+            Radiation: 0.50
+      - !type:Emote
+        # Stock breathing-distress emote used for the wheezing symptom.
+        emote: Gasp
+        showInChat: true
+        probability: 0.1
+      - !type:AdjustReagent
+        reagent: medievalradiation
+        amount: -0.83
         conditions:
-        - !type:ReagentThreshold
-          min: 30
+        - !type:MobStateCondition
+          mobstate: Critical
 
 - type: reagent
   id: medievaladvancedradiation
-  name: ""
+  name: spellward-potion-medievaladvancedradiation
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -187,79 +178,29 @@
     amount: 1
   metabolisms:
     Poison:
-      metabolismRate: 0.1
+      metabolismRate: 0.25
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Radiation: 1 # balanced around arrows+bow perk, t2 = ~10 arrows per kill with ONLY pure damage
-      - !type:Jitter
+            Radiation: 0.75
+      - !type:Emote
+        # Stock breathing-distress emote used for the wheezing symptom.
+        emote: Gasp
+        showInChat: true
+        probability: 0.1
+      - !type:AdjustReagent
+        reagent: medievaladvancedradiation
+        amount: -0.75
         conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-
-- type: reagent
-  id: medievaldrughealmech
-  name: ""
-  desc: ""
-  physicalDesc: ""
-  showinbook: false
-  evaporationSpeed: 0.3
-  absorbent: true
-  flavor: null
-  color: "#63806e"
-  metabolisms:
-    Narcotic:
-      effects:
-      - !type:GenericStatusEffect
-        key: SeeingRainbows
-        component: SeeingRainbows
-        type: Add
-        time: 5
-        refresh: false
-      - !type:HealthChange
-        damage:
-          groups:
-            Brute: -20
-      - !type:ProgressPlague
-        progressAmount: -15
-        curePower: 10
-    Poison:
-      effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+        - !type:MobStateCondition
+          mobstate: Critical
 
 - type: reagent
   id: medievalvomit
-  name: ""
+  name: spellward-potion-medievalvomit
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -274,28 +215,28 @@
         probability: 0.9
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 24
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievalvomit
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievalAmmonia
   showinbook: false
-  name: ""
+  name: spellward-potion-medievalammonia
   desc: ""
   physicalDesc: ""
   evaporationSpeed: 0.3
@@ -373,7 +314,7 @@
 - type: reagent
   id: medievalPlantBGone
   showinbook: false
-  name: ""
+  name: spellward-potion-medievalplantbgone
   desc: ""
   evaporationSpeed: 0.3
   absorbent: true
@@ -406,7 +347,7 @@
 - type: reagent
   id: medievalLeft4Zed
   showinbook: false
-  name: ""
+  name: spellward-potion-medievalleft4zed
   desc: ""
   evaporationSpeed: 0.3
   absorbent: true
@@ -439,7 +380,7 @@
 - type: reagent
   id: medievalDiethylamine
   showinbook: false
-  name: ""
+  name: spellward-potion-medievaldiethylamine
   desc: ""
   evaporationSpeed: 0.3
   absorbent: true
@@ -468,7 +409,7 @@
 
 - type: reagent
   id: medievalslow
-  name: ""
+  name: spellward-potion-medievalslow
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -484,27 +425,27 @@
         sprintSpeedModifier: 0.5
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 6
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievalslow
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievalfast
-  name: ""
+  name: spellward-potion-medievalfast
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -520,27 +461,27 @@
         sprintSpeedModifier: 1.6
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 10
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 11
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievalfast
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievalstamina
-  name: ""
+  name: spellward-potion-medievalstamina
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -558,59 +499,54 @@
         type: Add
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 6
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievalstamina
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
-  id: medievalsmoke
-  name: ""
-  desc: imperial-medieval-medievalsmoke-desc
+  id: medievalantidote
+  name: spellward-potion-medievalantidote
+  desc: ""
   physicalDesc: ""
   showinbook: false
   evaporationSpeed: 0.3
   absorbent: true
   flavor: null
-  color: "#FFC8C8"
+  color: "#215263"
   metabolisms:
-    Poison:
+    Medicine:
+      metabolismRate: 0.50
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+          types:
+            Poison: -3
+            Radiation: -3
+            Cold: -3
+      - !type:AdjustReagent
+        reagent: medievalpoisonneutralizer
+        amount: 0.50
 
 - type: reagent
   id: medievalAntihol
   showinbook: false
-  name: ""
+  name: spellward-potion-medievalantihol
   desc: ""
   physicalDesc: ""
   flavor: null
@@ -632,7 +568,7 @@
 
 - type: reagent
   id: medievalcryoexplosion
-  name: ""
+  name: spellward-potion-medievalcryoexplosion
   desc: imperial-medieval-medievalcryoexplosion-desc
   physicalDesc: ""
   showinbook: false
@@ -663,7 +599,7 @@
 
 - type: reagent
   id: medievalhealslash
-  name: ""
+  name: spellward-potion-medievalhealslash
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -673,39 +609,25 @@
   color: "#63806e"
   metabolisms:
     Narcotic:
+      metabolismRate: 0.02
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Slash: -15
+            Slash: -10
+            Caustic: -10
           groups:
-            Brute: -15
-      - !type:ProgressPlague
-        progressAmount: -8
-        curePower: 10
-    Poison:
-      effects:
-      - !type:Jitter
+            Brute: -2
         conditions:
         - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+          min: 1.16
+          max: 1.20
 
 - type: reagent
   id: medievalhealpiercing
-  name: ""
+  name: spellward-potion-medievalhealpiercing
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -715,39 +637,25 @@
   color: "#63806e"
   metabolisms:
     Narcotic:
+      metabolismRate: 0.02
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Piercing: -15
+            Piercing: -10
+            Caustic: -10
           groups:
-            Brute: -15
-      - !type:ProgressPlague
-        progressAmount: -8
-        curePower: 10
-    Poison:
-      effects:
-      - !type:Jitter
+            Brute: -2
         conditions:
         - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+          min: 1.16
+          max: 1.20
 
 - type: reagent
   id: medievalhealblunt
-  name: ""
+  name: spellward-potion-medievalhealblunt
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -757,39 +665,25 @@
   color: "#63806e"
   metabolisms:
     Narcotic:
+      metabolismRate: 0.02
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Blunt: -15
+            Blunt: -10
+            Caustic: -10
           groups:
-            Brute: -15
-      - !type:ProgressPlague
-        progressAmount: -8
-        curePower: 10
-    Poison:
-      effects:
-      - !type:Jitter
+            Brute: -2
         conditions:
         - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+          min: 1.16
+          max: 1.20
 
 - type: reagent
   id: medievalmute
-  name: ""
+  name: spellward-potion-medievalmute
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -808,27 +702,27 @@
         refresh: true
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 6
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievalmute
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievalblind
-  name: ""
+  name: spellward-potion-medievalblind
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -868,27 +762,27 @@
         component: TemporaryBlindness
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 6
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievalblind
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievaljitter
-  name: ""
+  name: spellward-potion-medievaljitter
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -905,27 +799,27 @@
       - !type:Jitter
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 6
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievaljitter
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievalsleep
-  name: ""
+  name: spellward-potion-medievalsleep
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -946,27 +840,27 @@
         time: 30
         type: Add
         refresh: false
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 6
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievalsleep
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievalignite
-  name: ""
+  name: spellward-potion-medievalignite
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -979,37 +873,23 @@
       methods: [ Touch ]
       effects:
       - !type:FlammableReaction
-        multiplier: 3
-      - !type:Ignite
+        multiplier: 1
+      - !type:Ignite {}
   metabolisms:
     Poison:
+      # Stock FlammableReaction removes the processed amount as well.
+      # With the normal 1x rate modifier, full ticks consume 0.50u net.
+      # The 2x multiplier gives one stack per net unit on full ticks.
+      # A final remainder below 0.50u can add excess stacks (stock compromise).
+      metabolismRate: 0.25
       effects:
       - !type:FlammableReaction
-        multiplier: 6
-      - !type:AdjustTemperature
-        amount: 6000
-      - !type:Ignite
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+        multiplier: 2
+      - !type:Ignite {}
 
 - type: reagent
   id: medievalhealandstopblood
-  name: ""
+  name: spellward-potion-medievalhealandstopblood
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1019,41 +899,66 @@
   color: "#63806e"
   metabolisms:
     Medicine:
+      metabolismRate: 0.01
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Bloodloss: -30
-          groups:
-            Brute: -6
+            Bloodloss: -20
+            Asphyxiation: -20
+        conditions:
+        - !type:ReagentThreshold
+          min: 0.58
+          max: 0.60
       - !type:ModifyBleedAmount
+        scaled: false
         amount: -5
-      - !type:ProgressPlague
-        progressAmount: -8
-        curePower: 10
-    Poison:
+        conditions:
+        - !type:ReagentThreshold
+          min: 0.58
+          max: 0.60
+
+- type: reagent
+  id: medievalhealeverything
+  name: spellward-potion-medievalhealeverything
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#215263"
+  metabolisms:
+    Medicine:
+      metabolismRate: 0.04
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
-          groups:
-            Toxin: 15
+          types:
+            Slash: -20
+            Piercing: -20
+            Blunt: -20
+            Heat: -20
+            Shock: -20
+            Cold: -20
+            Caustic: -20
+            Poison: -20
+            Radiation: -20
+            Asphyxiation: -20
+            Bloodloss: -20
+            Cellular: -20
         conditions:
         - !type:ReagentThreshold
-          min: 11
+          min: 4.92
+          max: 5.00
 
 - type: reagent
   id: medievaladvancedsmokeandexplosion
-  name: ""
+  name: spellward-potion-medievaladvancedsmokeandexplosion
   desc: imperial-medieval-medievaladvancedsmokeandexplosion-desc
   physicalDesc: ""
   showinbook: false
@@ -1081,52 +986,8 @@
           min: 30
 
 - type: reagent
-  id: medievaladvancedhealeverything
-  name: ""
-  desc: ""
-  physicalDesc: ""
-  showinbook: false
-  evaporationSpeed: 0.3
-  absorbent: true
-  flavor: null
-  color: "#215263"
-  metabolisms:
-    Medicine:
-      effects:
-      - !type:HealthChange
-        damage:
-          groups:
-            Burn: -25
-            Toxin: -25
-            Airloss: -25
-            Brute: -25
-      - !type:ProgressPlague
-        progressAmount: -30
-        curePower: 30
-      - !type:GrantPlagueImmunity
-    Poison:
-      effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 20
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-
-- type: reagent
-  id: medievaladvancedhealslash
-  name: ""
+  id: medievaladvancedpoison
+  name: spellward-potion-medievaladvancedpoison
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1135,168 +996,29 @@
   flavor: null
   color: "#63806e"
   metabolisms:
-    Narcotic:
+    Poison:
+      metabolismRate: 0.04
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Slash: -30
-          groups:
-            Brute: -30
-      - !type:ProgressPlague
-        progressAmount: -20
-        curePower: 20
-    Poison:
-      effects:
-      - !type:Jitter
+            Poison: 0.60
+      - !type:Emote
+        emote: Cough
+        showInChat: true
+        probability: 0.1
+      - !type:AdjustReagent
+        reagent: medievaladvancedpoison
+        amount: -0.96
         conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+        - !type:MobStateCondition
+          mobstate: Critical
 
 - type: reagent
-  id: medievaladvancedhealpiercing
-  evaporationSpeed: 0.3
-  absorbent: true
-  name: ""
-  desc: ""
-  physicalDesc: ""
-  showinbook: false
-  flavor: null
-  color: "#63806e"
-  metabolisms:
-    Narcotic:
-      effects:
-      - !type:HealthChange
-        damage:
-          types:
-            Piercing: -30
-          groups:
-            Brute: -30
-      - !type:ProgressPlague
-        progressAmount: -20
-        curePower: 20
-    Poison:
-      effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-
-- type: reagent
-  id: medievaladvancedhealblunt
-  evaporationSpeed: 0.3
-  absorbent: true
-  name: ""
-  desc: ""
-  physicalDesc: ""
-  showinbook: false
-  flavor: null
-  color: "#63806e"
-  metabolisms:
-    Narcotic:
-      effects:
-      - !type:HealthChange
-        damage:
-          types:
-            Blunt: -30
-          groups:
-            Brute: -30
-      - !type:ProgressPlague
-        progressAmount: -20
-        curePower: 20
-    Poison:
-      effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-
-- type: reagent
-  id: medievaladvancedhealburn
-  name: ""
-  desc: ""
-  physicalDesc: ""
-  showinbook: false
-  evaporationSpeed: 0.3
-  absorbent: true
-  flavor: null
-  color: "#215263"
-  metabolisms:
-    Medicine:
-      effects:
-      - !type:HealthChange
-        damage:
-          types:
-            Heat: -30
-            Shock: -30
-            Cold: -30
-          groups:
-            Brute: -12
-      - !type:ProgressPlague
-        progressAmount: -20
-        curePower: 20
-    Poison:
-      effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 20
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-
-- type: reagent
-  id: medievalbestacidradiation
-  name: ""
+  id: medievaladvancedacid
+  name: spellward-potion-medievaladvancedacid
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1306,54 +1028,247 @@
   color: "#a1000b"
   boilingPoint: 78.2 # This isn't a real chemical...
   meltingPoint: -19.4
-  plantMetabolism:
-  - !type:PlantAdjustToxins
-    amount: 20
-  - !type:PlantAdjustWeeds
-    amount: -4
-  - !type:PlantAdjustHealth
-    amount: -8
   metabolisms:
-    Medicine:
-      effects:
-      - !type:DeleteDeathCurseEffect
     Poison:
-      metabolismRate: 0.1
+      metabolismRate: 1.00
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Caustic: 1
-            Radiation: 1 # balanced around arrows+bow perk, t3 = ~5 arrows per kill with ONLY pure damage
-      - !type:PopupMessage
-        type: Local
-        visualType: Large
-        messages: [ "generic-reagent-effect-burning-insides" ]
-        probability: 0.5
+            Caustic: 4
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectStunned
+        time: 0.5
+        type: Add
+        refresh: true
+        probability: 0.6
       - !type:Emote
         emote: Scream
-        probability: 0.5
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+        showInChat: true
+        probability: 0.1
+
+- type: reagent
+  id: medievaladvancedcoldpoison
+  name: spellward-potion-medievaladvancedcoldpoison
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#9ad6e8"
+  metabolisms:
+    Poison:
+      metabolismRate: 0.34
+      effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
-          groups:
-            Toxin: 6
+          types:
+            Cold: 0.75
+      - !type:MovespeedModifier
+        walkSpeedModifier: 0.70
+        sprintSpeedModifier: 0.70
+        statusLifetime: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          reagent: medievalbestcoldpoison
+          max: 0
+      - !type:Jitter
+        time: 1
+        refresh: true
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectStutter
+        time: 1
+        type: Add
+        refresh: true
+      - !type:AdjustReagent
+        reagent: medievaladvancedcoldpoison
+        amount: -0.66
+        conditions:
+        - !type:MobStateCondition
+          mobstate: Critical
+
+- type: reagent
+  id: medievaladvancedantidote
+  name: spellward-potion-medievaladvancedantidote
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#215263"
+  metabolisms:
+    Medicine:
+      metabolismRate: 0.50
+      effects:
+      - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
+        damage:
+          types:
+            Poison: -6
+            Radiation: -6
+            Cold: -6
+      - !type:AdjustReagent
+        reagent: medievalpoisonneutralizer
+        amount: 1.00
+
+- type: reagent
+  id: medievaladvancedhealeverything
+  name: spellward-potion-medievaladvancedhealeverything
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#215263"
+  metabolisms:
+    Medicine:
+      metabolismRate: 0.02
+      effects:
+      - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
+        damage:
+          types:
+            Slash: -35
+            Piercing: -35
+            Blunt: -35
+            Heat: -35
+            Shock: -35
+            Cold: -35
+            Caustic: -35
+            Poison: -35
+            Radiation: -35
+            Asphyxiation: -35
+            Bloodloss: -35
+            Cellular: -35
+        conditions:
+        - !type:ReagentThreshold
+          min: 5.96
+          max: 6.00
+
+- type: reagent
+  id: medievaladvancedhealslash
+  name: spellward-potion-medievaladvancedhealslash
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#63806e"
+  metabolisms:
+    Narcotic:
+      metabolismRate: 0.02
+      effects:
+      - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
+        damage:
+          types:
+            Slash: -20
+            Caustic: -20
+          groups:
+            Brute: -4
+        conditions:
+        - !type:ReagentThreshold
+          min: 1.56
+          max: 1.60
+
+- type: reagent
+  id: medievaladvancedhealpiercing
+  evaporationSpeed: 0.3
+  absorbent: true
+  name: spellward-potion-medievaladvancedhealpiercing
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  flavor: null
+  color: "#63806e"
+  metabolisms:
+    Narcotic:
+      metabolismRate: 0.02
+      effects:
+      - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
+        damage:
+          types:
+            Piercing: -20
+            Caustic: -20
+          groups:
+            Brute: -4
+        conditions:
+        - !type:ReagentThreshold
+          min: 1.56
+          max: 1.60
+
+- type: reagent
+  id: medievaladvancedhealblunt
+  evaporationSpeed: 0.3
+  absorbent: true
+  name: spellward-potion-medievaladvancedhealblunt
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  flavor: null
+  color: "#63806e"
+  metabolisms:
+    Narcotic:
+      metabolismRate: 0.02
+      effects:
+      - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
+        damage:
+          types:
+            Blunt: -20
+            Caustic: -20
+          groups:
+            Brute: -4
+        conditions:
+        - !type:ReagentThreshold
+          min: 1.56
+          max: 1.60
+
+- type: reagent
+  id: medievaladvancedhealburn
+  name: spellward-potion-medievaladvancedhealburn
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#215263"
+  metabolisms:
+    Medicine:
+      metabolismRate: 0.03
+      effects:
+      - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
+        damage:
+          types:
+            Heat: -20
+            Shock: -15
+            Cold: -15
+            Caustic: -15
+        conditions:
+        - !type:ReagentThreshold
+          min: 2.34
+          max: 2.40
 
 - type: reagent
   id: medievaladvancedfast
-  name: ""
+  name: spellward-potion-medievaladvancedfast
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1369,27 +1284,27 @@
         sprintSpeedModifier: 2.1
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 10
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 11
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievaladvancedfast
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievaladvancedslow
-  name: ""
+  name: spellward-potion-medievaladvancedslow
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1405,27 +1320,27 @@
         sprintSpeedModifier: 0.25
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 6
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievaladvancedslow
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievaladvancedpacifism
-  name: ""
+  name: spellward-potion-medievaladvancedpacifism
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1441,27 +1356,27 @@
         component: Pacified
         type: Add
         time: 30
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 6
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievaladvancedpacifism
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievaladvancedteleport
-  name: ""
+  name: spellward-potion-medievaladvancedteleport
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1482,27 +1397,27 @@
         - !type:TeleportEntityEffect
           energyPerUnit: 1
           teleportType: Random
-        - !type:Jitter
-          conditions:
-          - !type:ReagentThreshold
-            min: 30
-        - !type:GenericStatusEffect
-          key: Stutter
-          component: StutteringAccent
-          conditions:
-          - !type:ReagentThreshold
-            min: 30
+        # Strictly above 11u; normal effects and metabolism rates are retained.
         - !type:HealthChange
+          scaleByQuantity: false
+          ignoreResistances: true
           damage:
             groups:
-              Toxin: 6
+              Toxin: 1
           conditions:
           - !type:ReagentThreshold
-            min: 30
+            min: 11.01
+        # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+        - !type:AdjustReagent
+          reagent: medievaladvancedteleport
+          amount: -2.50
+          conditions:
+          - !type:ReagentThreshold
+            min: 11.01
 
 - type: reagent
   id: medievaladvancedhealandstopblood
-  name: ""
+  name: spellward-potion-medievaladvancedhealandstopblood
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1512,41 +1427,30 @@
   color: "#63806e"
   metabolisms:
     Medicine:
+      metabolismRate: 0.01
       effects:
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Bloodloss: -50
-          groups:
-            Brute: -12
+            Bloodloss: -40
+            Asphyxiation: -40
+        conditions:
+        - !type:ReagentThreshold
+          min: 0.68
+          max: 0.70
       - !type:ModifyBleedAmount
+        scaled: false
         amount: -10
-      - !type:ProgressPlague
-        progressAmount: -30
-        curePower: 30
-    Poison:
-      effects:
-      - !type:Jitter
         conditions:
         - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 20
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
+          min: 0.68
+          max: 0.70
 
 - type: reagent
   id: medievaladvancedstimulant
-  name: ""
+  name: spellward-potion-medievaladvancedstimulant
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1597,76 +1501,27 @@
               Brute: -7
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 20
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 11
-
-- type: reagent
-  id: medievaladvancedignite
-  name: ""
-  desc: ""
-  physicalDesc: ""
-  showinbook: false
-  evaporationSpeed: 0.3
-  absorbent: true
-  flavor: null
-  color: "#63806e"
-  metabolisms:
-    Medicine:
-      effects:
-      - !type:DeleteDeathCurseEffect
-    Poison:
-      effects:
-      - !type:FlammableReaction
-        multiplier: 8
-      - !type:AdjustTemperature
-        amount: 10000
-      - !type:Ignite
-      - !type:Jitter
+          min: 11.01
+      # Add 2.00u to automatic 1.00u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievaladvancedstimulant
+        amount: -2.00
         conditions:
         - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:HealthChange
-        damage:
-          groups:
-            Toxin: 6
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:ProgressPlague
-        progressAmount: -8
-        curePower: 3
-  reactiveEffects:
-    Flammable:
-      methods: [ Touch ]
-      effects:
-      - !type:FlammableReaction
-        multiplier: 8
-      - !type:Ignite
+          min: 11.01
 
 - type: reagent
   id: medievaladvancednocturnblood
-  name: ""
+  name: spellward-potion-medievaladvancednocturnblood
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1680,27 +1535,27 @@
       - !type:NocturnBloodAdd
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 6
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 30
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievaladvancednocturnblood
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievalbestexplosion
-  name: ""
+  name: spellward-potion-medievalbestexplosion
   desc: imperial-medieval-bestexplosion-desc
   physicalDesc: ""
   showinbook: false
@@ -1743,8 +1598,8 @@
           min: 30
 
 - type: reagent
-  id: medievalbestheal
-  name: ""
+  id: medievalbestignite
+  name: spellward-potion-medievalbestignite
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1752,56 +1607,179 @@
   absorbent: true
   flavor: null
   color: "#63806e"
+  reactiveEffects:
+    Flammable:
+      methods: [ Touch ]
+      effects:
+      - !type:FlammableReaction
+        multiplier: 1
+      - !type:Ignite {}
+  metabolisms:
+    Poison:
+      # Stock FlammableReaction removes the processed amount as well.
+      # With the normal 1x rate modifier, full ticks consume 0.50u net.
+      # The 2x multiplier gives one stack per net unit on full ticks.
+      # A final remainder below 0.50u can add excess stacks (stock compromise).
+      metabolismRate: 0.25
+      effects:
+      - !type:FlammableReaction
+        multiplier: 2
+      - !type:Ignite {}
+
+- type: reagent
+  id: medievalbestheal
+  name: spellward-potion-medievalbestheal
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#63806e"
+  worksOnTheDead: true
   metabolisms:
     Medicine:
+      metabolismRate: 0.02
       effects:
-      - !type:AdjustTemperature
-        conditions:
-        - !type:Temperature
-          max: 293.15
-        amount: 100000
-      - !type:AdjustTemperature
-        conditions:
-        - !type:Temperature
-          min: 293.15
-        amount: -10000
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           types:
-            Cellular: -60
-            Bloodloss: -60
-          groups:
-            Burn: -60
-            Toxin: -60
-            Airloss: -60
-            Brute: -60
-      - !type:ProgressPlague
-        progressAmount: -20
-        curePower: 40
-      - !type:GrantPlagueImmunity
+            Slash: -65
+            Piercing: -65
+            Blunt: -65
+            Heat: -65
+            Shock: -65
+            Cold: -65
+            Caustic: -65
+            Poison: -65
+            Radiation: -65
+            Asphyxiation: -65
+            Bloodloss: -65
+            Cellular: -65
+        conditions:
+        - !type:ReagentThreshold
+          min: 8.46
+          max: 8.50
+      - !type:ReduceRotting
+        # Existing stock default: 10 seconds of rot reversal per full tick.
+        # Provisional until a different rot-restoration amount is specified.
+        seconds: 10
+        conditions:
+        - !type:ReagentThreshold
+          min: 8.46
+          max: 8.50
+        - !type:MobStateCondition
+          mobstate: Dead
+
+- type: reagent
+  id: medievalbestacid
+  name: spellward-potion-medievalbestacid
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#a1000b"
+  boilingPoint: 78.2 # This isn't a real chemical...
+  meltingPoint: -19.4
+  metabolisms:
     Poison:
+      metabolismRate: 1.00
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
-          groups:
-            Toxin: 30
+          types:
+            Caustic: 5
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectStunned
+        time: 0.5
+        type: Add
+        refresh: true
+        probability: 0.9
+      - !type:Emote
+        emote: Scream
+        showInChat: true
+        probability: 0.1
+
+- type: reagent
+  id: medievalbestradiation
+  name: spellward-potion-medievalbestradiation
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#00ff5f"
+  metabolisms:
+    Poison:
+      metabolismRate: 0.50
+      effects:
+      - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
+        damage:
+          types:
+            Radiation: 1.50
+      - !type:Emote
+        # Stock breathing-distress emote used for the wheezing symptom.
+        emote: Gasp
+        showInChat: true
+        probability: 0.1
+      - !type:AdjustReagent
+        reagent: medievalbestradiation
+        amount: -0.50
         conditions:
-        - !type:ReagentThreshold
-          min: 11
+        - !type:MobStateCondition
+          mobstate: Critical
+
+- type: reagent
+  id: medievalbestcoldpoison
+  name: spellward-potion-medievalbestcoldpoison
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  evaporationSpeed: 0.3
+  absorbent: true
+  flavor: null
+  color: "#9ad6e8"
+  metabolisms:
+    Poison:
+      metabolismRate: 0.67
+      effects:
+      - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
+        damage:
+          types:
+            Cold: 1.50
+      - !type:MovespeedModifier
+        walkSpeedModifier: 0.50
+        sprintSpeedModifier: 0.50
+        statusLifetime: 1
+      - !type:Jitter
+        time: 1
+        refresh: true
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectStutter
+        time: 1
+        type: Add
+        refresh: true
+      - !type:AdjustReagent
+        reagent: medievalbestcoldpoison
+        amount: -0.33
+        conditions:
+        - !type:MobStateCondition
+          mobstate: Critical
 
 - type: reagent
   id: medievalbestpoison
-  name: ""
+  name: spellward-potion-medievalbestpoison
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1810,44 +1788,29 @@
   flavor: null
   color: "#63806e"
   metabolisms:
-    Medicine:
-      effects:
-      - !type:DeleteDeathCurseEffect
-    Narcotic:
-      effects:
-      - !type:MovespeedModifier
-        walkSpeedModifier: 0.1
-        sprintSpeedModifier: 0.1
-        statusLifetime: 15
-      - !type:ChemVomit
-        probability: 1
-      - !type:GenericStatusEffect
-        key: TemporaryBlindness
-        component: TemporaryBlindness
-        time: 6
     Poison:
+      metabolismRate: 0.03
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 30
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
-          groups:
-            Toxin: 6
+          types:
+            Poison: 0.75
+      - !type:Emote
+        emote: Cough
+        showInChat: true
+        probability: 0.1
+      - !type:AdjustReagent
+        reagent: medievalbestpoison
+        amount: -0.97
         conditions:
-        - !type:ReagentThreshold
-          min: 30
+        - !type:MobStateCondition
+          mobstate: Critical
 
 - type: reagent
   id: medievalbeststimulant
-  name: ""
+  name: spellward-potion-medievalbeststimulant
   desc: ""
   physicalDesc: ""
   showinbook: false
@@ -1909,23 +1872,23 @@
               Brute: -5
     Poison:
       effects:
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
-        conditions:
-        - !type:ReagentThreshold
-          min: 11
+      # Strictly above 11u; normal effects and metabolism rates are retained.
       - !type:HealthChange
+        scaleByQuantity: false
+        ignoreResistances: true
         damage:
           groups:
-            Toxin: 30
+            Toxin: 1
         conditions:
         - !type:ReagentThreshold
-          min: 11
+          min: 11.01
+      # Add 2.50u to automatic 0.50u heart metabolism for 3u total.
+      - !type:AdjustReagent
+        reagent: medievalbeststimulant
+        amount: -2.50
+        conditions:
+        - !type:ReagentThreshold
+          min: 11.01
 
 - type: reagent
   id: medievalPerfumeRose
@@ -2036,3 +1999,21 @@
         conditions:
         - !type:ReagentThreshold
           min: 20
+- type: reagent
+  id: medievalpoisonneutralizer
+  # Internal reagent released by the two Antidotes; no crafting/group membership.
+  # Hidden from normal spawning and recipe-book entries.
+  name: spellward-potion-medievalpoisonneutralizer
+  desc: ""
+  physicalDesc: ""
+  showinbook: false
+  nospawn: true
+  flavor: null
+  color: "#d5f5ff"
+  # Poison-to-water cleansing is provided by the separate reaction file.
+  # Unused helper metabolizes away without applying any gameplay effects.
+  metabolisms:
+    Medicine:
+      metabolismRate: 1.00
+      effects: []
+
