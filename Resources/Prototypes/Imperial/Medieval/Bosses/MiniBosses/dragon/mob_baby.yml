@@ -14,6 +14,10 @@
   id: MedievalBabyBossBaseDragon
   description: small dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      poiseDamage: 25
+    # spellward end
     - type: ForcedSleepImmune
     - type: Hands
       hands:
@@ -159,6 +163,10 @@
   id: MedievalBabyBossIceDragon
   description: small dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 5
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -198,6 +206,10 @@
   id: MedievalBabyBossFireDragon
   description: small dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 0
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -243,6 +255,10 @@
   id: MedievalBabyBossAcidDragon
   description: small dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 4
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -288,6 +304,10 @@
   id: MedievalBabyBossThunderDragon
   description: small dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 0
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:

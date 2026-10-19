@@ -8,6 +8,11 @@ using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Damage;
 using Content.Shared.FixedPoint;
 using Content.Shared.Imperial.Medieval.ChargedAttack;
+// spellward start
+using Content.Shared.Explosion;
+using Content.Shared.StatusEffectNew;
+using Robust.Shared.Prototypes;
+// spellward end
 
 namespace Content.Shared.Imperial.Medieval.Poise;
 
@@ -16,6 +21,11 @@ public sealed class PoiseSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    // spellward start
+    [Dependency] private readonly StatusEffectsSystem _status = default!;
+
+    private static readonly EntProtoId NpcStagger = "MedievalStatusEffectPoiseStagger";
+    // spellward end
 
 
     public override void Initialize()
@@ -26,6 +36,9 @@ public sealed class PoiseSystem : EntitySystem
         SubscribeLocalEvent<PoiseComponent, MeleeAttackEvent>(OnMeleeAttack);
         SubscribeLocalEvent<PoiseComponent, DamageModifyEvent>(OnDamageModify);
         SubscribeLocalEvent<PoiseComponent, AttackedEvent>(OnAttacked);
+        // spellward start
+        SubscribeLocalEvent<PoiseComponent, GetExplosionResistanceEvent>(OnExplosionResistance);
+        // spellward end
     }
 
     private void OnAttacked(EntityUid uid, PoiseComponent component, AttackedEvent args)
@@ -48,8 +61,23 @@ public sealed class PoiseSystem : EntitySystem
 
     public static int GetEffectivePoiseThreshold(PoiseComponent component)
     {
+        // spellward start - NPC capacity is set per prototype, independently of player armor bonuses.
+        if (component.Npc)
+            return component.PoiseThreshold;
+        // spellward end
         return component.PoiseThreshold + component.ArmorPoiseIncrease;
     }
+
+    // spellward start
+    private bool CanUsePoise(EntityUid uid, PoiseComponent component)
+    {
+        // NPC poise is authoritative on the server and works outside combat mode.
+        if (component.Npc)
+            return _net.IsServer && component.PoiseThreshold > 0;
+
+        return TryComp<CombatModeComponent>(uid, out var combatMode) && combatMode.IsInCombatMode;
+    }
+    // spellward end
 
     public void TakePoiseDamage(
     EntityUid uid,
@@ -62,11 +90,10 @@ public sealed class PoiseSystem : EntitySystem
         if (!Resolve(uid, ref component))
             return;
 
-        if (!TryComp<CombatModeComponent>(uid, out var combatMode))
+        // spellward start
+        if (!CanUsePoise(uid, component))
             return;
-
-        if (!combatMode.IsInCombatMode)
-            return;
+        // spellward end
 
         if (amount <= 0)
             return;
@@ -81,6 +108,11 @@ public sealed class PoiseSystem : EntitySystem
         var actualDamage = component.PoiseDamage - oldDamage;
 
         EnsureComp<ActivePoiseComponent>(uid);
+
+        // spellward start - every NPC poise hit restarts the partial-recovery delay.
+        if (component.Npc)
+            DelayPoiseRecovery(uid, component.PoiseRecoveryDelay, component);
+        // spellward end
 
         if (log && actualDamage > 0)
         {
@@ -110,6 +142,10 @@ public sealed class PoiseSystem : EntitySystem
 
     private void OnMeleeAttack(EntityUid uid, PoiseComponent component, ref MeleeAttackEvent args)
     {
+        // spellward start - NPC recovery depends on incoming hits, not their own attacks.
+        if (component.Npc)
+            return;
+        // spellward end
         if (component.PoiseBroken)
             return;
 
@@ -127,6 +163,11 @@ public sealed class PoiseSystem : EntitySystem
         if (!Resolve(uid, ref component))
             return;
 
+        // spellward start
+        if (component.Npc && !_net.IsServer)
+            return;
+        // spellward end
+
         if (component.PoiseBroken)
             return;
 
@@ -142,6 +183,10 @@ public sealed class PoiseSystem : EntitySystem
 
     public void BreakPoise(EntityUid uid, PoiseComponent component, bool protectBreakingHit = false)
     {
+        // spellward start
+        if (component.Npc && (!_net.IsServer || component.PoiseThreshold <= 0))
+            return;
+        // spellward end
         if (component.PoiseBroken)
             return;
 
@@ -150,6 +195,11 @@ public sealed class PoiseSystem : EntitySystem
         component.PoiseRecoveryStarts = _timing.CurTime + component.PoiseRecoveryDelay;
         component.NextPoiseRecoveryTick = component.PoiseRecoveryStarts;
         component.PoiseBreakEnds = _timing.CurTime + component.PoiseBreakDuration;
+
+        // spellward start - stun without knockdown; the dedicated status permits StunImmune NPCs.
+        if (component.Npc)
+            _status.TrySetStatusEffectDuration(uid, NpcStagger, component.PoiseBreakDuration);
+        // spellward end
 
         EnsureComp<ActivePoiseComponent>(uid);
 
@@ -163,8 +213,10 @@ public sealed class PoiseSystem : EntitySystem
 
     private void OnDamageModify(EntityUid uid, PoiseComponent component, ref DamageModifyEvent args)
     {
-        if (!TryComp<CombatModeComponent>(uid, out var combatMode) || !combatMode.IsInCombatMode)
+        // spellward start
+        if (!CanUsePoise(uid, component))
             return;
+        // spellward end
 
         var protectBreakingHit = component.ProtectBreakingHit;
         component.ProtectBreakingHit = false;
@@ -174,7 +226,12 @@ public sealed class PoiseSystem : EntitySystem
 
         float resistance;
 
-        if (component.HasPoiseArmor)
+        // spellward start - NPC health protection is flat and does not use armor multipliers.
+        if (component.Npc)
+        {
+            resistance = component.HealthDamageReduction;
+        }
+        else if (component.HasPoiseArmor)
         {
             var cap = component.HealthDamageReductionCap;
 
@@ -184,6 +241,7 @@ public sealed class PoiseSystem : EntitySystem
         {
             resistance = component.UnarmoredHealthDamageReduction;
         }
+        // spellward end
 
         if (resistance <= 0f)
             return;
@@ -206,8 +264,10 @@ public sealed class PoiseSystem : EntitySystem
     private void OnBeforeStaminaDamage(EntityUid uid, PoiseComponent component, ref BeforeStaminaDamageEvent args)
     {
 
-        if (!TryComp<CombatModeComponent>(uid, out var combatMode) || !combatMode.IsInCombatMode)
+        // spellward start
+        if (!CanUsePoise(uid, component))
             return;
+        // spellward end
 
         if (component.PoiseBroken)
             return;
@@ -220,6 +280,16 @@ public sealed class PoiseSystem : EntitySystem
 
         args.Cancelled = true;
     }
+
+    // spellward start - explosion damage bypasses DamageModifyEvent, so protect it separately.
+    private void OnExplosionResistance(EntityUid uid, PoiseComponent component, ref GetExplosionResistanceEvent args)
+    {
+        if (!component.Npc || !CanUsePoise(uid, component) || component.PoiseBroken)
+            return;
+
+        args.DamageCoefficient *= 1f - component.ExplosionDamageReduction;
+    }
+    // spellward end
 
     public override void Update(float frameTime)
     {
@@ -270,8 +340,18 @@ public sealed class PoiseSystem : EntitySystem
     {
         component.PoiseBroken = false;
 
-        component.PoiseDamage = (int)
-        Math.Round(GetEffectivePoiseThreshold(component) * (1f - component.PoiseBreakRecoveryFraction));
+        // spellward start - eligible NPCs recover fully as soon as their stagger ends.
+        if (component.Npc)
+        {
+            component.PoiseDamage = 0;
+            _status.TryRemoveStatusEffect(uid, NpcStagger);
+        }
+        else
+        {
+            component.PoiseDamage = (int)
+                Math.Round(GetEffectivePoiseThreshold(component) * (1f - component.PoiseBreakRecoveryFraction));
+        }
+        // spellward end
 
         component.PoiseRecoveryStarts = _timing.CurTime + component.PoiseRecoveryDelay;
 

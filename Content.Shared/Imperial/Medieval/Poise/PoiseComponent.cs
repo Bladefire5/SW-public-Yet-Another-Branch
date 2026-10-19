@@ -8,6 +8,14 @@ namespace Content.Shared.Imperial.Medieval.Poise;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
 public sealed partial class PoiseComponent : Component
 {
+    // spellward start - opt-in NPC rules; player prototypes keep their existing behavior.
+    [DataField, AutoNetworkedField]
+    public bool Npc;
+
+    // Separate from ordinary health resistance so explosion protection can be tuned independently.
+    [DataField]
+    public float ExplosionDamageReduction;
+    // spellward end
 
     // Текущий накопленный урон по стойке.
     [DataField, AutoNetworkedField]

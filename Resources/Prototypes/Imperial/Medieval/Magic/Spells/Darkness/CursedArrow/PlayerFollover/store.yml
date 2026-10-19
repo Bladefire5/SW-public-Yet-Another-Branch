@@ -22,6 +22,13 @@
     whitelist:
       - MedievalSpellCursedArrowBeginner
     blacklist:
+      - MedievalSpellFireBoltTier1
+      - MedievalSpellFireBoltTier2
+      - MedievalSpellFireBoltTier3
+      - MedievalSpellFireBoltTier4
+      - MedievalSpellLargeFireBoltBeginner
+      - MedievalSpellLargeFireBoltMiddle
+      - MedievalSpellLargeFireBoltSenior
       - MedievalSpellCursedArrowCursorFolloverBeginner
       - MedievalSpellCursedArrowCursorFolloverMiddle
       - MedievalSpellCursedArrowCursorFolloverSenior
@@ -67,6 +74,13 @@
     whitelist:
       - MedievalSpellCursedArrowPlayerFolloverBeginner
     blacklist:
+      - MedievalSpellFireBoltTier1
+      - MedievalSpellFireBoltTier2
+      - MedievalSpellFireBoltTier3
+      - MedievalSpellFireBoltTier4
+      - MedievalSpellLargeFireBoltBeginner
+      - MedievalSpellLargeFireBoltMiddle
+      - MedievalSpellLargeFireBoltSenior
       - MedievalSpellCursedArrowCursorFolloverBeginner
       - MedievalSpellCursedArrowCursorFolloverMiddle
       - MedievalSpellCursedArrowCursorFolloverSenior
@@ -113,6 +127,13 @@
     whitelist:
       - MedievalSpellCursedArrowPlayerFolloverMiddle
     blacklist:
+      - MedievalSpellFireBoltTier1
+      - MedievalSpellFireBoltTier2
+      - MedievalSpellFireBoltTier3
+      - MedievalSpellFireBoltTier4
+      - MedievalSpellLargeFireBoltBeginner
+      - MedievalSpellLargeFireBoltMiddle
+      - MedievalSpellLargeFireBoltSenior
       - MedievalSpellCursedArrowCursorFolloverBeginner
       - MedievalSpellCursedArrowCursorFolloverMiddle
       - MedievalSpellCursedArrowCursorFolloverSenior

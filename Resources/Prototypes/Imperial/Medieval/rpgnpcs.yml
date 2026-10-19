@@ -352,9 +352,15 @@
 #
 - type: entity
   name: GreyTide
-  parent: BaseMobHuman
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, BaseMobHuman ]
+  # spellward end
   id: MobGreyTide
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      poiseDamage: 4
+    # spellward end
     - type: NpcFactionMember
       factions:
         - Syndicate
@@ -369,9 +375,15 @@
 
 - type: entity
   name: MobSkeletonPersonAngry
-  parent: MobSkeletonPerson
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, MobSkeletonPerson ]
+  # spellward end
   id: MobSkeletonPersonAngry
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 3
+  # spellward end
   - type: NpcFactionMember
     factions:
       - Syndicate

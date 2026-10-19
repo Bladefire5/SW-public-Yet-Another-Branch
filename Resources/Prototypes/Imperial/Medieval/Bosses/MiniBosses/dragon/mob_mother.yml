@@ -5,6 +5,10 @@
   id: MedievalMotherBossBaseDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      poiseDamage: 50
+    # spellward end
     - type: ForcedSleepImmune
     - type: Hands
       hands:
@@ -161,6 +165,10 @@
   id: MedievalMotherBossIceDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 25
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -216,6 +224,10 @@
   id: MedievalMotherBossFireDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 0
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -261,6 +273,10 @@
   id: MedievalMotherBossAcidDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 10
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -306,6 +322,10 @@
   id: MedievalMotherBossThunderDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 0
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -376,6 +396,10 @@
   id: MedievalMotherBossNecroDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 5
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:

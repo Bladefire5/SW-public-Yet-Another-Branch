@@ -1028,3 +1028,72 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/zweihander.rsi
     state: icon
+
+- type: entity
+  id: MedievalRapier
+  name: iron rapier
+  parent: [BaseItem, BaseOneHandedCharged, BasePoiseSlashLarge]
+  description: A slender iron blade designed for precise thrusting attacks.
+  components:
+  - type: PoiseDamage
+    poiseDamage: 5
+  - type: MedievalWeaponSkillCategory
+    skill: Rapier
+  - type: RDWeight
+    value: 1.7
+  - type: QuestItem
+    contractName: "любые одноручные мечи"
+  - type: EmitSoundOnLand
+    sound:
+      collection: MedievalIronDrop
+      params:
+        variation: 0.02
+        volume: 1
+  - type: Sharp
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/rapier.rsi
+    state: icon
+  - type: Item
+    size: Normal
+    sprite: Imperial/Medieval/Melee/rapier.rsi
+  - type: Clothing
+    sprite: Imperial/Medieval/Melee/rapier.rsi
+    slots:
+    - back
+    - suitStorage
+    - belt
+    quickEquip: false
+    equipSound:
+      path: /Audio/Imperial/Medieval/sword_uneqip.ogg
+    unequipSound:
+      path: /Audio/Imperial/Medieval/sword_eqip.ogg
+  - type: MeleeParry
+    parryChanse: 0.62
+  - type: MeleeWeapon
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    wideAnimationRotation: -140
+    cPSwingBeverage: false
+    cPAnimationOffset: 1
+    clickDamageModifier: 1.0
+    attackRate: 1.2
+    range: 1.55
+    damage:
+      types:
+        Slash: 2.3
+        Piercing: 9.2
+        ParryAble: 1
+    soundHit:
+      path: /Audio/Imperial/Medieval/ES_Knife_Stab_2_-_SFX_Producer.ogg
+    soundSwing:
+      path: /Audio/Imperial/Medieval/sword_swing.ogg
+  - type: APDamageOnHit
+    damage:
+      types:
+        Piercing: 4
+  - type: MedievalMeleeResource
+    resourceWaste: 0.4
+  - type: StaminaDamageOnHit
+    damage: 2
+  - type: Meltable
+    resourceCount: 3

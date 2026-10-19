@@ -1,0 +1,525 @@
+# Fire Bolt I-IV and the mutually exclusive Large Firebolt I-III. RSI paths are placeholders.
+- type: entity
+  id: MedievalActionFireBoltBase
+  components:
+    - type: ManaDrainSpell
+      manaDrain: 15
+      canUseWithoutMana: true
+      manaLowMessage: medieval-spell-speach-not-enough-mana-fire-spell
+      damageOnUseWithoutMana:
+        groups:
+          Burn: 5
+    - type: SpellCastEffect
+      effectProto: FireBoltSpellCastEffect
+    - type: MedievalTargetSpell
+    - type: Action
+      useDelay: 4
+      itemIconStyle: BigAction
+      sound: !type:SoundPathSpecifier
+        path: /Audio/Imperial/Medieval/arrow_cast.ogg
+      icon:
+        sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+        state: fire-beginner
+    - type: TargetAction
+      checkCanAccess: false
+      range: 60
+  abstract: true
+
+- type: entity
+  id: MedievalActionFireBoltTier1
+  name: medieval-store-spells-fire-bolt-tier1-name
+  description: medieval-store-spells-fire-bolt-tier1-desc
+  components:
+    - type: ManaDrainSpell
+      manaDrain: 15
+      canUseWithoutMana: true
+      manaLowMessage: medieval-spell-speach-not-enough-mana-fire-spell
+      damageOnUseWithoutMana:
+        groups:
+          Burn: 5
+    - type: MedievalTargetSpell
+    - type: Action
+      useDelay: 4
+      itemIconStyle: BigAction
+      sound: !type:SoundPathSpecifier
+        path: /Audio/Imperial/Medieval/arrow_cast.ogg
+      icon:
+        sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+        state: fire-beginner
+    - type: TargetAction
+      checkCanAccess: false
+      range: 60
+    - type: WorldTargetAction
+      event: !type:MedievalProjectileSpellEvent
+        projectilePrototype:
+          0: MedievalProjectileFireBoltTier1
+        projectileSpeed: 15
+        speechPoints:
+          0:
+            speech: medieval-spell-speech-fire-bolt
+            color: '#FF5900'
+            hideChat: true
+    - type: CastTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          essenceAddProbability: 0.0002
+          bonusAddProbability: 1
+          addedEssences:
+            MagicMedievalFire: 1
+          bonusEssences:
+            MagicMedievalFire: 1
+    - type: DamageTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: TrainingTarget
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.0009
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: MobState
+            - !type:MagicTargetMobStateCondition
+              allowedState: Alive
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.0007
+    - type: ActionUpgrade
+      effectedLevels:
+        2: MedievalActionFireBoltTier2
+        3: MedievalActionFireBoltTier3
+        4: MedievalActionFireBoltTier4
+    - type: SpellCastEffect
+      effectProto: FireBoltSpellCastEffect
+  parent: MedievalActionFireBoltBase
+
+- type: entity
+  id: MedievalActionFireBoltTier2
+  parent: MedievalActionFireBoltTier1
+  name: medieval-store-spells-fire-bolt-tier2-name
+  description: medieval-store-spells-fire-bolt-tier2-desc
+  components:
+    - type: ManaDrainSpell
+      manaDrain: 25
+      canUseWithoutMana: true
+      manaLowMessage: medieval-spell-speach-not-enough-mana-fire-spell
+      damageOnUseWithoutMana:
+        groups:
+          Burn: 15
+    - type: MedievalTargetSpell
+    - type: CastTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          essenceAddProbability: 0.0003
+          bonusAddProbability: 1
+          addedEssences:
+            MagicMedievalFire: 1
+          bonusEssences:
+            MagicMedievalFire: 1
+    - type: DamageTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: TrainingTarget
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.0003
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: MobState
+            - !type:MagicTargetMobStateCondition
+              allowedState: Alive
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.00045
+    - type: Action
+      useDelay: 8
+      itemIconStyle: BigAction
+      sound: !type:SoundPathSpecifier
+        path: /Audio/Imperial/Medieval/arrow_cast.ogg
+      icon:
+        sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+        state: fire-beginner-cursor
+    - type: TargetAction
+      checkCanAccess: false
+      range: 60
+    - type: WorldTargetAction
+      event: !type:MedievalProjectileSpellEvent
+        projectilePrototype:
+          0: MedievalProjectileFireBoltTier2
+        projectileSpeed: 3
+        speechPoints:
+          0:
+            speech: medieval-spell-speech-fire-bolt
+            color: '#FF5900'
+            hideChat: true
+    - type: SpellCastEffect
+      effectProto: FireBoltSpellCastEffect
+
+- type: entity
+  id: MedievalActionFireBoltTier3
+  parent: MedievalActionFireBoltTier1
+  name: medieval-store-spells-fire-bolt-tier3-name
+  description: medieval-store-spells-fire-bolt-tier3-desc
+  components:
+    - type: ManaDrainSpell
+      manaDrain: 35
+      canUseWithoutMana: true
+      manaLowMessage: medieval-spell-speach-not-enough-mana-fire-spell
+      damageOnUseWithoutMana:
+        groups:
+          Burn: 15
+    - type: MedievalTargetSpell
+    - type: CastTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          essenceAddProbability: 0.0001
+          bonusAddProbability: 1
+          addedEssences:
+            MagicMedievalFire: 1
+          bonusEssences:
+            MagicMedievalFire: 1
+    - type: DamageTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: TrainingTarget
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.0002
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: MobState
+            - !type:MagicTargetMobStateCondition
+              allowedState: Alive
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.00025
+    - type: Action
+      useDelay: 9
+      itemIconStyle: BigAction
+      sound: !type:SoundPathSpecifier
+        path: /Audio/Imperial/Medieval/arrow_cast.ogg
+      icon:
+        sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+        state: fire-middle-cursor
+    - type: TargetAction
+      checkCanAccess: false
+      range: 60
+    - type: WorldTargetAction
+      event: !type:MedievalProjectileSpellEvent
+        projectilePrototype:
+          -12.5: MedievalProjectileFireBoltTier3
+          12.5: MedievalProjectileFireBoltTier3Fast
+        projectileSpeed: 3
+        speechPoints:
+          0:
+            speech: medieval-spell-speech-fire-bolt
+            color: '#FF5900'
+            hideChat: true
+    - type: SpellCastEffect
+      effectProto: FireBoltSpellCastEffect
+
+- type: entity
+  id: MedievalActionFireBoltTier4
+  parent: MedievalActionFireBoltTier1
+  name: medieval-store-spells-fire-bolt-tier4-name
+  description: medieval-store-spells-fire-bolt-tier4-desc
+  components:
+    - type: ManaDrainSpell
+      manaDrain: 45
+      canUseWithoutMana: true
+      manaLowMessage: medieval-spell-speach-not-enough-mana-fire-spell
+      damageOnUseWithoutMana:
+        groups:
+          Burn: 15
+    - type: CastTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          essenceAddProbability: 0.00045
+          bonusAddProbability: 1
+          addedEssences:
+            MagicMedievalFire: 1
+          bonusEssences:
+            MagicMedievalFire: 1
+    - type: DamageTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: TrainingTarget
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.00022
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: MobState
+            - !type:MagicTargetMobStateCondition
+              allowedState: Alive
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.00022
+    - type: MedievalTargetSpell
+    - type: Action
+      useDelay: 11
+      itemIconStyle: BigAction
+      sound: !type:SoundPathSpecifier
+        path: /Audio/Imperial/Medieval/arrow_cast.ogg
+      icon:
+        sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+        state: fire-senior-cursor
+    - type: TargetAction
+      checkCanAccess: false
+      range: 60
+    - type: WorldTargetAction
+      event: !type:MedievalProjectileSpellEvent
+        projectilePrototype:
+          0: MedievalProjectileFireBoltTier4
+          -25: MedievalProjectileFireBoltTier4Slow
+          25: MedievalProjectileFireBoltTier4Fast
+        projectileSpeed: 3
+        speechPoints:
+          0:
+            speech: medieval-spell-speech-fire-bolt
+            color: '#FF5900'
+            hideChat: true
+    - type: SpellCastEffect
+      effectProto: FireBoltSpellCastEffect
+
+- type: entity
+  id: MedievalActionLargeFireBoltBeginner
+  parent: MedievalActionFireBoltBase
+  name: medieval-store-spells-large-fire-bolt-beginner-name
+  description: medieval-store-spells-large-fire-bolt-beginner-desc
+  components:
+    - type: MedievalTargetSpell
+    - type: Action
+      useDelay: 8
+      itemIconStyle: BigAction
+      sound: !type:SoundPathSpecifier
+        path: /Audio/Imperial/Medieval/arrow_cast.ogg
+      icon:
+        sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+        state: fire-beginner-aim
+    - type: TargetAction
+      checkCanAccess: false
+      range: 60
+    - type: WorldTargetAction
+      event: !type:MedievalHomingProjectilesSpellEvent
+        projectilePrototype: MedievalProjectileLargeFireBoltBeginner
+        relativeAngle: 90
+        projectileSpeed: 5.25
+        spread: 180
+        linearVelocityIntensy: 0.275
+        speechPoints:
+          0:
+            speech: medieval-spell-speech-fire-bolt
+            color: '#FF5900'
+            hideChat: true
+    - type: MedievalTargetOverlayOnAiming
+      maxTargetCount: 1
+      whiteListComponents:
+        - type: Damageable
+    - type: CastTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          essenceAddProbability: 0.00035
+          bonusAddProbability: 1
+          addedEssences:
+            MagicMedievalFire: 1
+          bonusEssences:
+            MagicMedievalFire: 1
+    - type: DamageTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: TrainingTarget
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.00025
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: MobState
+            - !type:MagicTargetMobStateCondition
+              allowedState: Alive
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.0003
+    - type: ManaDrainSpell
+      manaDrain: 25
+      canUseWithoutMana: true
+      manaLowMessage: medieval-spell-speach-not-enough-mana-fire-spell
+      damageOnUseWithoutMana:
+        groups:
+          Burn: 15
+    - type: SpellCastEffect
+      effectProto: LargeFireBoltSpellCastEffect
+    - type: ActionUpgrade
+      effectedLevels:
+        2: MedievalActionLargeFireBoltMiddle
+        3: MedievalActionLargeFireBoltSenior
+
+- type: entity
+  id: MedievalActionLargeFireBoltMiddle
+  parent: MedievalActionLargeFireBoltBeginner
+  name: medieval-store-spells-large-fire-bolt-middle-name
+  description: medieval-store-spells-large-fire-bolt-middle-desc
+  components:
+    - type: MedievalTargetSpell
+    - type: Action
+      useDelay: 10
+      itemIconStyle: BigAction
+      sound: !type:SoundPathSpecifier
+        path: /Audio/Imperial/Medieval/arrow_cast.ogg
+      icon:
+        sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+        state: fire-middle-aim
+    - type: TargetAction
+      checkCanAccess: false
+      range: 60
+    - type: WorldTargetAction
+      event: !type:MedievalHomingProjectilesSpellEvent
+        projectilePrototype: MedievalProjectileLargeFireBoltMiddle
+        relativeAngle: 90
+        projectileSpeed: 5.25
+        spread: 180
+        linearVelocityIntensy: 0.11
+        speechPoints:
+          0:
+            speech: medieval-spell-speech-fire-bolt
+            color: '#FF5900'
+            hideChat: true
+    - type: MedievalTargetOverlayOnAiming
+      maxTargetCount: 1
+      whiteListComponents:
+        - type: Damageable
+    - type: CastTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          essenceAddProbability: 0.0004
+          bonusAddProbability: 1
+          addedEssences:
+            MagicMedievalFire: 1
+          bonusEssences:
+            MagicMedievalFire: 1
+    - type: DamageTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: TrainingTarget
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.00025
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: MobState
+            - !type:MagicTargetMobStateCondition
+              allowedState: Alive
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.0003
+    - type: ManaDrainSpell
+      manaDrain: 35
+      canUseWithoutMana: true
+      manaLowMessage: medieval-spell-speach-not-enough-mana-fire-spell
+      damageOnUseWithoutMana:
+        groups:
+          Burn: 15
+    - type: SpellCastEffect
+      effectProto: LargeFireBoltSpellCastEffect
+
+- type: entity
+  id: MedievalActionLargeFireBoltSenior
+  parent: MedievalActionLargeFireBoltBeginner
+  name: medieval-store-spells-large-fire-bolt-senior-name
+  description: medieval-store-spells-large-fire-bolt-senior-desc
+  components:
+    - type: MedievalTargetSpell
+    - type: Action
+      useDelay: 13
+      itemIconStyle: BigAction
+      sound: !type:SoundPathSpecifier
+        path: /Audio/Imperial/Medieval/arrow_cast.ogg
+      icon:
+        sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+        state: fire-senior-aim
+    - type: TargetAction
+      checkCanAccess: false
+      range: 60
+    - type: WorldTargetAction
+      event: !type:MedievalHomingProjectilesSpellEvent
+        projectilePrototype: MedievalProjectileLargeFireBoltSenior
+        relativeAngle: 90
+        projectileSpeed: 5.25
+        spread: 180
+        linearVelocityIntensy: 0.275
+        speechPoints:
+          0:
+            speech: medieval-spell-speech-fire-bolt
+            color: '#FF5900'
+            hideChat: true
+    - type: MedievalTargetOverlayOnAiming
+      maxTargetCount: 2
+      whiteListComponents:
+        - type: Damageable
+    - type: ManaDrainSpell
+      manaDrain: 45
+      canUseWithoutMana: true
+      manaLowMessage: medieval-spell-speach-not-enough-mana-fire-spell
+      damageOnUseWithoutMana:
+        groups:
+          Burn: 15
+    - type: CastTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          essenceAddProbability: 0.00045
+          bonusAddProbability: 1
+          addedEssences:
+            MagicMedievalFire: 1
+          bonusEssences:
+            MagicMedievalFire: 1
+    - type: DamageTraining
+      trainingResults:
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: TrainingTarget
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.0002
+        - !type:AddMagicEssence
+          conditions:
+            - !type:TargetContainsComponentsCondition
+              componentsWhitelist:
+                - type: MobState
+            - !type:MagicTargetMobStateCondition
+              allowedState: Alive
+          addedEssences:
+            MagicMedievalFire: 1
+          essenceAddProbability: 0.0003
+    - type: SpellCastEffect
+      effectProto: LargeFireBoltSpellCastEffect

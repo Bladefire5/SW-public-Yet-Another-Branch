@@ -1,8 +1,14 @@
 - type: entity
   name: MobSkullBossSkeleton
-  parent: [ BaseSimpleMob, MobCombat ]
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, BaseSimpleMob, MobCombat ]
+  # spellward end
   id: MobSkullBossSkeleton
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 10
+  # spellward end
   - type: Sprite
     drawdepth: Mobs
     sprite: Imperial/Medieval/Mobs/Bosses/SkeletonSkull/clawed-skeleton.rsi

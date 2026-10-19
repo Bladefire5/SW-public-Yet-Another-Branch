@@ -77,7 +77,6 @@
   - medievalignite
   - medievalhealandstopblood
   - medievalhealeverything
-  - medievalexplosivet1
   # Output units per full reaction cycle. Unlisted potions keep the existing yield.
   productAmounts:
     medievalhealburn: 0.90
@@ -113,7 +112,7 @@
   - "#ffffff"
   - "#3d3d3d"
   recipeCount: 2
-  potionCount: 24
+  potionCount: 23
 
 
 - type: chemRandom
@@ -137,7 +136,7 @@
   - medievaladvancedantidote
   - medievaladvancedstimulant
   - medievaladvancednocturnblood
-  - medievalexplosivet2
+  - medievalexplosivet1
   productAmounts:
     medievaladvancedhealeverything: 0.60
     medievaladvancedpoison: 0.50
@@ -150,6 +149,7 @@
     medievaladvancedcoldpoison: 0.25
     medievaladvancedhealandstopblood: 0.35
     medievaladvancedantidote: 2.00
+    medievalexplosivet1: 1.00
   # Cry Flower occupies an existing raw slot alongside the randomized ingredients.
   requiredReagents:
     medievaladvancedcoldpoison:
@@ -193,6 +193,7 @@
   - medievalbestcoldpoison
   - medievalbestignite
   - medievalbeststimulant
+  - medievalexplosivet2
   productAmounts:
     medievalbestheal: 0.85
     medievalbestpoison: 0.50
@@ -200,12 +201,13 @@
     medievalbestradiation: 0.25
     medievalbestcoldpoison: 0.25
     medievalbestignite: 0.50
+    medievalexplosivet2: 0.50
   # Keep both potion precursors; Cry Flower occupies the single raw slot.
   requiredReagents:
     medievalbestcoldpoison:
       - MedievalFlowerCryo
   reactants: 1
-  potionCount: 7
+  potionCount: 8
   priority: 3
   usedGroups:
   - EasyPack

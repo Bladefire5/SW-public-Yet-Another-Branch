@@ -13,8 +13,8 @@
     state: beginner-kunai
   cost:
     MagicMedievalFire: 25
-  categories:
-  - MedievalFireSpells
+  # Replaced in grimoires by Fire Bolt and Large Firebolt.
+  categories: []
   conditions:
   - !type:ImperialListingLimitedStockCondition
     stock: 1
@@ -56,8 +56,8 @@
     state: middle-kunai
   cost:
     MagicMedievalFire: 50
-  categories:
-  - MedievalFireSpells
+  # Replaced in grimoires by Fire Bolt and Large Firebolt.
+  categories: []
   conditions:
   - !type:ImperialListingLimitedStockCondition
     stock: 1
@@ -100,8 +100,8 @@
   cost:
     MagicMedievalFire: 80
     ArchmagePoints: 1
-  categories:
-  - MedievalFireSpells
+  # Replaced in grimoires by Fire Bolt and Large Firebolt.
+  categories: []
   conditions:
   - !type:ImperialListingLimitedStockCondition
     stock: 1

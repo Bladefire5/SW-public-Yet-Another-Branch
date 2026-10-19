@@ -1,164 +1,17 @@
-# Spellward Phase 4: static 1:1 explosive reactions and dedicated damage prototypes.
-# Install alongside the preceding Phase 4 reagent, reaction-engine, cloud, fire,
-# and shockwave files. Existing arrows use their normal mixing implementation.
-#
-# Initial test settings:
-# T1 blast: current MedievalGrenade total intensity 60, slope 1, peak cap 4.
-# T2 blast: total intensity 120, retaining slope 1 and peak cap 4.
-# Radiation reference damage at intensity 4: 25 / 50 / 75 by poison tier.
-# Actual blast damage follows stock intensity, propagation and resistance handling.
-# Caustic/Cold payloads and status effects use the current potion values as a baseline.
-# Cold damage coefficients are rounded to the engine's hundredth precision.
-# Smoke: 1u Blind per full activation, 10s lifetime, stock gradual spreading.
-# Foam: 20u matching poison over 10s, giving a nominal 2u/s transfer rate per cloud.
-# Cloud payloads scale by consumed units / 5; small values follow stock rounding.
-# Smoke spread budgets target a broader footprint and need in-game tuning.
-# Fire placement retains the approved fixed 5-tile T1 and 11-tile T3 patterns.
-# The chemistry engine enforces a maximum 5u of each input and one-second spacing.
+- type: explosion
+  id: MedievalAlchemyCausticBlast
+  damagePerIntensity:
+    types:
+      Blunt: 3
+      Heat: 2
+      Caustic: 1
+  tileBreakChance: [0]
+  tileBreakIntensity: [0]
+  tileBreakRerollReduction: 20
+  lightColor: Lime
+  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
+  fireStates: 1
 
-- type: explosion
-  id: MedievalAlchemyBlast
-  damagePerIntensity:
-    types:
-      Heat: 5
-      Blunt: 5
-      Piercing: 5
-  tileBreakChance:
-    - 0
-  tileBreakIntensity:
-    - 0
-  tileBreakRerollReduction: 20
-  lightColor: Orange
-  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
-  fireStates: 1
-- type: explosion
-  id: MedievalAlchemyRadiationT1
-  damagePerIntensity:
-    types:
-      Heat: 5
-      Blunt: 5
-      Piercing: 5
-      Radiation: 6.25
-  tileBreakChance:
-    - 0
-  tileBreakIntensity:
-    - 0
-  tileBreakRerollReduction: 20
-  lightColor: Green
-  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
-  fireStates: 1
-- type: explosion
-  id: MedievalAlchemyRadiationT2
-  damagePerIntensity:
-    types:
-      Heat: 5
-      Blunt: 5
-      Piercing: 5
-      Radiation: 12.5
-  tileBreakChance:
-    - 0
-  tileBreakIntensity:
-    - 0
-  tileBreakRerollReduction: 20
-  lightColor: Green
-  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
-  fireStates: 1
-- type: explosion
-  id: MedievalAlchemyRadiationT3
-  damagePerIntensity:
-    types:
-      Heat: 5
-      Blunt: 5
-      Piercing: 5
-      Radiation: 18.75
-  tileBreakChance:
-    - 0
-  tileBreakIntensity:
-    - 0
-  tileBreakRerollReduction: 20
-  lightColor: Green
-  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
-  fireStates: 1
-- type: explosion
-  id: MedievalAlchemyCausticT1
-  damagePerIntensity:
-    types:
-      Heat: 5
-      Blunt: 5
-      Piercing: 5
-      Caustic: 0.75
-  tileBreakChance:
-    - 0
-  tileBreakIntensity:
-    - 0
-  tileBreakRerollReduction: 20
-  lightColor: Lime
-  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
-  fireStates: 1
-- type: explosion
-  id: MedievalAlchemyCausticT2
-  damagePerIntensity:
-    types:
-      Heat: 5
-      Blunt: 5
-      Piercing: 5
-      Caustic: 1.0
-  tileBreakChance:
-    - 0
-  tileBreakIntensity:
-    - 0
-  tileBreakRerollReduction: 20
-  lightColor: Lime
-  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
-  fireStates: 1
-- type: explosion
-  id: MedievalAlchemyCausticT3
-  damagePerIntensity:
-    types:
-      Heat: 5
-      Blunt: 5
-      Piercing: 5
-      Caustic: 1.25
-  tileBreakChance:
-    - 0
-  tileBreakIntensity:
-    - 0
-  tileBreakRerollReduction: 20
-  lightColor: Lime
-  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
-  fireStates: 1
-- type: explosion
-  id: MedievalAlchemyColdT2
-  damagePerIntensity:
-    types:
-      Heat: 5
-      Blunt: 5
-      Piercing: 5
-      Cold: 0.19
-  tileBreakChance:
-    - 0
-  tileBreakIntensity:
-    - 0
-  tileBreakRerollReduction: 20
-  lightColor: LightBlue
-  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
-  fireStates: 1
-- type: explosion
-  id: MedievalAlchemyColdT3
-  damagePerIntensity:
-    types:
-      Heat: 5
-      Blunt: 5
-      Piercing: 5
-      Cold: 0.38
-  tileBreakChance:
-    - 0
-  tileBreakIntensity:
-    - 0
-  tileBreakRerollReduction: 20
-  lightColor: LightBlue
-  texturePath: /Textures/Imperial/Medieval/Misc/fire.rsi
-  fireStates: 1
 - type: reaction
   id: SpellwardExplosiveT1RegularT1
   quantized: false
@@ -173,16 +26,17 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Meteor
+      totalIntensity: 9.3
+      intensitySlope: 0.2
+      maxIntensity: 0.7
     - !type:MedievalChemicalCloudReactionEffect
       prototypeId: Foam
       reagent: medievalpoison
       quantity: 20
       duration: 10
-      spreadAmount: 32
+      spreadAmount: 8
+
 - type: reaction
   id: SpellwardExplosiveT1RegularT2
   quantized: false
@@ -197,16 +51,17 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Meteor
+      totalIntensity: 9.3
+      intensitySlope: 0.2
+      maxIntensity: 0.7
     - !type:MedievalChemicalCloudReactionEffect
       prototypeId: Foam
       reagent: medievaladvancedpoison
       quantity: 20
       duration: 10
-      spreadAmount: 32
+      spreadAmount: 8
+
 - type: reaction
   id: SpellwardExplosiveT1RegularT3
   quantized: false
@@ -221,16 +76,17 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Meteor
+      totalIntensity: 9.3
+      intensitySlope: 0.2
+      maxIntensity: 0.7
     - !type:MedievalChemicalCloudReactionEffect
       prototypeId: Foam
       reagent: medievalbestpoison
       quantity: 20
       duration: 10
-      spreadAmount: 32
+      spreadAmount: 8
+
 - type: reaction
   id: SpellwardExplosiveT1RadiationT1
   quantized: false
@@ -245,10 +101,12 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyRadiationT1
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Radioactive
+      totalIntensity: 9.3
+      intensitySlope: 0.2
+      maxIntensity: 0.7
+      radiationFieldPrototype: MedievalAlchemyRadiationFieldE1T1
+
 - type: reaction
   id: SpellwardExplosiveT1RadiationT2
   quantized: false
@@ -263,10 +121,12 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyRadiationT2
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Radioactive
+      totalIntensity: 13.1
+      intensitySlope: 0.2
+      maxIntensity: 0.9
+      radiationFieldPrototype: MedievalAlchemyRadiationFieldE1T2
+
 - type: reaction
   id: SpellwardExplosiveT1RadiationT3
   quantized: false
@@ -281,10 +141,12 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyRadiationT3
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Radioactive
+      totalIntensity: 16.8
+      intensitySlope: 0.3
+      maxIntensity: 1.2
+      radiationFieldPrototype: MedievalAlchemyRadiationFieldE1T3
+
 - type: reaction
   id: SpellwardExplosiveT1CausticT1
   quantized: false
@@ -299,10 +161,10 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyCausticT1
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: MedievalAlchemyCausticBlast
+      totalIntensity: 49.0
+      intensitySlope: 0.8
+      maxIntensity: 3.5
     - !type:MedievalBurstReactionEffect
       radius: 4
       falloff: None
@@ -313,6 +175,7 @@
           type: Add
           refresh: true
           probability: 0.3
+
 - type: reaction
   id: SpellwardExplosiveT1CausticT2
   quantized: false
@@ -327,10 +190,10 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyCausticT2
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: MedievalAlchemyCausticBlast
+      totalIntensity: 58.4
+      intensitySlope: 1.0
+      maxIntensity: 4.2
     - !type:MedievalBurstReactionEffect
       radius: 4
       falloff: None
@@ -341,6 +204,7 @@
           type: Add
           refresh: true
           probability: 0.6
+
 - type: reaction
   id: SpellwardExplosiveT1CausticT3
   quantized: false
@@ -355,10 +219,10 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyCausticT3
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: MedievalAlchemyCausticBlast
+      totalIntensity: 67.7
+      intensitySlope: 1.1
+      maxIntensity: 4.8
     - !type:MedievalBurstReactionEffect
       radius: 4
       falloff: None
@@ -369,6 +233,7 @@
           type: Add
           refresh: true
           probability: 0.9
+
 - type: reaction
   id: SpellwardExplosiveT1ColdT2
   quantized: false
@@ -383,10 +248,10 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyColdT2
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Cryo
+      totalIntensity: 40.0
+      intensitySlope: 0.7
+      maxIntensity: 2.9
     - !type:MedievalBurstReactionEffect
       radius: 4
       falloff: None
@@ -403,6 +268,7 @@
           time: 1
           type: Add
           refresh: true
+
 - type: reaction
   id: SpellwardExplosiveT1ColdT3
   quantized: false
@@ -417,10 +283,10 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyColdT3
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Cryo
+      totalIntensity: 56.0
+      intensitySlope: 0.9
+      maxIntensity: 4.0
     - !type:MedievalBurstReactionEffect
       radius: 4
       falloff: None
@@ -437,6 +303,7 @@
           time: 1
           type: Add
           refresh: true
+
 - type: reaction
   id: SpellwardExplosiveT1FireT1
   quantized: false
@@ -451,12 +318,13 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: FireBomb
+      totalIntensity: 46.7
+      intensitySlope: 0.8
+      maxIntensity: 3.3
     - !type:MedievalGroundFireReactionEffect
       fireTier: T1
+
 - type: reaction
   id: SpellwardExplosiveT1FireT3
   quantized: false
@@ -471,12 +339,13 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: FireBomb
+      totalIntensity: 65.4
+      intensitySlope: 1.1
+      maxIntensity: 4.7
     - !type:MedievalGroundFireReactionEffect
       fireTier: T3
+
 - type: reaction
   id: SpellwardExplosiveT1BlindT1
   quantized: false
@@ -491,16 +360,17 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 60
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: MedievalDefault
+      totalIntensity: 0.7
+      intensitySlope: 2.0
+      maxIntensity: 0.7
     - !type:MedievalChemicalCloudReactionEffect
       prototypeId: MedievalAlchemyBlindSmoke
       reagent: medievalblind
       quantity: 1
       duration: 10
       spreadAmount: 2048
+
 - type: reaction
   id: SpellwardExplosiveT2RegularT1
   quantized: false
@@ -515,16 +385,17 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Meteor
+      totalIntensity: 29.8
+      intensitySlope: 0.3
+      maxIntensity: 1.3
     - !type:MedievalChemicalCloudReactionEffect
       prototypeId: Foam
       reagent: medievalpoison
       quantity: 20
       duration: 10
-      spreadAmount: 64
+      spreadAmount: 16
+
 - type: reaction
   id: SpellwardExplosiveT2RegularT2
   quantized: false
@@ -539,16 +410,17 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Meteor
+      totalIntensity: 29.8
+      intensitySlope: 0.3
+      maxIntensity: 1.3
     - !type:MedievalChemicalCloudReactionEffect
       prototypeId: Foam
       reagent: medievaladvancedpoison
       quantity: 20
       duration: 10
-      spreadAmount: 64
+      spreadAmount: 16
+
 - type: reaction
   id: SpellwardExplosiveT2RegularT3
   quantized: false
@@ -563,16 +435,17 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Meteor
+      totalIntensity: 29.8
+      intensitySlope: 0.3
+      maxIntensity: 1.3
     - !type:MedievalChemicalCloudReactionEffect
       prototypeId: Foam
       reagent: medievalbestpoison
       quantity: 20
       duration: 10
-      spreadAmount: 64
+      spreadAmount: 16
+
 - type: reaction
   id: SpellwardExplosiveT2RadiationT1
   quantized: false
@@ -587,10 +460,12 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyRadiationT1
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Radioactive
+      totalIntensity: 20.8
+      intensitySlope: 0.2
+      maxIntensity: 0.9
+      radiationFieldPrototype: MedievalAlchemyRadiationFieldE2T1
+
 - type: reaction
   id: SpellwardExplosiveT2RadiationT2
   quantized: false
@@ -605,10 +480,12 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyRadiationT2
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Radioactive
+      totalIntensity: 26.8
+      intensitySlope: 0.2
+      maxIntensity: 1.2
+      radiationFieldPrototype: MedievalAlchemyRadiationFieldE2T2
+
 - type: reaction
   id: SpellwardExplosiveT2RadiationT3
   quantized: false
@@ -623,10 +500,12 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyRadiationT3
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Radioactive
+      totalIntensity: 32.7
+      intensitySlope: 0.3
+      maxIntensity: 1.5
+      radiationFieldPrototype: MedievalAlchemyRadiationFieldE2T3
+
 - type: reaction
   id: SpellwardExplosiveT2CausticT1
   quantized: false
@@ -641,10 +520,10 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyCausticT1
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: MedievalAlchemyCausticBlast
+      totalIntensity: 130.2
+      intensitySlope: 1.1
+      maxIntensity: 5.8
     - !type:MedievalBurstReactionEffect
       radius: 5
       falloff: None
@@ -655,6 +534,7 @@
           type: Add
           refresh: true
           probability: 0.3
+
 - type: reaction
   id: SpellwardExplosiveT2CausticT2
   quantized: false
@@ -669,10 +549,10 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyCausticT2
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: MedievalAlchemyCausticBlast
+      totalIntensity: 152.5
+      intensitySlope: 1.3
+      maxIntensity: 6.8
     - !type:MedievalBurstReactionEffect
       radius: 5
       falloff: None
@@ -683,6 +563,7 @@
           type: Add
           refresh: true
           probability: 0.6
+          
 - type: reaction
   id: SpellwardExplosiveT2CausticT3
   quantized: false
@@ -697,10 +578,10 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyCausticT3
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: MedievalAlchemyCausticBlast
+      totalIntensity: 174.8
+      intensitySlope: 1.5
+      maxIntensity: 7.8
     - !type:MedievalBurstReactionEffect
       radius: 5
       falloff: None
@@ -711,6 +592,7 @@
           type: Add
           refresh: true
           probability: 0.9
+
 - type: reaction
   id: SpellwardExplosiveT2ColdT2
   quantized: false
@@ -725,10 +607,10 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyColdT2
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Cryo
+      totalIntensity: 76.5
+      intensitySlope: 0.6
+      maxIntensity: 3.4
     - !type:MedievalBurstReactionEffect
       radius: 5
       falloff: None
@@ -745,6 +627,7 @@
           time: 1
           type: Add
           refresh: true
+
 - type: reaction
   id: SpellwardExplosiveT2ColdT3
   quantized: false
@@ -759,10 +642,10 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyColdT3
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: Cryo
+      totalIntensity: 102.0
+      intensitySlope: 0.9
+      maxIntensity: 4.6
     - !type:MedievalBurstReactionEffect
       radius: 5
       falloff: None
@@ -779,6 +662,7 @@
           time: 1
           type: Add
           refresh: true
+
 - type: reaction
   id: SpellwardExplosiveT2FireT1
   quantized: false
@@ -793,12 +677,13 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: FireBomb
+      totalIntensity: 89.3
+      intensitySlope: 0.7
+      maxIntensity: 4.0
     - !type:MedievalGroundFireReactionEffect
       fireTier: T1
+
 - type: reaction
   id: SpellwardExplosiveT2FireT3
   quantized: false
@@ -813,12 +698,13 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: FireBomb
+      totalIntensity: 119.0
+      intensitySlope: 1.0
+      maxIntensity: 5.3
     - !type:MedievalGroundFireReactionEffect
       fireTier: T3
+
 - type: reaction
   id: SpellwardExplosiveT2BlindT1
   quantized: false
@@ -833,13 +719,103 @@
   products: {}
   effects:
     - !type:MedievalExplosionReactionEffect
-      explosionType: MedievalAlchemyBlast
-      totalIntensity: 120
-      intensitySlope: 1
-      maxIntensity: 4
+      explosionType: MedievalDefault
+      totalIntensity: 0.7
+      intensitySlope: 2.0
+      maxIntensity: 0.7
     - !type:MedievalChemicalCloudReactionEffect
       prototypeId: MedievalAlchemyBlindSmoke
       reagent: medievalblind
       quantity: 1
       duration: 10
       spreadAmount: 8192
+
+# Initial testing settings, not finalized balance:
+# Radiation T1/T2/T3 lifetimes: 15/25/35 seconds.
+# Explosive T1/T2 unshielded ranges: approximately 8/10 world units.
+# Intensity 20 becomes 2 Radiation damage/sec through this branch's /10 conversion,
+# before armor and other damage modifiers. It is NOT 20 health damage/sec.
+# Slope scales with fractional strength along with intensity.
+# Stock defaults: radiation.min_intensity = 0.1, radiation.gridcast.max_distance = 50.
+# No Sprite, Physics or Fixtures: the field is invisible except for its red light.
+
+- type: entity
+  id: BaseMedievalAlchemyRadiationField
+  abstract: true
+  name: alchemical radiation field
+  components:
+  - type: RadiationSource
+    intensity: 20
+    slope: 2.5
+  - type: PointLight
+    color: Red
+    energy: 1
+    radius: 8
+  - type: TimedDespawn
+    lifetime: 15
+
+- type: entity
+  parent: BaseMedievalAlchemyRadiationField
+  id: MedievalAlchemyRadiationFieldE1T1
+  components:
+  - type: RadiationSource
+    slope: 2.5
+  - type: PointLight
+    radius: 8
+  - type: TimedDespawn
+    lifetime: 15
+
+- type: entity
+  parent: BaseMedievalAlchemyRadiationField
+  id: MedievalAlchemyRadiationFieldE1T2
+  components:
+  - type: RadiationSource
+    slope: 2.5
+  - type: PointLight
+    radius: 8
+  - type: TimedDespawn
+    lifetime: 25
+
+- type: entity
+  parent: BaseMedievalAlchemyRadiationField
+  id: MedievalAlchemyRadiationFieldE1T3
+  components:
+  - type: RadiationSource
+    slope: 2.5
+  - type: PointLight
+    radius: 8
+  - type: TimedDespawn
+    lifetime: 35
+
+- type: entity
+  parent: BaseMedievalAlchemyRadiationField
+  id: MedievalAlchemyRadiationFieldE2T1
+  components:
+  - type: RadiationSource
+    slope: 2
+  - type: PointLight
+    radius: 10
+  - type: TimedDespawn
+    lifetime: 15
+
+- type: entity
+  parent: BaseMedievalAlchemyRadiationField
+  id: MedievalAlchemyRadiationFieldE2T2
+  components:
+  - type: RadiationSource
+    slope: 2
+  - type: PointLight
+    radius: 10
+  - type: TimedDespawn
+    lifetime: 25
+
+- type: entity
+  parent: BaseMedievalAlchemyRadiationField
+  id: MedievalAlchemyRadiationFieldE2T3
+  components:
+  - type: RadiationSource
+    slope: 2
+  - type: PointLight
+    radius: 10
+  - type: TimedDespawn
+    lifetime: 35

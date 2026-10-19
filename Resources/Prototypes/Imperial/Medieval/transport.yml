@@ -208,11 +208,17 @@
           - HorseWearable
 
 - type: entity
-  parent: SimpleMobBase
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, SimpleMobBase ]
+  # spellward end
   id: MedievalHorseTransport
   name: horse
   description: MedievalHorseTransport
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 8
+  # spellward end
   - type: Sprite
     drawdepth: Objects
     sprite: Imperial/Medieval/Transport/horse.rsi

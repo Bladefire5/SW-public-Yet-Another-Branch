@@ -617,7 +617,7 @@
     juiceSolution:
       reagents:
       - ReagentId: MedievalFlowerVetr
-        Quantity: 35
+        Quantity: 10
 
 - type: reagent
   id: MedievalFlowerLipad
@@ -662,7 +662,7 @@
     juiceSolution:
       reagents:
       - ReagentId: MedievalFlowerLipad
-        Quantity: 35
+        Quantity: 10
 
 - type: reagent
   id: MedievalFlowerLava
@@ -707,7 +707,7 @@
     juiceSolution:
       reagents:
       - ReagentId: MedievalFlowerLava
-        Quantity: 35
+        Quantity: 10
 
 - type: reagent
   id: MedievalFlowerCryo
@@ -752,7 +752,7 @@
     juiceSolution:
       reagents:
       - ReagentId: MedievalFlowerCryo
-        Quantity: 35
+        Quantity: 10
 
 - type: reagent
   id: MedievalFlowerLuna
@@ -1061,7 +1061,7 @@
     juiceSolution:
       reagents:
       - ReagentId: MedievalMushroom1
-        Quantity: 35
+        Quantity: 10
   - type: Tag
     tags:
     - AlchemicIngredient
@@ -1104,7 +1104,7 @@
     juiceSolution:
       reagents:
       - ReagentId: MedievalMushroom2
-        Quantity: 35
+        Quantity: 10
   - type: Tag
     tags:
     - AlchemicIngredient
@@ -1147,7 +1147,7 @@
     juiceSolution:
       reagents:
       - ReagentId: MedievalMushroom3
-        Quantity: 35
+        Quantity: 10
   - type: Tag
     tags:
     - AlchemicIngredient

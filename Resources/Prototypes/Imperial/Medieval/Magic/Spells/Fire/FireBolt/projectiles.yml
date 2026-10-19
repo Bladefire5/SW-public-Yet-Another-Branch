@@ -1,0 +1,184 @@
+# One-tile small blasts and five-tile large blasts on open ground; each bolt hits for 10 Heat.
+- type: entity
+  id: MedievalProjectileFireBoltBase
+  parent: BulletRocket
+  abstract: true
+  name: fire bolt
+  components:
+    - type: Sprite
+      sprite: Imperial/Medieval/Magic/Fire/FireBolt/projectiles.rsi
+      layers:
+        - state: fire-cursor
+          shader: unshaded
+    - type: StaminaDamageOnCollide
+      damage: 1
+    - type: Explosive
+      explosionType: FireMagic
+      maxIntensity: 1
+      intensitySlope: 2
+      totalIntensity: 1
+      maxTileBreak: 0
+      canCreateVacuum: false
+    - type: Projectile
+      damage:
+        types:
+          Heat: 10
+- type: entity
+  id: MedievalProjectileFireBoltTier1
+  parent: MedievalProjectileFireBoltBase
+  components:
+    - type: Explosive
+      explosionType: FireMagic
+      maxIntensity: 1
+      intensitySlope: 2
+      totalIntensity: 1
+      maxTileBreak: 0
+      canCreateVacuum: false
+- type: entity
+  id: MedievalProjectileFireBoltTier2
+  parent: MedievalProjectileFireBoltBase
+  components:
+    - type: Explosive
+      explosionType: FireMagic
+      maxIntensity: 1
+      intensitySlope: 2
+      totalIntensity: 1
+      maxTileBreak: 0
+      canCreateVacuum: false
+    - type: ProjectileCursorFollower
+      relativeAngle: 90
+      linearVelocityIntensy: 0.1
+      maxLinearVelocityIntensy: 11.25
+    - type: StaminaDamageOnCollide
+      damage: 3
+- type: entity
+  id: MedievalProjectileFireBoltTier3
+  parent: MedievalProjectileFireBoltBase
+  components:
+    - type: Explosive
+      explosionType: FireMagic
+      maxIntensity: 2
+      intensitySlope: 4
+      totalIntensity: 2
+      maxTileBreak: 0
+      canCreateVacuum: false
+    - type: ProjectileCursorFollower
+      relativeAngle: 90
+      linearVelocityIntensy: 0.08
+      maxLinearVelocityIntensy: 11.25
+    - type: StaminaDamageOnCollide
+      damage: 3
+- type: entity
+  id: MedievalProjectileFireBoltTier4
+  parent: MedievalProjectileFireBoltBase
+  components:
+    - type: Explosive
+      explosionType: FireMagic
+      maxIntensity: 3
+      intensitySlope: 6
+      totalIntensity: 3
+      maxTileBreak: 0
+      canCreateVacuum: false
+    - type: ProjectileCursorFollower
+      relativeAngle: 90
+      linearVelocityIntensy: 0.1
+      maxLinearVelocityIntensy: 11.25
+    - type: StaminaDamageOnCollide
+      damage: 9
+- type: entity
+  id: MedievalProjectileLargeFireBoltBeginner
+  parent: MedievalProjectileFireBoltBase
+  name: large firebolt
+  components:
+    - type: MedievalHomingProjectile
+      accelerationMultiplier: 0.75
+      detonateOnMapTarget: true
+      targetArrivalRadius: 0.25
+    - type: Sprite
+      sprite: Imperial/Medieval/Magic/Fire/FireBolt/projectiles.rsi
+      layers:
+        - state: fire-aim
+          shader: unshaded
+    - type: StaminaDamageOnCollide
+      damage: 3
+    - type: Explosive
+      explosionType: FireMagic
+      maxIntensity: 3
+      intensitySlope: 6
+      totalIntensity: 15
+      maxTileBreak: 0
+      canCreateVacuum: false
+- type: entity
+  id: MedievalProjectileLargeFireBoltMiddle
+  parent: MedievalProjectileFireBoltBase
+  name: large firebolt
+  components:
+    - type: MedievalHomingProjectile
+      accelerationMultiplier: 0.75
+      detonateOnMapTarget: true
+      targetArrivalRadius: 0.25
+    - type: Sprite
+      sprite: Imperial/Medieval/Magic/Fire/FireBolt/projectiles.rsi
+      layers:
+        - state: fire-aim
+          shader: unshaded
+    - type: StaminaDamageOnCollide
+      damage: 3
+    - type: Explosive
+      explosionType: FireMagic
+      maxIntensity: 5
+      intensitySlope: 10
+      totalIntensity: 25
+      maxTileBreak: 0
+      canCreateVacuum: false
+- type: entity
+  id: MedievalProjectileLargeFireBoltSenior
+  parent: MedievalProjectileFireBoltBase
+  name: large firebolt
+  components:
+    - type: MedievalHomingProjectile
+      accelerationMultiplier: 0.75
+      detonateOnMapTarget: true
+      targetArrivalRadius: 0.25
+    - type: Sprite
+      sprite: Imperial/Medieval/Magic/Fire/FireBolt/projectiles.rsi
+      layers:
+        - state: fire-aim
+          shader: unshaded
+    - type: StaminaDamageOnCollide
+      damage: 9
+    - type: Explosive
+      explosionType: FireMagic
+      maxIntensity: 5
+      intensitySlope: 10
+      totalIntensity: 25
+      maxTileBreak: 0
+      canCreateVacuum: false
+
+# Match Magic Arrow's cursor variants: vary steering while retaining the same speed cap.
+- type: entity
+  id: MedievalProjectileFireBoltTier3Fast
+  parent: MedievalProjectileFireBoltTier3
+  components:
+    - type: ProjectileCursorFollower
+      relativeAngle: 90
+      linearVelocityIntensy: 0.12
+      maxLinearVelocityIntensy: 11.25
+
+- type: entity
+  id: MedievalProjectileFireBoltTier4Slow
+  parent: MedievalProjectileFireBoltTier4
+  components:
+    - type: ProjectileCursorFollower
+      relativeAngle: 90
+      linearVelocityIntensy: 0.08
+      maxLinearVelocityIntensy: 11.25
+
+- type: entity
+  id: MedievalProjectileFireBoltTier4Fast
+  parent: MedievalProjectileFireBoltTier4
+  components:
+    - type: ProjectileCursorFollower
+      relativeAngle: 90
+      linearVelocityIntensy: 0.12
+      maxLinearVelocityIntensy: 11.25

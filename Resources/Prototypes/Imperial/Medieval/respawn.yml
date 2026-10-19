@@ -195,10 +195,17 @@
 
 - type: entity
   name: rabbit
-  parent: SimpleMobBaseNoFood
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, SimpleMobBaseNoFood ]
+  # spellward end
   id: MedievalMobGhostRespawnDefence
   description: They're a golem.
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      poiseDamage: 2
+      rangedPoiseDamage: 10
+    # spellward end
     - type: Temperature
       heatDamageThreshold: 325
       coldDamageThreshold: 260

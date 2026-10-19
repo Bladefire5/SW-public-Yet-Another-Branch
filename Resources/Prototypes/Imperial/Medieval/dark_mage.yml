@@ -1,9 +1,16 @@
 - type: entity
   name: dark mage
   id: MedievalMobDarkMage
-  parent: SimpleMobBase
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, SimpleMobBase ]
+  # spellward end
   description: old dark power
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 3
+    rangedPoiseDamage: 10
+  # spellward end
   - type: NpcFactionMember
     factions:
       - Syndicate

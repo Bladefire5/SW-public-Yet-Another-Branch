@@ -22,6 +22,13 @@
     stock: 1
   - !type:ImperialBuyBeforeCondition
     blacklist:
+      - MedievalSpellFireBoltTier1
+      - MedievalSpellFireBoltTier2
+      - MedievalSpellFireBoltTier3
+      - MedievalSpellFireBoltTier4
+      - MedievalSpellLargeFireBoltBeginner
+      - MedievalSpellLargeFireBoltMiddle
+      - MedievalSpellLargeFireBoltSenior
       - MedievalSpellMagicArrowBeginner
 
       - MedievalSpellMagicArrowCursorFolloverBeginner

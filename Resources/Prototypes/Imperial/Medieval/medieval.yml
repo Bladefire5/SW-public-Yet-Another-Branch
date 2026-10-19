@@ -7844,6 +7844,10 @@
   parent: MedievalMobSkeletonNecro
   id: MedievalKaravanSkeleton
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      poiseDamage: 3
+    # spellward end
     - type: WarningOnAttach
       message: medieval-warning-cardef
     - type: NpcFactionMember

@@ -2,6 +2,8 @@ using Content.Shared.Database;
 using Content.Shared.EntityEffects;
 using Content.Shared.Explosion;
 using Content.Shared.Explosion.EntitySystems;
+using Content.Shared.FixedPoint;
+using Content.Shared.Radiation.Components;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
@@ -19,7 +21,7 @@ public sealed partial class MedievalExplosionReactionEffect : EntityEffect
     private const float FullReactionUnits = 5f;
 
     /// <summary>
-    /// Dedicated alchemical explosion prototype defining damage and visuals.
+    /// Existing explosion preset defining damage and visuals, or the shared Caustic preset.
     /// </summary>
     [DataField("explosionType", required: true,
         customTypeSerializer: typeof(PrototypeIdSerializer<ExplosionPrototype>))]
@@ -43,6 +45,13 @@ public sealed partial class MedievalExplosionReactionEffect : EntityEffect
     [DataField("maxIntensity", required: true)]
     public float MaxIntensity;
 
+    /// <summary>
+    /// Optional lingering radiation source for this reaction. Its prototype defines
+    /// intensity, falloff, light and lifetime for a full 5u + 5u activation.
+    /// </summary>
+    [DataField("radiationFieldPrototype")]
+    public EntProtoId? RadiationFieldPrototype;
+
     public override bool ShouldLog => true;
     public override LogImpact LogImpact => LogImpact.High;
 
@@ -53,10 +62,28 @@ public sealed partial class MedievalExplosionReactionEffect : EntityEffect
     public override void Effect(EntityEffectBaseArgs args)
     {
         if (args is not EntityEffectReagentArgs reagentArgs ||
+            reagentArgs.Quantity <= FixedPoint2.Zero ||
             !IoCManager.Resolve<INetManager>().IsServer)
             return;
 
         var strength = (float) reagentArgs.Quantity / FullReactionUnits;
+
+        if (RadiationFieldPrototype is { } fieldPrototype)
+        {
+            var transform = args.EntityManager.System<SharedTransformSystem>();
+            if (transform.TryGetMapOrGridCoordinates(args.TargetEntity, out var coordinates))
+            {
+                // A ground parent keeps the field alive after the vessel is deleted.
+                var field = args.EntityManager.SpawnAttachedTo(fieldPrototype, coordinates.Value);
+                if (args.EntityManager.TryGetComponent<RadiationSourceComponent>(field, out var source))
+                {
+                    // Keep one field per activation, including fractional batches.
+                    source.Intensity *= strength;
+                    source.Slope *= strength;
+                }
+            }
+        }
+
         args.EntityManager.System<SharedExplosionSystem>().QueueExplosion(
             args.TargetEntity,
             ExplosionType,

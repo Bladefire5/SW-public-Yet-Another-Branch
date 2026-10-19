@@ -14,6 +14,10 @@
   id: MedievalBossBaseDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      poiseDamage: 35
+    # spellward end
     - type: ForcedSleepImmune
     - type: Hands
       hands:
@@ -165,6 +169,10 @@
   id: MedievalBossIceDragonNoAnnouncement
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 15
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -204,6 +212,10 @@
   id: MedievalBossIceDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 15
+    # spellward end
     - type: AnnounceOnSpawn
       message: dragon-spawn-announcement
       color: "yellow"
@@ -218,6 +230,10 @@
   id: MedievalBossFireDragonNoAnnouncement
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 0
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -263,6 +279,10 @@
   id: MedievalBossFireDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 0
+    # spellward end
     - type: AnnounceOnSpawn
       message: dragon-spawn-announcement
       color: "yellow"
@@ -282,6 +302,10 @@
   id: MedievalBossAcidDragonNoAnnouncement
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 6
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -327,6 +351,10 @@
   id: MedievalBossAcidDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 6
+    # spellward end
     - type: AnnounceOnSpawn
       message: dragon-spawn-announcement
       color: "yellow"
@@ -341,6 +369,10 @@
   id: MedievalBossThunderDragonNoAnnouncement
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 0
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -384,6 +416,10 @@
   id: MedievalBossThunderDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 0
+    # spellward end
     - type: AnnounceOnSpawn
       message: dragon-spawn-announcement
       color: "yellow"
@@ -398,6 +434,10 @@
   id: MedievalBossNecroDragonNoAnnouncement
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 5
+    # spellward end
     - type: Sprite
       drawdepth: Mobs
       layers:
@@ -446,6 +486,10 @@
   id: MedievalBossNecroDragon
   description: big dragon
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      rangedPoiseDamage: 5
+    # spellward end
     - type: AnnounceOnSpawn
       message: dragon-spawn-announcement
       color: "yellow"

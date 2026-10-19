@@ -26,11 +26,17 @@
     prototype: MobDohodyagaScarlatto
 
 - type: entity
-  parent: SimpleMobBaseNoFood
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, SimpleMobBaseNoFood ]
+  # spellward end
   id: MobDohodyagaScarlatto
   name: Urist McDohodyaga
   categories: [ HideSpawnMenu ]
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 2
+  # spellward end
   - type: Stamina
     critThreshold: 600
   - type: TriggerOnMobstateChange

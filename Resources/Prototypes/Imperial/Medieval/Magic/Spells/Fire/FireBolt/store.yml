@@ -1,0 +1,242 @@
+- type: imperialListing
+  id: MedievalSpellFireBoltTier1
+  name: medieval-store-spells-fire-bolt-tier1-name
+  description: medieval-store-spells-fire-bolt-tier1-desc
+  priority: 5
+  productUpgradeId:
+    - MedievalSpellFireBoltTier2
+  icon:
+    sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+    state: fire-beginner
+  cost:
+    MagicMedievalFire: 15
+  categories:
+    - MedievalFireSpells
+  conditions:
+    - !type:ImperialListingLimitedStockCondition
+      stock: 1
+    - !type:ImperialBuyBeforeCondition
+      blacklist:
+        - MedievalSpellLargeFireBoltBeginner
+        - MedievalSpellLargeFireBoltMiddle
+        - MedievalSpellLargeFireBoltSenior
+        - MedievalSpellCursedArrowBeginner
+        - MedievalSpellCursedArrowPlayerFolloverBeginner
+        - MedievalSpellCursedArrowPlayerFolloverMiddle
+        - MedievalSpellCursedArrowPlayerFolloverSenior
+        - MedievalSpellCursedArrowKunaiBeginner
+        - MedievalSpellCursedArrowKunaiMiddle
+        - MedievalSpellCursedArrowKunaiSenior
+        - MedievalSpellCursedArrowCursorFolloverBeginner
+        - MedievalSpellCursedArrowCursorFolloverMiddle
+        - MedievalSpellCursedArrowCursorFolloverSenior
+  productAction: MedievalActionFireBoltTier1
+- type: imperialListing
+  id: MedievalSpellFireBoltTier2
+  name: medieval-store-spells-fire-bolt-tier2-name
+  description: medieval-store-spells-fire-bolt-tier2-desc
+  priority: 5
+  productUpgradeId:
+    - MedievalSpellFireBoltTier3
+  icon:
+    sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+    state: fire-beginner-cursor
+  cost:
+    MagicMedievalFire: 25
+  categories:
+    - MedievalFireSpells
+  conditions:
+    - !type:ImperialListingLimitedStockCondition
+      stock: 1
+    - !type:ImperialBuyBeforeCondition
+      blacklist:
+        - MedievalSpellLargeFireBoltBeginner
+        - MedievalSpellLargeFireBoltMiddle
+        - MedievalSpellLargeFireBoltSenior
+        - MedievalSpellCursedArrowBeginner
+        - MedievalSpellCursedArrowPlayerFolloverBeginner
+        - MedievalSpellCursedArrowPlayerFolloverMiddle
+        - MedievalSpellCursedArrowPlayerFolloverSenior
+        - MedievalSpellCursedArrowKunaiBeginner
+        - MedievalSpellCursedArrowKunaiMiddle
+        - MedievalSpellCursedArrowKunaiSenior
+        - MedievalSpellCursedArrowCursorFolloverBeginner
+        - MedievalSpellCursedArrowCursorFolloverMiddle
+        - MedievalSpellCursedArrowCursorFolloverSenior
+      whitelist:
+        - MedievalSpellFireBoltTier1
+- type: imperialListing
+  id: MedievalSpellFireBoltTier3
+  name: medieval-store-spells-fire-bolt-tier3-name
+  description: medieval-store-spells-fire-bolt-tier3-desc
+  priority: 5
+  productUpgradeId:
+    - MedievalSpellFireBoltTier4
+  icon:
+    sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+    state: fire-middle-cursor
+  cost:
+    MagicMedievalFire: 50
+  categories:
+    - MedievalFireSpells
+  conditions:
+    - !type:ImperialListingLimitedStockCondition
+      stock: 1
+    - !type:ImperialBuyBeforeCondition
+      blacklist:
+        - MedievalSpellLargeFireBoltBeginner
+        - MedievalSpellLargeFireBoltMiddle
+        - MedievalSpellLargeFireBoltSenior
+        - MedievalSpellCursedArrowBeginner
+        - MedievalSpellCursedArrowPlayerFolloverBeginner
+        - MedievalSpellCursedArrowPlayerFolloverMiddle
+        - MedievalSpellCursedArrowPlayerFolloverSenior
+        - MedievalSpellCursedArrowKunaiBeginner
+        - MedievalSpellCursedArrowKunaiMiddle
+        - MedievalSpellCursedArrowKunaiSenior
+        - MedievalSpellCursedArrowCursorFolloverBeginner
+        - MedievalSpellCursedArrowCursorFolloverMiddle
+        - MedievalSpellCursedArrowCursorFolloverSenior
+      whitelist:
+        - MedievalSpellFireBoltTier2
+- type: imperialListing
+  id: MedievalSpellFireBoltTier4
+  name: medieval-store-spells-fire-bolt-tier4-name
+  description: medieval-store-spells-fire-bolt-tier4-desc
+  priority: 5
+  productUpgradeId:
+    - MedievalSpellFireBoltTier4
+  icon:
+    sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+    state: fire-senior-cursor
+  cost:
+    MagicMedievalFire: 80
+    ArchmagePoints: 1
+  categories:
+    - MedievalFireSpells
+  conditions:
+    - !type:ImperialListingLimitedStockCondition
+      stock: 1
+    - !type:ImperialBuyBeforeCondition
+      blacklist:
+        - MedievalSpellLargeFireBoltBeginner
+        - MedievalSpellLargeFireBoltMiddle
+        - MedievalSpellLargeFireBoltSenior
+        - MedievalSpellCursedArrowBeginner
+        - MedievalSpellCursedArrowPlayerFolloverBeginner
+        - MedievalSpellCursedArrowPlayerFolloverMiddle
+        - MedievalSpellCursedArrowPlayerFolloverSenior
+        - MedievalSpellCursedArrowKunaiBeginner
+        - MedievalSpellCursedArrowKunaiMiddle
+        - MedievalSpellCursedArrowKunaiSenior
+        - MedievalSpellCursedArrowCursorFolloverBeginner
+        - MedievalSpellCursedArrowCursorFolloverMiddle
+        - MedievalSpellCursedArrowCursorFolloverSenior
+      whitelist:
+        - MedievalSpellFireBoltTier3
+- type: imperialListing
+  id: MedievalSpellLargeFireBoltBeginner
+  name: medieval-store-spells-large-fire-bolt-beginner-name
+  description: medieval-store-spells-large-fire-bolt-beginner-desc
+  priority: 6
+  productUpgradeId:
+    - MedievalSpellLargeFireBoltMiddle
+  icon:
+    sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+    state: fire-beginner-aim
+  cost:
+    MagicMedievalFire: 25
+  categories:
+    - MedievalFireSpells
+  conditions:
+    - !type:ImperialListingLimitedStockCondition
+      stock: 1
+    - !type:ImperialBuyBeforeCondition
+      blacklist:
+        - MedievalSpellFireBoltTier1
+        - MedievalSpellFireBoltTier2
+        - MedievalSpellFireBoltTier3
+        - MedievalSpellFireBoltTier4
+        - MedievalSpellCursedArrowBeginner
+        - MedievalSpellCursedArrowPlayerFolloverBeginner
+        - MedievalSpellCursedArrowPlayerFolloverMiddle
+        - MedievalSpellCursedArrowPlayerFolloverSenior
+        - MedievalSpellCursedArrowKunaiBeginner
+        - MedievalSpellCursedArrowKunaiMiddle
+        - MedievalSpellCursedArrowKunaiSenior
+        - MedievalSpellCursedArrowCursorFolloverBeginner
+        - MedievalSpellCursedArrowCursorFolloverMiddle
+        - MedievalSpellCursedArrowCursorFolloverSenior
+  productAction: MedievalActionLargeFireBoltBeginner
+
+- type: imperialListing
+  id: MedievalSpellLargeFireBoltMiddle
+  name: medieval-store-spells-large-fire-bolt-middle-name
+  description: medieval-store-spells-large-fire-bolt-middle-desc
+  priority: 6
+  productUpgradeId:
+    - MedievalSpellLargeFireBoltSenior
+  icon:
+    sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+    state: fire-middle-aim
+  cost:
+    MagicMedievalFire: 50
+  categories:
+    - MedievalFireSpells
+  conditions:
+    - !type:ImperialListingLimitedStockCondition
+      stock: 1
+    - !type:ImperialBuyBeforeCondition
+      blacklist:
+        - MedievalSpellFireBoltTier1
+        - MedievalSpellFireBoltTier2
+        - MedievalSpellFireBoltTier3
+        - MedievalSpellFireBoltTier4
+        - MedievalSpellCursedArrowBeginner
+        - MedievalSpellCursedArrowPlayerFolloverBeginner
+        - MedievalSpellCursedArrowPlayerFolloverMiddle
+        - MedievalSpellCursedArrowPlayerFolloverSenior
+        - MedievalSpellCursedArrowKunaiBeginner
+        - MedievalSpellCursedArrowKunaiMiddle
+        - MedievalSpellCursedArrowKunaiSenior
+        - MedievalSpellCursedArrowCursorFolloverBeginner
+        - MedievalSpellCursedArrowCursorFolloverMiddle
+        - MedievalSpellCursedArrowCursorFolloverSenior
+      whitelist:
+        - MedievalSpellLargeFireBoltBeginner
+- type: imperialListing
+  id: MedievalSpellLargeFireBoltSenior
+  name: medieval-store-spells-large-fire-bolt-senior-name
+  description: medieval-store-spells-large-fire-bolt-senior-desc
+  priority: 6
+  productUpgradeId:
+    - MedievalSpellLargeFireBoltSenior
+  icon:
+    sprite: Imperial/Medieval/Magic/Fire/FireBolt/icons.rsi
+    state: fire-senior-aim
+  cost:
+    MagicMedievalFire: 80
+    ArchmagePoints: 1
+  categories:
+    - MedievalFireSpells
+  conditions:
+    - !type:ImperialListingLimitedStockCondition
+      stock: 1
+    - !type:ImperialBuyBeforeCondition
+      blacklist:
+        - MedievalSpellFireBoltTier1
+        - MedievalSpellFireBoltTier2
+        - MedievalSpellFireBoltTier3
+        - MedievalSpellFireBoltTier4
+        - MedievalSpellCursedArrowBeginner
+        - MedievalSpellCursedArrowPlayerFolloverBeginner
+        - MedievalSpellCursedArrowPlayerFolloverMiddle
+        - MedievalSpellCursedArrowPlayerFolloverSenior
+        - MedievalSpellCursedArrowKunaiBeginner
+        - MedievalSpellCursedArrowKunaiMiddle
+        - MedievalSpellCursedArrowKunaiSenior
+        - MedievalSpellCursedArrowCursorFolloverBeginner
+        - MedievalSpellCursedArrowCursorFolloverMiddle
+        - MedievalSpellCursedArrowCursorFolloverSenior
+      whitelist:
+        - MedievalSpellLargeFireBoltMiddle

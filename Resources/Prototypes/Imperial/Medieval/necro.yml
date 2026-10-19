@@ -1,11 +1,17 @@
 - type: entity
   save: false
   name: Urist McSkelly
-  parent: MobSkeletonPerson
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, MobSkeletonPerson ]
+  # spellward end
   id: MedievalMobSkeletonNecro
   noSpawn: false
   description: A dummy skeleton meant to be used in character setup.
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 3
+  # spellward end
   - type: HumanoidAppearance
     species: Skeleton
   - type: NpcFactionMember
@@ -116,6 +122,10 @@
   id: MedievalMobSkeletonNecroSender
   name: CBURN Agent
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      poiseDamage: 3
+    # spellward end
     - type: Loadout
       prototypes: [ MedievalNecroSender ]
     - type: LanguageSpeaker
@@ -169,6 +179,10 @@
   id: MedievalMobSkeletonNecroFighter
   name: CBURN Agent
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      poiseDamage: 3
+    # spellward end
     - type: Loadout
       prototypes: [ MedievalNecroFighter ]
     - type: LanguageSpeaker
@@ -229,6 +243,10 @@
   id: MedievalMobSkeletonNecroLeader
   name: CBURN Agent
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 3
+  # spellward end
   - type: Loadout
     prototypes: [ MedievalNecroLeader ]
   - type: Mana

@@ -281,7 +281,9 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
         foreach (var queued in _queuedExplosions)
         {
             // ignore different types or those on different maps
-            if (queued.Proto.ID != type.ID || queued.Epicenter.MapId != epicenter.MapId)
+            // spellward start
+            if (!type.CanCombine || queued.Proto.ID != type.ID || queued.Epicenter.MapId != epicenter.MapId)
+            // spellward end
                 continue;
 
             var dst2 = queued.Proto.MaxCombineDistance * queued.Proto.MaxCombineDistance;

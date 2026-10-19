@@ -15,8 +15,8 @@
     state: beginner
   cost:
     MagicMedievalFire: 15
-  categories:
-  - MedievalFireSpells
+  # Replaced in grimoires by Fire Bolt and Large Firebolt.
+  categories: []
   conditions:
   - !type:ImperialListingLimitedStockCondition
     stock: 1

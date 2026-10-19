@@ -38,8 +38,14 @@
   id: MobCarpFlee
   name: трусливый карп
   description: Космический карп, который умеет считать до двух, но быстро забывает.
-  parent: [ SimpleSpaceMobBase, FlyingMobBase, MobCombat ]
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, SimpleSpaceMobBase, FlyingMobBase, MobCombat ]
+  # spellward end
   components:
+    # spellward start - outgoing poise per hit.
+    - type: PoiseDamage
+      poiseDamage: 6
+    # spellward end
     - type: InputMover
     - type: MobMover
     - type: HTN

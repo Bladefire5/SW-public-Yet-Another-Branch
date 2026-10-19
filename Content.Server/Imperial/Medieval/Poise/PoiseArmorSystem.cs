@@ -67,6 +67,11 @@ public sealed class PoiseArmorSystem : EntitySystem
         if (!TryComp<PoiseComponent>(wearer, out var poise))
             return;
 
+        // spellward start - NPC poise capacity and protection are configured on the mob itself.
+        if (poise.Npc)
+            return;
+        // spellward end
+
         if (!TryComp<InventoryComponent>(wearer, out var inventory))
             return;
 

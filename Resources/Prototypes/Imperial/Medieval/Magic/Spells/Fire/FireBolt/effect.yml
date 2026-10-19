@@ -1,0 +1,33 @@
+# Reuse the existing orange cast-effect artwork.
+- type: entity
+  id: FireBoltSpellCastEffect
+  components:
+    - type: Sprite
+      sprite: Imperial/Medieval/SpellCastEffects/fire/arrow.rsi
+      color: '#FF5900'
+      noRot: true
+      layers:
+        - state: beginner
+          shader: unshaded
+    - type: PointLight
+      radius: 2
+      energy: 1
+      color: '#FF5900'
+    - type: TimedDespawn
+      lifetime: 0.5
+- type: entity
+  id: LargeFireBoltSpellCastEffect
+  components:
+    - type: Sprite
+      sprite: Imperial/Medieval/SpellCastEffects/fire/arrow.rsi
+      color: '#FF5900'
+      noRot: true
+      layers:
+        - state: beginner
+          shader: unshaded
+    - type: PointLight
+      radius: 2
+      energy: 1
+      color: '#FF5900'
+    - type: TimedDespawn
+      lifetime: 0.5

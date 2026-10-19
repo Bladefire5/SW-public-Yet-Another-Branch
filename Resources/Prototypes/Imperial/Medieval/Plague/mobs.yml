@@ -58,8 +58,14 @@
   id: MedievalMobPlagueSlime
   name: plague slime
   description: wuewuewue
-  parent: MobAdultSlimes
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, MobAdultSlimes ]
+  # spellward end
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 3
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Mobs/plague_slime.rsi
     layers:
@@ -115,9 +121,15 @@
 - type: entity
   name: bugs swarm
   id: MedievalMobPlagueBugs
-  parent: [ SimpleMobBase, MobCombat ]
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, SimpleMobBase, MobCombat ]
+  # spellward end
   description: ee
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 1
+  # spellward end
   - type: Sprite
     drawdepth: Mobs
     sprite: Imperial/Medieval/Mobs/plague_swarm.rsi
@@ -204,6 +216,10 @@
   parent: MedievalMobPlagueBugs
   description: ee
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 1
+  # spellward end
   - type: Sprite
     state: smallbugs
   - type: AmbientSound
@@ -233,10 +249,16 @@
 
 - type: entity
   name: mouse
-  parent: SimpleMobBase
+  # spellward start - opt in to the NPC poise profile.
+  parent: [ MedievalNpcPoise, SimpleMobBase ]
+  # spellward end
   id: MedievalMobPlagueMouse
   description: Squeak!
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseDamage
+    poiseDamage: 2
+  # spellward end
   - type: Speech
     speechSounds: Squeak
     speechVerb: SmallMob

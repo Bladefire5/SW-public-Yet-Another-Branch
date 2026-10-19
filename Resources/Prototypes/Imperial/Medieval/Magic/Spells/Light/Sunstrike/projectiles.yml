@@ -106,6 +106,10 @@
   parent: MedievalSunstrikeMiddle
   name: Sunstrike
   components:
+  # spellward start - outgoing poise per hit.
+  - type: PoiseImpact
+    contactFixture: fix1
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Magic/Light/Sunstrike/projectiles.rsi
     drawdepth: Mobs

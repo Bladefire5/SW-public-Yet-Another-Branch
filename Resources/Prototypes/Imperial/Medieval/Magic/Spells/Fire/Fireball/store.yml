@@ -18,6 +18,10 @@
   conditions:
   - !type:ImperialListingLimitedStockCondition
     stock: 1
+  - !type:ImperialBuyBeforeCondition
+    whitelist:
+      - MedievalSpellFireBoltTier3
+      - MedievalSpellLargeFireBoltMiddle
 
 # Middle
 

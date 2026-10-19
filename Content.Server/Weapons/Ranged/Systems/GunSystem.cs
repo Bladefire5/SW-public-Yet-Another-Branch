@@ -26,6 +26,9 @@ using Content.Server.Imperial.Medieval.Weapons;
 using Robust.Shared.Threading;
 using Robust.Shared.Random;
 using Content.Server.PowerCell;
+// spellward start
+using Content.Server.Imperial.Medieval.Poise;
+// spellward end
 
 namespace Content.Server.Weapons.Ranged.Systems;
 
@@ -38,6 +41,9 @@ public sealed partial class GunSystem : SharedGunSystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
+    // spellward start
+    [Dependency] private readonly PoiseImpactSystem _poiseImpact = default!;
+    // spellward end
 
     private const float DamagePitchVariation = 0.05f;
 
@@ -224,6 +230,10 @@ public sealed partial class GunSystem : SharedGunSystem
                         var hitName = ToPrettyString(hitEntity);
                         if (dmg != null)
                             dmg = Damageable.TryChangeDamage(hitEntity, dmg * Damageable.UniversalHitscanDamageModifier, origin: user);
+
+                        // spellward start - only guns with a configured ranged value contribute poise.
+                        _poiseImpact.QueueHitscan(gunUid, hitEntity, lastUser);
+                        // spellward end
 
                         // check null again, as TryChangeDamage returns modified damage values
                         if (dmg != null)

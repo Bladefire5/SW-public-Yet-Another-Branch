@@ -1,5 +1,8 @@
 - type: explosion
   id: Supermatter
+  # spellward start
+  poiseDamagePerIntensity: 8
+  # spellward end
   name: supermatter blast
   description: A dazzling but destructive release of supermatter energy.
   damagePerIntensity:
