@@ -8,6 +8,9 @@ using Content.Shared.Interaction;
 using Content.Shared.MedievalMeleeResource.Components;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Weapons.Melee.Events;
+// spellward start
+using Content.Shared.Wieldable;
+// spellward end
 using Content.Shared.Wieldable.Components;
 using Robust.Server.Player;
 using Robust.Shared.Audio.Systems;
@@ -21,6 +24,9 @@ public sealed class MedievalMeleeResourceSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
+    // spellward start
+    [Dependency] private readonly SharedWieldableSystem _wieldable = default!;
+    // spellward end
 
     public override void Initialize()
     {
@@ -122,12 +128,9 @@ public sealed class MedievalMeleeResourceSystem : EntitySystem
             if (TryComp<MeleeWeaponComponent>(uid, out var weapon))
                 weapon.Damage = component.UpDamage;
 
-            if (TryComp<IncreaseDamageOnWieldComponent>(uid, out var wield))
-            {
-#pragma warning disable RA0002
-                wield.BonusDamage = component.UpWieldDamage;
-#pragma warning restore RA0002
-            }
+            // spellward start
+            _wieldable.SetBonusDamage(uid, component.UpWieldDamage);
+            // spellward end
 
             component.DamageState = "Up";
             newDurability = DurabilityDisplayComponent.Durability.Up;
@@ -137,12 +140,9 @@ public sealed class MedievalMeleeResourceSystem : EntitySystem
             if (TryComp<MeleeWeaponComponent>(uid, out var weapon))
                 weapon.Damage = component.FullDamage;
 
-            if (TryComp<IncreaseDamageOnWieldComponent>(uid, out var wield))
-            {
-#pragma warning disable RA0002
-                wield.BonusDamage = component.FullWieldDamage;
-#pragma warning restore RA0002
-            }
+            // spellward start
+            _wieldable.SetBonusDamage(uid, component.FullWieldDamage);
+            // spellward end
 
             component.DamageState = "Full";
             newDurability = DurabilityDisplayComponent.Durability.Full;
@@ -152,12 +152,9 @@ public sealed class MedievalMeleeResourceSystem : EntitySystem
             if (TryComp<MeleeWeaponComponent>(uid, out var weapon))
                 weapon.Damage = component.AlmostFullDamage;
 
-            if (TryComp<IncreaseDamageOnWieldComponent>(uid, out var wield))
-            {
-#pragma warning disable RA0002
-                wield.BonusDamage = component.AlmostFullWieldDamage;
-#pragma warning restore RA0002
-            }
+            // spellward start
+            _wieldable.SetBonusDamage(uid, component.AlmostFullWieldDamage);
+            // spellward end
 
             component.DamageState = "AlmostFull";
             newDurability = DurabilityDisplayComponent.Durability.AlmostFull;
@@ -167,12 +164,9 @@ public sealed class MedievalMeleeResourceSystem : EntitySystem
             if (TryComp<MeleeWeaponComponent>(uid, out var weapon))
                 weapon.Damage = component.DamagedDamage;
 
-            if (TryComp<IncreaseDamageOnWieldComponent>(uid, out var wield))
-            {
-#pragma warning disable RA0002
-                wield.BonusDamage = component.DamagedWieldDamage;
-#pragma warning restore RA0002
-            }
+            // spellward start
+            _wieldable.SetBonusDamage(uid, component.DamagedWieldDamage);
+            // spellward end
 
             component.DamageState = "Damaged";
             newDurability = DurabilityDisplayComponent.Durability.Damaged;
@@ -182,12 +176,9 @@ public sealed class MedievalMeleeResourceSystem : EntitySystem
             if (TryComp<MeleeWeaponComponent>(uid, out var weapon))
                 weapon.Damage = component.BadlyDamagedDamage;
 
-            if (TryComp<IncreaseDamageOnWieldComponent>(uid, out var wield))
-            {
-#pragma warning disable RA0002
-                wield.BonusDamage = component.BadlyDamagedWieldDamage;
-#pragma warning restore RA0002
-            }
+            // spellward start
+            _wieldable.SetBonusDamage(uid, component.BadlyDamagedWieldDamage);
+            // spellward end
 
             component.DamageState = "BadlyDamaged";
             newDurability = DurabilityDisplayComponent.Durability.BadlyDamaged;
@@ -197,12 +188,9 @@ public sealed class MedievalMeleeResourceSystem : EntitySystem
             if (TryComp<MeleeWeaponComponent>(uid, out var weapon))
                 weapon.Damage = component.BrokenDamage;
 
-            if (TryComp<IncreaseDamageOnWieldComponent>(uid, out var wield))
-            {
-#pragma warning disable RA0002
-                wield.BonusDamage = component.BrokenWieldDamage;
-#pragma warning restore RA0002
-            }
+            // spellward start
+            _wieldable.SetBonusDamage(uid, component.BrokenWieldDamage);
+            // spellward end
 
             component.DamageState = "Broken";
             newDurability = DurabilityDisplayComponent.Durability.Broken;
@@ -328,3 +316,4 @@ public sealed class MedievalMeleeResourceSystem : EntitySystem
         return 1.0f;
     }
 }
+

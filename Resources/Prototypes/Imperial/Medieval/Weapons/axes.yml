@@ -4,8 +4,10 @@
   id: MedievalHatchet
   description: A very sharp axe blade upon a short fibremetal handle. It has a long history of chopping things, but now it is used for chopping wood.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 8
+  # spellward end
   - type: RDWeight
     value: 1
   - type: Sharp
@@ -13,23 +15,37 @@
     sprite: Imperial/Medieval/Melee/medieval_hatchet.rsi
     state: icon
     netsync: false
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.24
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: false
     cPAnimationOffset: 1
-    clickDamageModifier: 1.22
+    clickDamageModifier: 1
     wideAnimationRotation: -140
     swingLeft: false
     damage:
       types:
-        Slash: 7
-        Piercing: 1
-        Structural: 16
+        Slash: 9.76
+        Piercing: 0
+        Structural: 12
         ParryAble: 1
+        Blunt: 4.88
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
     resetOnHandSelected: false
+    attackRate: 0.95
+    range: 1.45
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.2
     safeToHitGroup: tree
@@ -67,10 +83,28 @@
     damage: 1 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 2
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedSlashLarge
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: falshion
-  parent: [ MedievalFalshionT3Legion, BasePoiseSlashLarge ]
+  parent: BaseMedievalBattleAxe #spellward
   id: MedievalFalshionT3Fox
   description: An ancient war blade.
   components:
@@ -82,3 +116,41 @@
     sprite: Imperial/Medieval/Melee/iron_battle_axe.rsi
   - type: MedievalMeleeResource
     safeToHitGroup: tree
+  # spellward start
+  - type: MeleeWeapon
+    attackRate: 0.9
+    clickDamageModifier: 1
+    range: 1.5
+    damage:
+      types:
+        Blunt: 7.5
+        Slash: 10
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 8
+  - type: PoiseDamage
+    poiseDamage: 10
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedSlashLarge
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end

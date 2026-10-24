@@ -1,4 +1,8 @@
 
+// spellward start
+using Content.Shared.Damage;
+using Content.Shared.FixedPoint;
+// spellward end
 using Content.Shared.CombatMode;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Mobs.Systems;
@@ -234,6 +238,31 @@ public sealed class MedievalBowChargeSystem : EntitySystem
             _modifierSystem.RefreshMovementSpeedModifiers(uid);
     }
 
+    // spellward start - pure calculation for server damage and client presentation.
+    public static DamageSpecifier CalculateArrowHealthDamage(
+        MedievalBowChargeComponent bow, PoiseArcheryComponent arrow, float chargeMultiplier)
+    {
+        var damage = new DamageSpecifier();
+        AddDamage(arrow.DamageType,
+            arrow.FixedDamage + bow.BaseBowDamage * chargeMultiplier * arrow.DamageMultiplier);
+        AddDamage("Blunt", bow.BaseBluntImpact * chargeMultiplier * arrow.BluntMultiplier);
+        if (arrow.SecondaryDamageType is { } secondaryType)
+        {
+            AddDamage(secondaryType, arrow.SecondaryFixedDamage +
+                bow.BaseBowDamage * chargeMultiplier * arrow.SecondaryDamageMultiplier);
+        }
+        return damage;
+
+        void AddDamage(string type, float amount)
+        {
+            if (amount <= 0f)
+                return;
+            damage.DamageDict.TryGetValue(type, out var existing);
+            damage.DamageDict[type] = existing + FixedPoint2.New(amount);
+        }
+    }
+    // spellward end
+
     public float GetChargeMultiplier(EntityUid bow)
     {
         if (!TryComp<MedievalBowChargeComponent>(bow, out var charge) || !charge.IsCharging)
@@ -257,46 +286,60 @@ public sealed class MedievalBowChargeSystem : EntitySystem
         if (args.SenderSession.AttachedEntity is not { } user)
             return;
 
-        var bow = GetEntity(msg.Bow);
-
-        if (!TryComp<MedievalBowChargeComponent>(bow, out var charge) || !charge.IsCharging || charge.ChargingUser != user)
-            return;
-
-        if (!_handsSystem.TryGetActiveItem(user, out var activeItem) || activeItem != bow || !_combatMode.IsInCombatMode(user) || _mobState.IsDead(user) || _mobState.IsCritical(user) || !TryComp<GunComponent>(bow, out var gun))
-        {
-            CancelCharging(bow);
-            return;
-        }
-
-        var multiplier = GetChargeMultiplier(bow);
-
-        if (multiplier <= 0f)
-        {
-            CancelCharging(bow);
-            return;
-        }
-
-        var coordinates = GetCoordinates(msg.Coordinates);
-
-        if (_transformSystem.ToMapCoordinates(coordinates).MapId !=
-            Transform(user).MapID)
-        {
-            CancelCharging(bow);
-            return;
-        }
-
-        // Only this firing attempt is authorized.
+        // spellward start
+        var attempted = false;
         try
         {
-            charge.AllowShot = true;
+            var bow = GetEntity(msg.Bow);
+            // spellward end
 
-            _gunSystem.AttemptShoot(user, bow, gun, coordinates);
+            if (!TryComp<MedievalBowChargeComponent>(bow, out var charge) || !charge.IsCharging || charge.ChargingUser != user)
+                return;
+
+            if (!_handsSystem.TryGetActiveItem(user, out var activeItem) || activeItem != bow || !_combatMode.IsInCombatMode(user) || _mobState.IsDead(user) || _mobState.IsCritical(user) || !TryComp<GunComponent>(bow, out var gun))
+            {
+                CancelCharging(bow);
+                return;
+            }
+
+            var multiplier = GetChargeMultiplier(bow);
+
+            if (multiplier <= 0f)
+            {
+                CancelCharging(bow);
+                return;
+            }
+
+            var coordinates = GetCoordinates(msg.Coordinates);
+
+            if (_transformSystem.ToMapCoordinates(coordinates).MapId !=
+                Transform(user).MapID)
+            {
+                CancelCharging(bow);
+                return;
+            }
+
+            // Only this firing attempt is authorized.
+            try
+            {
+                charge.AllowShot = true;
+
+                attempted = true; //spellward
+                _gunSystem.AttemptPredictedShoot(user, bow, gun, coordinates, msg.ProjectileInputTick); //spellward
+            }
+            finally
+            {
+                charge.AllowShot = false;
+                CancelCharging(bow);
+            }
+        // spellward start
         }
         finally
         {
-            charge.AllowShot = false;
-            CancelCharging(bow);
+            if (!attempted)
+                _gunSystem.RejectProjectilePrediction(user, msg.Bow, msg.ProjectileInputTick);
         }
+        // spellward end
     }
 
     public override void Update(float frameTime)

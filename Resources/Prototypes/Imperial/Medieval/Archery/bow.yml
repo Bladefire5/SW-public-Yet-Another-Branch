@@ -1,14 +1,24 @@
-
 - type: entity
   name: Chargebow
   parent: BaseBow
   abstract: true
   id: BaseMedievalBowCharged
   components:
+  # spellward start - common settings for every player-usable charged bow
   - type: MedievalBowCharge
     baseBowDamage: 10
-    baseBluntImpact: 2
+    baseBluntImpact: 5
     basePoiseDamage: 10
+    minChargeTime: 1
+    maxChargeTime: 3
+    minChargeMultiplier: 0.25
+    maxChargeMultiplier: 1
+    staminaDrainPerSecond: 5
+    staminaDrainInterval: 0.25
+    chargingMoveSpeedMultiplier: 0.7
+    meleeKnockback: 1.5
+  - type: RDWeight
+    value: 1.5
   - type: ItemSlots
     slots:
       projectiles:
@@ -18,6 +28,16 @@
         whitelist:
           components:
           - PoiseArchery
+  - type: Gun
+    minAngle: 0
+    maxAngle: 5
+    fireRate: 1
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    resetOnHandSelected: false
+    defaultSpread: 10
+    projectileSpeed: 20
   - type: MeleeWeapon
     resetOnHandSelected: false
     attackRate: 1
@@ -29,17 +49,13 @@
     animation: WeaponArcPunch
     soundHit:
       collection: WeakHit
-  - type: Gun
-    projectileSpeed: 20
-
+  # spellward end
 
 - type: entity
   id: MedievalBowImprovised
   parent: BaseMedievalBowCharged
   name: improvised shortbow
   components:
-  - type: Gun
-    defaultSpread: 10
   - type: Sprite
     layers:
     - state: unwielded
@@ -80,44 +96,74 @@
     value: 1.5
 
 - type: entity
-  name: bow
+  name: long bow
+  # spellward start - inherit shared bow mechanics directly
   parent: BaseMedievalBowCharged
+  # spellward end
   id: MedievalWeaponBow
   description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
   components:
   - type: Sprite
     sprite: Imperial/Medieval/Gun/bow.rsi
+    state: base
   - type: Clothing
     sprite: Imperial/Medieval/Gun/bow.rsi
   - type: Gun
-    resetOnHandSelected: false
-    fireRate: 1
-    selectedMode: SemiAuto
-    availableModes:
-    - SemiAuto
+    projectileSpeed: 25
     soundGunshot:
       path: /Audio/Imperial/Medieval/ES_Bow_Release_Arrow_-_SFX_Producer.ogg
-    defaultSpread: 10
+  - type: MedievalBowCharge
+    baseBowDamage: 18
+    baseBluntImpact: 8
+    basePoiseDamage: 20
+    minChargeTime: 1.5
+    maxChargeTime: 4
+    staminaDrainPerSecond: 8
+    chargingMoveSpeedMultiplier: 0.5
+
+- type: entity
+  name: quick bow
+  # spellward start - inherit shared bow mechanics directly
+  parent: BaseMedievalBowCharged
+  # spellward end
+  id: MedievalQuickBow
+  description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Gun/bow.rsi
+    state: base
+  - type: Clothing
+    sprite: Imperial/Medieval/Gun/bow.rsi
+  - type: Gun
+    projectileSpeed: 25
+    soundGunshot:
+      path: /Audio/Imperial/Medieval/ES_Bow_Release_Arrow_-_SFX_Producer.ogg
+  - type: MedievalBowCharge
+    baseBowDamage: 5
+    baseBluntImpact: 2
+    basePoiseDamage: 8
+    minChargeTime: 0.5
+    maxChargeTime: 1.5
+    staminaDrainPerSecond: 3
+    chargingMoveSpeedMultiplier: 0.5
 
 - type: entity
   name: bow
+  # spellward start - inherit shared bow mechanics directly
   parent: BaseMedievalBowCharged
+  # spellward end
   id: MedievalWeaponBowNecro
   description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
   components:
   - type: Sprite
     sprite: Imperial/Medieval/Gun/necro_bow.rsi
+    state: base
   - type: Clothing
     sprite: Imperial/Medieval/Gun/necro_bow.rsi
   - type: Gun
-    resetOnHandSelected: false
     fireRate: 0.5
-    selectedMode: SemiAuto
-    availableModes:
-    - SemiAuto
     soundGunshot:
       path: /Audio/Imperial/Medieval/ES_Bow_Release_Arrow_-_SFX_Producer.ogg
-    defaultSpread: 10
   - type: RadiationSource
     intensity: 2
     slope: 3

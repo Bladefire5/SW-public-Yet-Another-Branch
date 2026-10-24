@@ -4,6 +4,9 @@ using Content.Shared.CombatMode;
 using Content.Shared.Effects;
 using Content.Shared.Hands.Components;
 using Content.Shared.Imperial.Medieval.ChargedAttack;
+// spellward start
+using Content.Shared.Imperial.Medieval.Poise.LightAttack;
+// spellward end
 using Content.Shared.Mobs.Components;
 using Content.Shared.StatusEffect;
 using Content.Shared.Weapons.Melee;
@@ -37,6 +40,7 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
     [Dependency] private readonly SpriteSystem _sprite = default!;
 
     private EntityQuery<TransformComponent> _xformQuery;
+    private uint _lightAttackWindupId; // spellward
 
     private const string MeleeLungeKey = "melee-lunge";
 
@@ -46,6 +50,7 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
         _xformQuery = GetEntityQuery<TransformComponent>();
         SubscribeNetworkEvent<MeleeLungeEvent>(OnMeleeLunge);
         UpdatesOutsidePrediction = true;
+        UpdatesBefore.Add(typeof(LightAttackWindupSystem)); // spellward
     }
 
     public override void FrameUpdate(float frameTime)
@@ -76,6 +81,15 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
             weapon.Attacking = false;
             return;
         }
+
+        // spellward start
+        // Keep aiming after the click is committed, including after releasing the mouse.
+        if (TryComp<LightAttackStaminaComponent>(weaponUid, out var lightAttack) && lightAttack.PendingAttack is { } pending)
+        {
+            UpdateLightAttackAim(entity, weaponUid, weapon, pending);
+            return;
+        }
+        // spellward end
 
         var useDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.Use);
         var altDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.UseSecondary);
@@ -273,8 +287,44 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
         if (Interaction.CombatModeCanHandInteract(attacker, target))
             return;
 
-        RaisePredictiveEvent(new LightAttackEvent(GetNetEntity(target), GetNetEntity(weaponUid), GetNetCoordinates(coordinates)));
+        RaisePredictiveEvent(new LightAttackEvent(GetNetEntity(target), GetNetEntity(weaponUid), GetNetCoordinates(coordinates), unchecked(++_lightAttackWindupId))); // spellward
     }
+
+    // spellward start
+    /// <summary>
+    /// Updates a committed swing without restarting its wind-up or creating another attack.
+    /// A cursor beyond reach or over empty space clears the target for an intentional miss.
+    /// </summary>
+    private void UpdateLightAttackAim(EntityUid attacker, EntityUid weaponUid, MeleeWeaponComponent melee, LightAttackEvent pending)
+    {
+        var mousePos = _eyeManager.PixelToMap(_inputManager.MouseScreenPosition);
+        var attackerPos = TransformSystem.GetMapCoordinates(attacker);
+        var netCoordinates = pending.Coordinates;
+        EntityUid? target = null;
+
+        if (mousePos.MapId != MapId.Nullspace && mousePos.MapId == attackerPos.MapId)
+        {
+            EntityCoordinates coordinates;
+            if (MapManager.TryFindGridAt(mousePos, out var gridUid, out _))
+                coordinates = TransformSystem.ToCoordinates(gridUid, mousePos);
+            else
+                coordinates = TransformSystem.ToCoordinates(_map.GetMap(mousePos.MapId), mousePos);
+
+            netCoordinates = GetNetCoordinates(coordinates);
+            if ((attackerPos.Position - mousePos.Position).LengthSquared() <= melee.Range * melee.Range &&
+                _stateManager.CurrentState is GameplayStateBase screen)
+            {
+                target = screen.GetClickedEntity(mousePos);
+            }
+        }
+
+        var netTarget = GetNetEntity(target);
+        if (pending.Target == netTarget && pending.Coordinates.Equals(netCoordinates))
+            return;
+
+        RaisePredictiveEvent(new LightAttackAimEvent(new LightAttackEvent(netTarget, GetNetEntity(weaponUid), netCoordinates, pending.WindupId)));
+    }
+    // spellward end
 
     private void OnMeleeLunge(MeleeLungeEvent ev)
     {

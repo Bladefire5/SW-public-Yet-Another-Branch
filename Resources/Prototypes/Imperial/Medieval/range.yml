@@ -4,6 +4,11 @@
   id: MedievalWeaponCrossbow
   description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
   components:
+  # spellward start - projectile damage and poise scaling
+  - type: MedievalCrossbowShotModifier
+    damageMultiplier: 1.6
+    poiseMultiplier: 1
+  # spellward end
   - type: RDWeight
     value: 5
   - type: Sprite
@@ -95,6 +100,17 @@
   id: MedievalWeaponMiniCrossbow
   description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
   components:
+  # spellward start - projectile damage and poise scaling
+  - type: MedievalCrossbowShotModifier
+    damageMultiplier: 0.7
+    poiseMultiplier: 0.6666667
+  # spellward end
+  # spellward start - mini crossbow reload
+  - type: Gun
+    fireRate: 0.5
+  - type: UseDelay
+    delay: 3
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Gun/minicrossbow.rsi
 
@@ -104,6 +120,11 @@
   id: MedievalWeaponCrossbowSpeed
   description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
   components:
+  # spellward start - projectile damage and poise scaling
+  - type: MedievalCrossbowShotModifier
+    damageMultiplier: 1
+    poiseMultiplier: 0.5333333
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Gun/crossbow.rsi
   - type: Clothing
@@ -156,10 +177,16 @@
   parent: BaseBullet
   noSpawn: true
   components:
+  # spellward start - projectile damage and poise scaling
+  - type: MedievalBoltPoise
+    poiseDamage: 30
+  # spellward end
+  # spellward start - rebalance bolt health damage
   - type: Projectile
     damage:
       types:
-        Piercing: 56
+        Piercing: 34
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Gun/bolt.rsi
     rotation: -135
@@ -196,10 +223,16 @@
   parent: BaseBullet
   noSpawn: true
   components:
+  # spellward start - projectile damage and poise scaling
+  - type: MedievalBoltPoise
+    poiseDamage: 30
+  # spellward end
+  # spellward start - rebalance bolt health damage
   - type: Projectile
     damage:
       types:
-        Piercing: 44
+        Piercing: 26
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Gun/bolt.rsi
     rotation: -135
@@ -234,10 +267,16 @@
   parent: BaseBullet
   noSpawn: true
   components:
+  # spellward start - projectile damage and poise scaling
+  - type: MedievalBoltPoise
+    poiseDamage: 15
+  # spellward end
+  # spellward start - rebalance bolt health damage
   - type: Projectile
     damage:
       types:
-        Piercing: 47
+        Piercing: 18
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Gun/bolt.rsi
     rotation: -135
@@ -272,17 +311,25 @@
   parent: BaseBullet
   noSpawn: true
   components:
+  # spellward start - projectile damage and poise scaling
+  - type: MedievalBoltPoise
+    poiseDamage: 30
+  # spellward end
+  # spellward start - rebalance bolt health damage
   - type: Projectile
     damage:
       types:
-        Blunt: 2
+        Blunt: 1
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Gun/bolt_practice.rsi
     rotation: -135
     layers:
     - state: proto
+  # spellward start - rebalance practice bolt stamina
   - type: StaminaDamageOnCollide
-    damage: 45
+    damage: 25
+  # spellward end
 
 - type: entity
   id: MedievalProjectileRuneArrow
@@ -560,6 +607,11 @@
   id: MedievalWeaponCrossbowHeavy
   description: A portable anti-armour rifle. Fires armor piercing 14.5mm shells. Uses .60 anti-material ammo.
   components:
+  # spellward start - projectile damage and poise scaling
+  - type: MedievalCrossbowShotModifier
+    damageMultiplier: 1.2
+    poiseMultiplier: 1
+  # spellward end
   - type: RDWeight
     value: 25
   - type: Sprite
@@ -642,16 +694,24 @@
   parent: BaseBullet
   noSpawn: true
   components:
+  # spellward start - projectile damage and poise scaling
+  - type: MedievalBoltPoise
+    poiseDamage: 60
+  # spellward end
+  # spellward start - rebalance bolt health damage
   - type: Projectile
     damage:
       groups:
-        Brute: 130
+        Brute: 55
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Gun/boltheavy.rsi
     rotation: -135
     layers:
     - state: proto
+  # spellward start - rebalance heavy bolt armor-piercing damage
   - type: APDamageOnHit
     damage:
       types:
-        Piercing: 20
+        Piercing: 10
+  # spellward end

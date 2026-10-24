@@ -90,67 +90,15 @@
     - belt
     quickEquip: false
 
-- type: entity
-  name: MedievalDraftBaseBow
-  parent: BaseMedievalBowCharged
-  id: MedievalDraftBaseBow
-  description: The original rooty tooty point and shooty.
-  abstract: true
-  components:
-  - type: Sprite
-    sprite: Imperial/Medieval/Gun/draft_bow.rsi
-  - type: Item
-    size: Normal
-  - type: Clothing
-    quickEquip: false
-    slots:
-      - Back
-      - suitStorage
-  - type: Wieldable
-    wieldSound:
-      path: /Audio/Items/bow_pull.ogg
-  - type: UseDelay
-    delay: 1
-  - type: GunRequiresWield
-  - type: Gun
-    minAngle: 0
-    maxAngle: 5
-    fireRate: 1
-    selectedMode: SemiAuto
-    availableModes:
-    - SemiAuto
-    soundGunshot:
-      collection: BulletMiss
-    soundEmpty: null
-  - type: ItemSlots
-    slots:
-      projectiles:
-        name: Projectiles
-        startingItem: null
-        insertSound: /Audio/Weapons/Guns/Misc/arrow_nock.ogg
-        whitelist:
-          tags:
-          - Arrow
-          - Plunger
-  - type: ContainerContainer
-    containers:
-      projectiles: !type:ContainerSlot
-  - type: ContainerAmmoProvider
-    container: projectiles
-  - type: TimedDespawn
-    lifetime: 300    # 900 = 15 minutes
-  - type: SpawnOnDespawn
-    prototype: DraftParticles
-  - type: MedievalWeaponSkillCategory
-    skill: Bow
-
+# spellward start - draft bow now uses the same charged bow parent and PoiseArchery ammo filter
 - type: entity
   id: MedievalDraftBowImprovised
-  parent: MedievalDraftBaseBow
+  parent: BaseMedievalBowCharged
   name: draft improvised shortbow
   description: The original rooty tooty point and shooty.
   components:
   - type: Sprite
+    sprite: Imperial/Medieval/Gun/draft_bow.rsi
     layers:
     - state: unwielded
       map: [ base ]
@@ -160,10 +108,15 @@
     - state: unwielded-plunger
       map: [ plunger ]
       visible: false
-  # to elucidate whats intended here:
-  # arrow is inserted -> ItemMapper sets layer with map `arrow` to visible
-  # bow is wielded -> generic vis sets states of layers with map `arrow` and `base`
-  # arrow is removed -> itemmapper sets layer with map `arrow` to invisible
+  # spellward start - preserve the draft bow's original draw and firing sounds
+  - type: Wieldable
+    wieldSound:
+      path: /Audio/Items/bow_pull.ogg
+  - type: Gun
+    soundGunshot:
+      collection: BulletMiss
+    soundEmpty: null
+  # spellward end
   - type: Appearance
   - type: ItemMapper
     spriteLayers:
@@ -195,6 +148,10 @@
     node: ImprovisedBow
   - type: RDWeight
     value: 1.5
+  - type: TimedDespawn
+    lifetime: 300    # 900 = 15 minutes
+  - type: SpawnOnDespawn
+    prototype: DraftParticles
   - type: PointLight
     radius: 1.5
     energy: 1.5

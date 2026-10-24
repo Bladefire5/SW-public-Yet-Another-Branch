@@ -1,4 +1,3 @@
-
 using Content.Shared.Damage.Prototypes;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -16,6 +15,17 @@ public sealed partial class PoiseArcheryComponent : Component
 
     [DataField, AutoNetworkedField]
     public float DamageMultiplier = 1f;
+
+    // spellward start - optional second type with independent charged-bow scaling.
+    [DataField, AutoNetworkedField]
+    public ProtoId<DamageTypePrototype>? SecondaryDamageType;
+
+    [DataField, AutoNetworkedField]
+    public float SecondaryFixedDamage = 0f;
+
+    [DataField, AutoNetworkedField]
+    public float SecondaryDamageMultiplier = 1f;
+    // spellward end
 
     [DataField, AutoNetworkedField]
     public float BluntMultiplier = 0.25f;

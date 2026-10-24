@@ -8,6 +8,10 @@ using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Damage;
 using Content.Shared.FixedPoint;
 using Content.Shared.Imperial.Medieval.ChargedAttack;
+// spellward start - normal mounted lance two-handed poise
+using Content.Shared.Imperial.Medieval.Lances;
+using Content.Shared.Wieldable.Components;
+// spellward end
 // spellward start
 using Content.Shared.Explosion;
 using Content.Shared.StatusEffectNew;
@@ -49,11 +53,18 @@ public sealed class PoiseSystem : EntitySystem
             return;
 
         var damage = poise.PoiseDamage;
+        // spellward start - the normal lance gains eight poise when wielded in two hands.
+        if (TryComp<LanceMeleeComponent>(args.Used, out var lance) &&
+            TryComp<WieldableComponent>(args.Used, out var wieldable) && wieldable.Wielded)
+            damage += lance.TwoHandedPoiseBonus;
+        // spellward end
 
         if (TryComp<ChargedAttackComponent>(args.Used, out var charged) && charged.CurrentAttacking)
         {
             var multiplier = 1f + (poise.HeavyPoiseMultiplier - 1f) * charged.PoiseChargeRatio;
-            damage = (int)MathF.Round(poise.PoiseDamage * multiplier, MidpointRounding.AwayFromZero);
+            // spellward start - preserve the lance's current grip bonus when charging.
+            damage = (int)MathF.Round(damage * multiplier, MidpointRounding.AwayFromZero);
+            // spellward end
         }
 
         TakePoiseDamage(uid, damage, source: args.User, with: args.Used == args.User ? null : args.Used);
@@ -213,40 +224,50 @@ public sealed class PoiseSystem : EntitySystem
 
     private void OnDamageModify(EntityUid uid, PoiseComponent component, ref DamageModifyEvent args)
     {
-        // spellward start
-        if (!CanUsePoise(uid, component))
+        // spellward start - broken vulnerability persists until recovery, including outside combat.
+        // NPC state remains authoritative on the server.
+        if (component.Npc && !_net.IsServer)
             return;
-        // spellward end
 
         var protectBreakingHit = component.ProtectBreakingHit;
         component.ProtectBreakingHit = false;
 
+        float multiplier;
+
         if (component.PoiseBroken && !protectBreakingHit)
-            return;
-
-        float resistance;
-
-        // spellward start - NPC health protection is flat and does not use armor multipliers.
-        if (component.Npc)
         {
-            resistance = component.HealthDamageReduction;
-        }
-        else if (component.HasPoiseArmor)
-        {
-            var cap = component.HealthDamageReductionCap;
-
-            resistance = Math.Clamp(component.HealthDamageReduction * component.PoiseMultiplier, 0f, cap);
+            multiplier = component.BrokenHealthDamageMultiplier;
+            if (multiplier == 1f)
+                return;
         }
         else
         {
-            resistance = component.UnarmoredHealthDamageReduction;
+            if (!CanUsePoise(uid, component))
+                return;
+
+            float resistance;
+
+            // NPC health protection is flat; player protection follows the existing armor rules.
+            if (component.Npc)
+            {
+                resistance = component.HealthDamageReduction;
+            }
+            else if (component.HasPoiseArmor)
+            {
+                var cap = component.HealthDamageReductionCap;
+
+                resistance = Math.Clamp(component.HealthDamageReduction * component.PoiseMultiplier, 0f, cap);
+            }
+            else
+            {
+                resistance = component.UnarmoredHealthDamageReduction;
+            }
+
+            if (resistance <= 0f)
+                return;
+
+            multiplier = 1f - resistance;
         }
-        // spellward end
-
-        if (resistance <= 0f)
-            return;
-
-        var multiplier = 1f - resistance;
 
         var modifiedDamage = new DamageSpecifier(args.Damage);
 
@@ -259,6 +280,7 @@ public sealed class PoiseSystem : EntitySystem
         }
 
         args.Damage = modifiedDamage;
+        // spellward end
     }
 
     private void OnBeforeStaminaDamage(EntityUid uid, PoiseComponent component, ref BeforeStaminaDamageEvent args)

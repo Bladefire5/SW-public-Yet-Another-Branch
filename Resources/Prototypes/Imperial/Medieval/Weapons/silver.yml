@@ -4,6 +4,14 @@
   id: MedievalDaggerT3Silver
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - silver melee stats midway between iron and steel; extra werewolf damage remains separate
+  - type: MeleeWeapon
+    damage:
+      types:
+        Slash: 3.66
+        Piercing: 3.66
+        ParryAble: 1
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Melee/silver_dagger.rsi
     size: Small
@@ -31,6 +39,14 @@
   id: MedievalFalshionT3Silver
   description: An ancient war blade.
   components:
+  # spellward start - silver melee stats midway between iron and steel; extra werewolf damage remains separate
+  - type: MeleeWeapon
+    damage:
+      types:
+        Slash: 13.8
+        Piercing: 10.35
+        ParryAble: 1
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Melee/silver_sword.rsi
   - type: Clothing
@@ -50,6 +66,17 @@
   id: MedievalSpearT3Silver
   description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
   components:
+  # spellward start - silver melee stats midway between iron and steel; extra werewolf damage remains separate
+  - type: MeleeWeapon
+    damage:
+      types:
+        Piercing: 10.88
+        ParryAble: 1
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Piercing: 10.88
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Melee/silver_spear.rsi
     netsync: false
@@ -69,6 +96,13 @@
   id: MedievalSaberSilver
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - silver melee stats midway between iron and steel; extra werewolf damage remains separate
+  - type: MeleeWeapon
+    damage:
+      types:
+        Slash: 10.2
+        ParryAble: 1
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Melee/silver_saber.rsi
     size: Small
@@ -98,6 +132,14 @@
   id: MedievalIronClaymoreSilver
   description: A medieval claymore.
   components:
+  # spellward start - silver melee stats midway between iron and steel; extra werewolf damage remains separate
+  - type: MeleeWeapon
+    damage:
+      types:
+        Slash: 30
+        Piercing: 9
+        ParryAble: 1
+  # spellward end
   - type: Item
     size: Huge
     sprite: Imperial/Medieval/Melee/silver_claymore_inhand.rsi

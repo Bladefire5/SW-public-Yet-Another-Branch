@@ -8,10 +8,10 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 5
+        Piercing: 0
   - type: PoiseArchery
     damageType: Piercing
-    fixedDamage: 10
+    fixedDamage: 5
     damageMultiplier: 1
     bluntMultiplier: 0.25
     minPoiseMultiplier: 1
@@ -19,7 +19,7 @@
 
 # Normal arrow.
 - type: entity
-  id: MedievalArrowIronPhysics
+  id: MedievalNormalArrow
   parent: BasePoiseArrow
   name: arrow
   components:
@@ -43,10 +43,34 @@
       params:
         variation: 0.2
 
+- type: entity
+  id: MedievalSteelNormalArrow
+  parent: BasePoiseArrow
+  name: steel arrow
+  components:
+  - type: Sprite
+    layers:
+    - state: tail
+      color: red
+    - state: rod
+      color: brown
+    - state: tip
+    - state: solution1
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: false
+  - type: MedievalSoundOnInteract
+    onPick:
+      path: /Audio/Imperial/Medieval/Items/Arrows/arrow_pickup1.ogg
+      params:
+        variation: 0.2
+    onPut:
+      path: /Audio/Imperial/Medieval/Items/Arrows/arrow_put1.ogg
+      params:
+        variation: 0.2
 
 # Broadhead arrow.
 - type: entity
-  id: MedievalArrowSteelPhysics
+  id: MedievalBroadheadArrow
   parent: BasePoiseArrow
   name: broadhead arrow
   components:
@@ -66,7 +90,28 @@
     maxPoiseMultiplier: 1
 
 - type: entity
-  id: MedievalArrowNeedlePhysics
+  id: MedievalSteelBroadheadArrow
+  parent: BasePoiseArrow
+  name: steel broadhead arrow
+  components:
+  - type: Sprite
+    layers:
+    - state: tail
+      color: red
+    - state: rod
+      color: brown
+    - state: tip
+    - state: solution1
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: false
+  - type: PoiseArchery
+    damageType: Slash
+    minPoiseMultiplier: 0.75
+    maxPoiseMultiplier: 1
+
+# Needle AP arrows
+- type: entity
+  id: MedievalArrowNeedle
   parent: BasePoiseArrow
   name: needle arrow
   description: A narrow steel-tipped arrow designed to pierce armor.
@@ -82,10 +127,6 @@
     - state: solution1
       map: ["enum.SolutionContainerLayers.Fill"]
       visible: false
-  - type: Projectile
-    damage:
-      types:
-        Piercing: 5
   - type: APDamageOnHit
     damage:
       types:
@@ -109,7 +150,110 @@
         variation: 0.2
 
 - type: entity
-  id: MedievalArrowPayloadPhysics
+  id: MedievalSilverNeedleArrow #for later
+  parent: BasePoiseArrow
+  name: needle arrow
+  description: A narrow steel-tipped arrow designed to pierce armor.
+  components:
+  - type: Sprite
+    layers:
+    - state: tail
+      color: gray
+    - state: rod
+      color: brown
+    - state: tip
+      color: silver
+    - state: solution1
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: false
+  - type: APDamageOnHit
+    damage:
+      types:
+        Piercing: 6
+    respectPoise: true
+  - type: PoiseArchery
+    damageType: Piercing
+    fixedDamage: 5
+    damageMultiplier: 0.4
+    bluntMultiplier: 0.1
+    minPoiseMultiplier: 0.3
+    maxPoiseMultiplier: 0.3
+  - type: MedievalSoundOnInteract
+    onPick:
+      path: /Audio/Imperial/Medieval/Items/Arrows/arrow_pickup1.ogg
+      params:
+        variation: 0.2
+    onPut:
+      path: /Audio/Imperial/Medieval/Items/Arrows/arrow_put1.ogg
+      params:
+        variation: 0.2
+
+# Speical Arrows
+- type: entity
+  id: MedievalArrowFire
+  parent: BasePoiseArrow
+  name: fire arrow
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Gun/arrow_fire.rsi
+    rotation: -135
+    layers:
+    - state: proto
+  - type: PoiseArchery
+    damageType: Piercing
+    fixedDamage: 10
+    damageMultiplier: 1
+    bluntMultiplier: 0
+  - type: IgniteOnCollide
+    fireStacks: 2
+  - type: PointLight
+    color: orange
+    energy: 3
+    radius: 1.5
+
+- type: entity
+  id: MedievalArrowNecro
+  parent: BasePoiseArrow
+  name: necro arrow
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Gun/arrow_necro.rsi
+    rotation: -135
+    layers:
+    - state: proto
+  - type: PoiseArchery
+    damageType: Piercing
+    fixedDamage: 8
+    damageMultiplier: 1
+    secondaryDamageType: Caustic
+    secondaryFixedDamage: 2
+    secondaryDamageMultiplier: 0.5
+    bluntMultiplier: 0
+
+- type: entity
+  id: MedievalArrowPractice
+  parent: BasePoiseArrow
+  name: practice arrow
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Gun/arrow_practice.rsi
+    rotation: -135
+    layers:
+    - state: proto
+  - type: PoiseArchery
+    damageType: Blunt
+    fixedDamage: 1
+    damageMultiplier: 1
+    bluntMultiplier: 0
+    minPoiseMultiplier: 1
+    maxPoiseMultiplier: 1.5
+  - type: StaminaDamageOnCollide
+    damage: 15
+
+
+# Chemical Arrows
+- type: entity
+  id: MedievalArrowPayload
   parent: BasePoiseArrow
   name: Hollow arrow
   description: A specialized arrow fitted with a reinforced 5u vial for delivering harmful chemical payloads.
@@ -125,17 +269,13 @@
     - state: solution1
       map: ["enum.SolutionContainerLayers.Fill"]
       visible: false
-  - type: Projectile
-    damage:
-      types:
-        Piercing: 2
   - type: PoiseArchery
     damageType: Piercing
-    fixedDamage: 2
-    damageMultiplier: 0.2
-    bluntMultiplier: 0
+    fixedDamage: 5
+    damageMultiplier: 0.25
+    bluntMultiplier: 0.1
     minPoiseMultiplier: 0.1
-    maxPoiseMultiplier: 0.1
+    maxPoiseMultiplier: 0.5
   - type: PayloadArrow
   - type: ItemSlots
     slots:
@@ -156,7 +296,7 @@
         variation: 0.2
 
 - type: entity
-  id: MedievalArrowDualChamberPhysics
+  id: MedievalArrowDualChamber
   parent: BasePoiseArrow
   name: dual-chamber arrow
   description: A delicate glass arrow containing two isolated chemical chambers.
@@ -169,22 +309,18 @@
       color: brown
     - state: tip
       color: silver
-  - type: Projectile
-    damage:
-      types:
-        Blunt: 2
   - type: PoiseArchery
     damageType: Blunt
     fixedDamage: 2
-    damageMultiplier: 0.1
-    bluntMultiplier: 0
+    damageMultiplier: 0.5
+    bluntMultiplier: 0.25
     minPoiseMultiplier: 0.1
     maxPoiseMultiplier: 0.1
   - type: DualChamberArrow
     breakSound:
       collection: GlassBreak
       params:
-        volume: -4
+        volume: -3
   - type: SolutionContainerManager
     solutions:
       reaction:
@@ -201,48 +337,6 @@
         startingItem: MedievalDualChamberArrowVial
         disableEject: true
         locked: true
-  - type: MedievalSoundOnInteract
-    onPick:
-      path: /Audio/Imperial/Medieval/Items/Arrows/arrow_pickup1.ogg
-      params:
-        variation: 0.2
-    onPut:
-      path: /Audio/Imperial/Medieval/Items/Arrows/arrow_put1.ogg
-      params:
-        variation: 0.2
-- type: entity
-  id: MedievalArrowSilverPhysics #for later
-  parent: BasePoiseArrow
-  name: needle arrow
-  description: A narrow steel-tipped arrow designed to pierce armor.
-  components:
-  - type: Sprite
-    layers:
-    - state: tail
-      color: gray
-    - state: rod
-      color: brown
-    - state: tip
-      color: silver
-    - state: solution1
-      map: ["enum.SolutionContainerLayers.Fill"]
-      visible: false
-  - type: Projectile
-    damage:
-      types:
-        Piercing: 5
-  - type: APDamageOnHit
-    damage:
-      types:
-        Piercing: 6
-    respectPoise: true
-  - type: PoiseArchery
-    damageType: Piercing
-    fixedDamage: 5
-    damageMultiplier: 0.4
-    bluntMultiplier: 0.1
-    minPoiseMultiplier: 0.3
-    maxPoiseMultiplier: 0.3
   - type: MedievalSoundOnInteract
     onPick:
       path: /Audio/Imperial/Medieval/Items/Arrows/arrow_pickup1.ogg
@@ -293,74 +387,6 @@
     proto: MedievalArrowBullet
   - type: Sprite
     sprite: Imperial/Medieval/Gun/arrow.rsi
-    rotation: -135
-    layers:
-    - state: base
-      map: ["enum.AmmoVisualLayers.Base"]
-  - type: Appearance
-  - type: SpentAmmoVisuals
-  - type: Item
-    size: Small
-
-
-- type: entity
-  parent: BaseCartridge
-  id: MedievalArrowFire
-  name: MedievalArrow
-  components:
-  - type: Tag
-    tags:
-    - Cartridge
-    - Arrow
-  - type: CartridgeAmmo
-    proto: MedievalArrowBulletFire
-  - type: Sprite
-    sprite: Imperial/Medieval/Gun/arrow_fire.rsi
-    rotation: -135
-    layers:
-    - state: base
-      map: ["enum.AmmoVisualLayers.Base"]
-  - type: Appearance
-  - type: SpentAmmoVisuals
-  - type: Item
-    size: Small
-
-
-- type: entity
-  parent: BaseCartridge
-  id: MedievalArrowNecro
-  name: MedievalArrow
-  components:
-  - type: Tag
-    tags:
-    - Cartridge
-    - Arrow
-  - type: CartridgeAmmo
-    proto: MedievalArrowBulletNecro
-  - type: Sprite
-    sprite: Imperial/Medieval/Gun/arrow_necro.rsi
-    rotation: -135
-    layers:
-    - state: base
-      map: ["enum.AmmoVisualLayers.Base"]
-  - type: Appearance
-  - type: SpentAmmoVisuals
-  - type: Item
-    size: Small
-
-- type: entity
-  parent: BaseCartridge
-  id: MedievalArrowPractice
-  name: MedievalArrowPractice
-  components:
-  - type: Tag
-    tags:
-    - Cartridge
-    - Arrow
-  - type: CartridgeAmmo
-    proto: MedievalArrowBulletPractice
-  - type: Sprite
-    sprite: Imperial/Medieval/Gun/arrow_practice.rsi
     rotation: -135
     layers:
     - state: base

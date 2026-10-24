@@ -4,6 +4,19 @@
   id: MedievalDaggerNecro
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - dedicated thrown hit poise, distinct from melee poise
+  - type: PoiseImpact
+    poiseDamage: 10
+  - type: ThrownWeaponPoiseReset
+  # spellward end
+  # spellward start - throwing damage balance
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 12
+        Cold: 1
+        Caustic: 1
+  # spellward end
   - type: QuestItem
     contractName: "любые кинжалы"
   - type: Sprite
@@ -12,18 +25,29 @@
   - type: Item
     size: Small
     sprite: Imperial/Medieval/Melee/necro_dagger.rsi
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.12
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
-    #wideAnimationRotation: -150
-    clickDamageModifier: 1.33
-    attackRate: 1.24
+    clickDamageModifier: 1
+    attackRate: 1.34
     range: 1
     damage:
       types:
-        Slash: 11
-        Caustic: 0.5
+        Slash: 2.66
+        Caustic: 1.33
         ParryAble: 1
+        Blunt: 0
+        Piercing: 2.66
+        Heat: 0
+        Shock: 0
+        Cold: 1.33
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     resetOnHandSelected: false
     soundHit:
       path: /Audio/Imperial/Medieval/ES_Knife_Stab_2_-_SFX_Producer.ogg
@@ -31,6 +55,8 @@
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 0.8
+    #wideAnimationRotation: -150
+  # spellward end
   - type: RadiationSource
     intensity: 1
     slope: 1
@@ -48,6 +74,26 @@
     damage: 1 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 2
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 2
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedSlashSmall
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 1.5
+        Piercing: 1
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: falshion
@@ -67,25 +113,39 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/necro_iron_sword.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.7
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: false
     cPAnimationOffset: 1
-    clickDamageModifier: 1.18
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.95
+    attackRate: 1
     damage:
       types:
-        Slash: 15.9
-        Radiation: 2
+        Slash: 9.2
+        Radiation: 0
         ParryAble: 1
+        Blunt: 0
+        Piercing: 6.9
+        Heat: 0
+        Shock: 0
+        Cold: 2.3
+        Caustic: 2.3
+        Poison: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
     soundSwing:
       path: /Audio/Imperial/Medieval/sword_swing.ogg
+    range: 1.5
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.4
   - type: Item
@@ -124,6 +184,26 @@
     damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 5
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 10
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedSlashLarge
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: MedievalMaceNecro
@@ -153,23 +233,35 @@
     - back
     - suitStorage
     - belt
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.1
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
-    clickDamageModifier: 1.26
+    clickDamageModifier: 1
     wideAnimationRotation: -140
     attackRate: 0.8
     damage:
       types:
-        Blunt: 8.5
-        Piercing: 7
-        Caustic: 0.5
+        Blunt: 12.6
+        Piercing: 5.04
+        Caustic: 1.89
         ParryAble: 1
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 1.89
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
     resetOnHandSelected: false
+    range: 1.5
   #- type: QualityOfItem
   #  qualityWeights:
   #    0: 0
@@ -179,6 +271,7 @@
   #    4: 0
   #    5: 0
   #    6: 0
+  # spellward end
   - type: RadiationSource
     intensity: 1
     slope: 1
@@ -189,6 +282,26 @@
     damage: 1.5 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 3
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 10
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedBluntLight
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: MedievalSpearNecro
@@ -196,8 +309,10 @@
   id: MedievalSpearNecro
   description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 10
+  # spellward end
   - type: Spear
   - type: RDWeight
     value: 4
@@ -210,18 +325,30 @@
   - type: Item
     size: Huge
     sprite: Imperial/Medieval/Melee/necro_iron_spear.rsi
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.45
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     wideAnimationRotation: -140
     attackRate: 0.8
-    clickDamageModifier: 1.28
+    clickDamageModifier: 1
     range: 2.4
     damage:
       types:
-        Piercing: 17
-        Caustic: 1
+        Piercing: 7.68
+        Caustic: 1.92
         ParryAble: 1
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 1.92
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     angle: 0
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
@@ -240,6 +367,7 @@
   #    4: 0
   #    5: 0
   #    6: 0
+  # spellward end
   - type: RadiationSource
     intensity: 1
     slope: 1
@@ -257,6 +385,39 @@
     damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 5
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: Spear
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 3
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 7.68
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+  # spellward end
 
 - type: entity
   name: MedievalIronHalberdNecro
@@ -264,8 +425,10 @@
   id: MedievalIronHalberdNecro
   description: A medieval poleaxe.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 22
+  # spellward end
   - type: RDWeight
     value: 7
   - type: QuestItem
@@ -287,21 +450,31 @@
     slots:
     - back
     - suitStorage
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.6
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
-    clickDamageModifier: 1.35
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.25
+    attackRate: 0.55
     angle: 150
     range: 1.8
     damage:
       types:
-        Piercing: 10
-        Slash: 12
-        Structural: 3
-        Caustic: 1
+        Piercing: 0
+        Slash: 16.2
+        Structural: 14
+        Caustic: 2.7
         ParryAble: 1
+        Blunt: 8.1
+        Heat: 0
+        Shock: 0
+        Cold: 2.7
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: false
@@ -317,6 +490,7 @@
   #    4: 0
   #    5: 0
   #    6: 0
+  # spellward end
   - type: RadiationSource
     intensity: 1
     slope: 1
@@ -327,3 +501,36 @@
     damage: 4 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 7
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: TwoHanded
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+  # spellward end

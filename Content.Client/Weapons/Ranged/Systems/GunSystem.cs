@@ -216,6 +216,7 @@ public sealed partial class GunSystem : SharedGunSystem
             Target = target,
             Coordinates = GetNetCoordinates(coordinates),
             Gun = GetNetEntity(gunUid),
+            ProjectileInputTick = Timing.CurTick, //spellward
         });
     }
 
@@ -223,6 +224,12 @@ public sealed partial class GunSystem : SharedGunSystem
         EntityCoordinates fromCoordinates, EntityCoordinates toCoordinates, out bool userImpulse, EntityUid? user = null, bool throwItems = false)
     {
         userImpulse = true;
+
+        // spellward start
+        if (!throwItems && ProjectileInputTick != default &&
+            TryPredictProjectileAmmo(gunUid, gun, ammo, fromCoordinates, toCoordinates, user, out userImpulse))
+            return;
+        // spellward end
 
         // Rather than splitting client / server for every ammo provider it's easier
         // to just delete the spawned entities. This is for programmer sanity despite the wasted perf.

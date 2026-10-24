@@ -1,0 +1,15 @@
+- type: entity
+  id: MedievalLightAttackWindup
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Imperial/Medieval/Poise/LightAttack/windup.rsi
+    state: windup
+    drawdepth: Effects
+    # spellward start
+    visible: false
+  - type: LightAttackWindupVisual
+    # spellward end
+  - type: Tag
+    tags:
+    - HideContextMenu

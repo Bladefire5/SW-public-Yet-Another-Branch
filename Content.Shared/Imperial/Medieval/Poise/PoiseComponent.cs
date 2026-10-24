@@ -47,6 +47,11 @@ public sealed partial class PoiseComponent : Component
     [DataField, AutoNetworkedField]
     public float UnarmoredHealthDamageReduction = 0.1f;
 
+    // spellward start - optional health vulnerability while poise is broken.
+    [DataField, AutoNetworkedField]
+    public float BrokenHealthDamageMultiplier = 1f;
+    // spellward end
+
     [DataField, AutoNetworkedField]
     public float PoiseMultiplier = 1.0f;
 

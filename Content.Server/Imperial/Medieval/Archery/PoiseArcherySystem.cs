@@ -2,7 +2,13 @@
 using System;
 using System.Collections.Generic;
 using Content.Shared.Damage;
-using Content.Shared.FixedPoint;
+// spellward start - show bow potential damage for the most recently loaded arrow.
+using Content.Server.Imperial.Medieval.APDamage;
+using Content.Shared.Damage.Events;
+using Content.Shared.Damage.Systems;
+using Robust.Shared.Containers;
+using Robust.Shared.Prototypes;
+// spellward end
 using Content.Shared.Imperial.Medieval.Archery;
 using Content.Shared.Imperial.Medieval.Poise;
 using Content.Shared.Projectiles;
@@ -16,6 +22,13 @@ public sealed class PoiseArcherySystem : EntitySystem
     [Dependency] private readonly MedievalBowChargeSystem _bowSystem = default!;
     [Dependency] private readonly PoiseSystem _poiseSystem = default!;
 
+    // spellward start - reuse normal Damage examine formatting and modifiers.
+    [Dependency] private readonly DamageExamineSystem _damageExamine = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly IPrototypeManager _prototypes = default!;
+    // spellward end
+
+
     private readonly List<PendingPoiseHit> _pendingPoiseHits = new();
 
     private readonly record struct PendingPoiseHit(EntityUid Target, EntityUid? Shooter, EntityUid? Weapon, int Damage);
@@ -26,7 +39,60 @@ public sealed class PoiseArcherySystem : EntitySystem
 
         SubscribeLocalEvent<MedievalBowChargeComponent, TakeAmmoEvent>(OnTakeAmmo, after: [typeof(SharedGunSystem)]);
         SubscribeLocalEvent<PoiseArcheryComponent, ProjectileHitEvent>(OnProjectileHit);
+
+        // spellward start - track ammo when loaded, not when shot.
+        SubscribeLocalEvent<MedievalBowChargeComponent, EntInsertedIntoContainerMessage>(OnArrowLoaded);
+        SubscribeLocalEvent<MedievalBowChargeComponent, DamageExamineEvent>(OnBowDamageExamine);
+        // spellward end
+
     }
+
+    // spellward start - bow Damage examine uses the same calculations as firing.
+    private void OnArrowLoaded(EntityUid bow, MedievalBowChargeComponent charge, EntInsertedIntoContainerMessage args)
+    {
+        // Only the bow's arrow slot counts as a load. Keep the last loaded
+        // prototype even after that arrow is fired or removed from the bow.
+        if (args.Container.ID != "projectiles" ||
+            !HasComp<PoiseArcheryComponent>(args.Entity) ||
+            MetaData(args.Entity).EntityPrototype?.ID is not { } prototypeId ||
+            charge.LastLoadedArrow == prototypeId)
+            return;
+
+        charge.LastLoadedArrow = prototypeId;
+    }
+
+    private void OnBowDamageExamine(EntityUid bow, MedievalBowChargeComponent charge, ref DamageExamineEvent args)
+    {
+        if (!_prototypes.TryIndex(charge.LastLoadedArrow, out var arrowProto) ||
+            !arrowProto.TryGetComponent<PoiseArcheryComponent>(out var arrow, Factory))
+            return;
+
+        // Do not duplicate or replace the existing shared bow damage calculation:
+        // the firing system and the client projectile preview both use this method.
+        var (damage, poiseDamage) = CalculateArrowDamage(charge, arrow, charge.MaxChargeMultiplier);
+
+        args.Message.AddText($"Full-charge bow potential (last loaded: {arrowProto.Name}):");
+        _damageExamine.AddDamageExamine(
+            args.Message,
+            _damageable.ApplyUniversalAllModifiers(damage * _damageable.UniversalProjectileDamageModifier),
+            Loc.GetString("damage-projectile"));
+
+        // The separate armor-piercing damage on needle arrows bypasses resistances.
+        if (arrowProto.TryGetComponent<APDamageOnHitComponent>(out var armorPiercing, Factory) &&
+            !armorPiercing.Damage.Empty)
+        {
+            args.Message.PushNewline();
+            args.Message.AddText("Additional armor-piercing hit (ignores resistances):");
+            _damageExamine.AddDamageExamine(
+                args.Message,
+                _damageable.ApplyUniversalAllModifiers(armorPiercing.Damage),
+                "armor-piercing");
+        }
+
+        args.Message.PushNewline();
+        args.Message.AddText($"Poise damage: {poiseDamage}");
+    }
+    // spellward end
 
     private void OnTakeAmmo(EntityUid bow, MedievalBowChargeComponent charge, TakeAmmoEvent args)
     {
@@ -38,38 +104,42 @@ public sealed class PoiseArcherySystem : EntitySystem
         if (chargeMultiplier <= 0f)
             return;
 
+        foreach (var (entity, _) in args.Ammo)
+        {
+            if (entity is not { } arrowUid || !TryComp<PoiseArcheryComponent>(arrowUid, out var arrow) || !TryComp<ProjectileComponent>(arrowUid, out var projectile))
+                continue;
+
+            // spellward start - apply authoritative arrow damage.
+            var (damage, poiseDamage) = CalculateArrowDamage(charge, arrow, chargeMultiplier);
+            projectile.Damage = damage;
+            arrow.FiredPoiseDamage = poiseDamage;
+            // spellward end
+
+            arrow.PoiseHitApplied = false;
+        }
+    }
+
+    // spellward start - poise remains authoritative on the server.
+    private static (DamageSpecifier Damage, int PoiseDamage) CalculateArrowDamage(
+        MedievalBowChargeComponent charge,
+        PoiseArcheryComponent arrow,
+        float chargeMultiplier)
+    {
         var chargeRange = charge.MaxChargeMultiplier - charge.MinChargeMultiplier;
 
         var progress = chargeRange <= 0f
             ? 1f
             : Math.Clamp((chargeMultiplier - charge.MinChargeMultiplier) / chargeRange, 0f, 1f);
 
-        foreach (var (entity, _) in args.Ammo)
-        {
-            if (entity is not { } arrowUid || !TryComp<PoiseArcheryComponent>(arrowUid, out var arrow) || !TryComp<ProjectileComponent>(arrowUid, out var projectile))
-                continue;
+        //spellward - same expected damage is used by the local projectile preview.
+        var damage = MedievalBowChargeSystem.CalculateArrowHealthDamage(charge, arrow, chargeMultiplier);
 
-            var primaryDamage = arrow.FixedDamage + charge.BaseBowDamage * chargeMultiplier * arrow.DamageMultiplier;
+        var poiseMultiplier = arrow.MinPoiseMultiplier + (arrow.MaxPoiseMultiplier - arrow.MinPoiseMultiplier) * progress;
+        var poiseDamage = (int)MathF.Round(MathF.Max(0f, charge.BasePoiseDamage * chargeMultiplier * poiseMultiplier), MidpointRounding.AwayFromZero);
 
-            var bluntDamage = charge.BaseBluntImpact * chargeMultiplier * arrow.BluntMultiplier;
-
-            var damage = new DamageSpecifier();
-
-            damage.DamageDict[arrow.DamageType] = FixedPoint2.New(MathF.Max(0f, primaryDamage));
-
-            if (bluntDamage > 0f)
-            {
-                damage.DamageDict.TryGetValue("Blunt", out var existingBlunt);
-                damage.DamageDict["Blunt"] = existingBlunt + FixedPoint2.New(bluntDamage);
-            }
-
-            projectile.Damage = damage;
-            var poiseMultiplier = arrow.MinPoiseMultiplier + (arrow.MaxPoiseMultiplier - arrow.MinPoiseMultiplier) * progress;
-            arrow.FiredPoiseDamage = (int)MathF.Round(MathF.Max(0f, charge.BasePoiseDamage * chargeMultiplier * poiseMultiplier), MidpointRounding.AwayFromZero);
-
-            arrow.PoiseHitApplied = false;
-        }
+        return (damage, poiseDamage);
     }
+    // spellward end
 
     private void OnProjectileHit(EntityUid uid, PoiseArcheryComponent arrow, ref ProjectileHitEvent args)
     {

@@ -9,7 +9,7 @@
 - type: explosion
   id: Default
   # spellward start
-  poiseDamagePerIntensity: 10
+  poiseDamagePerIntensity: 15
   # spellward end
   damagePerIntensity:
     types:

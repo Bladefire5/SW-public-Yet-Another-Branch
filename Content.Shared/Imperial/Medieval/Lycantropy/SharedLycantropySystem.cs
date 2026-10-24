@@ -2,6 +2,9 @@ using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Events;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Imperial.Dash;
+// spellward start
+using Content.Shared.Imperial.Medieval.Poise;
+// spellward end
 using Content.Shared.Movement.Systems;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Serialization;
@@ -14,6 +17,9 @@ public abstract partial class SharedLycantropySystem : EntitySystem
     [Dependency] private readonly MovementSpeedModifierSystem _moveSpeed = default!;
     [Dependency] private readonly SharedStaminaSystem _stamina = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    // spellward start - retain shared prediction and PoiseSystem's existing NPC authority.
+    [Dependency] private readonly PoiseSystem _poise = default!;
+    // spellward end
 
     public override void Initialize()
     {
@@ -63,7 +69,10 @@ public abstract partial class SharedLycantropySystem : EntitySystem
         if (!TryComp<MedievalDashComponent>(uid, out var dash) || !dash.IsDashing)
             return;
 
-        _stamina.TakeStaminaDamage(args.OtherEntity, 200, source: uid, ignoreResist: true);
+        // spellward start - predict poise before stamina, preserving normal poise protection.
+        _poise.TakePoiseDamage(args.OtherEntity, 100, source: uid, with: uid);
+        _stamina.TakeStaminaDamage(args.OtherEntity, 200, source: uid, with: uid, ignoreResist: true);
+        // spellward end
         RemComp<WerewolfShadowDashComponent>(uid);
     }
 

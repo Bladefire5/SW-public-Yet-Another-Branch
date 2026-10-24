@@ -1000,7 +1000,7 @@
   components:
   - type: StorageFill
     contents:
-    - id: MedievalArrowIronPhysics
+    - id: MedievalNormalArrow
       amount: 24
 
 - type: entity
@@ -1020,7 +1020,7 @@
   components:
   - type: StorageFill
     contents:
-    - id: MedievalArrowSteelPhysics
+    - id: MedievalSteelBroadheadArrow
       amount: 24
 
 - type: entity
@@ -1060,7 +1060,7 @@
   components:
   - type: StorageFill
     contents:
-    - id: MedievalArrowIronPhysics
+    - id: MedievalNormalArrow
       amount: 40
 
 - type: entity
@@ -1070,7 +1070,7 @@
   components:
   - type: StorageFill
     contents:
-    - id: MedievalArrowSteelPhysics
+    - id: MedievalSteelBroadheadArrow
       amount: 40
 
 - type: entity

@@ -4,9 +4,13 @@
   id: MedievalMobWerwolfBlack
   description: They're a wolf.
   components:
-  # spellward start - outgoing poise per hit.
+  # spellward start - player werewolf poise and outgoing claw damage.
+  - type: Poise
+    poiseThreshold: 75
+    unarmoredHealthDamageReduction: 0.2
+    brokenHealthDamageMultiplier: 1.2
   - type: PoiseDamage
-    poiseDamage: 10
+    poiseDamage: 15
   # spellward end
   - type: Sprite
     drawdepth: Mobs
@@ -242,7 +246,7 @@
   components:
   # spellward start - outgoing poise per hit.
   - type: PoiseDamage
-    poiseDamage: 20
+    poiseDamage: 30
   # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Clothing/Werewolf/black.rsi

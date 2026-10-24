@@ -4,8 +4,10 @@
   id: MedievalIronHalberdT3
   description: A medieval poleaxe.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 15
+  # spellward end
   - type: RDWeight
     value: 7
   - type: QuestItem
@@ -28,38 +30,61 @@
     slots:
     - back
     - suitStorage
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.6
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     angle: 150
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: false
     cPAnimationOffset: 1
-    clickDamageModifier: 1.35
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.25
-    range: 1.8
+    attackRate: 0.55
+    range: 2.1
     damage:
       types:
-        Piercing: 9
-        Slash: 9
-        Structural: 2
+        Piercing: 10.8
+        Slash: 10.8
+        Structural: 10
         ParryAble: 1
+        Blunt: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.8
     safeToHitGroup: structure
   - type: Wieldable
     useDelayOnWield: false
     #wieldTime: 3
+  # spellward start
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Blunt: 11
-        Structural: 15
-        Piercing: 15
+        Blunt: 4.05
+        Structural: 0
+        Piercing: 6.75
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
   - type: Item
     size: Huge
   - type: DamageOtherOnHit
@@ -88,6 +113,24 @@
   - type: HeldSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: TwoHanded
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: iron halberd
@@ -95,8 +138,10 @@
   id: MedievalIronHalberdT3Steel
   description: A medieval poleaxe.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 18
+  # spellward end
   - type: RDWeight
     value: 7
   - type: QuestItem
@@ -114,38 +159,61 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/halberd.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.6
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     angle: 150
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: false
     cPAnimationOffset: 1
-    clickDamageModifier: 1.35
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.25
-    range: 1.8
+    attackRate: 0.6
+    range: 2.1
     damage:
       types:
-        Piercing: 13
-        Slash: 15
-        Structural: 3
+        Piercing: 13.5
+        Slash: 14.85
+        Structural: 14
         ParryAble: 1
+        Blunt: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.7
     safeToHitGroup: structure
   - type: Wieldable
     useDelayOnWield: false
     #wieldTime: 3
+  # spellward start
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Blunt: 10
-        Structural: 23
-        Piercing: 18
+        Blunt: 4.05
+        Structural: 0
+        Piercing: 8.1
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
   - type: Item
     size: Huge
   - type: DamageOtherOnHit
@@ -179,6 +247,24 @@
   - type: HeldSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: TwoHanded
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: iron halberd
@@ -203,38 +289,61 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/sekir.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.35
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     angle: 135
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
-    clickDamageModifier: 0.6 
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.5
-    range: 1.85 # higher range to accomodate for ping differences with wide swinging
+    attackRate: 0.6
+    range: 1.85
     damage:
       types:
-        Blunt: 1
+        Blunt: 4.8
         Slash: 6
-        Structural: 2
+        Structural: 14
         ParryAble: 1
+        Piercing: 2.4
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.7
     safeToHitGroup: structure
   - type: Wieldable
     useDelayOnWield: false
     #wieldTime: 3
+  # spellward start
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Blunt: 1
-        Structural: 9
-        Slash: 21.7 #higher damage to accomodate for the constant wideswinging
+        Blunt: 0
+        Structural: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
   - type: Item
     size: Huge
   - type: DamageOtherOnHit
@@ -268,6 +377,26 @@
   - type: HeldSpeedModifier
     walkModifier: 0.85
     sprintModifier: 0.85
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 20
+  - type: MedievalWeaponSkillCategory
+    skill: TwoHanded
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: iron halberd
@@ -275,8 +404,10 @@
   id: MedievalIronSekirSteel
   description: A medieval poleaxe.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 22
+  # spellward end
   - type: RDWeight
     value: 7
   - type: QuestItem
@@ -294,38 +425,61 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/sekir.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.35
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     angle: 135
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
-    clickDamageModifier: 0.6
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.5
-    range: 1.85 # higher range to accomodate for ping differences with wide swinging
+    attackRate: 0.6
+    range: 1.85
     damage:
       types:
-        Blunt: 1
-        Slash: 11.7
-        Structural: 3
+        Blunt: 6
+        Slash: 7.2
+        Structural: 18
         ParryAble: 1
+        Piercing: 3
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.6
     safeToHitGroup: structure
   - type: Wieldable
     useDelayOnWield: false
     #wieldTime: 3
+  # spellward start
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Blunt: 1
-        Structural: 17
-        Slash: 24.1 #higher damage to accomodate for the constant wideswinging
+        Blunt: 0
+        Structural: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
   - type: Item
     size: Huge
   - type: DamageOtherOnHit
@@ -357,3 +511,21 @@
   - type: HeldSpeedModifier
     walkModifier: 0.85
     sprintModifier: 0.85
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: TwoHanded
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end

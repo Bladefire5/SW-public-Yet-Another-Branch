@@ -1,0 +1,122 @@
+# Shared light-attack settings: 5 stamina, ~33 ms input delay, 0.45 s visible wind-up.
+# Add more presets here and reference their IDs from LightAttackStamina.preset.
+
+- type: lightAttackStaminaPreset
+  id: Default
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Sword
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Dagger
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Rapier
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Claymore
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Axe
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Greataxe
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Mace
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: ChainMace
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Spear
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Halberd
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Quarterstaff
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: WarHammer
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Warpick
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end
+
+- type: lightAttackStaminaPreset
+  id: Lance
+  staminaCost: 5
+  windup: 0.45
+  # spellward start
+  inputDelay: 0.033
+  # spellward end

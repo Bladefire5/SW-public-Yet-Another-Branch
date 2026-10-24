@@ -4,6 +4,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Robust.Shared.Map;
 using Robust.Shared.Audio;
+using Robust.Shared.Timing; //spellward
 
 namespace Content.Shared.Imperial.Medieval.Archery;
 
@@ -33,6 +34,12 @@ public sealed partial class MedievalBowChargeComponent : Component
     public float BaseBluntImpact = 0f;
     [DataField, AutoNetworkedField]
     public float BasePoiseDamage = 0f;
+
+    // spellward start - server-side Damage examine remembers the most recently loaded arrow.
+    // Default to the iron arrow until an arrow has been loaded.
+    [DataField]
+    public EntProtoId LastLoadedArrow = "MedievalNormalArrow";
+    // spellward end
 
     [DataField, AutoNetworkedField]
     public float StaminaDrainPerSecond = 5f;
@@ -90,12 +97,14 @@ public sealed class MedievalBowChargeRelease : EntityEventArgs
 {
     public readonly NetEntity Bow;
     public readonly NetCoordinates Coordinates;
+    public readonly GameTick ProjectileInputTick; //spellward
 
     public MedievalBowChargeRelease(
         NetEntity bow,
-        NetCoordinates coordinates)
+        NetCoordinates coordinates, GameTick projectileInputTick = default)
     {
         Bow = bow;
         Coordinates = coordinates;
+        ProjectileInputTick = projectileInputTick; //spellward
     }
 }

@@ -20,6 +20,9 @@ using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using Content.Shared.CombatMode;
 using Content.Shared.Imperial.Medieval.Archery;
+// spellward start
+using Content.Shared.Imperial.Medieval.Poise.LightAttack;
+// spellward end
 
 namespace Content.Shared.Imperial.Medieval.ChargedAttack;
 
@@ -105,6 +108,21 @@ public sealed class ChargedAttackSystem : EntitySystem
             return;
 
         args.BonusDamage = args.BaseDamage * (modifier - 1);
+
+        // spellward start
+        if (!charged.ConvertPiercingToBlunt)
+            return;
+
+        var piercing = args.BaseDamage.DamageDict.GetValueOrDefault("Piercing") +
+                       args.BonusDamage.DamageDict.GetValueOrDefault("Piercing");
+
+        // BonusDamage was freshly allocated above. Add the conversion to this hit
+        // without changing the weapon's base damage or its cached wield bonus.
+        args.BonusDamage.DamageDict["Piercing"] =
+            args.BonusDamage.DamageDict.GetValueOrDefault("Piercing") - piercing;
+        args.BonusDamage.DamageDict["Blunt"] =
+            args.BonusDamage.DamageDict.GetValueOrDefault("Blunt") + piercing;
+        // spellward end
     }
 
     private void OnStaminaHit(EntityUid weapon, ChargedAttackComponent charged, StaminaMeleeHitEvent args)
@@ -178,6 +196,11 @@ public sealed class ChargedAttackSystem : EntitySystem
             return;
 
         var weaponUid = GetEntity(msg.Weapon);
+        // spellward start
+        if (TryComp<LightAttackStaminaComponent>(weaponUid, out var lightAttack) && lightAttack.PendingAttack != null)
+            return;
+        // spellward end
+
         if (!TryComp<ChargedAttackComponent>(weaponUid, out var charged))
             return;
 

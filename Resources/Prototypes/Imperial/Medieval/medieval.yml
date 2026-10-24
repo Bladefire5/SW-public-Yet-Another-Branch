@@ -1319,10 +1319,12 @@
     keysIn:
     - timer
   - type: Explosive
+    # spellward start - preserve blast range while reducing max local intensity by 25%.
     explosionType: MedievalDefault
-    maxIntensity: 4
-    intensitySlope: 1
-    totalIntensity: 60
+    maxIntensity: 3
+    intensitySlope: 0.75
+    totalIntensity: 45
+    # spellward end
     canCreateVacuum: false
   - type: Sprite
     sprite: Imperial/Medieval/Misc/medieval_grenade.rsi
@@ -1699,12 +1701,33 @@
     slots:
     - ears
     sprite: Imperial/Medieval/Clothing/Medaljons/medaljon_dark.rsi
+  # spellward start
   - type: Armor
     modifiers:
       coefficients:
         Caustic: 0.15
         Radiation: 0.04
         Bloodloss: 0.1
+        Blunt: 1.0
+        Slash: 1.0
+        Piercing: 1.0
+        Heat: 1.0
+        Shock: 1.0
+        Cold: 1.0
+        Poison: 1.0
+        Holy: 1.0
+      flatReductions:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
   #- type: QualityOfItem
   #  qualityWeights:
   #    0: 0
@@ -1714,6 +1737,7 @@
   #    4: 0
   #    5: 0
   #    6: 0
+  # spellward end
   - type: StealTarget # imperial medieval
     stealGroup: MedievalGetMedaljonDark # imperial medieval
 
@@ -8501,6 +8525,9 @@
 
 - type: explosion
   id: MedievalDefault
+  # spellward start - poise damage for all MedievalDefault explosions.
+  poiseDamagePerIntensity: 10
+  # spellward end
   damagePerIntensity:
     types:
       Heat: 5

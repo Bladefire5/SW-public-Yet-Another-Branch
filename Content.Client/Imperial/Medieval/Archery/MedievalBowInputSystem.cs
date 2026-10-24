@@ -74,7 +74,7 @@ public sealed class MedievalBowInputSystem : EntitySystem
 
             var coordinates = _transformSystem.ToCoordinates(user, mousePos);
 
-            RaisePredictiveEvent(new MedievalBowChargeRelease(GetNetEntity(bow), GetNetCoordinates(coordinates)));
+            RaisePredictiveEvent(new MedievalBowChargeRelease(GetNetEntity(bow), GetNetCoordinates(coordinates), _timing.CurTick));
         }
 
     }

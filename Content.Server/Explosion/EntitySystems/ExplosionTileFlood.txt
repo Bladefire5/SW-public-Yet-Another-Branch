@@ -1,4 +1,4 @@
-using Content.Shared.Atmos;
+/*using Content.Shared.Atmos;
 using System.Runtime.CompilerServices;
 
 namespace Content.Server.Explosion.EntitySystems;
@@ -196,3 +196,4 @@ public sealed class UniqueVector2iSet
         }
     }
 }
+*/

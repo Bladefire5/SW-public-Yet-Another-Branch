@@ -32,6 +32,9 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Shared.Wieldable.Components;
+// spellward start
+using Content.Shared.Wieldable;
+// spellward end
 
 namespace Content.Server.Imperial.Medieval.Artifacts;
 
@@ -52,6 +55,9 @@ public sealed class ArtifacAbilitiestSystem : EntitySystem
     [Dependency] private readonly PhysicsSystem _physics = default!;
     [Dependency] private readonly ExplosionSystem _explosion = default!;
     [Dependency] private readonly IEntitySystemManager _ent = default!;
+    // spellward start
+    [Dependency] private readonly SharedWieldableSystem _wieldable = default!;
+    // spellward end
     public override void Initialize()
     {
         SubscribeLocalEvent<ArtifactAddDamageOnInitComponent, ArtifactInit>(DamageInit);
@@ -241,9 +247,12 @@ public sealed class ArtifacAbilitiestSystem : EntitySystem
         if (!TryComp<MeleeWeaponComponent>(uid, out var melee))
             return;
         melee.Damage *= component.Multiplier;
+        // spellward start
         if (TryComp<IncreaseDamageOnWieldComponent>(uid, out var wield))
-            wield.BonusDamage *= component.Multiplier;
+            _wieldable.SetBonusDamage(uid, wield.BonusDamage * component.Multiplier, wield);
+        // spellward end
 
         _ent.GetEntitySystem<MedievalMeleeResourceSystem>().OnStart(uid, Comp<MedievalMeleeResourceComponent>(uid), new());
     }
 }
+

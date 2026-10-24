@@ -1,10 +1,11 @@
+// spellward start - native read-only propagation shared by server damage and client presentation.
 using System.Numerics;
 using Content.Shared.Atmos;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
-using static Content.Server.Explosion.EntitySystems.ExplosionSystem;
+using static Content.Shared.Explosion.EntitySystems.SharedExplosionSystem;
 
-namespace Content.Server.Explosion.EntitySystems;
+namespace Content.Shared.Explosion.EntitySystems;
 
 /// <summary>
 ///     See <see cref="ExplosionTileFlood"/>. Each instance of this class corresponds to a seperate grid.
@@ -316,3 +317,4 @@ public sealed class ExplosionGridTileFlood : ExplosionTileFlood
         return ~_airtightMap.GetValueOrDefault(tile).BlockedDirections;
     }
 }
+// spellward end

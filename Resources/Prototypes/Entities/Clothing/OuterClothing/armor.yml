@@ -534,13 +534,35 @@
   - type: StaminaResistance
     damageCoefficient: 0.45
   # Imperial Space Stamina Resistance End
+  # spellward start
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.48
-        Slash: 0.42
-        Piercing: 0.45
-        Heat: 0.35
+        Blunt: 0.7
+        Slash: 0.45
+        Piercing: 0.5
+        Heat: 0.9
+        Shock: 1.1
+        Cold: 1.05
+        Caustic: 0.95
+        Poison: 1.0
+        Radiation: 1.0
+        Holy: 1.0
+        Bloodloss: 1.0
+      flatReductions:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
+  # spellward start
   - type: MedievalArmorIntegrity
     containerArmorHP: 515
     repairType: Smithing
@@ -550,13 +572,39 @@
       damageCoefficient: 0.85
     unbrokenResistances:
       Blunt:
-        coefficient: 0.11
+        coefficient: 0.7
+        flatReduction: 0
       Slash:
-        coefficient: 0.08
+        coefficient: 0.45
+        flatReduction: 0
       Piercing:
-        coefficient: 0.125
+        coefficient: 0.5
+        flatReduction: 0
       Heat:
-        coefficient: 0.3
+        coefficient: 0.9
+        flatReduction: 0
+      Shock:
+        coefficient: 1.1
+        flatReduction: 0
+      Cold:
+        coefficient: 1.05
+        flatReduction: 0
+      Caustic:
+        coefficient: 0.95
+        flatReduction: 0
+      Poison:
+        coefficient: 1.0
+        flatReduction: 0
+      Radiation:
+        coefficient: 1.0
+        flatReduction: 0
+      Holy:
+        coefficient: 1.0
+        flatReduction: 0
+      Bloodloss:
+        coefficient: 1.0
+        flatReduction: 0
+  # spellward end
   - type: ClothingSpeedModifier
     walkModifier: 0.94
     sprintModifier: 0.94
@@ -565,6 +613,12 @@
   - type: QuestItem
     contractName: "любая пластинчатая или прочная железная броня"
   # Imperial Medieval End
+  # spellward start
+  - type: PoiseArmor
+    armorClass: Heavy
+    multiplierOverride: 1.8
+    poiseIncreaseOverride: 15
+  # spellward end
 
 - type: entity
   parent: ClothingOuterArmorBase

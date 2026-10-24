@@ -59,7 +59,9 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
     /// <summary>
     ///     "Tile-size" for space when there are no nearby grids to use as a reference.
     /// </summary>
-    public const ushort DefaultTileSize = 1;
+    //spellward - DefaultTileSize is inherited from shared propagation.
+    protected override int FloodMaxIterations => MaxIterations;
+    protected override int FloodMaxArea => MaxArea;
 
     public const int MaxExplosionAudioRange = 30;
 
@@ -70,14 +72,13 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
         DebugTools.Assert(_prototypeManager.HasIndex(DefaultExplosionPrototypeId));
 
         // handled in ExplosionSystem.GridMap.cs
-        SubscribeLocalEvent<GridRemovalEvent>(OnGridRemoved);
-        SubscribeLocalEvent<GridStartupEvent>(OnGridStartup);
+        //spellward - grid lifecycle is initialized by shared propagation.
         SubscribeLocalEvent<ExplosionResistanceComponent, GetExplosionResistanceEvent>(OnGetResistance);
 
         // as long as explosion-resistance mice are never added, this should be fine (otherwise a mouse-hat will transfer it's power to the wearer).
         SubscribeLocalEvent<ExplosionResistanceComponent, InventoryRelayedEvent<GetExplosionResistanceEvent>>(RelayedResistance);
 
-        SubscribeLocalEvent<TileChangedEvent>(OnTileChanged);
+        //spellward - tile changes are tracked in shared propagation.
 
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnReset);
 
@@ -87,7 +88,7 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
         // handled in ExplosionSystemAirtight.cs
         SubscribeLocalEvent<AirtightComponent, DamageChangedEvent>(OnAirtightDamaged);
         SubscribeCvars();
-        InitAirtightMap();
+        //spellward - shared initialization assigns sorted explosion type indices.
         InitVisuals();
 
         _flammableQuery = GetEntityQuery<FlammableComponent>();
@@ -160,57 +161,7 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
             QueueDel(uid);
     }
 
-    /// <summary>
-    ///     Find the strength needed to generate an explosion of a given radius. More useful for radii larger then 4, when the explosion becomes less "blocky".
-    /// </summary>
-    /// <remarks>
-    ///     This assumes the explosion is in a vacuum / unobstructed. Given that explosions are not perfectly
-    ///     circular, here radius actually means the sqrt(Area/pi), where the area is the total number of tiles
-    ///     covered by the explosion. Until you get to radius 30+, this is functionally equivalent to the
-    ///     actual radius.
-    /// </remarks>
-    public float RadiusToIntensity(float radius, float slope, float maxIntensity = 0)
-    {
-        // If you consider the intensity at each tile in an explosion to be a height. Then a circular explosion is
-        // shaped like a cone. So total intensity is like the volume of a cone with height = slope * radius. Of
-        // course, as the explosions are not perfectly circular, this formula isn't perfect, but the formula works
-        // reasonably well.
-
-        // This should actually use the formula for the volume of a distorted octagonal frustum. But this is good
-        // enough.
-
-        var coneVolume = slope * MathF.PI / 3 * MathF.Pow(radius, 3);
-
-        if (maxIntensity <= 0 || slope * radius < maxIntensity)
-            return coneVolume;
-
-        // This explosion is limited by the maxIntensity.
-        // Instead of a cone, we have a conical frustum.
-
-        // Subtract the volume of the missing cone segment, with height:
-        var h = slope * radius - maxIntensity;
-        return coneVolume - h * MathF.PI / 3 * MathF.Pow(h / slope, 2);
-    }
-
-    /// <summary>
-    ///     Inverse formula for <see cref="RadiusToIntensity"/>
-    /// </summary>
-    public float IntensityToRadius(float totalIntensity, float slope, float maxIntensity)
-    {
-        // max radius to avoid being capped by max-intensity
-        var r0 = maxIntensity / slope;
-
-        // volume at r0
-        var v0 = RadiusToIntensity(r0, slope);
-
-        if (totalIntensity <= v0)
-        {
-            // maxIntensity is a non-issue, can use simple inverse formula
-            return MathF.Cbrt(3 * totalIntensity / (slope * MathF.PI));
-        }
-
-        return r0 * (MathF.Sqrt(12 * totalIntensity / v0 - 3) / 6 + 0.5f);
-    }
+    //spellward - radius estimates and the read-only flood are inherited from shared code.
 
     /// <inheritdoc />
     public override void QueueExplosion(EntityUid uid,
@@ -293,6 +244,7 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
 
             // they are close enough to combine so just add total intensity and prevent queuing another one
             queued.TotalIntensity += totalIntensity;
+            queued.Predictions.AddRange(CapturePrediction(cause)); //spellward - combining retains every shot identity.
             return;
         }
 
@@ -305,7 +257,8 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
             TileBreakScale = tileBreakScale,
             MaxTileBreak = maxTileBreak,
             CanCreateVacuum = canCreateVacuum,
-            Cause = cause
+            Cause = cause,
+            Predictions = CapturePrediction(cause), //spellward
         };
         _explosionQueue.Enqueue(boom);
         _queuedExplosions.Add(boom);
@@ -329,7 +282,7 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
 
         var (area, iterationIntensity, spaceData, gridData, spaceMatrix) = results.Value;
 
-        var visualEnt = CreateExplosionVisualEntity(pos, queued.Proto.ID, spaceMatrix, spaceData, gridData.Values, iterationIntensity);
+        var visualEnt = CreateExplosionVisualEntity(pos, queued.Proto.ID, spaceMatrix, spaceData, gridData.Values, iterationIntensity, queued.Predictions); //spellward
 
         // camera shake
         CameraShake(iterationIntensity.Count * 4f, pos, queued.TotalIntensity);
@@ -353,6 +306,7 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
             ? queued.Proto.SmallSound
             : queued.Proto.Sound;
 
+        SendPredictedSound(queued, filter, sound); //spellward
         _audio.PlayStatic(sound, filter, mapEntityCoords, true, sound.Params);
 
         // play far sound
@@ -363,6 +317,7 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
             ? queued.Proto.SmallSoundFar
             : queued.Proto.SoundFar;
 
+        SendPredictedSound(queued, farFilter, farSound, global: true); //spellward
         _audio.PlayGlobal(farSound, farFilter, true, farSound.Params);
 
         return new Explosion(this,

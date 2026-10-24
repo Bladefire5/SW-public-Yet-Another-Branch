@@ -944,6 +944,7 @@ sealed class Explosion
 /// </summary>
 public sealed class QueuedExplosion(ExplosionPrototype proto)
 {
+    public List<ExplosionPrediction> Predictions = new(); //spellward - captured while the cause still exists.
     public MapCoordinates Epicenter;
     public ExplosionPrototype Proto = proto;
     public float TotalIntensity, Slope, MaxTileIntensity, TileBreakScale;

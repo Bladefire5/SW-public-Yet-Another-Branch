@@ -38,7 +38,7 @@ public sealed partial class TargetOverlaySystem : SharedTargetOverlaySystem
 
         CommandBinds.Builder
             .Bind(ContentKeyFunctions.ImperialTargetCapture, new PointerInputCmdHandler(MiddleMousePressed))
-            .BindBefore(EngineKeyFunctions.Use, new PointerInputCmdHandler(MouseLeftPressed, outsidePrediction: true), typeof(ActionUIController))
+            .BindBefore(EngineKeyFunctions.Use, new PointerInputCmdHandler(MouseLeftPressed), typeof(ActionUIController)) //spellward - run the release inside prediction.
             .Register<TargetOverlaySystem>();
     }
 
@@ -99,7 +99,7 @@ public sealed partial class TargetOverlaySystem : SharedTargetOverlaySystem
         if (!_overlay.IsMaxTargetCount())
             _overlay.AddTarget();
 
-        RaiseNetworkEvent(new TargetOverlayShootEvent()
+        RaisePredictiveEvent(new TargetOverlayShootEvent() //spellward - predict presentation at target selection.
         {
             Performer = GetNetEntity(player),
             Sender = targetOverlayComponent.Sender.HasValue ? GetNetEntity(targetOverlayComponent.Sender) : null,

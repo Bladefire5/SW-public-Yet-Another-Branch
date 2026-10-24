@@ -4,6 +4,11 @@
   id: MedievalDaggerCult
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - dedicated thrown hit poise, distinct from melee poise
+  - type: PoiseImpact
+    poiseDamage: 10
+  - type: ThrownWeaponPoiseReset
+  # spellward end
   - type: CultRitualMelee
   - type: Sprite
     sprite: Imperial/Medieval/Melee/dagger_cult.rsi
@@ -12,27 +17,43 @@
   - type: Item
     size: Small
     sprite: Imperial/Medieval/Melee/dagger_cult.rsi
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.2
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
-    clickDamageModifier: 0.8
-    attackRate: 1.7
+    clickDamageModifier: 1
+    attackRate: 1.34
     range: 1
     damage:
       types:
-        Slash: 12
+        Slash: 2.66
         ParryAble: 1
+        Blunt: 0
+        Piercing: 2.66
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 1.33
+        Radiation: 1.33
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     soundHit:
       path: /Audio/Imperial/Medieval/ES_Knife_Stab_2_-_SFX_Producer.ogg
     resetOnHandSelected: false
+  # spellward end
   - type: DamageOtherOnHit
     damage:
       types:
-        Slash: 14
+        Piercing: 12
+        Poison: 1
+        Radiation: 1
   #- type: EmbeddableProjectile
     #offset: 0.15,0.15
   - type: ThrowingAngle
@@ -48,6 +69,26 @@
     damage: 6
   - type: CurseItem
     cult: true
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 2
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedSlashSmall
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 1.5
+        Piercing: 1
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: dagger
@@ -69,8 +110,10 @@
   id: MedievalSpearCult
   description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 8
+  # spellward end
   - type: QuestItem
     contractName: "любое двуручное оружие"
   - type: Sharp
@@ -78,26 +121,40 @@
     sprite: Imperial/Medieval/Melee/cult_spear.rsi
     netsync: false
     state: spear
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.6
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 2
-    clickDamageModifier: 1.32
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 1
-    range: 2.75
+    attackRate: 0.8
+    range: 2.4
     damage:
       types:
-        Piercing: 11
+        Piercing: 7.68
         ParryAble: 1
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 1.92
+        Radiation: 1.92
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     angle: 0
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
     soundSwing:
       path: /Audio/Imperial/Medieval/spear_swing.ogg
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.75
   - type: Item
@@ -109,10 +166,23 @@
     - suitStorage
   - type: Wieldable
     #wieldTime: 0.5
+  # spellward start
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Piercing: 13
+        Piercing: 7.68
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+  # spellward end
   - type: DamageOtherOnHit
     damage:
       types:
@@ -145,6 +215,24 @@
     damage: 5 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: CurseItem
     cult: true
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: Spear
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 3
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: iron halberd
@@ -167,36 +255,60 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/sekir_cult.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.55
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: false
     angle: -120
     cPAnimationOffset: 1
-    clickDamageModifier: 1.22
+    clickDamageModifier: 1
     wideAnimationRotation: -140
     attackRate: 0.6
     damage:
       types:
-        Piercing: 10
-        Slash: 13
-        Structural: 3
+        Piercing: 1.8
+        Slash: 4.8
+        Structural: 14
         ParryAble: 1
+        Blunt: 3.6
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 1.2
+        Radiation: 1.2
+        Holy: 0
+        Bloodloss: 0
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
+    range: 1.85
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.6
     safeToHitGroup: structure
   - type: Wieldable
     #wieldTime: 3
+  # spellward start
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Blunt: 7
-        Structural: 15
-        Slash: 12
+        Blunt: 0
+        Structural: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
   - type: Item
     size: Huge
   - type: DamageOtherOnHit
@@ -210,6 +322,26 @@
     speed: 5
   - type: CurseItem
     cult: true
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 20
+  - type: MedievalWeaponSkillCategory
+    skill: TwoHanded
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: dagger
@@ -224,24 +356,38 @@
   - type: Item
     size: Normal
     sprite: Imperial/Medieval/Melee/sword_cult.rsi
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.78
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: false
     angle: 75
     cPAnimationOffset: 1
-    range: 1.45
-    clickDamageModifier: 0.6
+    range: 1.42
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 1.3
+    attackRate: 1.15
     damage:
       types:
-        Slash: 20
+        Slash: 7.8
         ParryAble: 1
+        Blunt: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0.9
+        Radiation: 0.9
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
+  # spellward end
   - type: DamageOtherOnHit
     damage:
       types:
@@ -266,3 +412,23 @@
     speed: 5
   - type: CurseItem
     cult: true
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 8
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedSlashLarge
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 3
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end

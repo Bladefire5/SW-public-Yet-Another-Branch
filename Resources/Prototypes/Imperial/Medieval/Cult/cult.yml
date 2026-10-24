@@ -36,6 +36,7 @@
   name: leather armor
   description: An armored vest with fur plates to protect against melee weapons.
   components:
+  # spellward start - agreed armor balance
   - type: Sprite
     sprite: Imperial/Medieval/Clothing/Armor/cult_armor.rsi
   - type: Clothing
@@ -45,11 +46,29 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.7
-        Slash: 0.75
-        Piercing: 0.7
-        Heat: 0.75
-        Cold: 0.45
+        Blunt: 0.72
+        Slash: 0.76
+        Piercing: 0.78
+        Heat: 1.05
+        Shock: 1
+        Cold: 0.95
+        Caustic: 1
+        Poison: 1
+        Radiation: 1
+        Holy: 1
+        Bloodloss: 1
+      flatReductions:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
   - type: MedievalArmorIntegrity
     containerArmorHP: 170
     repairType: Sewing
@@ -59,13 +78,38 @@
       damageCoefficient: 0.85
     unbrokenResistances:
       Blunt:
-        coefficient: 0.15
+        coefficient: 0.72
+        flatReduction: 0
       Slash:
-        coefficient: 0.125
+        coefficient: 0.76
+        flatReduction: 0
       Piercing:
-        coefficient: 0.275
+        coefficient: 0.78
+        flatReduction: 0
       Heat:
-        coefficient: 0.2
+        coefficient: 1.05
+        flatReduction: 0
+      Shock:
+        coefficient: 1
+        flatReduction: 0
+      Cold:
+        coefficient: 0.95
+        flatReduction: 0
+      Caustic:
+        coefficient: 1
+        flatReduction: 0
+      Poison:
+        coefficient: 1
+        flatReduction: 0
+      Radiation:
+        coefficient: 1
+        flatReduction: 0
+      Holy:
+        coefficient: 1
+        flatReduction: 0
+      Bloodloss:
+        coefficient: 1
+        flatReduction: 0
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -79,6 +123,11 @@
   - type: CultClothing
   - type: CurseItem
     cult: true
+  - type: PoiseArmor
+    armorClass: Medium
+    multiplierOverride: 1.5
+    poiseIncreaseOverride: 10
+  # spellward end
 
 - type: entity
   parent: MedievalClothingOuterArmorCult
@@ -98,6 +147,7 @@
   name: leather armor
   description: An armored vest with fur plates to protect against melee weapons.
   components:
+  # spellward start - agreed armor balance
   - type: Sprite
     sprite: Imperial/Medieval/Clothing/Armor/cult_armor_mana.rsi
   - type: Clothing
@@ -107,11 +157,29 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.8
-        Slash: 0.83
-        Piercing: 0.77
-        Heat: 0.75
-        Cold: 0.72
+        Blunt: 0.72
+        Slash: 0.76
+        Piercing: 0.78
+        Heat: 0.8
+        Shock: 0.8
+        Cold: 0.8
+        Caustic: 1
+        Poison: 1
+        Radiation: 0.8
+        Holy: 1
+        Bloodloss: 1
+      flatReductions:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
   - type: MedievalArmorIntegrity
     containerArmorHP: 230
     repairType: Sewing
@@ -121,13 +189,38 @@
       damageCoefficient: 0.85
     unbrokenResistances:
       Blunt:
-        coefficient: 0.15
+        coefficient: 0.72
+        flatReduction: 0
       Slash:
-        coefficient: 0.125
+        coefficient: 0.76
+        flatReduction: 0
       Piercing:
-        coefficient: 0.275
+        coefficient: 0.78
+        flatReduction: 0
       Heat:
-        coefficient: 0.25
+        coefficient: 0.8
+        flatReduction: 0
+      Shock:
+        coefficient: 0.8
+        flatReduction: 0
+      Cold:
+        coefficient: 0.8
+        flatReduction: 0
+      Caustic:
+        coefficient: 1
+        flatReduction: 0
+      Poison:
+        coefficient: 1
+        flatReduction: 0
+      Radiation:
+        coefficient: 0.8
+        flatReduction: 0
+      Holy:
+        coefficient: 1
+        flatReduction: 0
+      Bloodloss:
+        coefficient: 1
+        flatReduction: 0
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -143,6 +236,11 @@
   - type: CultClothing
   - type: CurseItem
     cult: true
+  - type: PoiseArmor
+    armorClass: Medium
+    multiplierOverride: 1.5
+    poiseIncreaseOverride: 10
+  # spellward end
 
 - type: entity
   parent: MedievalClothingOuterArmorCultMana
@@ -161,6 +259,7 @@
   name: leather armor
   description: An armored vest with fur plates to protect against melee weapons.
   components:
+  # spellward start - agreed armor balance
   - type: RDWeight
     value: 12
   - type: Sprite
@@ -172,11 +271,29 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.35
-        Slash: 0.3
-        Piercing: 0.36
-        Heat: 0.45
-        Cold: 0.75
+        Blunt: 0.65
+        Slash: 0.52
+        Piercing: 0.55
+        Heat: 0.9
+        Shock: 1.1
+        Cold: 1.05
+        Caustic: 0.95
+        Poison: 1
+        Radiation: 1
+        Holy: 1
+        Bloodloss: 1
+      flatReductions:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
   - type: MedievalArmorIntegrity
     containerArmorHP: 600
     repairType: Smithing
@@ -186,13 +303,38 @@
       damageCoefficient: 0.85
     unbrokenResistances:
       Blunt:
-        coefficient: 0.095
+        coefficient: 0.65
+        flatReduction: 0
       Slash:
-        coefficient: 0.06
+        coefficient: 0.52
+        flatReduction: 0
       Piercing:
-        coefficient: 0.095
+        coefficient: 0.55
+        flatReduction: 0
       Heat:
-        coefficient: 0.22
+        coefficient: 0.9
+        flatReduction: 0
+      Shock:
+        coefficient: 1.1
+        flatReduction: 0
+      Cold:
+        coefficient: 1.05
+        flatReduction: 0
+      Caustic:
+        coefficient: 0.95
+        flatReduction: 0
+      Poison:
+        coefficient: 1
+        flatReduction: 0
+      Radiation:
+        coefficient: 1
+        flatReduction: 0
+      Holy:
+        coefficient: 1
+        flatReduction: 0
+      Bloodloss:
+        coefficient: 1
+        flatReduction: 0
   - type: StaminaResistance
     damageCoefficient: 0.45
   - type: ClothingSpeedModifier
@@ -205,6 +347,11 @@
   - type: CultClothing
   - type: CurseItem
     cult: true
+  - type: PoiseArmor
+    armorClass: Heavy
+    multiplierOverride: 1.8
+    poiseIncreaseOverride: 15
+  # spellward end
 
 - type: entity
   parent: MedievalClothingOuterArmorCultUp
@@ -223,6 +370,7 @@
   name: leather armor
   description: An armored vest with fur plates to protect against melee weapons.
   components:
+  # spellward start - agreed armor balance
   - type: Sprite
     sprite: Imperial/Medieval/Clothing/Armor/cult_armor_leader.rsi
   - type: Clothing
@@ -232,11 +380,29 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.77
-        Slash: 0.75
-        Piercing: 0.73
-        Heat: 0.78
-        Cold: 0.85
+        Blunt: 0.6
+        Slash: 0.5
+        Piercing: 0.55
+        Heat: 0.5
+        Shock: 0.5
+        Cold: 0.5
+        Caustic: 0.95
+        Poison: 1
+        Radiation: 0.5
+        Holy: 1
+        Bloodloss: 1
+      flatReductions:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
   - type: MedievalArmorIntegrity
     containerArmorHP: 270
     repairType: Sewing
@@ -246,22 +412,44 @@
       damageCoefficient: 0.85
     unbrokenResistances:
       Blunt:
-        coefficient: 0.125
+        coefficient: 0.6
+        flatReduction: 0
       Slash:
-        coefficient: 0.085
+        coefficient: 0.5
+        flatReduction: 0
       Piercing:
-        coefficient: 0.22
+        coefficient: 0.55
+        flatReduction: 0
       Heat:
-        coefficient: 0.2
+        coefficient: 0.5
+        flatReduction: 0
+      Shock:
+        coefficient: 0.5
+        flatReduction: 0
+      Cold:
+        coefficient: 0.5
+        flatReduction: 0
+      Caustic:
+        coefficient: 0.95
+        flatReduction: 0
+      Poison:
+        coefficient: 1
+        flatReduction: 0
+      Radiation:
+        coefficient: 0.5
+        flatReduction: 0
+      Holy:
+        coefficient: 1
+        flatReduction: 0
+      Bloodloss:
+        coefficient: 1
+        flatReduction: 0
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
         variation: 0.2
   - type: StaminaResistance
     damageCoefficient: 0.87
-  - type: ClothingSpeedModifier
-    walkModifier: 0.94
-    sprintModifier: 0.94
   - type: Item
     size: Normal
   - type: ExplosionResistance
@@ -271,6 +459,11 @@
   - type: CultClothing
   - type: CurseItem
     cult: true
+  - type: PoiseArmor
+    armorClass: Light
+    multiplierOverride: 1.25
+    poiseIncreaseOverride: 5
+  # spellward end
 
 - type: entity
   parent: MedievalClothingOuterArmorCultLeader
@@ -349,12 +542,35 @@
     #equipSound:
     #  path: /Audio/Imperial/Medieval/iron_helmet_equiped.ogg
     sprite: Imperial/Medieval/Clothing/Head/cult.rsi
+  # spellward start
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.9
+        Blunt: 0.85
         Slash: 0.85
-        Piercing: 0.95
+        Piercing: 0.9
+        Heat: 0.85
+        Shock: 0.85
+        Cold: 0.85
+        Caustic: 1.0
+        Poison: 1.0
+        Radiation: 0.85
+        Holy: 1.0
+        Bloodloss: 1.0
+      flatReductions:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
+  # spellward start
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
@@ -364,17 +580,43 @@
       damageCoefficient: 0.9
     unbrokenResistances:
       Blunt:
-        coefficient: 0.8
-      Slash:
-        coefficient: 0.75
-      Piercing:
         coefficient: 0.85
+        flatReduction: 0
+      Slash:
+        coefficient: 0.85
+        flatReduction: 0
+      Piercing:
+        coefficient: 0.9
+        flatReduction: 0
       Heat:
-        coefficient: 0.6
+        coefficient: 0.85
+        flatReduction: 0
+      Shock:
+        coefficient: 0.85
+        flatReduction: 0
+      Cold:
+        coefficient: 0.85
+        flatReduction: 0
+      Caustic:
+        coefficient: 1.0
+        flatReduction: 0
+      Poison:
+        coefficient: 1.0
+        flatReduction: 0
+      Radiation:
+        coefficient: 0.85
+        flatReduction: 0
+      Holy:
+        coefficient: 1.0
+        flatReduction: 0
+      Bloodloss:
+        coefficient: 1.0
+        flatReduction: 0
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
         variation: 0.2
+  # spellward end
   - type: Item
     size: Normal
   - type: ExplosionResistance
@@ -389,6 +631,12 @@
   - type: CultClothing
   - type: CurseItem
     cult: true
+  # spellward start
+  - type: PoiseArmor
+    armorClass: Light
+    multiplierOverride: 1.25
+    poiseIncreaseOverride: 5
+  # spellward end
 
 - type: entity
   parent: MedievalClothingHeadHelmetCult

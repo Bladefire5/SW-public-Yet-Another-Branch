@@ -8,12 +8,14 @@
   - type: Sprite
     sprite: Imperial/Medieval/Forged/upgrades.rsi
     state: iron_arm_blade_item
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.5
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
-    clickDamageModifier: 1.5
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.7
+    attackRate: 0.9
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
@@ -21,12 +23,25 @@
     cPAnimationOffset: 1
     damage:
       types:
-        Slash: 20
+        Slash: 21
         ParryAble: 1
+        Blunt: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
     soundSwing:
       path: /Audio/Imperial/Medieval/sword_swing.ogg
+    range: 1.5
+  # spellward end
   - type: Item
     size: Normal
   - type: DisarmMalus
@@ -34,3 +49,23 @@
   - type: StaminaDamageOnHit
     damage: 4 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Unremoveable
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 10
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedSlashLarge
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 2
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end

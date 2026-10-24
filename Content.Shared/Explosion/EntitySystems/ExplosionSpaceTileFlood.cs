@@ -1,7 +1,8 @@
+// spellward start - native read-only propagation shared by server damage and client presentation.
 using Content.Shared.Atmos;
 using Robust.Shared.Map;
 
-namespace Content.Server.Explosion.EntitySystems;
+namespace Content.Shared.Explosion.EntitySystems;
 
 /// <summary>
 ///     See <see cref="ExplosionTileFlood"/>.
@@ -21,9 +22,9 @@ public sealed class ExplosionSpaceTileFlood : ExplosionTileFlood
     /// </summary>
     public Dictionary<EntityUid, HashSet<Vector2i>> GridJump = new();
 
-    public ushort TileSize = ExplosionSystem.DefaultTileSize;
+    public ushort TileSize = SharedExplosionSystem.DefaultTileSize;
 
-    public ExplosionSpaceTileFlood(ExplosionSystem system, MapCoordinates epicentre, EntityUid? referenceGrid, List<EntityUid> localGrids, float maxDistance)
+    public ExplosionSpaceTileFlood(SharedExplosionSystem system, MapCoordinates epicentre, EntityUid? referenceGrid, List<EntityUid> localGrids, float maxDistance)
     {
         (_gridBlockMap, TileSize) = system.TransformGridEdges(epicentre, referenceGrid, localGrids, maxDistance);
         system.GetUnblockedDirections(_gridBlockMap, TileSize);
@@ -161,3 +162,4 @@ public sealed class ExplosionSpaceTileFlood : ExplosionTileFlood
         return _gridBlockMap.TryGetValue(tile, out var blocker) ? blocker.UnblockedDirections : AtmosDirection.All;
     }
 }
+// spellward end

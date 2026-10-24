@@ -661,6 +661,7 @@
   name: MedievalClothingOuterArmorCharmerNecro
   description: An upgraded armor with iron plates to protect against melee weapons.
   components:
+  # spellward start - agreed armor balance
   - type: Sprite
     sprite: Imperial/Medieval/Clothing/Armor/charmer_armor_necro.rsi
   - type: Clothing
@@ -670,11 +671,29 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.7
-        Slash: 0.6
-        Piercing: 0.75
-        Heat: 0.45
-        Cold: 0.55
+        Blunt: 0.6
+        Slash: 0.7
+        Piercing: 0.8
+        Heat: 0.8
+        Shock: 0.8
+        Cold: 0.8
+        Caustic: 0.8
+        Poison: 1
+        Radiation: 0.8
+        Holy: 0.8
+        Bloodloss: 1
+      flatReductions:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
   - type: MedievalArmorIntegrity
     containerArmorHP: 400
     repairType: Sewing
@@ -684,13 +703,38 @@
       damageCoefficient: 0.85
     unbrokenResistances:
       Blunt:
-        coefficient: 0.125
+        coefficient: 0.6
+        flatReduction: 0
       Slash:
-        coefficient: 0.085
+        coefficient: 0.7
+        flatReduction: 0
       Piercing:
-        coefficient: 0.22
+        coefficient: 0.8
+        flatReduction: 0
       Heat:
-        coefficient: 0.2
+        coefficient: 0.8
+        flatReduction: 0
+      Shock:
+        coefficient: 0.8
+        flatReduction: 0
+      Cold:
+        coefficient: 0.8
+        flatReduction: 0
+      Caustic:
+        coefficient: 0.8
+        flatReduction: 0
+      Poison:
+        coefficient: 1
+        flatReduction: 0
+      Radiation:
+        coefficient: 0.8
+        flatReduction: 0
+      Holy:
+        coefficient: 0.8
+        flatReduction: 0
+      Bloodloss:
+        coefficient: 1
+        flatReduction: 0
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -704,6 +748,11 @@
   - type: ManaRegen
     regen: 0.7
   - type: CurseItem
+  - type: PoiseArmor
+    armorClass: Medium
+    multiplierOverride: 1.5
+    poiseIncreaseOverride: 10
+  # spellward end
 
 - type: entity
   parent: ClothingOuterBase
@@ -711,6 +760,7 @@
   name: MedievalClothingOuterArmorCharmerNecro2
   description: An upgraded armor with iron plates to protect against melee weapons.
   components:
+  # spellward start - agreed armor balance
   - type: Sprite
     sprite: Imperial/Medieval/Clothing/Armor/charmer_armor_necro2.rsi
   - type: Clothing
@@ -720,11 +770,29 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.9
-        Slash: 0.9
-        Piercing: 0.9
-        Heat: 0.75
-        Cold: 0.75
+        Blunt: 0.72
+        Slash: 0.8
+        Piercing: 0.85
+        Heat: 0.6
+        Shock: 0.6
+        Cold: 0.6
+        Caustic: 0.6
+        Poison: 1
+        Radiation: 0.6
+        Holy: 0.6
+        Bloodloss: 1
+      flatReductions:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
   - type: MedievalArmorIntegrity
     containerArmorHP: 350
     repairType: Sewing
@@ -734,13 +802,38 @@
       damageCoefficient: 0.85
     unbrokenResistances:
       Blunt:
-        coefficient: 0.175
+        coefficient: 0.72
+        flatReduction: 0
       Slash:
-        coefficient: 0.125
+        coefficient: 0.8
+        flatReduction: 0
       Piercing:
-        coefficient: 0.25
+        coefficient: 0.85
+        flatReduction: 0
       Heat:
-        coefficient: 0.2
+        coefficient: 0.6
+        flatReduction: 0
+      Shock:
+        coefficient: 0.6
+        flatReduction: 0
+      Cold:
+        coefficient: 0.6
+        flatReduction: 0
+      Caustic:
+        coefficient: 0.6
+        flatReduction: 0
+      Poison:
+        coefficient: 1
+        flatReduction: 0
+      Radiation:
+        coefficient: 0.6
+        flatReduction: 0
+      Holy:
+        coefficient: 0.6
+        flatReduction: 0
+      Bloodloss:
+        coefficient: 1
+        flatReduction: 0
     breakSound:
       path: /Audio/Imperial/Medieval/Armor/integrity_break_leather.ogg
       params:
@@ -754,6 +847,11 @@
   - type: ManaRegen
     regen: 2.5
   - type: CurseItem
+  - type: PoiseArmor
+    armorClass: Medium
+    multiplierOverride: 1.5
+    poiseIncreaseOverride: 10
+  # spellward end
 
 - type: listing
   id: NecroListingMedievalRepairStone

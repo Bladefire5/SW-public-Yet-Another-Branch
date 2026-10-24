@@ -60,8 +60,15 @@ public sealed partial class GunComponent : Component
     /// Last time the gun fired.
     /// Used for recoil purposes.
     /// </summary>
-    [DataField]
+    //spellward - restore recoil timing along with the predicted angle.
+    [DataField, AutoNetworkedField]
     public TimeSpan LastFire = TimeSpan.Zero;
+
+    // spellward start
+    /// <summary>Authoritative shot sequence used by shared projectile spread prediction.</summary>
+    [AutoNetworkedField]
+    public int ProjectilePredictionSequence;
+    // spellward end
 
     /// <summary>
     /// What the current spread is for shooting. This gets changed every time the gun fires.

@@ -13,14 +13,14 @@
   - type: Explosive
     explosionType: Default
     maxIntensity: 2
-    intensitySlope: 8
-    totalIntensity: 36
+    intensitySlope: 1.175
+    totalIntensity: 22.2
     maxTileBreak: 0
   - type: IgniteOnCollide
     fireStacks: 2
-  - type: SpawnEntityOnTrigger
-    spawnedEntitiesPrototype:
-      - FireballShockWaveEffect
+  # The existing shockwave is cosmetic; use the predicted impact renderer.
+  - type: Projectile
+    impactEffect: FireballShockWaveEffect
   - type: FireballDistortion
   - type: SingularityDistortion
     falloffPower: 3
@@ -63,15 +63,15 @@
     - state: fireball
   - type: Explosive
     explosionType: Default
-    maxIntensity: 5
-    intensitySlope: 6
-    totalIntensity: 90
+    maxIntensity: 3.4
+    intensitySlope: 1.375
+    totalIntensity: 31.5
     maxTileBreak: 0
   - type: IgniteOnCollide
     fireStacks: 3
-  - type: SpawnEntityOnTrigger
-    spawnedEntitiesPrototype:
-      - FireballShockWaveEffect
+  # The existing shockwave is cosmetic; use the predicted impact renderer.
+  - type: Projectile
+    impactEffect: FireballShockWaveEffect
   - type: FireballDistortion
     fireballScale: 2
     startPoint: 0.25,0
@@ -118,15 +118,15 @@
     - state: fireball
   - type: Explosive
     explosionType: Default
-    maxIntensity: 10
-    intensitySlope: 5
-    totalIntensity: 210
+    maxIntensity: 5
+    intensitySlope: 1.45
+    totalIntensity: 66.3
     maxTileBreak: 0
   - type: IgniteOnCollide
     fireStacks: 5
-  - type: SpawnEntityOnTrigger
-    spawnedEntitiesPrototype:
-      - FireballShockWaveEffect
+  # The existing shockwave is cosmetic; use the predicted impact renderer.
+  - type: Projectile
+    impactEffect: FireballShockWaveEffect
   - type: FireballDistortion
     fireballScale: 3
     startPoint: 0.5,0

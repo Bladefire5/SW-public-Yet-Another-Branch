@@ -7,8 +7,15 @@
   id: SpearBone
   description: A spear made of bones.
   components:
+  # spellward start - dedicated thrown hit poise, distinct from melee poise
+  - type: PoiseImpact
+    poiseDamage: 12
+  - type: ThrownWeaponPoiseReset
+  # spellward end
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 7
+  # spellward end
   - type: Spear
   - type: RDWeight
     value: 4
@@ -24,19 +31,33 @@
     node: spear
     graph: SpearBone
   - type: Sharp
+  # spellward start
   - type: MeleeWeapon
     wideAnimationRotation: -140
     attackRate: 0.8
     range: 2.15
     damage:
       types:
-        Piercing: 9
+        Piercing: 7.2
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     angle: 0
-    #animation: WeaponArcThrust
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: false
     cPAnimationOffset: 1.8
+    clickDamageModifier: 1
+    #animation: WeaponArcThrust
+  # spellward end
   - type: Item
     size: Huge
   - type: Clothing
@@ -46,14 +67,27 @@
   - type: Wieldable
     useDelayOnWield: false
     #wieldTime: 0.5
+  # spellward start
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Piercing: 8
+        Piercing: 6
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+  # spellward end
   - type: DamageOtherOnHit
     damage:
       types:
-        Piercing: 21
+        Piercing: 12
     #- type: EmbeddableProjectile
     #offset: 0.15,0.15
   - type: ThrowingAngle
@@ -79,6 +113,24 @@
   - type: MeleeThrowOnHit
     distance: 0.5
     speed: 5
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: Spear
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 2
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: medieval spear
@@ -86,8 +138,15 @@
   id: MedievalSpearT3
   description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
   components:
+  # spellward start - dedicated thrown hit poise, distinct from melee poise
+  - type: PoiseImpact
+    poiseDamage: 16
+  - type: ThrownWeaponPoiseReset
+  # spellward end
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 8
+  # spellward end
   - type: Spear
   - type: RDWeight
     value: 4
@@ -98,17 +157,30 @@
     sprite: Imperial/Medieval/Melee/iron_spear.rsi
     netsync: false
     state: spear
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.45
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
-    clickDamageModifier: 1.28
+    clickDamageModifier: 1
     wideAnimationRotation: -140
     attackRate: 0.8
     range: 2.4
     damage:
       types:
-        Piercing: 8
+        Piercing: 8.96
         ParryAble: 1
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     angle: 0
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
@@ -118,6 +190,7 @@
       path: /Audio/Weapons/bladeslice.ogg
     soundSwing:
       path: /Audio/Imperial/Medieval/spear_swing.ogg
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.4
   - type: Item
@@ -130,198 +203,23 @@
   - type: Wieldable
     useDelayOnWield: false
     #wieldTime: 0.5
+  # spellward start
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Piercing: 7
-  - type: DamageOtherOnHit
-    damage:
-      types:
-        Piercing: 21
-  #- type: QualityOfItem
-  #  qualityWeights:
-  #    0: 0
-  #    1: 0
-  #    2: 0
-  #    3: 10
-  #    4: 0
-  #    5: 0
-  #    6: 0
-  #- type: EmbeddableProjectile
-    #offset: 0.15,0.15
-  - type: ThrowingAngle
-    angle: 225
-  - type: Tag
-    tags:
-    - Spear
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape: !type:PolygonShape
-          vertices:
-            - -0.40,-0.30
-            - -0.30,-0.40
-            - 0.40,0.30
-            - 0.30,0.40
-        density: 20
-        mask:
-        - ItemMask
-        restitution: 0.3
-        friction: 0.2
-  - type: MeleeThrowOnHit
-    distance: 0.5
-    speed: 5
-  - type: StaminaDamageOnHit
-    damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
-  - type: Meltable
-    resourceCount: 4
-
-- type: entity
-  name: medieval spear
-  parent: [ BaseItem, BaseSpearCharged, BasePoiseSpear ]
-  id: MedievalSpearT3Steel
-  description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
-  components:
-  - type: Spear
-  - type: RDWeight
-    value: 4
-  - type: QuestItem
-    contractName: "любое двуручное оружие"
-  - type: Sharp
-  - type: Sprite
-    sprite: Imperial/Medieval/Melee/iron_spear.rsi
-    netsync: false
-    state: spear
-  - type: MeleeParry
-    parryChanse: 0.45
-  - type: MeleeWeapon
-    clickDamageModifier: 1.28
-    wideAnimationRotation: -140
-    attackRate: 0.8
-    range: 2.4
-    damage:
-      types:
-        Piercing: 9
-        ParryAble: 1
-    angle: 0
-    animation: CP14WeaponArcThrust
-    wideAnimation: CP14WeaponArcSlash
-    cPSwingBeverage: true
-    cPAnimationOffset: 1.8
-    soundHit:
-      path: /Audio/Weapons/bladeslice.ogg
-    soundSwing:
-      path: /Audio/Imperial/Medieval/spear_swing.ogg
-  - type: MedievalMeleeResource
-    resourceWaste: 0.4
-  - type: Item
-    size: Huge
-  - type: Clothing
-    quickEquip: false
-    slots:
-    - back
-    - suitStorage
-  - type: Wieldable
-    useDelayOnWield: false
-    #wieldTime: 0.5
-  - type: IncreaseDamageOnWield
-    damage:
-      types:
-        Piercing: 11
-  - type: DamageOtherOnHit
-    damage:
-      types:
-        Piercing: 25
-  #- type: QualityOfItem
-  #  qualityWeights:
-  #    0: 0
-  #    1: 0
-  #    2: 0
-  #    3: 10
-  #    4: 0
-  #    5: 0
-  #    6: 0
-  #- type: EmbeddableProjectile
-    #offset: 0.15,0.15
-  - type: ThrowingAngle
-    angle: 225
-  - type: Tag
-    tags:
-    - Spear
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape: !type:PolygonShape
-          vertices:
-            - -0.40,-0.30
-            - -0.30,-0.40
-            - 0.40,0.30
-            - 0.30,0.40
-        density: 20
-        mask:
-        - ItemMask
-        restitution: 0.3
-        friction: 0.2
-  - type: MeleeThrowOnHit
-    distance: 0.5
-    speed: 5
-  - type: StaminaDamageOnHit
-    damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
-  - type: Meltable
-    resourceCount: 4
-
-- type: entity
-  name: medieval spear
-  parent: [ BaseItem, BaseSpearCharged, BasePoiseSpear ]
-  id: MedievalSpearRusty
-  description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
-  components:
-  - type: Item
-    size: Normal
-  - type: Spear
-  - type: RDWeight
-    value: 4
-  - type: QuestItem
-    contractName: "любое двуручное оружие"
-  - type: Sharp
-  - type: Sprite
-    sprite: Imperial/Medieval/Melee/iron_spear_rusty.rsi
-    netsync: false
-    state: spear
-  - type: MeleeParry
-    parryChanse: 0.45
-  - type: MeleeWeapon
-    clickDamageModifier: 1.28
-    wideAnimationRotation: -140
-    attackRate: 0.8
-    range: 2.25
-    damage:
-      types:
-        Piercing: 6
-        ParryAble: 1
-    angle: 0
-    animation: CP14WeaponArcThrust
-    wideAnimation: CP14WeaponArcSlash
-    cPSwingBeverage: true
-    cPAnimationOffset: 1.8
-    soundHit:
-      path: /Audio/Weapons/bladeslice.ogg
-    soundSwing:
-      path: /Audio/Imperial/Medieval/spear_swing.ogg
-  - type: MedievalMeleeResource
-    resourceWaste: 0.4
-  - type: Clothing
-    quickEquip: false
-    slots:
-    - back
-    - suitStorage
-  - type: Wieldable
-    useDelayOnWield: false
-    #wieldTime: 0.5
-  - type: IncreaseDamageOnWield
-    damage:
-      types:
-        Piercing: 5
+        Piercing: 8.96
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+  # spellward end
   - type: DamageOtherOnHit
     damage:
       types:
@@ -356,10 +254,320 @@
         - ItemMask
         restitution: 0.3
         friction: 0.2
+  - type: MeleeThrowOnHit
+    distance: 0.5
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 4
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: Spear
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 4
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
+
+- type: entity
+  name: medieval spear
+  parent: [ BaseItem, BaseSpearCharged, BasePoiseSpear ]
+  id: MedievalSpearT3Steel
+  description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
+  components:
+  # spellward start - dedicated thrown hit poise, distinct from melee poise
+  - type: PoiseImpact
+    poiseDamage: 20
+  - type: ThrownWeaponPoiseReset
+  # spellward end
+  - type: Spear
+  - type: RDWeight
+    value: 4
+  - type: QuestItem
+    contractName: "любое двуручное оружие"
+  - type: Sharp
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_spear.rsi
+    netsync: false
+    state: spear
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
+  - type: MeleeParry
+  # spellward end
+  # spellward start
+  - type: MeleeWeapon
+    clickDamageModifier: 1
+    wideAnimationRotation: -140
+    attackRate: 0.8
+    range: 2.4
+    damage:
+      types:
+        Piercing: 12.8
+        ParryAble: 1
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+    angle: 0
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1.8
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+    soundSwing:
+      path: /Audio/Imperial/Medieval/spear_swing.ogg
+  # spellward end
+  - type: MedievalMeleeResource
+    resourceWaste: 0.4
+  - type: Item
+    size: Huge
+  - type: Clothing
+    quickEquip: false
+    slots:
+    - back
+    - suitStorage
+  - type: Wieldable
+    useDelayOnWield: false
+    #wieldTime: 0.5
+  # spellward start
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Piercing: 12.8
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+  # spellward end
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 18
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    - Spear
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape: !type:PolygonShape
+          vertices:
+            - -0.40,-0.30
+            - -0.30,-0.40
+            - 0.40,0.30
+            - 0.30,0.40
+        density: 20
+        mask:
+        - ItemMask
+        restitution: 0.3
+        friction: 0.2
+  - type: MeleeThrowOnHit
+    distance: 0.5
+    speed: 5
+  - type: StaminaDamageOnHit
+    damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  - type: Meltable
+    resourceCount: 4
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 10
+  - type: MedievalWeaponSkillCategory
+    skill: Spear
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 5
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
+
+- type: entity
+  name: medieval spear
+  parent: [ BaseItem, BaseSpearCharged, BasePoiseSpear ]
+  id: MedievalSpearRusty
+  description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
+  components:
+  # spellward start - dedicated thrown hit poise, distinct from melee poise
+  - type: PoiseImpact
+    poiseDamage: 10
+  - type: ThrownWeaponPoiseReset
+  # spellward end
+  - type: Item
+    size: Normal
+  - type: Spear
+  - type: RDWeight
+    value: 4
+  - type: QuestItem
+    contractName: "любое двуручное оружие"
+  - type: Sharp
+  - type: Sprite
+    sprite: Imperial/Medieval/Melee/iron_spear_rusty.rsi
+    netsync: false
+    state: spear
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
+  - type: MeleeParry
+  # spellward end
+  # spellward start
+  - type: MeleeWeapon
+    clickDamageModifier: 1
+    wideAnimationRotation: -140
+    attackRate: 0.8
+    range: 2.25
+    damage:
+      types:
+        Piercing: 7.68
+        ParryAble: 1
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+    angle: 0
+    animation: CP14WeaponArcThrust
+    wideAnimation: CP14WeaponArcSlash
+    cPSwingBeverage: true
+    cPAnimationOffset: 1.8
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+    soundSwing:
+      path: /Audio/Imperial/Medieval/spear_swing.ogg
+  # spellward end
+  - type: MedievalMeleeResource
+    resourceWaste: 0.4
+  - type: Clothing
+    quickEquip: false
+    slots:
+    - back
+    - suitStorage
+  - type: Wieldable
+    useDelayOnWield: false
+    #wieldTime: 0.5
+  # spellward start
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Piercing: 6.4
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+  # spellward end
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 10
+  #- type: QualityOfItem
+  #  qualityWeights:
+  #    0: 0
+  #    1: 0
+  #    2: 0
+  #    3: 10
+  #    4: 0
+  #    5: 0
+  #    6: 0
+  #- type: EmbeddableProjectile
+    #offset: 0.15,0.15
+  - type: ThrowingAngle
+    angle: 225
+  - type: Tag
+    tags:
+    - Spear
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape: !type:PolygonShape
+          vertices:
+            - -0.40,-0.30
+            - -0.30,-0.40
+            - 0.40,0.30
+            - 0.30,0.40
+        density: 20
+        mask:
+        - ItemMask
+        restitution: 0.3
+        friction: 0.2
   - type: StaminaDamageOnHit
     damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 2
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 10
+  - type: MedievalWeaponSkillCategory
+    skill: Spear
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 2
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: Pilum
@@ -367,8 +575,15 @@
   id: MedievalSpearPilum
   description: Just a spear
   components:
+  # spellward start - dedicated thrown hit poise, distinct from melee poise
+  - type: PoiseImpact
+    poiseDamage: 25
+  - type: ThrownWeaponPoiseReset
+  # spellward end
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 6
+  # spellward end
   - type: Spear
   - type: RDWeight
     value: 4
@@ -376,6 +591,7 @@
     sprite: Imperial/Medieval/Melee/pilum.rsi
     state: spear
   - type: Sharp
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
@@ -385,8 +601,22 @@
     attackRate: 0.65
     damage:
       types:
-        Piercing: 10
+        Piercing: 9.6
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     angle: 0
+    clickDamageModifier: 1
+    range: 1.5
+  # spellward end
   - type: Item
     size: Normal
     storedSprite:
@@ -403,8 +633,8 @@
   - type: DamageOtherOnHit
     damage:
       types:
-        Piercing: 37
-        Blunt: 3
+        Blunt: 1
+        Piercing: 24
   - type: APDamageOnThrow
     damage:
       types:
@@ -434,6 +664,24 @@
         friction: 0.2
   - type: StaminaDamageOnHit
     damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: Spear
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 2
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: Sulica
@@ -441,8 +689,15 @@
   id: MedievalSpearSulica
   description: Just a spear
   components:
+  # spellward start - dedicated thrown hit poise, distinct from melee poise
+  - type: PoiseImpact
+    poiseDamage: 20
+  - type: ThrownWeaponPoiseReset
+  # spellward end
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 5
+  # spellward end
   - type: Spear
   - type: RDWeight
     value: 4
@@ -450,17 +705,32 @@
     sprite: Imperial/Medieval/Melee/sulica.rsi
     state: spear
   - type: Sharp
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
     wideAnimationRotation: -140
-    attackRate: 0.65
+    attackRate: 0.75
     damage:
       types:
-        Piercing: 10
+        Piercing: 7.2
+        Blunt: 0
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     angle: 0
+    clickDamageModifier: 1
+    range: 1.5
+  # spellward end
   - type: Item
     size: Normal
     storedSprite:
@@ -477,12 +747,12 @@
   - type: DamageOtherOnHit
     damage:
       types:
-        Piercing: 37
-        Blunt: 3
+        Blunt: 1
+        Piercing: 18
   - type: APDamageOnThrow
     damage:
       types:
-        Piercing: 5
+        Piercing: 3
   #- type: EmbeddableProjectile
     #offset: 0.15,0.15
   - type: ThrowingAngle
@@ -508,3 +778,21 @@
         friction: 0.2
   - type: StaminaDamageOnHit
     damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: Spear
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 2
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end

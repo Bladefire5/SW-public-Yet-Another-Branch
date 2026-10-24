@@ -1,15 +1,20 @@
 using Content.Shared.Armor;
 using Content.Shared.Explosion.Components;
+// spellward start
+using Content.Shared.Trigger.Components.Effects;
+using Content.Shared.Trigger.Components.Triggers;
+using Content.Shared.Projectiles;
+// spellward end
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Explosion.EntitySystems;
 
 // TODO some sort of struct like DamageSpecifier but for explosions.
 /// <summary>
-/// Lets code in shared trigger explosions and handles explosion resistance examining.
-/// All processing is still done clientside.
+/// Lets shared code request explosions and examine explosion resistance.
+/// Read-only propagation is shared for presentation; server systems own damage and world changes.
 /// </summary>
-public abstract class SharedExplosionSystem : EntitySystem
+public abstract partial class SharedExplosionSystem : EntitySystem //spellward
 {
     /// <summary>
     ///     The "default" explosion prototype.
@@ -21,9 +26,25 @@ public abstract class SharedExplosionSystem : EntitySystem
     /// </remarks>
     public static readonly ProtoId<ExplosionPrototype> DefaultExplosionPrototypeId = "Default";
 
+    // spellward start
+    /// <summary>Only previews the ordinary self-explosion attached to the projectile's contact trigger.</summary>
+    public bool CanPredictCollisionExplosion(EntityUid uid)
+    {
+        return TryComp<TriggerOnCollideComponent>(uid, out var trigger) &&
+               trigger.FixtureID == SharedProjectileSystem.ProjectileFixture && trigger.MaxTriggers is not <= 0 &&
+               TryComp<ExplodeOnTriggerComponent>(uid, out var effect) && !effect.TargetUser &&
+               (trigger.KeyOut == null || effect.KeysIn.Contains(trigger.KeyOut)) &&
+               TryComp<ExplosiveComponent>(uid, out var explosive) && !explosive.Exploded &&
+               explosive.TotalIntensity > 0 && explosive.IntensitySlope > 0;
+    }
+
+    public virtual void PredictProjectileExplosion(EntityUid uid, ProjectilePredictionKey key) { }
+    // spellward end
+
     public override void Initialize()
     {
         base.Initialize();
+        InitializePropagation(); //spellward
         SubscribeLocalEvent<ExplosionResistanceComponent, ArmorExamineEvent>(OnArmorExamine);
     }
 

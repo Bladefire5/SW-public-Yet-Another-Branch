@@ -41,6 +41,9 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using ItemToggleMeleeWeaponComponent = Content.Shared.Item.ItemToggle.Components.ItemToggleMeleeWeaponComponent;
 using Content.Shared.Imperial.Medieval.ChargedAttack;
+// spellward start
+using Content.Shared.Imperial.Medieval.Poise.LightAttack;
+// spellward end
 using Content.Shared.Imperial.Medieval.Weapons;
 using Content.Shared.Imperial.Medieval.WeaponSkillSystem; // imperial medieval
 
@@ -71,6 +74,10 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
     [Dependency] private readonly ChargedAttackSystem _chargedAttack = default!; // imperial charged attack
     [Dependency] private readonly InnerWeaponSystem _innerWeapon = default!; // imperial medieval inner weapon
     [Dependency] private readonly ImperialMeleeSystem _imperial = default!; // imperial medieval
+    // spellward start
+    [Dependency] private readonly LightAttackStaminaSystem _lightAttackStamina = default!;
+    [Dependency] private readonly LightAttackWindupSystem _lightAttackWindup = default!;
+    // spellward end
 
 
     private const int AttackMask = (int)(CollisionGroup.MobMask | CollisionGroup.Opaque);
@@ -402,13 +409,31 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
     }
     // imperial charge attack end
 
+    // spellward start
+    /// <summary>
+    /// Finishes the queued swing through the usual hit checks and stamina payment.
+    /// </summary>
+    public bool CompleteLightAttackWindup(EntityUid user, EntityUid weaponUid, MeleeWeaponComponent weapon, LightAttackEvent attack, TimeSpan started)
+    {
+        _playerManager.TryGetSessionByEntity(user, out var session);
+        return AttemptAttack(user, weaponUid, weapon, attack, session, started);
+    }
+    // spellward end
+
     /// <summary>
     /// Called when a windup is finished and an attack is tried.
     /// </summary>
     /// <returns>True if attack successful</returns>
-    private bool AttemptAttack(EntityUid user, EntityUid weaponUid, MeleeWeaponComponent weapon, AttackEvent attack, ICommonSession? session)
+    private bool AttemptAttack(EntityUid user, EntityUid weaponUid, MeleeWeaponComponent weapon, AttackEvent attack, ICommonSession? session,
+        TimeSpan? lightAttackStarted = null) // spellward
     {
         var curTime = Timing.CurTime;
+
+        // spellward start
+        // Reject repeat clicks and overlapping attack types while a light swing is pending.
+        if (_lightAttackWindup.IsWindingUp(weaponUid))
+            return false;
+        // spellward end
 
         if (weapon.NextAttack > curTime)
             return false;
@@ -450,24 +475,47 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
                 break;
         }
 
+        // spellward start
+        if (attack is LightAttackEvent pendingLight && lightAttackStarted == null &&
+            (_lightAttackWindup.GetWindup(weaponUid) > 0f || _lightAttackWindup.GetInputDelay(weaponUid) > 0f))
+        {
+            _lightAttackWindup.Start(user, weaponUid, weapon, pendingLight);
+            return true;
+        }
+        // spellward end
+
         // Windup time checked elsewhere.
         var fireRate = TimeSpan.FromSeconds(1f / GetAttackRate(weaponUid, user, weapon));
         var swings = 0;
 
-        // TODO: If we get autoattacks then probably need a shotcounter like guns so we can do timing properly.
-        if (weapon.NextAttack < curTime)
-            weapon.NextAttack = curTime;
-
-        while (weapon.NextAttack <= curTime)
+        // spellward start
+        if (lightAttackStarted is { } started)
         {
-            weapon.NextAttack += fireRate;
-            swings++;
+            // Include the wind-up in the existing attack period. Slow wind-ups
+            // cannot accumulate extra swings or attack faster than their own duration.
+            weapon.NextAttack = started + fireRate > curTime ? started + fireRate : curTime;
+            swings = 1;
         }
+        else
+        {
+            // TODO: If we get autoattacks then probably need a shotcounter like guns so we can do timing properly.
+            if (weapon.NextAttack < curTime)
+                weapon.NextAttack = curTime;
+
+            while (weapon.NextAttack <= curTime)
+            {
+                weapon.NextAttack += fireRate;
+                swings++;
+            }
+        }
+        // spellward end
 
         DirtyField(weaponUid, weapon, nameof(MeleeWeaponComponent.NextAttack));
 
         // Do this AFTER attack so it doesn't spam every tick
-        var ev = new AttemptMeleeEvent();
+        // spellward start
+        var ev = new AttemptMeleeEvent(user);
+        // spellward end
         RaiseLocalEvent(weaponUid, ref ev);
         //CrystallEdge melee improvment
         if (weapon.CPSwingBeverage)
@@ -491,6 +539,11 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
             switch (attack)
             {
                 case LightAttackEvent light:
+                    // spellward start
+                    if (!_lightAttackStamina.TrySpendStamina(user, weaponUid))
+                        return false;
+                    // spellward end
+
                     DoLightAttack(user, light, weaponUid, weapon, session);
                     animation = weapon.Animation;
                     break;
@@ -1163,3 +1216,4 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         }
     }
 }
+

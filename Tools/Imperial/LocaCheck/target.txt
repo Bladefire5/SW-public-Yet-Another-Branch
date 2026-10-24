@@ -53951,10 +53951,10 @@
 /Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰ent-MedievalArrow = железная стрела
 /Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰    .desc = Стрела — метательный снаряд для стрельбы из лука. Как правило, стрела — это тонкий стержень, с одной стороны которого имеется острый наконечник, а с другой — узкие лопасти (оперение).
 /Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰    .suffix = { "Средневековье, лук" }
-/Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰ent-MedievalArrowIronPhysics = железная стрела
+/Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰ent-MedievalNormalArrow = железная стрела
 /Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰    .desc = Стрела — метательный снаряд для стрельбы из лука. Как правило, стрела — это тонкий стержень, с одной стороны которого имеется острый наконечник, а с другой — узкие лопасти (оперение).
 /Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰    .suffix = { "Средневековье, лук, физика" }
-/Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰ent-MedievalArrowSteelPhysics = стальная стрела
+/Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰ent-MedievalSteelBroadheadArrow = стальная стрела
 /Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰    .desc = Стрела — метательный снаряд для стрельбы из лука. Как правило, стрела — это тонкий стержень, с одной стороны которого имеется острый наконечник, а с другой — узкие лопасти (оперение).
 /Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰    .suffix = { "Средневековье, лук, физика" }
 /Locale/ru-RU/Imperial/Medieval/medieval.ftl鎰ent-MedievalArrowFire = огненная стрела

@@ -1484,7 +1484,7 @@
   stacks:
     WoodPlank: 1
     MedievalIronIngot: 1
-  result: MedievalArrowIronPhysics
+  result: MedievalNormalArrow
 
 - type: CP14Recipe
   id: MedievalArrowPractice
@@ -1492,7 +1492,7 @@
   stacks:
     WoodPlank: 1
     MedievalSteelIngot: 1
-  result: MedievalArrowSteelPhysics
+  result: MedievalSteelBroadheadArrow
 
 - type: CP14Recipe
   id: MedievalArrowFire

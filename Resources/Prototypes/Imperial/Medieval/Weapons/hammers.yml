@@ -4,8 +4,10 @@
   id: MedievalIronHammer
   description: A medieval hammer.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 25
+  # spellward end
   - type: RDWeight
     value: 11
   - type: QuestItem
@@ -22,34 +24,59 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/hammer.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.6
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
-    clickDamageModifier: 1.8
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.15
+    attackRate: 0.5
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     angle: 120
     cPAnimationOffset: 1
-    range: 1.8
+    range: 1.75
     damage:
       types:
-        Blunt: 12
-        Structural: 56
+        Blunt: 25.2
+        Structural: 30
         ParryAble: 1
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.7
     safeToHitGroup: structure
   - type: Wieldable
     useDelayOnWield: false
     #wieldTime: 3.5
+  # spellward start
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Blunt: 17
-        Structural: 50
+        Blunt: 18
+        Structural: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
   - type: Item
     size: Huge
   - type: DamageOtherOnHit
@@ -76,6 +103,24 @@
   - type: HeldSpeedModifier
     walkModifier: 0.8
     sprintModifier: 0.8
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: TwoHanded
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: iron hammer
@@ -83,8 +128,10 @@
   id: MedievalIronHammerSteel
   description: A medieval hammer.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 30
+  # spellward end
   - type: RDWeight
     value: 11
   - type: QuestItem
@@ -101,34 +148,59 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/hammer.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.6
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     angle: 120
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
-    clickDamageModifier: 1.8
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.15
-    range: 1.8
+    attackRate: 0.55
+    range: 1.75
     damage:
       types:
-        Blunt: 14
-        Structural: 98
+        Blunt: 28.8
+        Structural: 40
         ParryAble: 1
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
   - type: MedievalMeleeResource
     resourceWaste: 0.7
     safeToHitGroup: structure
   - type: Wieldable
     useDelayOnWield: false
     #wieldTime: 3.5
+  # spellward start
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Blunt: 20
-        Structural: 114
+        Blunt: 21.6
+        Structural: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
   - type: Item
     size: Huge
   - type: DamageOtherOnHit
@@ -155,3 +227,21 @@
   - type: HeldSpeedModifier
     walkModifier: 0.8
     sprintModifier: 0.8
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: TwoHanded
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end

@@ -1,5 +1,9 @@
 // spellward start
 using Content.Server.Imperial.Medieval.Boss;
+// spellward start
+using System;
+using Content.Server.Imperial.Medieval.APDamage;
+// spellward end
 using Content.Shared.Damage.Components;
 using Content.Shared.Imperial.Medieval.Archery;
 using Content.Shared.Imperial.Medieval.Poise;
@@ -38,11 +42,34 @@ public sealed class PoiseImpactSystem : EntitySystem
 
     private void OnAmmoShot(EntityUid uid, GunComponent gun, AmmoShotEvent args)
     {
-        var damage = TryComp<PoiseDamageComponent>(uid, out var poise) ? poise.RangedPoiseDamage : null;
+        var weaponPoise = TryComp<PoiseDamageComponent>(uid, out var poise) ? poise.RangedPoiseDamage : null;
+
+        // spellward start - shared bolts hold their poise; the crossbow adjusts both damage types at firing time.
+        TryComp<MedievalCrossbowShotModifierComponent>(uid, out var crossbow);
+        // spellward end
 
         // This event contains the actual bullets, including cartridge contents and spread shots.
         foreach (var projectile in args.FiredProjectiles)
         {
+            // spellward start - adjust the spawned bullet, not the cartridge or its reusable prototype.
+            if (crossbow != null)
+            {
+                var damageMultiplier = MathF.Max(0f, crossbow.DamageMultiplier);
+
+                if (TryComp<ProjectileComponent>(projectile, out var shot))
+                    shot.Damage = shot.Damage * damageMultiplier;
+
+                // Armor-piercing damage is separate from Projectile.Damage, so scale it too.
+                if (TryComp<APDamageOnHitComponent>(projectile, out var armorPiercing))
+                    armorPiercing.Damage = armorPiercing.Damage * damageMultiplier;
+            }
+
+            // Preserve NPC per-gun overrides. Otherwise use the base poise carried by the bolt.
+            int? damage = weaponPoise;
+            if (damage == null && TryComp<MedievalBoltPoiseComponent>(projectile, out var bolt))
+                damage = bolt.PoiseDamage;
+            // spellward end
+
             if (damage == null)
             {
                 // A recovered NPC arrow can subsequently be fired from an ordinary player bow.
@@ -58,17 +85,25 @@ public sealed class PoiseImpactSystem : EntitySystem
                 arrow.PoiseHitApplied = false;
             }
 
-            if (damage <= 0)
+            // spellward start - only player crossbow bolt poise gets the weapon multiplier.
+            var poiseMultiplier = weaponPoise != null || crossbow == null
+                ? 1f
+                : MathF.Max(0f, crossbow.PoiseMultiplier);
+            var adjustedPoise = (int)MathF.Round(
+                MathF.Max(0f, damage.Value * poiseMultiplier), MidpointRounding.AwayFromZero);
+            // spellward end
+
+            if (adjustedPoise <= 0)
             {
                 RemComp<PoiseImpactComponent>(projectile);
                 continue;
             }
 
             var impact = EnsureComp<PoiseImpactComponent>(projectile);
-            impact.PoiseDamage = damage.Value;
+            impact.PoiseDamage = adjustedPoise;
             impact.Weapon = uid;
-            impact.Shooter = TryComp<ProjectileComponent>(projectile, out var shot)
-                ? shot.Shooter
+            impact.Shooter = TryComp<ProjectileComponent>(projectile, out var shotProjectile)
+                ? shotProjectile.Shooter
                 : TryComp<ThrownItemComponent>(projectile, out var thrown) ? thrown.Thrower : uid;
             impact.FromRangedWeapon = true;
             impact.HitTargets = new();

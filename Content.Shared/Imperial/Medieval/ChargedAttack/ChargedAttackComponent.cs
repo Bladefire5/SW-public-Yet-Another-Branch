@@ -20,6 +20,14 @@ public sealed partial class ChargedAttackComponent : Component
     [DataField, AutoNetworkedField]
     public float StaticModifier = 1.5f;
 
+    // spellward start
+    /// <summary>
+    /// Converts this charged hit's Piercing damage into an equal amount of Blunt damage.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool ConvertPiercingToBlunt;
+    // spellward end
+
     [ViewVariables, AutoNetworkedField]
     public float Modifier;
 

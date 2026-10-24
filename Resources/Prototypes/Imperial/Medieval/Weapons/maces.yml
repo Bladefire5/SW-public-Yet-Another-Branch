@@ -18,10 +18,12 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/iron_mace.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.1
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
-    clickDamageModifier: 1.26
+    clickDamageModifier: 1
     wideAnimationRotation: -140
     attackRate: 0.8
     animation: CP14WeaponArcThrust
@@ -30,10 +32,22 @@
     cPAnimationOffset: 1
     damage:
       types:
-        Blunt: 7
-        Piercing: 5
+        Blunt: 13.86
+        Piercing: 5.04
         ParryAble: 1
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     resetOnHandSelected: false
+    range: 1.5
+  # spellward end
   - type: Item
     size: Normal
   - type: DisarmMalus
@@ -64,6 +78,26 @@
     damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 3
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 10
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedBluntLight
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: mace
@@ -85,22 +119,36 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/iron_mace.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.1
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
-    clickDamageModifier: 1.26
+    clickDamageModifier: 1
     wideAnimationRotation: -140
     attackRate: 0.8
     damage:
       types:
-        Blunt: 7.5
-        Piercing: 7.4
+        Blunt: 15.12
+        Piercing: 11.34
         ParryAble: 1
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     resetOnHandSelected: false
+    range: 1.5
+  # spellward end
   - type: Item
     size: Normal
   - type: DisarmMalus
@@ -131,6 +179,26 @@
     damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 3
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 10
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedBluntLight
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: mace
@@ -138,8 +206,10 @@
   id: MedievalMaceRusty
   description: An ancient war blade.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 7
+  # spellward end
   - type: RDWeight
     value: 2
   - type: QuestItem
@@ -154,22 +224,36 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/iron_mace_rusty.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.1
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
-    clickDamageModifier: 1.26
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.8
+    attackRate: 0.7
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
     damage:
       types:
-        Blunt: 5.5
-        Piercing: 3.5
+        Blunt: 8.82
+        Piercing: 3.15
         ParryAble: 1
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
     resetOnHandSelected: false
+    range: 1.5
+  # spellward end
   - type: Item
     size: Normal
   - type: DisarmMalus
@@ -188,6 +272,24 @@
     damage: 1.5 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 2
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedBluntLight
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: mace
@@ -195,8 +297,10 @@
   id: MedievalMaceT3Heavy
   description: An ancient war blade.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 15
+  # spellward end
   - type: RDWeight
     value: 3
   - type: QuestItem
@@ -211,22 +315,36 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/heavy_mace.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.25
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
-    clickDamageModifier: 1.33
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.72
+    attackRate: 0.65
     damage:
       types:
-        Blunt: 11
-        Piercing: 8
+        Blunt: 26.6
+        Piercing: 6.65
         ParryAble: 1
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+    range: 1.5
     #resetOnHandSelected: false
+  # spellward end
   - type: Item
     size: Large
   - type: DisarmMalus
@@ -257,6 +375,24 @@
     damage: 3 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 4
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedBlunt
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: mace
@@ -264,8 +400,10 @@
   id: MedievalMaceT3SteelHeavy
   description: An ancient war blade.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 15
+  # spellward end
   - type: RDWeight
     value: 4
   - type: QuestItem
@@ -280,22 +418,36 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/heavy_mace.rsi
     state: icon
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.25
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
-    clickDamageModifier: 1.33
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.72
+    attackRate: 0.65
     damage:
       types:
-        Blunt: 12
-        Piercing: 10.5
+        Blunt: 15.96
+        Piercing: 13.965
         ParryAble: 1
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+    range: 1.5
     #resetOnHandSelected: false
+  # spellward end
   - type: Item
     size: Normal
   - type: DisarmMalus
@@ -326,6 +478,24 @@
     damage: 3 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 4
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedBlunt
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: mace
@@ -341,20 +511,33 @@
   - type: Sprite
     sprite: Imperial/Medieval/Melee/bone_mace.rsi
     state: icon
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
-    clickDamageModifier: 1.3
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.7
+    attackRate: 0.65
     damage:
       types:
-        Blunt: 12.5
-        Piercing: 5
+        Blunt: 26.6
+        Piercing: 6.65
         ParryAble: 1
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 5
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 0
+    range: 1.5
     #resetOnHandSelected: false
+  # spellward end
   - type: Item
     size: Normal
   - type: DisarmMalus
@@ -383,6 +566,26 @@
     speed: 5
   - type: StaminaDamageOnHit
     damage: 3 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 15
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedBlunt
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: dagger
@@ -407,22 +610,36 @@
   - type: Item
     size: Small
     sprite: Imperial/Medieval/Melee/palice.rsi
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.3
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
-    clickDamageModifier: 1.3
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.8
+    attackRate: 0.85
     damage:
       types:
-        Blunt: 9.7
-        Piercing: 7.5
+        Blunt: 19.5
+        Piercing: 0
         ParryAble: 1
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 2
+    range: 1.5
     #resetOnHandSelected: false
+  # spellward end
   - type: DisarmMalus
   - type: DamageOtherOnHit
     damage:
@@ -458,6 +675,26 @@
     damage: 3 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 4
+  # spellward start
+  - type: PoiseDamage
+    poiseDamage: 12
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedBlunt
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end
 
 - type: entity
   name: dagger
@@ -465,8 +702,10 @@
   id: MedievalPaliceSteel
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start
   - type: PoiseDamage
     poiseDamage: 14
+  # spellward end
   - type: RDWeight
     value: 3.5
   - type: QuestItem
@@ -484,22 +723,36 @@
   - type: Item
     size: Small
     sprite: Imperial/Medieval/Melee/palice.rsi
+  # spellward start - obsolete MeleeParry.parryChanse removed; timing-based parry preserved
   - type: MeleeParry
-    parryChanse: 0.62
+  # spellward end
+  # spellward start
   - type: MeleeWeapon
     animation: CP14WeaponArcThrust
     wideAnimation: CP14WeaponArcSlash
     cPSwingBeverage: true
     cPAnimationOffset: 1
-    clickDamageModifier: 1.33
+    clickDamageModifier: 1
     wideAnimationRotation: -140
-    attackRate: 0.8
+    attackRate: 0.85
     damage:
       types:
-        Blunt: 11
-        Piercing: 11.3
+        Blunt: 23.94
+        Piercing: 0
         ParryAble: 1
+        Slash: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+        Structural: 4
+    range: 1.5
     #resetOnHandSelected: false
+  # spellward end
   - type: DisarmMalus
   - type: DamageOtherOnHit
     damage:
@@ -535,3 +788,21 @@
     damage: 3 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: Meltable
     resourceCount: 4
+  # spellward start
+  - type: MedievalWeaponSkillCategory
+    skill: OneHandedBlunt
+  - type: APDamageOnHit
+    damage:
+      types:
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+        Heat: 0
+        Shock: 0
+        Cold: 0
+        Caustic: 0
+        Poison: 0
+        Radiation: 0
+        Holy: 0
+        Bloodloss: 0
+  # spellward end

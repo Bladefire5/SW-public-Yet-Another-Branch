@@ -1,4 +1,4 @@
-#Beginner
+# Beginner
 
 - type: entity
   name: IceDagger
@@ -12,17 +12,21 @@
   - type: Item
     size: Small
     sprite: Imperial/Medieval/Melee/ice_dagger_beginner.rsi
+  # spellward start - parryChanse is ignored by MeleeParry; keep the active timing parry.
   - type: MeleeParry
-    parryChanse: 0.10
+  # spellward end
+  # spellward start - half Cold; weaker than the rebalanced iron dagger.
   - type: MeleeWeapon
     attackRate: 1.34
-    clickDamageModifier: 1.33
+    clickDamageModifier: 1
     range: 1
     damage:
       types:
-        Slash: 7
+        Slash: 2.5
+        Cold: 2.5
         ParryAble: 1
     resetOnHandSelected: false
+  # spellward end
   - type: EmbeddableProjectile
     offset: 0.15,0.15
     removalTime: 2
@@ -31,13 +35,18 @@
   - type: Tag
     tags:
     - Knife
+  # spellward start - half of thrown damage is Cold; no thrown knockback.
   - type: DamageOtherOnHit
     damage:
       types:
-        Piercing: 12
-  - type: MeleeThrowOnHit
-    distance: 0.3
-    speed: 5
+        Piercing: 5
+        Cold: 5
+  # MeleeThrowOnHit removed to prevent knockback on melee and throw impacts.
+  - type: SummonedIceDagger
+    hitsRemaining: 5
+  - type: PoiseDamage
+    poiseDamage: 1
+  # spellward end
   - type: StaminaDamageOnHit
     damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: TimedDespawn
@@ -45,7 +54,7 @@
   - type: SpawnOnDespawn
     prototype: IceBarrierParticles
 
-#Middle
+# Middle
 
 - type: entity
   name: IceDagger
@@ -59,27 +68,32 @@
   - type: Item
     size: Small
     sprite: Imperial/Medieval/Melee/ice_dagger_middle.rsi
-  - type: MeleeParry
-    parryChanse: 0.12
+  # spellward start - half Cold; intermediate tier.
   - type: MeleeWeapon
     attackRate: 1.34
-    clickDamageModifier: 1.33
+    clickDamageModifier: 1
     range: 1
     damage:
       types:
-        Slash: 9.5
+        Slash: 3
+        Cold: 3
         ParryAble: 1
     resetOnHandSelected: false
+  # spellward end
   - type: EmbeddableProjectile
     offset: 0.15,0.15
     removalTime: 8
+  # spellward start - half Cold on thrown impact, no knockback.
   - type: DamageOtherOnHit
     damage:
       types:
-        Piercing: 14
-  - type: MeleeThrowOnHit
-    distance: 0.3
-    speed: 5
+        Piercing: 6
+        Cold: 6
+  - type: SummonedIceDagger
+    hitsRemaining: 8
+  - type: PoiseDamage
+    poiseDamage: 1
+  # spellward end
   - type: StaminaDamageOnHit
     damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: TimedDespawn
@@ -87,7 +101,7 @@
   - type: SpawnOnDespawn
     prototype: IceBarrierParticles
 
-#Senior
+# Senior
 
 - type: entity
   name: IceDagger
@@ -101,29 +115,32 @@
   - type: Item
     size: Small
     sprite: Imperial/Medieval/Melee/ice_dagger_senior.rsi
-  - type: MeleeParry
-    parryChanse: 0.15
+  # spellward start - match iron dagger raw melee total (6.65), half Cold.
   - type: MeleeWeapon
-    attackRate: 1.75
-    clickDamageModifier: 1.33
-    range: 1.15
+    attackRate: 1.34
+    clickDamageModifier: 1
+    range: 1
     damage:
       types:
-        Slash: 11
-        Cold: 0.5
+        Slash: 3.325
+        Cold: 3.325
         ParryAble: 1
     resetOnHandSelected: false
+  # spellward end
   - type: EmbeddableProjectile
     offset: 0.15,0.15
     removalTime: 25
+  # spellward start - same raw thrown total as rebalanced iron dagger (13), half Cold.
   - type: DamageOtherOnHit
     damage:
       types:
-        Piercing: 20
-        Cold: 1
-  - type: MeleeThrowOnHit
-    distance: 0.3
-    speed: 5
+        Piercing: 6.5
+        Cold: 6.5
+  - type: SummonedIceDagger
+    hitsRemaining: 12
+  - type: PoiseDamage
+    poiseDamage: 2
+  # spellward end
   - type: StaminaDamageOnHit
     damage: 2 #2 dagger, 5 spear, 4 sword, 5 mace, 8 halberd, 6 sekir, 18 hammer
   - type: TimedDespawn
