@@ -495,7 +495,7 @@
   - type: Tool
     useSound:
       collection: Welder
-    qualities: Welding
+    qualities: [Welding] #spellward
   - type: SolutionRegeneration
     solution: Welder
     generated:

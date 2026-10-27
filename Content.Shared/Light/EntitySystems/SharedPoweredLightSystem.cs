@@ -52,6 +52,10 @@ public abstract class SharedPoweredLightSystem : EntitySystem
         SubscribeLocalEvent<PoweredLightComponent, PowerChangedEvent>(OnPowerChanged);
         SubscribeLocalEvent<PoweredLightComponent, PoweredLightDoAfterEvent>(OnDoAfter);
         SubscribeLocalEvent<PoweredLightComponent, DamageChangedEvent>(HandleLightDamaged);
+        // spellward start
+        SubscribeLocalEvent<BlinkingPoweredLightComponent, MapInitEvent>(OnBlinkingMapInit);
+        SubscribeLocalEvent<BlinkingPoweredLightComponent, ComponentShutdown>(OnBlinkingShutdown);
+        // spellward end
     }
 
     private void OnInit(EntityUid uid, PoweredLightComponent light, ComponentInit args)
@@ -348,19 +352,30 @@ public abstract class SharedPoweredLightSystem : EntitySystem
         UpdateLight(uid, component);
     }
 
-    public void ToggleBlinkingLight(EntityUid uid, PoweredLightComponent light, bool isNowBlinking)
+    // spellward start - upstream shared blinking lifecycle and expiry.
+    private void OnBlinkingMapInit(Entity<BlinkingPoweredLightComponent> ent, ref MapInitEvent args)
     {
-        if (light.IsBlinking == isNowBlinking)
-            return;
-
-        light.IsBlinking = isNowBlinking;
-        Dirty(uid, light);
-
-        if (!TryComp<AppearanceComponent>(uid, out var appearance))
-            return;
-
-        _appearance.SetData(uid, PoweredLightVisuals.Blinking, isNowBlinking, appearance);
+        _appearance.SetData(ent, PoweredLightVisuals.Blinking, true);
     }
+
+    private void OnBlinkingShutdown(Entity<BlinkingPoweredLightComponent> ent, ref ComponentShutdown args)
+    {
+        _appearance.SetData(ent, PoweredLightVisuals.Blinking, false);
+    }
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        var curTime = GameTiming.CurTime;
+        var query = EntityQueryEnumerator<BlinkingPoweredLightComponent>();
+        while (query.MoveNext(out var uid, out var blinkingComp))
+        {
+            if (curTime > blinkingComp.StopBlinkingTime)
+                RemCompDeferred<BlinkingPoweredLightComponent>(uid);
+        }
+    }
+    // spellward end
 
     private void SetLight(EntityUid uid, bool value, Color? color = null, PoweredLightComponent? light = null, float? radius = null, float? energy = null, float? softness = null)
     {

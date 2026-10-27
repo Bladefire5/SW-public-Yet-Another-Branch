@@ -4,6 +4,7 @@ using Robust.Shared.Audio;
 using Robust.Shared.Containers;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom; //spellward
 
 namespace Content.Shared.Light.Components
 {
@@ -48,19 +49,11 @@ namespace Content.Shared.Light.Components
         [AutoNetworkedField]
         public bool CurrentLit;
 
-        [DataField, AutoNetworkedField]
-        public bool IsBlinking;
-
         [DataField, AutoNetworkedField, AutoPausedField]
         public TimeSpan LastThunk;
 
         [DataField, AutoPausedField]
         public TimeSpan? LastGhostBlink;
-
-        // spellward start - entity-scoped, pause-aware replacement for the removed SpawnTimer API.
-        [DataField, AutoPausedField]
-        public TimeSpan? GhostBlinkEndTime;
-        // spellward end
 
         [DataField]
         public ProtoId<SinkPortPrototype> OnPort = "On";
@@ -89,4 +82,15 @@ namespace Content.Shared.Light.Components
         [DataField]
         public TimeSpan UnarmedHitStun = TimeSpan.FromSeconds(5);
     }
+
+    // spellward start - upstream blinking state and optional expiry, shared with the client.
+    [RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
+    public sealed partial class BlinkingPoweredLightComponent : Component
+    {
+        // A null deadline keeps an aged light blinking indefinitely.
+        [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))]
+        [AutoNetworkedField, AutoPausedField]
+        public TimeSpan? StopBlinkingTime;
+    }
+    // spellward end
 }

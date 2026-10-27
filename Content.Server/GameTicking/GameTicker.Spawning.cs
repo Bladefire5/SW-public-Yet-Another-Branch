@@ -207,7 +207,7 @@ namespace Content.Server.GameTicking
                 else
                 {
                     var weights = _prototypeManager.Index<WeightedRandomSpeciesPrototype>(weightId);
-                    speciesId = weights.Pick(_robustRandom);
+                    speciesId = weights.Pick(_robustRandom).Id; //spellward
                 }
 
                 character = HumanoidCharacterProfile.RandomWithSpecies(speciesId);

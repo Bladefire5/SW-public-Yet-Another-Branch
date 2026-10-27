@@ -56,9 +56,7 @@ namespace Content.Server.Atmos.EntitySystems
         private EntityQuery<PhysicsComponent> _physicsQuery;
 
         // This should probably be moved to the component, requires a rewrite, all fires tick at the same time
-        private const float UpdateTime = 1f;
-
-        private float _timer;
+        private static readonly TimeSpan UpdateTime = TimeSpan.FromSeconds(1); //spellward
 
         private readonly Dictionary<Entity<FlammableComponent>, float> _fireEvents = new();
 
@@ -144,6 +142,8 @@ namespace Content.Server.Atmos.EntitySystems
 
         private void OnMapInit(EntityUid uid, FlammableComponent component, MapInitEvent args)
         {
+            component.NextUpdate = _timing.CurTime + UpdateTime; //spellward
+
             // Sets up a fixture for flammable collisions.
             // TODO: Should this be generalized into a general non-hard 'effects' fixture or something? I can't think of other use cases for it.
             // This doesn't seem great either (lots more collisions generated) but there isn't a better way to solve it either that I can think of.
@@ -397,12 +397,10 @@ namespace Content.Server.Atmos.EntitySystems
             if (!flammable.OnFire || !_actionBlockerSystem.CanInteract(uid, null) || flammable.Resisting)
                 return;
 
-            flammable.Resisting = true;
+            flammable.ResistCompleteTime = _timing.CurTime + flammable.ResistTime; //spellward
 
             _popup.PopupEntity(Loc.GetString("flammable-component-resist-message"), uid, uid);
-            _stunSystem.TryUpdateParalyzeDuration(uid, TimeSpan.FromSeconds(2f));
-
-            flammable.ResistCompleteTime = _timing.CurTime + TimeSpan.FromSeconds(2); //spellward
+            _stunSystem.TryUpdateParalyzeDuration(uid, flammable.ResistTime); //spellward
         }
 
         public override void Update(float frameTime)
@@ -422,32 +420,22 @@ namespace Content.Server.Atmos.EntitySystems
             }
             _fireEvents.Clear();
 
-            // spellward start - process completion every tick, independently of the one-second fire tick.
-            var time = _timing.CurTime;
-            var resistQuery = EntityQueryEnumerator<FlammableComponent>();
-            while (resistQuery.MoveNext(out var resistUid, out var resisting))
-            {
-                if (resisting.ResistCompleteTime is not { } end || time < end)
-                    continue;
-
-                resisting.ResistCompleteTime = null;
-                resisting.Resisting = false;
-                resisting.FireStacks -= 1f;
-                UpdateAppearance(resistUid, resisting);
-            }
-            // spellward end
-
-            _timer += frameTime;
-
-            if (_timer < UpdateTime)
-                return;
-
-            _timer -= UpdateTime;
+            var curTime = _timing.CurTime; //spellward
 
             // TODO: This needs cleanup to take off the crust from TemperatureComponent and shit.
             var query = EntityQueryEnumerator<FlammableComponent, TransformComponent>();
             while (query.MoveNext(out var uid, out var flammable, out _))
             {
+                // spellward start - upstream per-entity update and resist expiry.
+                if (curTime < flammable.NextUpdate)
+                    continue;
+
+                flammable.NextUpdate += UpdateTime;
+
+                if (curTime > flammable.ResistCompleteTime)
+                    flammable.ResistCompleteTime = null;
+                // spellward end
+
                 // Slowly dry ourselves off if wet.
                 if (flammable.FireStacks < 0)
                 {
@@ -488,7 +476,7 @@ namespace Content.Server.Atmos.EntitySystems
 
                     _damageableSystem.TryChangeDamage(uid, flammable.Damage * flammable.FireStacks * ev.Multiplier, interruptsDoAfters: false);
 
-                    AdjustFireStacks(uid, flammable.FirestackFade * (flammable.Resisting ? 10f : 1f), flammable, flammable.OnFire);
+                    AdjustFireStacks(uid, flammable.FirestackFade * (flammable.Resisting ? 15f : 1f), flammable, flammable.OnFire); //spellward
                 }
                 else
                 {

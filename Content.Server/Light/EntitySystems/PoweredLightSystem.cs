@@ -22,7 +22,7 @@ public sealed class PoweredLightSystem : SharedPoweredLightSystem
 
     private void OnGhostBoo(EntityUid uid, PoweredLightComponent light, GhostBooEvent args)
     {
-        if (light.IgnoreGhostsBoo)
+        if (light.IgnoreGhostsBoo || HasComp<BlinkingPoweredLightComponent>(uid)) //spellward
             return;
 
         // check cooldown first to prevent abuse
@@ -35,29 +35,14 @@ public sealed class PoweredLightSystem : SharedPoweredLightSystem
 
         light.LastGhostBlink = time;
 
-        ToggleBlinkingLight(uid, light, true);
-        light.GhostBlinkEndTime = time + light.GhostBlinkingTime; //spellward
+        // spellward start - upstream blinking timer; retain the existing ghost event/configuration.
+        var blinking = EnsureComp<BlinkingPoweredLightComponent>(uid);
+        blinking.StopBlinkingTime = time + light.GhostBlinkingTime;
+        Dirty(uid, blinking);
+        // spellward end
 
         args.Handled = true;
     }
-
-    // spellward start
-    public override void Update(float frameTime)
-    {
-        base.Update(frameTime);
-
-        var time = GameTiming.CurTime;
-        var query = EntityQueryEnumerator<PoweredLightComponent>();
-        while (query.MoveNext(out var uid, out var light))
-        {
-            if (light.GhostBlinkEndTime is not { } end || time < end)
-                continue;
-
-            light.GhostBlinkEndTime = null;
-            ToggleBlinkingLight(uid, light, false);
-        }
-    }
-    // spellward end
 
     private void OnMapInit(EntityUid uid, PoweredLightComponent light, MapInitEvent args)
     {

@@ -7,7 +7,7 @@ public sealed partial class MedievalDoAfterEveryComponent : Component
 {
     [ViewVariables(VVAccess.ReadWrite), DataField (required: true)]
     public LocId NameLocId;
-    [ViewVariables(VVAccess.ReadWrite), DataField]
+    [ViewVariables(VVAccess.ReadWrite), DataField("actionType")]
     public TypeMedievalDoAfter Type = TypeMedievalDoAfter.Hit;
     [ViewVariables(VVAccess.ReadWrite), DataField]
     public string TypeHit = "Blunt";

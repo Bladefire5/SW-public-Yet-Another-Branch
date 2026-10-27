@@ -56,7 +56,7 @@ public sealed class EntityTimerMigrationTest
             var boo = new GhostBooEvent();
             entities.EventBus.RaiseLocalEvent(entity, boo);
             Assert.That(boo.Handled, Is.False, "Finishing a blink must not reset its cooldown.");
-            Assert.That(entities.GetComponent<PoweredLightComponent>(entity).IsBlinking, Is.False);
+            Assert.That(entities.HasComponent<BlinkingPoweredLightComponent>(entity), Is.False);
         });
 
         await pair.CleanReturnAsync();
@@ -90,7 +90,32 @@ public sealed class EntityTimerMigrationTest
     }
 
     [Test]
-    public async Task FireResistCompletionRemovesExactlyOneStackOnce()
+    public async Task PermanentBlinkingHasNoGhostExpiry()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var map = await pair.CreateTestMap();
+        var server = pair.Server;
+        var second = (int) server.ResolveDependency<IGameTiming>().TickRate;
+        EntityUid entity = default;
+        await server.WaitAssertion(() =>
+        {
+            entity = server.EntMan.SpawnEntity("ExperimentEntityTimerTest", map.GridCoords);
+            server.EntMan.AddComponent<BlinkingPoweredLightComponent>(entity);
+            var boo = new GhostBooEvent();
+            server.EntMan.EventBus.RaiseLocalEvent(entity, boo);
+            Assert.That(boo.Handled, Is.False);
+        });
+        await pair.RunTicksSync(second * 3);
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(server.EntMan.HasComponent<BlinkingPoweredLightComponent>(entity), Is.True);
+            Assert.That(server.EntMan.GetComponent<BlinkingPoweredLightComponent>(entity).StopBlinkingTime, Is.Null);
+        });
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task FireResistExpiryDoesNotApplyAnExtraStackReduction()
     {
         await using var pair = await PoolManager.GetServerClient();
         var map = await pair.CreateTestMap();
@@ -120,10 +145,10 @@ public sealed class EntityTimerMigrationTest
         {
             var flammable = server.EntMan.GetComponent<FlammableComponent>(entity);
             Assert.That(flammable.Resisting, Is.False);
-            Assert.That(flammable.FireStacks, Is.EqualTo(4));
+            Assert.That(flammable.FireStacks, Is.EqualTo(5));
         });
         await pair.RunTicksSync(second * 2);
-        await server.WaitAssertion(() => Assert.That(server.EntMan.GetComponent<FlammableComponent>(entity).FireStacks, Is.EqualTo(4)));
+        await server.WaitAssertion(() => Assert.That(server.EntMan.GetComponent<FlammableComponent>(entity).FireStacks, Is.EqualTo(5)));
 
         await pair.CleanReturnAsync();
     }
@@ -148,7 +173,7 @@ public sealed class EntityTimerMigrationTest
     {
         Assert.Multiple(() =>
         {
-            Assert.That(entities.GetComponent<PoweredLightComponent>(entity).IsBlinking, Is.EqualTo(active));
+            Assert.That(entities.HasComponent<BlinkingPoweredLightComponent>(entity), Is.EqualTo(active));
             Assert.That(entities.GetComponent<FlammableComponent>(entity).Resisting, Is.EqualTo(active));
         });
     }

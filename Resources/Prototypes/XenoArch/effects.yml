@@ -390,27 +390,27 @@
     - type: MultipleTool
       statusShowBehavior: true
       entries:
-      - behavior: Screwing
+      - behavior: [Screwing] #spellward
         useSound:
           path: /Audio/Items/drill_use.ogg
         changeSound:
           path: /Audio/Items/change_drill.ogg
-      - behavior: Prying
+      - behavior: [Prying] #spellward
         useSound:
           path: /Audio/Items/jaws_pry.ogg
         changeSound:
           path: /Audio/Items/change_drill.ogg
-      - behavior: Anchoring
+      - behavior: [Anchoring] #spellward
         useSound:
           path: /Audio/Items/ratchet.ogg
         changeSound:
           path: /Audio/Items/change_drill.ogg
-      - behavior: Cutting
+      - behavior: [Cutting] #spellward
         useSound:
           path: /Audio/Items/jaws_cut.ogg
         changeSound:
           path: /Audio/Items/change_drill.ogg
-      - behavior: Pulsing
+      - behavior: [Pulsing] #spellward
         changeSound:
           path: /Audio/Items/change_drill.ogg
 

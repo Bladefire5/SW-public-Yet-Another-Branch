@@ -16,7 +16,7 @@ public sealed partial class RandomSpawnsLoot : IDungeonLoot
 public partial record struct RandomSpawnLootEntry() : IBudgetEntry
 {
     [ViewVariables(VVAccess.ReadWrite), DataField("proto", required: true)]
-    public string Proto { get; set; } = string.Empty;
+    public EntProtoId Proto { get; set; } = string.Empty; //spellward
 
     /// <summary>
     /// Cost for this loot to spawn.

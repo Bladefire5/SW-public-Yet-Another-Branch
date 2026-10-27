@@ -1,4 +1,3 @@
-using System.Linq; //spellward
 using Content.Shared.Administration.Logs;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.DoAfter;
@@ -117,7 +116,7 @@ public abstract partial class SharedToolSystem : EntitySystem
         EntityUid user,
         EntityUid? target,
         float doAfterDelay,
-        [ForbidLiteral] IEnumerable<string> toolQualitiesNeeded,
+        [ForbidLiteral] IEnumerable<ProtoId<ToolQualityPrototype>> toolQualitiesNeeded, //spellward
         DoAfterEvent doAfterEv,
         float fuel = 0,
         ToolComponent? toolComponent = null)
@@ -155,7 +154,7 @@ public abstract partial class SharedToolSystem : EntitySystem
         EntityUid user,
         EntityUid? target,
         TimeSpan delay,
-        [ForbidLiteral] IEnumerable<string> toolQualitiesNeeded,
+        [ForbidLiteral] IEnumerable<ProtoId<ToolQualityPrototype>> toolQualitiesNeeded, //spellward
         DoAfterEvent doAfterEv,
         out DoAfterId? id,
         float fuel = 0,
@@ -202,7 +201,7 @@ public abstract partial class SharedToolSystem : EntitySystem
         EntityUid user,
         EntityUid? target,
         float doAfterDelay,
-        [ForbidLiteral] string toolQualityNeeded,
+        [ForbidLiteral] ProtoId<ToolQualityPrototype> toolQualityNeeded, //spellward
         DoAfterEvent doAfterEv,
         float fuel = 0,
         ToolComponent? toolComponent = null)
@@ -218,35 +217,6 @@ public abstract partial class SharedToolSystem : EntitySystem
             toolComponent);
     }
 
-    // spellward start - typed quality collections forward to the existing string API without changing tool-use behavior.
-    public bool UseTool(
-        EntityUid tool,
-        EntityUid user,
-        EntityUid? target,
-        float doAfterDelay,
-        [ForbidLiteral] IEnumerable<ProtoId<ToolQualityPrototype>> toolQualitiesNeeded,
-        DoAfterEvent doAfterEv,
-        float fuel = 0,
-        ToolComponent? toolComponent = null)
-    {
-        return UseTool(tool, user, target, doAfterDelay, toolQualitiesNeeded.Select(quality => quality.Id), doAfterEv, fuel, toolComponent);
-    }
-
-    public bool UseTool(
-        EntityUid tool,
-        EntityUid user,
-        EntityUid? target,
-        TimeSpan delay,
-        [ForbidLiteral] IEnumerable<ProtoId<ToolQualityPrototype>> toolQualitiesNeeded,
-        DoAfterEvent doAfterEv,
-        out DoAfterId? id,
-        float fuel = 0,
-        ToolComponent? toolComponent = null)
-    {
-        return UseTool(tool, user, target, delay, toolQualitiesNeeded.Select(quality => quality.Id), doAfterEv, out id, fuel, toolComponent);
-    }
-    // spellward end
-
     /// <summary>
     ///     Whether a tool entity has the specified quality or not.
     /// </summary>
@@ -259,18 +229,18 @@ public abstract partial class SharedToolSystem : EntitySystem
     ///     Whether a tool entity has all specified qualities or not.
     /// </summary>
     [PublicAPI]
-    public bool HasAllQualities(EntityUid uid, [ForbidLiteral] IEnumerable<string> qualities, ToolComponent? tool = null)
+    public bool HasAllQualities(EntityUid uid, [ForbidLiteral] IEnumerable<ProtoId<ToolQualityPrototype>> qualities, ToolComponent? tool = null) //spellward
     {
-        return Resolve(uid, ref tool, false) && qualities.All(quality => tool.Qualities.Contains(quality)); //spellward
+        return Resolve(uid, ref tool, false) && tool.Qualities.IsSupersetOf(qualities); //spellward
     }
 
-    private bool CanStartToolUse(EntityUid tool, EntityUid user, EntityUid? target, float fuel, IEnumerable<string> toolQualitiesNeeded, ToolComponent? toolComponent = null)
+    private bool CanStartToolUse(EntityUid tool, EntityUid user, EntityUid? target, float fuel, IEnumerable<ProtoId<ToolQualityPrototype>> toolQualitiesNeeded, ToolComponent? toolComponent = null) //spellward
     {
         if (!Resolve(tool, ref toolComponent))
             return false;
 
         // check if the tool can do what's required
-        if (!toolQualitiesNeeded.All(quality => toolComponent.Qualities.Contains(quality))) //spellward
+        if (!toolComponent.Qualities.IsSupersetOf(toolQualitiesNeeded)) //spellward
             return false;
 
         // check if the user allows using the tool

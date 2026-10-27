@@ -3,18 +3,25 @@ using Content.Shared.Damage;
 using Robust.Shared.GameStates;
 using Robust.Shared.Physics.Collision.Shapes;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom; //spellward
 
 namespace Content.Shared.Atmos.Components
 {
-    [RegisterComponent, NetworkedComponent, AutoGenerateComponentPause] //spellward
+    [RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause] //spellward
     public sealed partial class FlammableComponent : Component
     {
-        [DataField]
-        public bool Resisting;
+        // spellward start - upstream pause-aware fire update and resist timers.
+        [ViewVariables]
+        public bool Resisting => ResistCompleteTime.HasValue;
 
-        // spellward start - retain the two-second resist action across entity pauses.
-        [DataField, AutoPausedField]
+        [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
         public TimeSpan? ResistCompleteTime;
+
+        [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+        public TimeSpan NextUpdate;
+
+        [DataField, AutoNetworkedField]
+        public TimeSpan ResistTime = TimeSpan.FromSeconds(2);
         // spellward end
 
         [ViewVariables(VVAccess.ReadWrite)]

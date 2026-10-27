@@ -4,6 +4,7 @@ using Content.Shared.Whitelist;
 using Content.Shared.Xenoarchaeology.Artifact.Components;
 using Content.Shared.Xenoarchaeology.Artifact.Prototypes;
 using Robust.Shared.Random;
+using Robust.Shared.Prototypes; //spellward
 
 namespace Content.Server.Xenoarchaeology.Artifact;
 
@@ -39,7 +40,7 @@ public sealed partial class XenoArtifactSystem
     {
         var triggerPool = new List<XenoArchTriggerPrototype>(size);
         var weightsProto = PrototypeManager.Index(ent.Comp.TriggerWeights);
-        var weightsByTriggersLeft = new Dictionary<string, float>(weightsProto.Weights);
+        var weightsByTriggersLeft = new Dictionary<ProtoId<XenoArchTriggerPrototype>, float>(weightsProto.Weights); //spellward
 
         while (triggerPool.Count < size)
         {

@@ -59,7 +59,7 @@ public sealed partial class WeightedSpawnEntityBehavior : IThresholdBehavior
         // Helper function used to randomly get an offset to apply to the original position
         Vector2 GetRandomVector() => new (system.Random.NextFloat(-SpawnOffset, SpawnOffset), system.Random.NextFloat(-SpawnOffset, SpawnOffset));
         // Randomly pick the entity to spawn and randomly pick how many to spawn
-        var entity = system.PrototypeManager.Index(WeightedEntityTable).Pick(system.Random);
+        var entity = system.PrototypeManager.Index(WeightedEntityTable).Pick(system.Random).Id; //spellward
         var amountToSpawn = system.Random.NextFloat(MinSpawn, MaxSpawn);
 
         // Different behaviors for delayed spawning and immediate spawning

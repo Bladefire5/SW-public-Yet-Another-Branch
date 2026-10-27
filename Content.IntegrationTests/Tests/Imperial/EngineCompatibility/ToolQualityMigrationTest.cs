@@ -26,10 +26,6 @@ public sealed class ToolQualityMigrationTest
     entries:
     - behavior: [Prying]
     - behavior: [Screwing]
-- type: tile
-  id: ExperimentQualityTile
-  parent: FloorSteel
-  deconstructTools: [Prying]
 ";
 
     [Test]
@@ -41,16 +37,18 @@ public sealed class ToolQualityMigrationTest
         await server.WaitAssertion(() =>
         {
             var tools = server.System<SharedToolSystem>();
-            var pryingQuality = "Prying";
-            var screwingQuality = "Screwing";
+            ProtoId<ToolQualityPrototype> pryingQuality = "Prying";
+            ProtoId<ToolQualityPrototype> screwingQuality = "Screwing";
+            ProtoId<ToolQualityPrototype> cuttingQuality = "Cutting";
             var tool = server.EntMan.SpawnEntity("ExperimentQualityTool", map.GridCoords);
             Assert.That(tools.HasQuality(tool, pryingQuality), Is.True);
             Assert.That(tools.HasAllQualities(tool, new[] { pryingQuality, screwingQuality }), Is.True);
-            Assert.That(tools.HasAllQualities(tool, new[] { pryingQuality, "Cutting" }), Is.False);
-            Assert.That(tools.HasAllQualities(tool, Array.Empty<string>()), Is.True);
+            Assert.That(tools.HasAllQualities(tool, new[] { pryingQuality, cuttingQuality }), Is.False);
+            Assert.That(tools.HasAllQualities(tool, Array.Empty<ProtoId<ToolQualityPrototype>>()), Is.True);
 
             var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var tile = prototypes.Index<ContentTileDefinition>("ExperimentQualityTile");
+            // Tiles must already be registered before pooled test prototypes are reloaded.
+            var tile = prototypes.Index<ContentTileDefinition>("FloorTechMaintDark");
             Assert.That(tile.CanCrowbar, Is.True);
             Assert.That(tile.DeconstructTools.Count, Is.EqualTo(1));
 
@@ -60,6 +58,23 @@ public sealed class ToolQualityMigrationTest
             ProtoId<ToolQualityPrototype> rollingQuality = "Rolling";
             Assert.That(bottleTool.Qualities, Does.Contain(rollingQuality));
             Assert.That(bottleTool.SpeedModifier, Is.EqualTo(0.75f));
+        });
+        await pair.CleanReturnAsync();
+    }
+
+    [TestCase("Welder", "Welding")]
+    [TestCase("PowerDrill", "Screwing")]
+    [TestCase("JawsOfLife", "Prying")]
+    [TestCase("XenoArtifactOmnitool", "Screwing")]
+    public async Task ExistingScalarQualityPrototypesLoadAndInitialize(string prototype, string quality)
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var map = await pair.CreateTestMap();
+        var server = pair.Server;
+        await server.WaitAssertion(() =>
+        {
+            var tool = server.EntMan.SpawnEntity(prototype, map.GridCoords);
+            Assert.That(server.System<SharedToolSystem>().HasQuality(tool, quality), Is.True);
         });
         await pair.CleanReturnAsync();
     }
