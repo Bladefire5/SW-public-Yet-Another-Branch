@@ -1,0 +1,48 @@
+name: Experiment - Migrate Obsolete Map API
+
+on:
+  push:
+    branches: [ Experiment ]
+    paths:
+      - '.github/workflows/experiment-map-migration.yml'
+      - '.github/scripts/migrate_engine_maps.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Experiment
+        uses: actions/checkout@v4
+        with:
+          ref: Experiment
+          persist-credentials: true
+      - name: Replace legacy map interface types
+        run: python3 .github/scripts/migrate_engine_maps.py
+      - name: Validate and inspect the patch
+        shell: bash
+        run: |
+          git diff --check
+          git diff --stat
+      - name: Upload compatibility patch for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: experiment-map-migration-patch
+          path: |
+            Content.Client
+            Content.Server
+          if-no-files-found: ignore
+          retention-days: 1
+      - name: Commit compatibility migration to Experiment only
+        shell: bash
+        run: |
+          git config user.name "spellward-compat-bot"
+          git config user.email "spellward-compat-bot@users.noreply.github.com"
+          git add Content.Client Content.Server
+          git diff --cached --quiet && exit 0
+          git commit -m "compat: replace discontinued IMapManager interface usages"
+          git push origin HEAD:Experiment
