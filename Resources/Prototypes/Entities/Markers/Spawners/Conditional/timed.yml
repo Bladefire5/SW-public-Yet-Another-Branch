@@ -9,7 +9,7 @@
         - sprite: Mobs/Species/Human/parts.rsi
           state: full
         - state: ai
-    - type: Timer
+    #spellward: retired Timer removed; TimedSpawner tracks its own deadline.
     - type: TimedSpawner
       prototypes:
         - MobSpirate
@@ -30,7 +30,7 @@
       - sprite: Mobs/Aliens/Xenos/burrower.rsi
         state: crit
       - state: ai
-    - type: Timer
+    #spellward: retired Timer removed; TimedSpawner tracks its own deadline.
     - type: TimedSpawner
       prototypes:
       - MobXeno
@@ -50,7 +50,7 @@
         - sprite: Mobs/Animals/mouse.rsi
           state: icon-2
         - state: timed
-    - type: Timer
+    #spellward: retired Timer removed; TimedSpawner tracks its own deadline.
     - type: TimedSpawner
       prototypes:
         - MobMouse

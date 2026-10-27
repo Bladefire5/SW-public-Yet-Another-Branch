@@ -4344,7 +4344,6 @@
     state: telega
     drawdepth: Overdoors
   - type: SpriteFade
-  - type: Timer
   - type: TimedSpawner
     prototypes:
     - ShockWaveEffectAlarm
@@ -4627,7 +4626,6 @@
     sprite: Imperial/Medieval/Decor/tribe_altar.rsi
     state: altar
     drawdepth: Overdoors
-  - type: Timer
   - type: TimedSpawner
     prototypes:
     - MedievalTribeQuest
