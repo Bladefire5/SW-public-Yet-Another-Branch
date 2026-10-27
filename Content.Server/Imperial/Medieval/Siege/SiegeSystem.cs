@@ -191,7 +191,7 @@ namespace Content.Server.Siege
             var worldPos = coords.ToMap(_entityManager, _transform);
             var targetWorldPos = worldPos.Position + new Vector2(comp.TargetX, comp.TargetY);
             var targetMapCoords = new MapCoordinates(targetWorldPos, worldPos.MapId);
-            var targetCoords = EntityCoordinates.FromMap(_mapManager, targetMapCoords);
+            var targetCoords = _transform.ToCoordinates(_mapManager.GetMap(targetMapCoords.MapId), targetMapCoords);
             _audio.PlayPvs(new SoundPathSpecifier(comp.EffectSoundOnShoot), siegeUid);
             var angle = Angle.FromWorldVec(targetWorldPos - worldPos.Position);
             _transform.SetCoordinates(new Entity<TransformComponent, MetaDataComponent>(siegeUid, xform, MetaData(siegeUid)), coords, angle);
@@ -223,7 +223,7 @@ namespace Content.Server.Siege
             var worldPos = coords.ToMap(_entityManager, _transform);
             var targetWorldPos = worldPos.Position + new Vector2(comp.TargetX, comp.TargetY);
             var targetMapCoords = new MapCoordinates(targetWorldPos, worldPos.MapId);
-            var targetCoords = EntityCoordinates.FromMap(_mapManager, targetMapCoords);
+            var targetCoords = _transform.ToCoordinates(_mapManager.GetMap(targetMapCoords.MapId), targetMapCoords);
             var angle = Angle.FromWorldVec(targetWorldPos - worldPos.Position);
 
             _transform.SetCoordinates(new Entity<TransformComponent, MetaDataComponent>(siegeUid, xform, MetaData(siegeUid)), coords, angle);

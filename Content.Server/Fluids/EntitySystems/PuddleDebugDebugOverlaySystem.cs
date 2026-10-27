@@ -79,7 +79,7 @@ public sealed class PuddleDebugDebugOverlaySystem : SharedPuddleDebugOverlaySyst
                     if (!Resolve(uid, ref puddle, ref xform, false))
                         continue;
 
-                    var pos = xform.Coordinates.ToVector2i(EntityManager, _mapManager, _transform);
+                    var pos = xform.Coordinates.ToVector2i(EntityManager, _transform); //spellward
                     var vol = _puddle.CurrentVolume(uid, puddle);
                     data.Add(new PuddleDebugOverlayData(pos, vol));
                 }

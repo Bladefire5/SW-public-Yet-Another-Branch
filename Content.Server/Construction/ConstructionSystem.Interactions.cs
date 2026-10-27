@@ -383,7 +383,7 @@ namespace Content.Server.Construction
                         interactUsing.User,
                         uid,
                         TimeSpan.FromSeconds(toolInsertStep.DoAfter * Math.Max(skillsEv.Modifier, 0.15f)),  // Imperial Medieval - modifier added
-                        new [] { toolInsertStep.Tool },
+                        new [] { toolInsertStep.Tool.Id }, //spellward
                         new ConstructionInteractDoAfterEvent(EntityManager, interactUsing),
                         out var doAfter,
                         toolInsertStep.Fuel);

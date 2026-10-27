@@ -742,7 +742,7 @@ namespace Content.Server.GameTicking
 
             EntityManager.FlushEntities();
 
-            _mapManager.Restart();
+            //spellward: MapComponent shutdown during FlushEntities handles map cleanup in Robust 294.
 
             _banManager.Restart();
 

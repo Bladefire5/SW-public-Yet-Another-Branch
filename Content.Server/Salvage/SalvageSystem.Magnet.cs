@@ -8,6 +8,7 @@ using Content.Shared.Radio;
 using Content.Shared.Salvage.Magnet;
 using Robust.Shared.Exceptions;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components; //spellward
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.Salvage;
@@ -440,7 +441,16 @@ public sealed partial class SalvageSystem
 
             // This doesn't stop it from spawning on top of random things in space
             // Might be better like this, ghosts could stop it before
-            if (_mapManager.FindGridsIntersecting(finalCoords.MapId, box2Rot).Any())
+            // spellward start
+            var intersects = false;
+            _mapManager.FindGridsIntersecting(finalCoords.MapId, box2Rot, ref intersects,
+                static (EntityUid gridUid, MapGridComponent grid, ref bool found) =>
+                {
+                    found = true;
+                    return false;
+                });
+            // spellward end
+            if (intersects) //spellward
             {
                 // Bump it further and further just in case.
                 fraction += 0.1f;
