@@ -89,6 +89,45 @@ public sealed class EntityTimerMigrationTest
         await pair.CleanReturnAsync();
     }
 
+    [Test]
+    public async Task FireResistCompletionRemovesExactlyOneStackOnce()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var map = await pair.CreateTestMap();
+        var server = pair.Server;
+        var second = (int) server.ResolveDependency<IGameTiming>().TickRate;
+        EntityUid entity = default;
+
+        await server.WaitAssertion(() =>
+        {
+            entity = StartTimers(pair, map.GridCoords);
+            var flammable = server.EntMan.GetComponent<FlammableComponent>(entity);
+            var fire = server.System<FlammableSystem>();
+            // Prevent atmospheric extinguishing/fading from contributing to the measured change.
+            fire.Extinguish(entity, flammable);
+            fire.SetFireStacks(entity, 5, flammable);
+        });
+
+        await pair.RunTicksSync(second);
+        await server.WaitAssertion(() =>
+        {
+            var flammable = server.EntMan.GetComponent<FlammableComponent>(entity);
+            Assert.That(flammable.Resisting, Is.True);
+            Assert.That(flammable.FireStacks, Is.EqualTo(5));
+        });
+        await pair.RunTicksSync(second * 2);
+        await server.WaitAssertion(() =>
+        {
+            var flammable = server.EntMan.GetComponent<FlammableComponent>(entity);
+            Assert.That(flammable.Resisting, Is.False);
+            Assert.That(flammable.FireStacks, Is.EqualTo(4));
+        });
+        await pair.RunTicksSync(second * 2);
+        await server.WaitAssertion(() => Assert.That(server.EntMan.GetComponent<FlammableComponent>(entity).FireStacks, Is.EqualTo(4)));
+
+        await pair.CleanReturnAsync();
+    }
+
     private static EntityUid StartTimers(TestPair pair, EntityCoordinates coordinates)
     {
         var entities = pair.Server.EntMan;

@@ -10,8 +10,9 @@ namespace Content.IntegrationTests.Tests.Imperial.EngineCompatibility;
 [TestFixture]
 public sealed class DockingMigrationTest
 {
-    [Test]
-    public async Task MovingAnchoredDockRebuildsJointAndRetainsPartner()
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task DockMoveRebuildsJointWhilePureRotationKeepsIt(bool rotationOnly)
     {
         await using var pair = await PoolManager.GetServerClient();
         var map = await pair.CreateTestMap();
@@ -38,19 +39,33 @@ public sealed class DockingMigrationTest
             // Stay on the same tile: its anchored-entity lookup does not need updating.
             // This exercises the MoveEvent path used when an anchored port moves without being unanchored.
             var xform = entities.GetComponent<TransformComponent>(first);
-            transforms.SetCoordinates((first, xform, entities.GetComponent<MetaDataComponent>(first)),
-                xform.Coordinates.Offset(new Vector2(0.1f, 0)), unanchor: false);
+            if (rotationOnly)
+                transforms.SetLocalRotation(first, Angle.FromDegrees(90));
+            else
+                transforms.SetCoordinates((first, xform, entities.GetComponent<MetaDataComponent>(first)),
+                    xform.Coordinates.Offset(new Vector2(0.1f, 0)), unanchor: false);
 
             Assert.Multiple(() =>
             {
                 Assert.That(xform.Anchored, Is.True);
                 Assert.That(firstDock.DockedWith, Is.EqualTo(second));
                 Assert.That(secondDock.DockedWith, Is.EqualTo(first));
-                Assert.That(firstDock.DockJoint, Is.Not.Null.And.Not.SameAs(originalJoint));
+                Assert.That(firstDock.DockJoint, Is.Not.Null);
+                if (rotationOnly)
+                    Assert.That(firstDock.DockJoint, Is.SameAs(originalJoint));
+                else
+                    Assert.That(firstDock.DockJoint, Is.Not.SameAs(originalJoint));
                 Assert.That(secondDock.DockJoint, Is.SameAs(firstDock.DockJoint));
             });
 
-            docks.Undock((first, firstDock));
+            transforms.Unanchor(first);
+            Assert.Multiple(() =>
+            {
+                Assert.That(firstDock.DockedWith, Is.Null);
+                Assert.That(secondDock.DockedWith, Is.Null);
+                Assert.That(firstDock.DockJoint, Is.Null);
+                Assert.That(secondDock.DockJoint, Is.Null);
+            });
         });
 
         await pair.CleanReturnAsync();
