@@ -1,5 +1,6 @@
 using Content.Shared.Maps;
 using Content.Shared.Prying.Components;
+using Content.Shared.Tools;
 using Content.Shared.Tools.Components;
 using Content.Shared.Tools.Systems;
 using Robust.Shared.Prototypes;
@@ -56,7 +57,8 @@ public sealed class ToolQualityMigrationTest
             // This real prototype failed to load before the tool-quality serializer migration.
             var bottle = prototypes.Index<EntityPrototype>("DrinkGildlagerBottleFull");
             var bottleTool = (ToolComponent) bottle.Components["Tool"].Component;
-            Assert.That(bottleTool.Qualities.Contains("Rolling"), Is.True);
+            ProtoId<ToolQualityPrototype> rollingQuality = "Rolling";
+            Assert.That(bottleTool.Qualities, Does.Contain(rollingQuality));
             Assert.That(bottleTool.SpeedModifier, Is.EqualTo(0.75f));
         });
         await pair.CleanReturnAsync();
