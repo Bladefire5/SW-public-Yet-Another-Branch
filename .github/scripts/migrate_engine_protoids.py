@@ -99,6 +99,7 @@ def migrate(content, relpath):
         changed += 1
 
     if changed:
+        content = re.sub(r"(?m)^[ \t]+$", "", content)
         content = OBSOLETE_USING.sub("", content)
         if "using Robust.Shared.Prototypes;" not in content:
             content = "using Robust.Shared.Prototypes;\n" + content
