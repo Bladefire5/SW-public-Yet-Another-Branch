@@ -5,7 +5,6 @@ using Content.Shared.Imperial.Medieval.MagicRunes.Data;
 using Content.Shared.Random.Helpers;
 using Content.Shared.Stacks;
 using Content.Shared.UserInterface;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 //=========================================================================
 // MagicRuneSystem.UI.cs
