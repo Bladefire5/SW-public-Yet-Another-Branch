@@ -20,13 +20,11 @@
                 </BoxContainer>
             </BoxContainer>
         </Button>
+        <!-- spellward start - assign the style-class collection once for Robust 294. -->
         <Button Name="DoneButton"
                 VerticalExpand="True"
-                Text="{Loc 'nano-task-ui-done'}">
-            <Button.StyleClasses>
-                <system:String>ButtonSmall</system:String>
-                <system:String>OpenLeft</system:String>
-            </Button.StyleClasses>
-        </Button>
+                Text="{Loc 'nano-task-ui-done'}"
+                StyleClasses="ButtonSmall OpenLeft" />
+        <!-- spellward end -->
     </BoxContainer>
 </Control>

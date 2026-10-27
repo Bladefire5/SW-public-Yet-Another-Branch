@@ -21,15 +21,13 @@
             Text="⏷"
             StyleClasses="OpenBoth"
             ToolTip="{Loc 'lathe-menu-move-down-tooltip'}"/>
+        <!-- spellward start - assign the style-class collection once for Robust 294. -->
         <Button
             Name="Delete"
             Margin="0"
             Text="✖"
-            ToolTip="{Loc 'lathe-menu-delete-item-tooltip'}">
-            <Button.StyleClasses>
-                <system:String>Caution</system:String>
-                <system:String>OpenLeft</system:String>
-            </Button.StyleClasses>
-        </Button>
+            ToolTip="{Loc 'lathe-menu-delete-item-tooltip'}"
+                StyleClasses="Caution OpenLeft" />
+        <!-- spellward end -->
     </BoxContainer>
 </Control>

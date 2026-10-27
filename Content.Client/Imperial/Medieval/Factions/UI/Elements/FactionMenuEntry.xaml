@@ -2,6 +2,7 @@
     xmlns="https://spacestation14.io"
     xmlns:cc="clr-namespace:Content.Client.Administration.UI.CustomControls"
     xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:friends="clr-namespace:Content.Client.Imperial.Medieval.Factions.UI.Elements"
     xmlns:imp="clr-namespace:Content.Client.Imperial.Roadmap.UI"
     HorizontalExpand="True"
@@ -44,13 +45,15 @@
                     <friends:ColoredOptionButton Name="GroupSelector"
                                                  HorizontalExpand="True"
                                                  StyleClasses="ButtonSquare"
-                                                 OptionStyleClasses="ButtonSquare"
                                                  ModulateSelfOverride="#00000000"
                                                  VerticalExpand="True"
                                                  Margin="0"
                                                  HideTriangle="True"
                                                  HorizontalAlignment="Center"
                                                  VerticalAlignment="Center">
+                        <friends:ColoredOptionButton.OptionStyleClasses>
+                            <system:String>ButtonSquare</system:String>
+                        </friends:ColoredOptionButton.OptionStyleClasses>
                         <BoxContainer VerticalExpand="True"
                                 HorizontalExpand="True">
                             <imp:BorderedPanelContainer
