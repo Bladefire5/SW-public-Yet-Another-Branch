@@ -97,7 +97,7 @@ namespace Content.Server.Atmos
         [ViewVariables]
         public GasMixture? AirArchived;
 
-        [DataField("lastShare")]
+        // Runtime atmospheric state: not prototype/serialization data.
         public float LastShare;
 
         GasMixture IGasMixtureHolder.Air

@@ -147,3 +147,13 @@ CI workflow currently restores, builds DebugOpt, runs Content.Tests then Content
 - Baseline run 40545981126, job 122336601013, at 48d2c57: failed Build all projects; 106 unique compiler/analyzer diagnostics, including 15 RA0032. Previous fixes not yet confirmed by CI.
 - Next: inspect new CI for removed RA0032 diagnostics; then upgrade MapGridComponent tile/anchored accessors, serializer DataDefinitions and obsolete APIs. No green build or unit/integration suite yet.
 - PROCESS REQUIREMENT: every future code commit to Experiment MUST update todo.md atomically in the same commit, with changed files, CI state and next steps.
+
+## checkpoint.v2 / atomic commit b5222c8b346e
+branch=Experiment
+base_sha=b5222c8b346e3982e07ffcc44248a5e294868c3b
+operation=compat_serializer_cleanup_01
+edits=CodewordGeneratorPrototype.ID+Words setters;CodewordFactionPrototype.ID+Generator setters;ErtCallPresetPrototype partial+ID setter;NoiseChannelConfig DataDefinition partial;TileAtmosphere.LastShare runtime-only
+ci_before=40546950388:failed(Build all projects;100 unique error locations);40547296304:in_progress(at checkpoint)
+ci_after=UNVERIFIED;must fetch build for resulting commit
+next=check generated serializer and RA0057, then map/tile APIs and obsolete signatures; no gameplay changes; no green build claimed
+rule=EVERY Experiment code commit includes todo.md in SAME git tree/commit; may use machine-only format
