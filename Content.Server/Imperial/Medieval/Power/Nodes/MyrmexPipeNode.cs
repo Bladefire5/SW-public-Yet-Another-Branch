@@ -38,7 +38,7 @@ public sealed partial class MyrmexPipeNode : Node
         if (!xform.Anchored || grid == null)
             yield break;
 
-        var gridIndex = grid.TileIndicesFor(xform.Coordinates);
+        var gridIndex = entMan.System<SharedMapSystem>().TileIndicesFor((grid.Owner, grid), xform.Coordinates);
         
         if (!entMan.TryGetComponent<MyrmexPipeComponent>(Owner, out var pipeComp))
             yield break;

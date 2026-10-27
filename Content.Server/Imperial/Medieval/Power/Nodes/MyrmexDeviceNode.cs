@@ -23,7 +23,7 @@ public partial class MyrmexDeviceNode : Node
         if (!xform.Anchored || grid == null)
             yield break;
 
-        var gridIndex = grid.TileIndicesFor(xform.Coordinates);
+        var gridIndex = entMan.System<SharedMapSystem>().TileIndicesFor((grid.Owner, grid), xform.Coordinates);
 
         foreach (var (dir, node) in NodeHelpers.GetCardinalNeighborNodes(nodeQuery, grid, gridIndex))
         {
