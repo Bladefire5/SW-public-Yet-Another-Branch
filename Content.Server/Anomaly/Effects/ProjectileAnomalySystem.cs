@@ -20,7 +20,7 @@ public sealed class ProjectileAnomalySystem : EntitySystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedMapSystem _mapManager = default!;
     [Dependency] private readonly GunSystem _gunSystem = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
+    private SharedMapSystem _map => _mapManager;
 
     private EntityQuery<TransformComponent> _xFormQuery;
     private EntityQuery<MobStateComponent> _mobQuery;

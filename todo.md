@@ -140,3 +140,10 @@ CI workflow currently restores, builds DebugOpt, runs Content.Tests then Content
 5. Risk note: global regex IMapManager -> SharedMapSystem made duplicate same-type injected dependencies and may leave behavioral API mismatches; verify semantics, not just compiler.
 6. At any new interruption, append concise checkpoint to THIS file with latest HEAD SHA, latest CI run/job IDs, failures and corrected files. Keep history above for recovery.
 7. No asynchronous promises: perform edits during active turn and report actual commits and CI state.
+
+## Active progress log — 2026-10-27
+- fff8348b577e6fb8564f31b994e11d836bc1be9c: repaired RA0032 duplicate SharedMapSystem [Dependency] injection in 6 systems: Docking, Salvage, Radiation, Pointing, Biome, NPCCombat. Previous commit did not modify this todo; recorded retroactively here.
+- THIS COMMIT: repaired remaining 9 reported RA0032 systems: EntityEffect, PuddleDebugOverlay, Explosion, ProjectileAnomaly, NavMap, GameTicker, EventHorizon, Wave, Atmosphere. Kept the first [Dependency] and converted the secondary field into alias property so existing references still work; behavioral verification and CI still required.
+- Baseline run 40545981126, job 122336601013, at 48d2c57: failed Build all projects; 106 unique compiler/analyzer diagnostics, including 15 RA0032. Previous fixes not yet confirmed by CI.
+- Next: inspect new CI for removed RA0032 diagnostics; then upgrade MapGridComponent tile/anchored accessors, serializer DataDefinitions and obsolete APIs. No green build or unit/integration suite yet.
+- PROCESS REQUIREMENT: every future code commit to Experiment MUST update todo.md atomically in the same commit, with changed files, CI state and next steps.

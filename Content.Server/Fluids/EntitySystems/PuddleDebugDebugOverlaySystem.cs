@@ -14,7 +14,7 @@ public sealed class PuddleDebugDebugOverlaySystem : SharedPuddleDebugOverlaySyst
     [Dependency] private readonly SharedMapSystem _mapManager = default!;
     [Dependency] private readonly PuddleSystem _puddle = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
+    private SharedMapSystem _map => _mapManager;
 
     private readonly HashSet<ICommonSession> _playerObservers = [];
     private List<Entity<MapGridComponent>> _grids = [];

@@ -61,7 +61,7 @@ public sealed class EntityEffectSystem : EntitySystem
     [Dependency] private readonly SharedMapSystem _mapManager = default!;
     [Dependency] private readonly IPrototypeManager _protoManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
+    private SharedMapSystem _map => _mapManager;
     [Dependency] private readonly MutationSystem _mutation = default!;
     [Dependency] private readonly NarcolepsySystem _narcolepsy = default!;
     [Dependency] private readonly PlantHolderSystem _plantHolder = default!;
