@@ -185,7 +185,7 @@ public sealed class ProjectileExplosionWallsTest
             for (var y = -6; y <= 6; y++)
                 first.Add((new Vector2i(x, y), map.Tile.Tile));
             maps.SetTiles(map.Grid.Owner, map.Grid.Comp, first);
-            var second = pair.Server.MapMan.CreateGridEntity(map.MapId);
+            var second = maps.CreateGridEntity(map.MapId); //spellward
             transforms.SetLocalPosition(second, new Vector2(3, 0));
             if (rotateSecondGrid)
                 transforms.SetLocalRotation(second, Angle.FromDegrees(30));

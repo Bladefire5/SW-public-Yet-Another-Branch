@@ -73,7 +73,7 @@ public sealed class PrototypeSaveTest
             prototypes.Add(prototype);
         }
 
-        var context = new TestEntityUidContext();
+        var context = new TestEntityUidContext(seriMan); //spellward
 
         await server.WaitAssertion(() =>
         {
@@ -168,9 +168,9 @@ public sealed class PrototypeSaveTest
         public string WritingComponent = string.Empty;
         public EntityPrototype? Prototype;
 
-        public TestEntityUidContext()
+        public TestEntityUidContext(ISerializationManager ser) //spellward
         {
-            SerializerProvider = new();
+            SerializerProvider = new(ser); //spellward
             SerializerProvider.RegisterSerializer(this);
         }
 

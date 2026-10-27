@@ -158,7 +158,7 @@ public sealed class MaterialArbitrageTest
                 && proto.Components.TryGetValue(compositionName, out var compositionReg))
             {
                 var compositionComp = (PhysicalCompositionComponent)compositionReg.Component;
-                baseComposition = compositionComp.MaterialComposition;
+                baseComposition = compositionComp.MaterialComposition.ToDictionary(x => x.Key.Id, x => x.Value); //spellward
 
             }
 
@@ -410,8 +410,8 @@ public sealed class MaterialArbitrageTest
                     continue;
 
                 // Check cargo sell price
-                var materialPrice = await GetDeconstructedPrice(compositionComponent.MaterialComposition);
-                var chemicalPrice = await GetChemicalCompositionPrice(compositionComponent.ChemicalComposition);
+                var materialPrice = await GetDeconstructedPrice(compositionComponent.MaterialComposition.ToDictionary(x => x.Key.Id, x => x.Value)); //spellward
+                var chemicalPrice = await GetChemicalCompositionPrice(compositionComponent.ChemicalComposition.ToDictionary(x => x.Key.Id, x => x.Value)); //spellward
                 var sumPrice = materialPrice + chemicalPrice;
                 var price = await GetPrice(id);
                 if (sumPrice > 0 && price > 0)

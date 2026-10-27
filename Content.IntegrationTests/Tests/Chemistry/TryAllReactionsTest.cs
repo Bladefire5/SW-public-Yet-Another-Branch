@@ -100,7 +100,7 @@ namespace Content.IntegrationTests.Tests.Chemistry
                 {
                     //you just got linq'd fool
                     //(i'm sorry)
-                    var foundProductsMap = reactionPrototype.Products
+                    var foundProductsMap = reactionPrototype.Products.ToDictionary(x => x.Key.Id, x => x.Value) //spellward
                         .Concat(reactionPrototype.Reactants.Where(x => x.Value.Catalyst).ToDictionary(x => x.Key, x => x.Value.Amount))
                         .ToDictionary(x => x, _ => false);
                     foreach (var (reagent, quantity) in solution.Contents)

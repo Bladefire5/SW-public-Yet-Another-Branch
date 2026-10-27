@@ -35,6 +35,7 @@ jobs:
 
       # spellward start - keep compiler diagnostics readable and retain the full build log.
       - name: Build all projects
+        id: build
         shell: bash
         run: dotnet build --configuration DebugOpt --no-restore /m -clp:ErrorsOnly '-flp:logfile=experiment-build.log;verbosity=normal'
 
@@ -47,11 +48,23 @@ jobs:
           if-no-files-found: ignore
       # spellward end
 
+      # spellward start - run both suites after a successful build and retain their results.
       - name: Run unit tests
-        run: dotnet test --no-build --configuration DebugOpt Content.Tests/Content.Tests.csproj -- NUnit.ConsoleOut=0
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: dotnet test --no-build --configuration DebugOpt Content.Tests/Content.Tests.csproj --logger 'trx;LogFileName=unit.trx' --results-directory TestResults/unit -- NUnit.ConsoleOut=0
 
       - name: Run integration tests
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         shell: pwsh
         run: |
           $env:DOTNET_gcServer=1
-          dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed
+          dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj --logger 'trx;LogFileName=integration.trx' --results-directory TestResults/integration -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: experiment-test-results
+          path: TestResults/**/*.trx
+          if-no-files-found: ignore
+      # spellward end
