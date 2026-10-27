@@ -39,7 +39,7 @@ public sealed partial class GuideReagentReaction : BoxContainer, ISearchableCont
         Container container = ReactantsContainer;
         SetReagents(prototype.Reactants, ref container, protoMan);
         Container productContainer = ProductsContainer;
-        var products = new Dictionary<string, FixedPoint2>(prototype.Products);
+        var products = prototype.Products.ToDictionary(entry => entry.Key.Id, entry => entry.Value);
         foreach (var (reagent, reactantProto) in prototype.Reactants)
         {
             if (reactantProto.Catalyst)

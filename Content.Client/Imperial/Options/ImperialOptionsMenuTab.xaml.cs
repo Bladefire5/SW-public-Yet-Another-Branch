@@ -636,22 +636,14 @@ public sealed partial class ImperialOptionsMenuTab : Control
 
         if (string.IsNullOrEmpty(str)) return false;
 
-        var parsedColor = Color.TryFromHex(str);
-
-        if (parsedColor == null)
+        if (Color.TryFromHex(str, out var parsedColor) ||
+            Color.TryFromHex($"#{str}", out parsedColor))
         {
-            var colorWithSeparator = Color.TryFromHex($"#{str}");
-
-            if (colorWithSeparator == null) return false;
-
-            color = colorWithSeparator;
-
+            color = parsedColor;
             return true;
         }
 
-        color = parsedColor;
-
-        return true;
+        return false;
     }
 
     #endregion

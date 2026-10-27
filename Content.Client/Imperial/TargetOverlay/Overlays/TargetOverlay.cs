@@ -60,13 +60,16 @@ public sealed partial class TargetOverlay : Overlay
         _examineSystem = _entitySystem.GetEntitySystem<ExamineSystem>();
         _mapSystem = _entitySystem.GetEntitySystem<MapSystem>();
 
-        AimColor = Color.TryFromHex(_configurationManager.GetCVar(ICCVars.TargetOverlayAimColor)) ?? Color.Red;
-        CapturedAimColor = Color.TryFromHex(_configurationManager.GetCVar(ICCVars.TargetOverlayCapturedAimColor)) ?? Color.Red;
+        AimColor = ParseAimColor(_configurationManager.GetCVar(ICCVars.TargetOverlayAimColor));
+        CapturedAimColor = ParseAimColor(_configurationManager.GetCVar(ICCVars.TargetOverlayCapturedAimColor));
 
-        _configurationManager.OnValueChanged(ICCVars.TargetOverlayAimColor, newColor => { AimColor = Color.TryFromHex(newColor) ?? Color.Red; });
-        _configurationManager.OnValueChanged(ICCVars.TargetOverlayCapturedAimColor, newColor => { CapturedAimColor = Color.TryFromHex(newColor) ?? Color.Red; });
+        _configurationManager.OnValueChanged(ICCVars.TargetOverlayAimColor, newColor => { AimColor = ParseAimColor(newColor); });
+        _configurationManager.OnValueChanged(ICCVars.TargetOverlayCapturedAimColor, newColor => { CapturedAimColor = ParseAimColor(newColor); });
     }
 
+
+    private static Color ParseAimColor(string value) =>
+        Color.TryFromHex(value, out var color) ? color : Color.Red;
 
     protected override void Draw(in OverlayDrawArgs args)
     {
