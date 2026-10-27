@@ -183,7 +183,7 @@ namespace Content.Server.NodeContainer.Nodes
             if (!xform.Anchored || grid == null)
                 yield break;
 
-            var pos = grid.TileIndicesFor(xform.Coordinates);
+            var pos = entMan.System<SharedMapSystem>().TileIndicesFor((grid.Owner, grid), xform.Coordinates);
 
             for (var i = 0; i < PipeDirectionHelpers.PipeDirections; i++)
             {
@@ -224,16 +224,10 @@ namespace Content.Server.NodeContainer.Nodes
         {
             var offsetPos = pos.Offset(pipeDir.ToDirection());
 
-            foreach (var entity in grid.GetAnchoredEntities(offsetPos))
+            foreach (var node in NodeHelpers.GetNodesInTile(nodeQuery, grid, offsetPos))
             {
-                if (!nodeQuery.TryGetComponent(entity, out var container))
-                    continue;
-
-                foreach (var node in container.Nodes.Values)
-                {
-                    if (node is PipeNode pipe)
-                        yield return pipe;
-                }
+                if (node is PipeNode pipe)
+                    yield return pipe;
             }
         }
     }
