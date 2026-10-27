@@ -15,7 +15,7 @@ public sealed partial class AutoEmoteComponent : Component
     /// <see cref="AutoEmotePrototype"/>
     /// </summary>
     [DataField("emotes"), ViewVariables(VVAccess.ReadOnly)]
-    public HashSet<ProtoId<AutoEmotePrototype>> Emotes = new HashSet<string>();
+    public HashSet<ProtoId<AutoEmotePrototype>> Emotes = new();
 
     /// <summary>
     /// A dictionary storing the time of the next emote attempt for each emote.

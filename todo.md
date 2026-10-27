@@ -157,3 +157,7 @@ ci_before=40546950388:failed(Build all projects;100 unique error locations);4054
 ci_after=UNVERIFIED;must fetch build for resulting commit
 next=check generated serializer and RA0057, then map/tile APIs and obsolete signatures; no gameplay changes; no green build claimed
 rule=EVERY Experiment code commit includes todo.md in SAME git tree/commit; may use machine-only format
+
+```json
+{"checkpoint":"v2","base":"37dc3e5464639aebbce45532e205db51e860c585","branch":"Experiment","subject":"compat: adapt color API, enum prototype IDs, typed reagent exclusions and command arg count","files":["Content.Server/Administration/Commands/SetAdminOOC.cs","Content.Server/Sandbox/Commands/ColorNetworkCommand.cs","Content.Server/GameTicking/Commands/SetGamePresetCommand.cs","Content.Server/Chat/AutoEmoteComponent.cs","Content.Server/Chemistry/TileReactions/CleanTileReaction.cs","Content.Server/SurveillanceCamera/Systems/SurveillanceCameraSystem.cs"],"ci":{"latest_completed":"40546950388:failed","predecessor":"40547296304:in_progress","newer":"40548224313:in_progress"},"verification":"not compiled after this commit; test in GitHub Actions","next":["inspect latest run errors","repair map/tile accessors","verify semantic parity for atmosphere/ships"],"invariant":"every Experiment code commit must include todo.md in same tree"}
+```
