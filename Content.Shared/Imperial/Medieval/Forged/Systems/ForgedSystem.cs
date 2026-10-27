@@ -17,7 +17,6 @@ using Robust.Shared.Prototypes;
 using Content.Shared.Explosion.Components;
 using Content.Shared.Explosion;
 using Content.Shared.Containers.ItemSlots;
-using Robust.Server.Containers;
 using Content.Shared.Verbs;
 using Content.Shared.DoAfter;
 using Robust.Shared.Audio;
@@ -49,7 +48,7 @@ public sealed class ForgedSystem : EntitySystem
 
         SubscribeLocalEvent<ForgedComponent, BeingGibbedEvent>(OnGibbed);
 
-        SubscribeLocalEvent<ForgedComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshSpeed, after: new[] { typeof(ItemSlotsSystem), typeof(ContainerSystem), typeof(SharedContainerSystem) });
+        SubscribeLocalEvent<ForgedComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshSpeed, after: new[] { typeof(ItemSlotsSystem), typeof(SharedContainerSystem) });
         SubscribeLocalEvent<ForgedComponent, DamageModifyEvent>(OnDamageModify);
         SubscribeLocalEvent<ForgedComponent, GetExplosionResistanceEvent>(OnExplosionResistance);
 

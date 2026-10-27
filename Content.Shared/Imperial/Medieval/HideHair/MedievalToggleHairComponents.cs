@@ -8,7 +8,7 @@ public sealed partial class MedievalToggleHairComponent : Component
 {
     [ViewVariables] // VVAccess.ReadOnly
     public EntityUid? Action;
-    [ViewVariables(VVAccess.ReadWrite), DataField, ValidatePrototypeId<EntityPrototype>]
-    public string PrototypeID = "HideHairAction";
+    [ViewVariables(VVAccess.ReadWrite), DataField]
+    public EntProtoId PrototypeID = "HideHairAction";
 }
 public sealed partial class HideHairToggleEvent : InstantActionEvent { }

@@ -21,7 +21,6 @@ using Content.Shared.NPC;
 using Content.Shared.Popups;
 using Content.Shared.Pulling.Events;
 using Content.Shared.Standing;
-using Robust.Server.GameObjects;
 using Robust.Shared.Containers;
 using Robust.Shared.Network;
 using Robust.Shared.Physics;

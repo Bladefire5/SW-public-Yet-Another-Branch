@@ -6,6 +6,7 @@ using Robust.Shared.Audio;
 using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Array;
 using Robust.Shared.Utility;
 
 namespace Content.Shared.Maps
@@ -17,7 +18,7 @@ namespace Content.Shared.Maps
 
         public const string SpaceID = "Space";
 
-        [ParentDataFieldAttribute(typeof(AbstractPrototypeIdArraySerializer<ContentTileDefinition>))]
+        [ParentDataField(typeof(AbstractPrototypeIdArraySerializer<ContentTileDefinition>))]
         public string[]? Parents { get; private set; }
 
         [NeverPushInheritance]

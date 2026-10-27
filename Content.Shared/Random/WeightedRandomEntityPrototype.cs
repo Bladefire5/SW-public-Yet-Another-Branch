@@ -12,5 +12,5 @@ public sealed partial class WeightedRandomEntityPrototype : IWeightedRandomProto
     public string ID { get; private set; } = default!;
 
     [DataField("weights")]
-    public Dictionary<EntProtoId, float> Weights { get; private set; } = new();
+    public Dictionary<string, float> Weights { get; private set; } = new();
 }

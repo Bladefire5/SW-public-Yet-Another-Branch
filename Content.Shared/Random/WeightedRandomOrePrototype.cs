@@ -13,5 +13,5 @@ public sealed partial class WeightedRandomOrePrototype : IWeightedRandomPrototyp
     public string ID { get; private set; } = default!;
 
     [DataField("weights")]
-    public Dictionary<ProtoId<OrePrototype>, float> Weights { get; private set; } = new();
+    public Dictionary<string, float> Weights { get; private set; } = new();
 }

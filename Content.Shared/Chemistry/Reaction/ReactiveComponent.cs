@@ -10,10 +10,8 @@ public sealed partial class ReactiveComponent : Component
     /// <summary>
     ///     A dictionary of reactive groups -> methods that work on them.
     /// </summary>
-    [DataField("groups", readOnly: true, serverOnly: true,
-        customTypeSerializer:
-        typeof(PrototypeIdDictionarySerializer<HashSet<ReactionMethod>, ReactiveGroupPrototype>))]
-    public Dictionary<string, HashSet<ReactionMethod>>? ReactiveGroups;
+    [DataField("groups", readOnly: true, serverOnly: true)]
+    public Dictionary<ProtoId<ReactiveGroupPrototype>, HashSet<ReactionMethod>>? ReactiveGroups;
 
     /// <summary>
     ///     Special reactions that this prototype can specify, outside of any that reagents already apply.
@@ -35,7 +33,6 @@ public sealed partial class ReactiveReagentEffectEntry
     [DataField("effects", required: true)]
     public List<EntityEffect> Effects = default!;
 
-    [DataField("groups", readOnly: true, serverOnly: true,
-        customTypeSerializer:typeof(PrototypeIdDictionarySerializer<HashSet<ReactionMethod>, ReactiveGroupPrototype>))]
-    public Dictionary<string, HashSet<ReactionMethod>>? ReactiveGroups { get; private set; }
+    [DataField("groups", readOnly: true, serverOnly: true)]
+    public Dictionary<ProtoId<ReactiveGroupPrototype>, HashSet<ReactionMethod>>? ReactiveGroups { get; private set; }
 }

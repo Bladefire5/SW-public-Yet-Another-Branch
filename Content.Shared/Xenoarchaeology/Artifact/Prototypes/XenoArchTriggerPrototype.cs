@@ -41,5 +41,5 @@ public sealed partial class WeightedRandomXenoArchTriggerPrototype : IWeightedRa
     public string ID { get; private set; } = default!;
 
     [DataField()]
-    public Dictionary<ProtoId<XenoArchTriggerPrototype>, float> Weights { get; private set; } = new();
+    public Dictionary<string, float> Weights { get; private set; } = new();
 }
