@@ -16,7 +16,7 @@ namespace Content.Client.RCD;
 public sealed class AlignRCDConstruction : PlacementMode
 {
     [Dependency] private readonly IEntityManager _entityManager = default!;
-    [Dependency] private readonly SharedMapSystem _mapManager = default!;
+    private SharedMapSystem _mapManager => _mapSystem; //spellward
     private readonly SharedMapSystem _mapSystem;
     private readonly HandsSystem _handsSystem;
     private readonly RCDSystem _rcdSystem;

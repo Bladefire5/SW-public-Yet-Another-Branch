@@ -21,7 +21,7 @@ namespace Content.Client.Atmos.Overlays;
 public sealed class AtmosDebugOverlay : Overlay
 {
     [Dependency] private readonly IEntityManager _entManager = default!;
-    [Dependency] private readonly SharedMapSystem _mapManager = default!;
+    private SharedMapSystem _mapManager => _map; //spellward
     [Dependency] private readonly IInputManager _input = default!;
     [Dependency] private readonly IUserInterfaceManager _ui = default!;
     [Dependency] private readonly IResourceCache _cache = default!;

@@ -20,7 +20,7 @@ namespace Content.Client.Shuttles.UI;
 [GenerateTypedNameReferences]
 public sealed partial class ShuttleNavControl : BaseShuttleControl
 {
-    [Dependency] private readonly SharedMapSystem _mapManager = default!;
+    private SharedMapSystem _mapManager => Maps; //spellward
     private readonly SharedShuttleSystem _shuttles;
     private readonly SharedTransformSystem _transform;
 

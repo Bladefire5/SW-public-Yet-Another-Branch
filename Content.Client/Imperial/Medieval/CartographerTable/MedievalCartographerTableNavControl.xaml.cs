@@ -23,7 +23,7 @@ public sealed partial class MedievalCartographerTableNavControl : BaseShuttleCon
 {
     private const float SilhouetteAlpha = 0.28f;
 
-    [Dependency] private readonly SharedMapSystem _mapManager = default!;
+    private SharedMapSystem _mapManager => Maps;
 
     private readonly SharedShuttleSystem _shuttles;
     private readonly SharedTransformSystem _transform;

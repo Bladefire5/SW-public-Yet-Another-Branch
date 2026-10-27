@@ -27,7 +27,7 @@ public sealed class AlignAtmosPipeLayers : SnapgridCenter
 {
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IPrototypeManager _protoManager = default!;
-    [Dependency] private readonly SharedMapSystem _mapManager = default!;
+    private SharedMapSystem _mapManager => _mapSystem; //spellward
     [Dependency] private readonly IEyeManager _eyeManager = default!;
 
     private readonly SharedMapSystem _mapSystem;

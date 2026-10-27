@@ -25,7 +25,7 @@ public sealed partial class StencilOverlay : Overlay
     [Dependency] private readonly IClyde _clyde = default!;
     [Dependency] private readonly IEntityManager _entManager = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly SharedMapSystem _mapManager = default!;
+    private SharedMapSystem _mapManager => _map; //spellward
     [Dependency] private readonly IPrototypeManager _protoManager = default!;
     private readonly ParallaxSystem _parallax;
     private readonly SharedTransformSystem _transform;
