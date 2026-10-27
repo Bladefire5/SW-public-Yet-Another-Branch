@@ -121,10 +121,11 @@ public sealed class NodeMapMigrationTest
             // The orthogonal straight pipe above has no port toward the center.
             Assert.That(Reachable(entities, pipe, map.Grid), Is.EquivalentTo(new[] { right, device, endpoint }));
             Assert.That(Reachable(entities, device, map.Grid), Is.EquivalentTo(new[] { pipe }));
-            Assert.That(Reachable(entities, endpoint, map.Grid), Is.EquivalentTo(new[] { pipe }));
+            Assert.That(Reachable(entities, endpoint, map.Grid), Is.EquivalentTo(new[] { pipe, right }));
 
             transforms.SetLocalRotation(right, Angle.FromDegrees(180));
             Assert.That(Reachable(entities, pipe, map.Grid), Is.EquivalentTo(new[] { device, endpoint }));
+            Assert.That(Reachable(entities, endpoint, map.Grid), Is.EquivalentTo(new[] { pipe }));
             transforms.Unanchor(device);
             Assert.That(Reachable(entities, pipe, map.Grid), Is.EquivalentTo(new[] { endpoint }));
             Assert.That(Reachable(entities, device, map.Grid), Is.Empty);
