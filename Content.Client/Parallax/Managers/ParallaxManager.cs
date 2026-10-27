@@ -98,10 +98,13 @@ public sealed class ParallaxManager : IParallaxManager
             }
             else
             {
-                layers = await Task.WhenAll(
+                // spellward start - an explicit array avoids sandbox-rejected inline-array IL from the span params overload.
+                layers = await Task.WhenAll(new[]
+                {
                     LoadParallaxLayers(parallaxPrototype.Layers, loadedLayers, cancel),
                     LoadParallaxLayers(parallaxPrototype.LayersLQ, loadedLayers, cancel)
-                );
+                });
+                // spellward end
             }
 
             cancel.ThrowIfCancellationRequested();

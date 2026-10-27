@@ -1,3 +1,4 @@
+using System.Linq; //spellward
 using Content.Shared.Administration.Logs;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.DoAfter;
@@ -74,7 +75,7 @@ public abstract partial class SharedToolSystem : EntitySystem
         // Loop through tool qualities and add localized names to the list
         foreach (var toolQuality in ent.Comp.Qualities)
         {
-            if (_protoMan.TryIndex<ToolQualityPrototype>(toolQuality ?? string.Empty, out var protoToolQuality))
+            if (_protoMan.TryIndex(toolQuality, out ToolQualityPrototype? protoToolQuality)) //spellward
             {
                 toolQualities.Add(Loc.GetString(protoToolQuality.Name));
             }
@@ -217,6 +218,35 @@ public abstract partial class SharedToolSystem : EntitySystem
             toolComponent);
     }
 
+    // spellward start - typed quality collections forward to the existing string API without changing tool-use behavior.
+    public bool UseTool(
+        EntityUid tool,
+        EntityUid user,
+        EntityUid? target,
+        float doAfterDelay,
+        [ForbidLiteral] IEnumerable<ProtoId<ToolQualityPrototype>> toolQualitiesNeeded,
+        DoAfterEvent doAfterEv,
+        float fuel = 0,
+        ToolComponent? toolComponent = null)
+    {
+        return UseTool(tool, user, target, doAfterDelay, toolQualitiesNeeded.Select(quality => quality.Id), doAfterEv, fuel, toolComponent);
+    }
+
+    public bool UseTool(
+        EntityUid tool,
+        EntityUid user,
+        EntityUid? target,
+        TimeSpan delay,
+        [ForbidLiteral] IEnumerable<ProtoId<ToolQualityPrototype>> toolQualitiesNeeded,
+        DoAfterEvent doAfterEv,
+        out DoAfterId? id,
+        float fuel = 0,
+        ToolComponent? toolComponent = null)
+    {
+        return UseTool(tool, user, target, delay, toolQualitiesNeeded.Select(quality => quality.Id), doAfterEv, out id, fuel, toolComponent);
+    }
+    // spellward end
+
     /// <summary>
     ///     Whether a tool entity has the specified quality or not.
     /// </summary>
@@ -231,7 +261,7 @@ public abstract partial class SharedToolSystem : EntitySystem
     [PublicAPI]
     public bool HasAllQualities(EntityUid uid, [ForbidLiteral] IEnumerable<string> qualities, ToolComponent? tool = null)
     {
-        return Resolve(uid, ref tool, false) && tool.Qualities.ContainsAll(qualities);
+        return Resolve(uid, ref tool, false) && qualities.All(quality => tool.Qualities.Contains(quality)); //spellward
     }
 
     private bool CanStartToolUse(EntityUid tool, EntityUid user, EntityUid? target, float fuel, IEnumerable<string> toolQualitiesNeeded, ToolComponent? toolComponent = null)
@@ -240,7 +270,7 @@ public abstract partial class SharedToolSystem : EntitySystem
             return false;
 
         // check if the tool can do what's required
-        if (!toolComponent.Qualities.ContainsAll(toolQualitiesNeeded))
+        if (!toolQualitiesNeeded.All(quality => toolComponent.Qualities.Contains(quality))) //spellward
             return false;
 
         // check if the user allows using the tool
