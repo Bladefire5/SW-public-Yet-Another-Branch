@@ -1,0 +1,46 @@
+name: Experiment - Engine Compatibility
+
+on:
+  push:
+    branches: [ Experiment ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compile and test Experiment
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout Spellward and pinned RobustToolbox
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install .NET SDK pinned by global.json
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Show SDK and engine commit
+        shell: bash
+        run: |
+          dotnet --info
+          git -C RobustToolbox rev-parse HEAD
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build all projects
+        run: dotnet build --configuration DebugOpt --no-restore /m
+
+      - name: Run unit tests
+        run: dotnet test --no-build --configuration DebugOpt Content.Tests/Content.Tests.csproj -- NUnit.ConsoleOut=0
+
+      - name: Run integration tests
+        shell: pwsh
+        run: |
+          $env:DOTNET_gcServer=1
+          dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed
