@@ -1,0 +1,50 @@
+name: Experiment - Migrate Legacy Prototype IDs
+
+on:
+  push:
+    branches: [ Experiment ]
+    paths:
+      - '.github/workflows/experiment-prototype-migration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Experiment
+        uses: actions/checkout@v4
+        with:
+          ref: Experiment
+          persist-credentials: true
+
+      - name: Convert removed prototype serializers to strongly typed identifiers
+        run: python3 .github/scripts/migrate_engine_protoids.py
+
+      - name: Validate patch formatting and save patch
+        shell: bash
+        run: |
+          git diff --check
+          git diff > engine-protoids.patch
+          git diff --stat
+
+      - name: Upload reviewable compatibility patch
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: engine-protoids-patch
+          path: engine-protoids.patch
+          if-no-files-found: ignore
+
+      - name: Commit changes only to Experiment
+        shell: bash
+        run: |
+          git config user.name "spellward-compat-bot"
+          git config user.email "spellward-compat-bot@users.noreply.github.com"
+          git add Content.Shared Content.Server Content.Client
+          git diff --cached --quiet && exit 0
+          git commit -m "compat: migrate legacy prototype IDs for Robust 294"
+          git push origin HEAD:Experiment
