@@ -156,7 +156,7 @@ namespace Content.Shared.Roles
 
         // Imperial Start
         [DataField]
-        public bool SponsorsOnly { get; } = false;
+        public bool SponsorsOnly { get; private set; } = false;
 
         [DataField]
         public bool ApplySkills { get; private set; } = true;

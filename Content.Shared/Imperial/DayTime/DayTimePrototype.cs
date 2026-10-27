@@ -3,7 +3,7 @@ using Robust.Shared.Prototypes;
 namespace Content.Shared.Imperial.DayTime;
 
 [Prototype("daytime")]
-public class DayTimePrototype : IPrototype
+public partial class DayTimePrototype : IPrototype
 {
     [IdDataField]
     public string ID { get; private set; } = default!;

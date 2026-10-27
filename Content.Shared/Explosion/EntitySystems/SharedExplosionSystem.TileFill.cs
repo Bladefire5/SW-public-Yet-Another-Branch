@@ -51,7 +51,7 @@ public abstract partial class SharedExplosionSystem
         var (localGrids, referenceGrid, maxDistance) = GetLocalGrids(epicenter, totalIntensity, slope, maxIntensity);
 
         // get the epicenter tile indices
-        if (_explosionMaps.TryFindGridAt(epicenter, out var gridUid, out var candidateGrid) &&
+        if (_explosionMap.TryFindGridAt(epicenter, out var gridUid, out var candidateGrid) &&
             _explosionMap.TryGetTileRef(gridUid, candidateGrid, _explosionMap.WorldToTile(gridUid, candidateGrid, epicenter.Position), out var tileRef) &&
             !tileRef.Tile.IsEmpty)
         {
@@ -271,7 +271,7 @@ public abstract partial class SharedExplosionSystem
         var box = Box2.CenteredAround(epicenter.Position, new Vector2(radius, radius));
 
         _grids.Clear();
-        _explosionMaps.FindGridsIntersecting(epicenter.MapId, box, ref _grids);
+        _explosionMap.FindGridsIntersecting(epicenter.MapId, box, ref _grids);
         foreach (var grid in _grids)
         {
             if (TryComp(grid.Owner, out PhysicsComponent? physics) && physics.FixturesMass > mass)
@@ -293,7 +293,7 @@ public abstract partial class SharedExplosionSystem
         radius *= 4;
         box = Box2.CenteredAround(epicenter.Position, new Vector2(radius, radius));
         _grids.Clear();
-        _explosionMaps.FindGridsIntersecting(epicenter.MapId, box, ref _grids);
+        _explosionMap.FindGridsIntersecting(epicenter.MapId, box, ref _grids);
         var grids = _grids.Select(x => x.Owner).ToList();
 
         if (referenceGrid != null)

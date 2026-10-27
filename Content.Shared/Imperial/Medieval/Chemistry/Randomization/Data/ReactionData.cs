@@ -9,7 +9,8 @@ using Robust.Shared.Prototypes;
 namespace Content.Shared.Imperial.Medieval.ChemistryRandomization;
 
 [Virtual]
-public class ReactionData : IComparable<ReactionData>
+[DataDefinition]
+public partial class ReactionData : IComparable<ReactionData>
 {
     [DataField("name")]
     public string Name = string.Empty;
