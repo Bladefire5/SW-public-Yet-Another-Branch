@@ -33,8 +33,19 @@ jobs:
       - name: Restore
         run: dotnet restore
 
+      # spellward start - keep compiler diagnostics readable and retain the full build log.
       - name: Build all projects
-        run: dotnet build --configuration DebugOpt --no-restore /m
+        shell: bash
+        run: dotnet build --configuration DebugOpt --no-restore /m -clp:ErrorsOnly '-flp:logfile=experiment-build.log;verbosity=normal'
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: experiment-build-log
+          path: experiment-build.log
+          if-no-files-found: ignore
+      # spellward end
 
       - name: Run unit tests
         run: dotnet test --no-build --configuration DebugOpt Content.Tests/Content.Tests.csproj -- NUnit.ConsoleOut=0

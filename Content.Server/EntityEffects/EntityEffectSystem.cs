@@ -531,7 +531,7 @@ public sealed class EntityEffectSystem : EntitySystem
                 return;
             }
 
-            if (_spreader.RequiresFloorToSpread(args.Effect.PrototypeId) && _turf.IsSpace(tileRef))
+            if (_spreader.RequiresFloorToSpread(args.Effect.PrototypeId.Id) && _turf.IsSpace(tileRef)) //spellward
                 return;
 
             var coords = _map.MapToGrid(gridUid, mapCoords);
@@ -634,7 +634,7 @@ public sealed class EntityEffectSystem : EntitySystem
 
     private void OnExecuteEmote(ref ExecuteEntityEffectEvent<Emote> args)
     {
-        if (args.Effect.EmoteId == null)
+        if (string.IsNullOrEmpty(args.Effect.EmoteId.Id)) //spellward
             return;
 
         if (args.Effect.ShowInChat)

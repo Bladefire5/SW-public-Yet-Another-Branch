@@ -201,10 +201,10 @@ public sealed partial class TradingSystem : EntitySystem
             !Resolve(store.Owner, ref store.Comp))
             return false;
 
-        var value = currency.Comp.Price;
+        var value = currency.Comp.Price.ToDictionary(entry => entry.Key.Id, entry => entry.Value);
         if (TryComp(currency.Owner, out StackComponent? stack) && stack.Count != 1)
         {
-            value = currency.Comp.Price.ToDictionary(entry => entry.Key, entry => entry.Value * stack.Count);
+            value = currency.Comp.Price.ToDictionary(entry => entry.Key.Id, entry => entry.Value * stack.Count);
         }
 
         if (!TryAddCurrency(value, store.Owner, store.Comp))

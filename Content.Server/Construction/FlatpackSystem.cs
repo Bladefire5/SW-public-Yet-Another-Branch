@@ -87,10 +87,10 @@ public sealed class FlatpackSystem : SharedFlatpackSystem
             cost = GetFlatpackCreationCost(ent, (board, machine));
             proto = machine.Prototype;
         }
-        else if (TryComp<ComputerBoardComponent>(board, out var computer) && computer.Prototype != null)
+        else if (TryComp<ComputerBoardComponent>(board, out var computer) && computer.Prototype is { } computerPrototype) //spellward
         {
             cost = GetFlatpackCreationCost(ent, null);
-            proto = computer.Prototype;
+            proto = computerPrototype; //spellward
         }
         else
         {

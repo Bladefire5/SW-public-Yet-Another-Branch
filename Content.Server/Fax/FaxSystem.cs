@@ -589,7 +589,7 @@ public sealed class FaxSystem : EntitySystem
 
         var printout = component.PrintingQueue.Dequeue();
 
-        var entityToSpawn = printout.PrototypeId.Length == 0 ? component.PrintPaperId.ToString() : printout.PrototypeId;
+        var entityToSpawn = string.IsNullOrEmpty(printout.PrototypeId.Id) ? component.PrintPaperId.ToString() : printout.PrototypeId; //spellward
         var printed = Spawn(entityToSpawn, Transform(uid).Coordinates);
 
         if (TryComp<PaperComponent>(printed, out var paper))

@@ -486,7 +486,7 @@ public sealed partial class TradingSystem
         return true;
     }
 
-    private void SpawnCurrencyFor(EntityUid recipient, Dictionary<FixedPoint2, string> cash, int amount)
+    private void SpawnCurrencyFor(EntityUid recipient, Dictionary<FixedPoint2, EntProtoId> cash, int amount)
     {
         FixedPoint2 remaining = amount;
         var coordinates = Transform(recipient).Coordinates;

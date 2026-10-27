@@ -160,7 +160,7 @@ public sealed partial class ImperialStoreSystem : SharedImperialStoreSystem
     public Dictionary<string, FixedPoint2> GetCurrencyValue(EntityUid uid, ImperialCurrencyComponent component)
     {
         var amount = EntityManager.GetComponentOrNull<StackComponent>(uid)?.Count ?? 1;
-        return component.Price.ToDictionary(v => v.Key, p => p.Value * amount);
+        return component.Price.ToDictionary(v => v.Key.Id, p => p.Value * amount);
     }
 
     //exists solely because whoever made store system couldn't settle on using just strings or just entprotoid

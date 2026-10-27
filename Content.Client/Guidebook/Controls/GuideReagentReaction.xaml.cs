@@ -72,7 +72,7 @@ public sealed partial class GuideReagentReaction : BoxContainer, ISearchableCont
 
         UpdateStaticRecipeLabels(ReactantsContainer, reactants);
 
-        var products = new Dictionary<string, FixedPoint2>(_medievalRecipe.Products);
+        var products = _medievalRecipe.Products.ToDictionary(entry => entry.Key.Id, entry => entry.Value); //spellward
 
         foreach (var (id, reactant) in _medievalRecipe.Reactants)
         {

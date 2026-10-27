@@ -200,7 +200,7 @@ namespace Content.Server.Kitchen.EntitySystems
         {
             // TODO Turn recipe.IngredientsReagents into a ReagentQuantity[]
 
-            var totalReagentsToRemove = new Dictionary<string, FixedPoint2>(recipe.IngredientsReagents);
+            var totalReagentsToRemove = recipe.IngredientsReagents.ToDictionary(entry => entry.Key, entry => entry.Value); //spellward
 
             // this is spaghetti ngl
             foreach (var item in component.Storage.ContainedEntities)

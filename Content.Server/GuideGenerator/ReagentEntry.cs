@@ -74,7 +74,7 @@ public sealed class ReactionEntry
                 .ToDictionary(x => x.Key, x => x.Value);
         Products =
             proto.Products
-                .Select(x => KeyValuePair.Create(x.Key, x.Value.Float()))
+                .Select(x => KeyValuePair.Create(x.Key.Id, x.Value.Float())) //spellward
                 .ToDictionary(x => x.Key, x => x.Value);
         Effects = proto.Effects;
     }
