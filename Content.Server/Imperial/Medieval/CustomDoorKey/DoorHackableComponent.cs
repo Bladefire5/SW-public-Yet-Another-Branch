@@ -1,4 +1,3 @@
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.CustomDoorKey.Components
@@ -21,7 +20,7 @@ namespace Content.Server.CustomDoorKey.Components
         [DataField]
         public int[] Numbers = new int[100];
 
-        [DataField(customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>)), ViewVariables(VVAccess.ReadOnly)]
-        public string EffectSoundOnNewLock = "/Audio/Imperial/Medieval/new_lock.ogg";
+        [DataField(), ViewVariables(VVAccess.ReadOnly)]
+        public EntProtoId EffectSoundOnNewLock = "/Audio/Imperial/Medieval/new_lock.ogg";
     }
 }

@@ -4,7 +4,6 @@ using Content.Shared.EntityEffects;
 using Content.Shared.FixedPoint;
 using Content.Shared.Localizations;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.List;
 
 namespace Content.Shared.Chemistry.ReagentEffectConditions
 {
@@ -16,11 +15,11 @@ namespace Content.Shared.Chemistry.ReagentEffectConditions
         [DataField("min")]
         public FixedPoint2 Min = FixedPoint2.Zero;
 
-        [DataField("damageTypes", customTypeSerializer: typeof(PrototypeIdListSerializer<DamageTypePrototype>))]
-        public List<string> DamageTypes = new();
+        [DataField("damageTypes")]
+        public List<ProtoId<DamageTypePrototype>> DamageTypes = new();
 
-        [DataField("damageGroups", customTypeSerializer: typeof(PrototypeIdListSerializer<DamageGroupPrototype>))]
-        public List<string> DamageGroups = new();
+        [DataField("damageGroups")]
+        public List<ProtoId<DamageGroupPrototype>> DamageGroups = new();
 
         public override bool Condition(EntityEffectBaseArgs args)
         {

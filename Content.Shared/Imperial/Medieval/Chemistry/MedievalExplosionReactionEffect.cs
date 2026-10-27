@@ -6,7 +6,6 @@ using Content.Shared.FixedPoint;
 using Content.Shared.Radiation.Components;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Shared.Imperial.Medieval.Chemistry;
 
@@ -23,9 +22,8 @@ public sealed partial class MedievalExplosionReactionEffect : EntityEffect
     /// <summary>
     /// Existing explosion preset defining damage and visuals, or the shared Caustic preset.
     /// </summary>
-    [DataField("explosionType", required: true,
-        customTypeSerializer: typeof(PrototypeIdSerializer<ExplosionPrototype>))]
-    public string ExplosionType = default!;
+    [DataField("explosionType", required: true)]
+    public ProtoId<ExplosionPrototype> ExplosionType = default!;
 
     /// <summary>
     /// Total blast intensity for a full 5u + 5u activation.

@@ -1,4 +1,3 @@
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.Quest.Components
@@ -6,8 +5,8 @@ namespace Content.Server.Quest.Components
     [RegisterComponent]
     public sealed partial class PalletContractComponent : Component
     {
-        [DataField(customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>)), ViewVariables(VVAccess.ReadOnly)]
-        public string RewardEffectSound = "/Audio/Imperial/Medieval/quest_reward.ogg";
+        [DataField(), ViewVariables(VVAccess.ReadOnly)]
+        public EntProtoId RewardEffectSound = "/Audio/Imperial/Medieval/quest_reward.ogg";
 
         /// <summary>
         /// Место текущего взятого контракта

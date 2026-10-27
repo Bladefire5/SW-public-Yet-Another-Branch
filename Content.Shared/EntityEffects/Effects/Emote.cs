@@ -1,7 +1,6 @@
 using Content.Shared.Chat;
 using Content.Shared.Chat.Prototypes;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Shared.EntityEffects.Effects;
 
@@ -13,8 +12,8 @@ public sealed partial class Emote : EventEntityEffect<Emote>
     /// <summary>
     ///     The emote the entity will preform.
     /// </summary>
-    [DataField("emote", required: true, customTypeSerializer: typeof(PrototypeIdSerializer<EmotePrototype>))]
-    public string EmoteId;
+    [DataField("emote", required: true)]
+    public ProtoId<EmotePrototype> EmoteId;
 
     /// <summary>
     ///     If the emote should be recorded in chat.

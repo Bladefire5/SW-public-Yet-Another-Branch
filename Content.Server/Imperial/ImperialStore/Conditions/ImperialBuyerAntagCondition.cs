@@ -1,7 +1,7 @@
+using Robust.Shared.Prototypes;
 using Content.Shared.Imperial.ImperialStore;
 using Content.Shared.Mind;
 using Content.Shared.Roles;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Set;
 
 namespace Content.Server.Imperial.ImperialStore;
 
@@ -15,14 +15,14 @@ public sealed partial class ImperialBuyerAntagCondition : ImperialListingConditi
     /// <summary>
     /// A whitelist of antag roles that can purchase this listing. Only one needs to be found.
     /// </summary>
-    [DataField("whitelist", customTypeSerializer: typeof(PrototypeIdHashSetSerializer<AntagPrototype>))]
-    public HashSet<string>? Whitelist;
+    [DataField("whitelist")]
+    public HashSet<ProtoId<AntagPrototype>>? Whitelist;
 
     /// <summary>
     /// A blacklist of antag roles that cannot purchase this listing. Only one needs to be found.
     /// </summary>
-    [DataField("blacklist", customTypeSerializer: typeof(PrototypeIdHashSetSerializer<AntagPrototype>))]
-    public HashSet<string>? Blacklist;
+    [DataField("blacklist")]
+    public HashSet<ProtoId<AntagPrototype>>? Blacklist;
 
     public override bool Condition(ImperialListingConditionArgs args)
     {

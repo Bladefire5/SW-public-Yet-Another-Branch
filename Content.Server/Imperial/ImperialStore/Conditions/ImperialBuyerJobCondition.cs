@@ -1,8 +1,8 @@
+using Robust.Shared.Prototypes;
 using Content.Shared.Imperial.ImperialStore;
 using Content.Shared.Mind;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Set;
 
 namespace Content.Server.Imperial.ImperialStore;
 
@@ -15,14 +15,14 @@ public sealed partial class ImperialBuyerJobCondition : ImperialListingCondition
     /// <summary>
     /// A whitelist of jobs prototypes that can purchase this listing. Only one needs to be found.
     /// </summary>
-    [DataField("whitelist", customTypeSerializer: typeof(PrototypeIdHashSetSerializer<JobPrototype>))]
-    public HashSet<string>? Whitelist;
+    [DataField("whitelist")]
+    public HashSet<ProtoId<JobPrototype>>? Whitelist;
 
     /// <summary>
     /// A blacklist of job prototypes that can purchase this listing. Only one needs to be found.
     /// </summary>
-    [DataField("blacklist", customTypeSerializer: typeof(PrototypeIdHashSetSerializer<JobPrototype>))]
-    public HashSet<string>? Blacklist;
+    [DataField("blacklist")]
+    public HashSet<ProtoId<JobPrototype>>? Blacklist;
 
     public override bool Condition(ImperialListingConditionArgs args)
     {

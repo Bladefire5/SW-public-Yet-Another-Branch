@@ -1,6 +1,6 @@
+using Robust.Shared.Prototypes;
 using Content.Shared.FixedPoint;
 using Content.Shared.Imperial.ImperialStore;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Dictionary;
 
 namespace Content.Server.Imperial.ImperialStore;
 
@@ -17,6 +17,6 @@ public sealed partial class ImperialCurrencyComponent : Component
     /// The FixedPoint2 is the value of each individual currency entity.
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite)]
-    [DataField("price", customTypeSerializer: typeof(PrototypeIdDictionarySerializer<FixedPoint2, ImperialCurrencyPrototype>))]
-    public Dictionary<string, FixedPoint2> Price = new();
+    [DataField("price")]
+    public Dictionary<ProtoId<ImperialCurrencyPrototype>, FixedPoint2> Price = new();
 }

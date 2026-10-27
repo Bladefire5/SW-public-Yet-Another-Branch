@@ -1,7 +1,6 @@
+using Robust.Shared.Prototypes;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.EntityEffects;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Dictionary;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Set;
 
 namespace Content.Shared.Chemistry.Reaction;
 
@@ -30,8 +29,8 @@ public sealed partial class ReactiveReagentEffectEntry
     [DataField("methods")]
     public HashSet<ReactionMethod> Methods = default!;
 
-    [DataField("reagents", customTypeSerializer: typeof(PrototypeIdHashSetSerializer<ReagentPrototype>))]
-    public HashSet<string>? Reagents = null;
+    [DataField("reagents")]
+    public HashSet<ProtoId<ReagentPrototype>>? Reagents = null;
 
     [DataField("effects", required: true)]
     public List<EntityEffect> Effects = default!;

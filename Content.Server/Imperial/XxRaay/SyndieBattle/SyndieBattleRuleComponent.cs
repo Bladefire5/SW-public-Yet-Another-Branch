@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Content.Shared.Roles;
 using Content.Shared.Store;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Server.Imperial.XxRaay.SyndieBattle;
 
@@ -70,8 +69,8 @@ public sealed partial class SyndieBattleRuleComponent : Component
     /// <summary>
     /// Стартовая экипировка
     /// </summary>
-    [DataField("gear", customTypeSerializer: typeof(PrototypeIdSerializer<StartingGearPrototype>)), ViewVariables(VVAccess.ReadWrite)]
-    public string StartingGear = "PassengerGear";
+    [DataField("gear"), ViewVariables(VVAccess.ReadWrite)]
+    public ProtoId<StartingGearPrototype> StartingGear = "PassengerGear";
 
     /// <summary>
     /// Категории аплинка

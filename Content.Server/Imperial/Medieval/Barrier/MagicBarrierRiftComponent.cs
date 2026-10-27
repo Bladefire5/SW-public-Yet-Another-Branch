@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.List;
 
 namespace Content.Server.MagicBarrier.Components
 {
@@ -29,8 +28,8 @@ namespace Content.Server.MagicBarrier.Components
 
         public MagicBarrierRiftState State;
 
-        [DataField(customTypeSerializer: typeof(PrototypeIdListSerializer<EntityPrototype>))]
-        public List<string> GuardianEntities = new()
+        [DataField()]
+        public List<EntProtoId> GuardianEntities = new()
         {
             "MedievalMobSkeletMeat",
             "MedievalMobSkeletMeat",

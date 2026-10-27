@@ -1,7 +1,6 @@
-﻿using Content.Shared.Store;
+using Content.Shared.Store;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Shared.Imperial.Medieval.Trading.Prototypes;
 
@@ -29,8 +28,8 @@ public sealed partial class GuildTypePrototype : IPrototype
     [DataField]
     public List<ProtoId<GuildIconPrototype>> Icons = new();
 
-    [DataField(customTypeSerializer: typeof(PrototypeIdSerializer<CurrencyPrototype>))]
-    public string Currency = "Revent";
+    [DataField()]
+    public ProtoId<CurrencyPrototype> Currency = "Revent";
 }
 
 [Prototype]

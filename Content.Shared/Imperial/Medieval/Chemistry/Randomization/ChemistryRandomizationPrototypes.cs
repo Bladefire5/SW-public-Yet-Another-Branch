@@ -5,7 +5,6 @@ using Content.Shared.EntityEffects;
 using Content.Shared.FixedPoint;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Dictionary;
 
 namespace Content.Shared.Imperial.Medieval.ChemistryRandomization;
 
@@ -30,8 +29,8 @@ public sealed partial class ChemistryRandomizationGroupPrototype : IPrototype
     /// Output reagent units per reaction cycle, keyed by a potion ID from Potions.
     /// Missing entries preserve the generated recipe's reactant-count yield.
     /// </summary>
-    [DataField("productAmounts", customTypeSerializer: typeof(PrototypeIdDictionarySerializer<FixedPoint2, ReagentPrototype>))]
-    public Dictionary<string, FixedPoint2> ProductAmounts = new();
+    [DataField("productAmounts")]
+    public Dictionary<ProtoId<ReagentPrototype>, FixedPoint2> ProductAmounts = new();
 
     /// <summary>
     /// Raw reagents required in every recipe for each listed potion.

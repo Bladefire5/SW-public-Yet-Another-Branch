@@ -1,8 +1,6 @@
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 using Robust.Shared.Prototypes;
 using Content.Shared.Alert;
 using Content.Shared.Chat.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Set;
 
 namespace Content.Server.NeedSleep.Components;
 
@@ -18,8 +16,8 @@ public sealed partial class NeedSleepComponent : Component
     /// <summary>
     /// Эмоуты, которые будут использоваться при сонливости
     /// </summary>
-    [DataField("emotes", customTypeSerializer: typeof(PrototypeIdHashSetSerializer<EmotePrototype>)), ViewVariables(VVAccess.ReadWrite)]
-    public HashSet<string> Emotes = new();
+    [DataField("emotes"), ViewVariables(VVAccess.ReadWrite)]
+    public HashSet<ProtoId<EmotePrototype>> Emotes = new();
 
     /// <summary>
     /// Грубо говоря, сама сонливость.

@@ -5,7 +5,6 @@ using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Dictionary;
 
 namespace Content.Shared.Imperial.Medieval.ArmorIntegrity;
 
@@ -121,6 +120,6 @@ public sealed partial class MedievalArmorExplosionResistance
     [DataField]
     public LocId Examine = "explosion-resistance-coefficient-value";
 
-    [DataField("modifiers", customTypeSerializer: typeof(PrototypeIdDictionarySerializer<float, ExplosionPrototype>))]
-    public Dictionary<string, float> Modifiers = new();
+    [DataField("modifiers")]
+    public Dictionary<ProtoId<ExplosionPrototype>, float> Modifiers = new();
 }

@@ -4,7 +4,6 @@ using Content.Shared.EntityEffects;
 using Content.Shared.FixedPoint;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Shared.Imperial.Medieval.Chemistry;
 
@@ -18,16 +17,14 @@ public sealed partial class MedievalChemicalCloudReactionEffect : EventEntityEff
     /// <summary>
     /// Chemical-capable smoke or foam entity passed to the stock smoke system.
     /// </summary>
-    [DataField("prototypeId", required: true,
-        customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
-    public string PrototypeId = default!;
+    [DataField("prototypeId", required: true)]
+    public EntProtoId PrototypeId = default!;
 
     /// <summary>
     /// Reagent carried by the cloud: ordinary Blind or the matching poison.
     /// </summary>
-    [DataField("reagent", required: true,
-        customTypeSerializer: typeof(PrototypeIdSerializer<ReagentPrototype>))]
-    public string Reagent = default!;
+    [DataField("reagent", required: true)]
+    public ProtoId<ReagentPrototype> Reagent = default!;
 
     /// <summary>
     /// Payload units for a full 5u + 5u reaction. Smaller activations scale it.

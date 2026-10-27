@@ -1,7 +1,6 @@
 using Content.Shared.FixedPoint;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Dictionary;
 
 namespace Content.Shared.Imperial.ImperialStore;
 
@@ -47,8 +46,8 @@ public sealed partial class ImperialCurrencyPrototype : IPrototype
     /// <summary>
     /// The physical entity of the currency
     /// </summary>
-    [DataField("cash", customTypeSerializer: typeof(PrototypeIdValueDictionarySerializer<FixedPoint2, EntityPrototype>))]
-    public Dictionary<FixedPoint2, string>? Cash { get; private set; }
+    [DataField("cash")]
+    public Dictionary<FixedPoint2, EntProtoId>? Cash { get; private set; }
 
     /// <summary>
     /// Whether to draw currency separately from the main group

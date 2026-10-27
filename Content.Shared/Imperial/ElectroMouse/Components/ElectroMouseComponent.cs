@@ -5,7 +5,6 @@ using Content.Shared.Store;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Shared.Imperial.ElectroMouse.Components;
 
@@ -14,8 +13,8 @@ public sealed partial class ElectroMouseComponent : Component
 {
     public Vector2? Coordinates;
 
-    [ValidatePrototypeId<EntityPrototype>]
-    public readonly string ShopId = "ActionElectroMouseShop";
+
+    public readonly EntProtoId ShopId = "ActionElectroMouseShop";
 
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public string ElevationSound { get; set; } = "/Audio/Announcements/bloblarm.ogg";
@@ -57,14 +56,14 @@ public sealed partial class ElectroMouseComponent : Component
     [DataField]
     public ProtoId<AlertPrototype> EssenceAlert = "Essence";
 
-    [DataField("stolenEssenceCurrencyPrototype", customTypeSerializer: typeof(PrototypeIdSerializer<CurrencyPrototype>))]
-    public string StolenEnergyCurrencyPrototype = "StolenEnergy";
+    [DataField("stolenEssenceCurrencyPrototype")]
+    public ProtoId<CurrencyPrototype> StolenEnergyCurrencyPrototype = "StolenEnergy";
 
     /// <summary>
     /// Prototype to spawn when the entity dies.
     /// </summary>
-    [DataField("spawnOnDeathPrototype", customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
-    public string SpawnOnDeathPrototype = "AnomalyCoreElectroMouse";
+    [DataField("spawnOnDeathPrototype")]
+    public EntProtoId SpawnOnDeathPrototype = "AnomalyCoreElectroMouse";
 
     [DataField("harvestDebuffs")]
     public Vector2 HarvestDebuffs = new(5, 5);

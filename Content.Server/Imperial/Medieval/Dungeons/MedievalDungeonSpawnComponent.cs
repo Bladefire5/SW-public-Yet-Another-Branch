@@ -1,6 +1,5 @@
 using Robust.Shared.Audio;
 using Robust.Shared.Utility;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.MedievalDungeon.Components
@@ -37,8 +36,8 @@ namespace Content.Server.MedievalDungeon.Components
         [DataField]
         public int DungeonLevels = 4;
 
-        [DataField(customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>)), ViewVariables(VVAccess.ReadOnly)]
-        public string EffectSoundOnOpen = "/Audio/Imperial/Medieval/dungeon_open.ogg";
+        [DataField(), ViewVariables(VVAccess.ReadOnly)]
+        public EntProtoId EffectSoundOnOpen = "/Audio/Imperial/Medieval/dungeon_open.ogg";
 
     }
 }
