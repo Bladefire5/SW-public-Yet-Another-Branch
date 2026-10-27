@@ -37,8 +37,8 @@ namespace Content.Shared.Chemistry.ReagentEffectConditions
             return Loc.GetString("reagent-effect-condition-guidebook-total-by-groups-damage",
                 ("max", Max == FixedPoint2.MaxValue ? (float) int.MaxValue : Max.Float()),
                 ("min", Min.Float()),
-                ("groups", ContentLocalizationManager.FormatList(DamageGroups)),
-                ("types", ContentLocalizationManager.FormatList(DamageTypes))
+                ("groups", ContentLocalizationManager.FormatList(DamageGroups.ConvertAll(group => group.ToString()))),
+                ("types", ContentLocalizationManager.FormatList(DamageTypes.ConvertAll(type => type.ToString())))
             );
         }
     }

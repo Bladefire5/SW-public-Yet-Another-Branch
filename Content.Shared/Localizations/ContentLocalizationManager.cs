@@ -43,7 +43,7 @@ namespace Content.Shared.Localizations
             _loc.AddFunction(culture, "PLAYTIME", FormatPlaytime);
 
             _loc.LoadCulture(fallbackCulture); //Imperial localization
-            _loc.SetFallbackCluture(fallbackCulture); //Imperial localization
+            _loc.SetFallbackCulture(fallbackCulture); //Imperial localization
             _loc.AddFunction(fallbackCulture, "PRESSURE", FormatPressure);
             _loc.AddFunction(fallbackCulture, "POWERWATTS", FormatPowerWatts);
             _loc.AddFunction(fallbackCulture, "POWERJOULES", FormatPowerJoules);

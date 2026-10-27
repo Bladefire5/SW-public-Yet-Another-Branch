@@ -47,7 +47,7 @@ namespace Content.Shared.EntityEffects.Effects
                     foreach (var quant in reagentArgs.Source.Contents.ToArray())
                     {
                         var proto = prototypeMan.Index<ReagentPrototype>(quant.Reagent.Prototype);
-                        if (proto.Metabolisms != null && proto.Metabolisms.ContainsKey(Group))
+                        if (proto.Metabolisms != null && proto.Metabolisms.ContainsKey(Group.Value))
                         {
                             if (amount < 0)
                                 reagentArgs.Source.RemoveReagent(quant.Reagent, -amount); // Imperial space Chemistry Rework

@@ -35,8 +35,8 @@ namespace Content.Shared.Kitchen
         public string Name => Loc.GetString(_name);
 
         // TODO Turn this into a ReagentQuantity[]
-        public IReadOnlyDictionary<string, FixedPoint2> IngredientsReagents => _ingsReagents;
-        public IReadOnlyDictionary<string, FixedPoint2> IngredientsSolids => _ingsSolids;
+        public IReadOnlyDictionary<ProtoId<ReagentPrototype>, FixedPoint2> IngredientsReagents => _ingsReagents;
+        public IReadOnlyDictionary<EntProtoId, FixedPoint2> IngredientsSolids => _ingsSolids;
 
         /// <summary>
         /// Is this recipe unavailable in normal circumstances?

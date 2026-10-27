@@ -9,6 +9,5 @@ public interface IMedievalDoAfterSpell
     /// <summary>
     /// Do After args for spells
     /// </summary>
-    [DataField]
     public MedievalSpellDoAfterArgs? SpellCastDoAfter { get; }
 }

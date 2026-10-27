@@ -19,7 +19,7 @@ public partial class ReactionData : IComparable<ReactionData>
     /// Reactants required for the reaction to occur.
     /// </summary>
     [DataField("reactants")]
-    public Dictionary<ProtoId<ReagentPrototype>, ReactantPrototype> Reactants = new();
+    public Dictionary<string, ReactantPrototype> Reactants = new();
 
     /// <summary>
     ///     The minimum temperature the reaction can occur at.
