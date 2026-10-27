@@ -5,6 +5,7 @@ on:
     branches: [ Experiment ]
     paths:
       - '.github/workflows/experiment-prototype-migration.yml'
+      - '.github/scripts/migrate_engine_protoids.py'
   workflow_dispatch:
 
 permissions:
