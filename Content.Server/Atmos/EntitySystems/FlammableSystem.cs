@@ -29,6 +29,7 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Random;
+using Robust.Shared.Timing; //spellward
 
 namespace Content.Server.Atmos.EntitySystems
 {
@@ -49,6 +50,7 @@ namespace Content.Server.Atmos.EntitySystems
         [Dependency] private readonly UseDelaySystem _useDelay = default!;
         [Dependency] private readonly AudioSystem _audio = default!;
         [Dependency] private readonly IRobustRandom _random = default!;
+        [Dependency] private readonly IGameTiming _timing = default!; //spellward
 
         private EntityQuery<InventoryComponent> _inventoryQuery;
         private EntityQuery<PhysicsComponent> _physicsQuery;
@@ -400,13 +402,7 @@ namespace Content.Server.Atmos.EntitySystems
             _popup.PopupEntity(Loc.GetString("flammable-component-resist-message"), uid, uid);
             _stunSystem.TryUpdateParalyzeDuration(uid, TimeSpan.FromSeconds(2f));
 
-            // TODO FLAMMABLE: Make this not use TimerComponent...
-            uid.SpawnTimer(2000, () =>
-            {
-                flammable.Resisting = false;
-                flammable.FireStacks -= 1f;
-                UpdateAppearance(uid, flammable);
-            });
+            flammable.ResistCompleteTime = _timing.CurTime + TimeSpan.FromSeconds(2); //spellward
         }
 
         public override void Update(float frameTime)
@@ -425,6 +421,21 @@ namespace Content.Server.Atmos.EntitySystems
                 Ignite(flammableEntity, flammableEntity, flammable);
             }
             _fireEvents.Clear();
+
+            // spellward start - process completion every tick, independently of the one-second fire tick.
+            var time = _timing.CurTime;
+            var resistQuery = EntityQueryEnumerator<FlammableComponent>();
+            while (resistQuery.MoveNext(out var resistUid, out var resisting))
+            {
+                if (resisting.ResistCompleteTime is not { } end || time < end)
+                    continue;
+
+                resisting.ResistCompleteTime = null;
+                resisting.Resisting = false;
+                resisting.FireStacks -= 1f;
+                UpdateAppearance(resistUid, resisting);
+            }
+            // spellward end
 
             _timer += frameTime;
 

@@ -130,7 +130,7 @@ public sealed class AmbientOcclusionOverlay : Overlay
                         if (turfSystem.IsSpace(tileRef))
                             continue;
 
-                        var bounds = lookups.GetLocalBounds(tileRef, grid.TileSize);
+                        var bounds = lookups.GetLocalBounds(tileRef, grid.Comp.TileSize); //spellward
                         worldHandle.DrawRect(bounds, Color.White);
                     }
                 }

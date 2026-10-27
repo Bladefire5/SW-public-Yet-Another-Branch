@@ -57,6 +57,11 @@ namespace Content.Shared.Light.Components
         [DataField, AutoPausedField]
         public TimeSpan? LastGhostBlink;
 
+        // spellward start - entity-scoped, pause-aware replacement for the removed SpawnTimer API.
+        [DataField, AutoPausedField]
+        public TimeSpan? GhostBlinkEndTime;
+        // spellward end
+
         [DataField]
         public ProtoId<SinkPortPrototype> OnPort = "On";
 

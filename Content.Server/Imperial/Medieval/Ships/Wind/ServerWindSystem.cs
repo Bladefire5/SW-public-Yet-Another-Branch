@@ -177,7 +177,7 @@ public sealed class ServerWindSystem : EntitySystem
                     return;
                 }
 
-                if (!_prototype.TryIndex(seaComp.StormWeather.Value, out var storm, false))
+                if (!_prototype.TryIndex(seaComp.StormWeather.Value, out var storm))
                 {
                     Log.Error($"Unable to set storm weather for sea {ToPrettyString(seaComp.Owner)}: " +
                               $"prototype '{seaComp.StormWeather}' was not found.");
@@ -197,7 +197,7 @@ public sealed class ServerWindSystem : EntitySystem
                     return;
                 }
 
-                if (!_prototype.TryIndex(seaComp.RainWeather.Value, out var rain, false))
+                if (!_prototype.TryIndex(seaComp.RainWeather.Value, out var rain))
                 {
                     Log.Error($"Unable to set rain weather for sea {ToPrettyString(seaComp.Owner)}: " +
                               $"prototype '{seaComp.RainWeather}' was not found.");

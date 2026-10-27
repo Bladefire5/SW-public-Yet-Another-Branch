@@ -36,13 +36,28 @@ public sealed class PoweredLightSystem : SharedPoweredLightSystem
         light.LastGhostBlink = time;
 
         ToggleBlinkingLight(uid, light, true);
-        uid.SpawnTimer(light.GhostBlinkingTime, () =>
-        {
-            ToggleBlinkingLight(uid, light, false);
-        });
+        light.GhostBlinkEndTime = time + light.GhostBlinkingTime; //spellward
 
         args.Handled = true;
     }
+
+    // spellward start
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        var time = GameTiming.CurTime;
+        var query = EntityQueryEnumerator<PoweredLightComponent>();
+        while (query.MoveNext(out var uid, out var light))
+        {
+            if (light.GhostBlinkEndTime is not { } end || time < end)
+                continue;
+
+            light.GhostBlinkEndTime = null;
+            ToggleBlinkingLight(uid, light, false);
+        }
+    }
+    // spellward end
 
     private void OnMapInit(EntityUid uid, PoweredLightComponent light, MapInitEvent args)
     {

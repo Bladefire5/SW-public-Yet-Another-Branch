@@ -6,11 +6,16 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Atmos.Components
 {
-    [RegisterComponent, NetworkedComponent]
+    [RegisterComponent, NetworkedComponent, AutoGenerateComponentPause] //spellward
     public sealed partial class FlammableComponent : Component
     {
         [DataField]
         public bool Resisting;
+
+        // spellward start - retain the two-second resist action across entity pauses.
+        [DataField, AutoPausedField]
+        public TimeSpan? ResistCompleteTime;
+        // spellward end
 
         [ViewVariables(VVAccess.ReadWrite)]
         [DataField]
