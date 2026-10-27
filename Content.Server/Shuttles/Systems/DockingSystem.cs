@@ -51,6 +51,7 @@ namespace Content.Server.Shuttles.Systems
             SubscribeLocalEvent<DockingComponent, ComponentStartup>(OnStartup);
             SubscribeLocalEvent<DockingComponent, ComponentShutdown>(OnShutdown);
             SubscribeLocalEvent<DockingComponent, AnchorStateChangedEvent>(OnAnchorChange);
+            SubscribeLocalEvent<DockingComponent, MoveEvent>(OnDockingMove); //spellward
 
             SubscribeLocalEvent<DockingComponent, BeforeDoorAutoCloseEvent>(OnAutoClose);
 
@@ -185,6 +186,21 @@ namespace Content.Server.Shuttles.Systems
         }
 
 
+
+        // spellward start - stable upstream replacement for retired ReAnchorEvent handling.
+        private void OnDockingMove(Entity<DockingComponent> entity, ref MoveEvent args)
+        {
+            if (!entity.Comp.Docked || args.OnlyRotation)
+                return;
+
+            var otherDock = entity.Comp.DockedWith!.Value;
+            var other = Comp<DockingComponent>(otherDock);
+
+            Undock(entity);
+            Dock(entity, (otherDock, other));
+            _console.RefreshShuttleConsoles();
+        }
+        // spellward end
 
         /// <summary>
         /// Docks 2 ports together and assumes it is valid.
