@@ -9,7 +9,6 @@ namespace Content.Shared.Explosion.EntitySystems;
 
 public abstract partial class SharedExplosionSystem
 {
-    [Dependency] private readonly IMapManager _explosionMaps = default!;
     [Dependency] private readonly SharedMapSystem _explosionMap = default!;
     [Dependency] private readonly SharedTransformSystem _explosionTransform = default!;
     [Dependency] private readonly IPrototypeManager _explosionPrototypes = default!;
