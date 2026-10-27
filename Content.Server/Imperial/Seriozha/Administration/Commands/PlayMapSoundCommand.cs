@@ -19,7 +19,7 @@ public sealed class PlayMapSoundCommand : IConsoleCommand
 	[Dependency] private readonly IPlayerManager _playerManager = default!;
 	[Dependency] private readonly IPrototypeManager _protoManager = default!;
 	[Dependency] private readonly IResourceManager _res = default!;
-	[Dependency] private readonly IMapManager _mapManager = default!;
+	[Dependency] private readonly SharedMapSystem _mapManager = default!;
 
 	public string Command => "playmapsound";
 	public string Description => "Plays a sound for all players on a single map.";

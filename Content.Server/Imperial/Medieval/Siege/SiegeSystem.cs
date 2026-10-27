@@ -19,7 +19,7 @@ namespace Content.Server.Siege
     public sealed partial class SiegeSystem : EntitySystem
     {
         [Dependency] internal readonly IEntityManager _entityManager = default!;
-        [Dependency] internal readonly IMapManager _mapManager = default!;
+        [Dependency] internal readonly SharedMapSystem _mapManager = default!;
         [Dependency] protected readonly SharedAudioSystem _audio = default!;
         [Dependency] private readonly QuickDialogSystem _quickDialog = default!;
         [Dependency] private readonly ISharedPlayerManager _sharedPlayerManager = default!;

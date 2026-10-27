@@ -19,7 +19,7 @@ namespace Content.Client.NPC
         [Dependency] private readonly IEyeManager _eyeManager = default!;
         [Dependency] private readonly IGameTiming _timing = default!;
         [Dependency] private readonly IInputManager _inputManager = default!;
-        [Dependency] private readonly IMapManager _mapManager = default!;
+        [Dependency] private readonly SharedMapSystem _mapManager = default!;
         [Dependency] private readonly IOverlayManager _overlayManager = default!;
         [Dependency] private readonly IResourceCache _cache = default!;
         [Dependency] private readonly NPCSteeringSystem _steering = default!;
@@ -137,7 +137,7 @@ namespace Content.Client.NPC
         private readonly IEntityManager _entManager;
         private readonly IEyeManager _eyeManager;
         private readonly IInputManager _inputManager;
-        private readonly IMapManager _mapManager;
+        private readonly SharedMapSystem _mapManager;
         private readonly PathfindingSystem _system;
         private readonly MapSystem _mapSystem;
         private readonly SharedTransformSystem _transformSystem;
@@ -151,7 +151,7 @@ namespace Content.Client.NPC
             IEntityManager entManager,
             IEyeManager eyeManager,
             IInputManager inputManager,
-            IMapManager mapManager,
+            SharedMapSystem mapManager,
             IResourceCache cache,
             PathfindingSystem system,
             MapSystem mapSystem,

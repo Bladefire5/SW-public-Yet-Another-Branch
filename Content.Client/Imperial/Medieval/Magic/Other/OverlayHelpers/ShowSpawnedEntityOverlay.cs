@@ -18,7 +18,7 @@ public sealed class ShowSpawnedEntityOverlay : Overlay
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IInputManager _inputManager = default!;
     [Dependency] private readonly IEntitySystemManager _entitySystem = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
+    [Dependency] private readonly SharedMapSystem _mapManager = default!;
     [Dependency] private readonly IEyeManager _eyeManager = default!;
     private readonly SpriteSystem _spriteSystem;
     private readonly SharedTransformSystem _transformSystem;

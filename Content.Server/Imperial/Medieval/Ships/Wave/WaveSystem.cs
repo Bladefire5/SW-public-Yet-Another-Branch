@@ -23,7 +23,7 @@ namespace Content.Server.Imperial.Medieval.Ships.Wave;
 
 public sealed class WaveSystem : EntitySystem
 {
-    [Dependency] private readonly IMapManager _mapManager = default!;
+    [Dependency] private readonly SharedMapSystem _mapManager = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly PhysicsSystem _physics = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;

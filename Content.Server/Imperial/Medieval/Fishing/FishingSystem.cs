@@ -56,7 +56,7 @@ public sealed partial class FishingSystem : EntitySystem
     [Dependency] private readonly SharedScaleVisualsSystem _scaleVisuals = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly ITimerManager _timer = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
+    [Dependency] private readonly SharedMapSystem _mapManager = default!;
     [Dependency] private readonly TagSystem _tag = default!;
 
     private readonly List<TaskCompletionSource<float>> _minigameUpdateWaiters = new();

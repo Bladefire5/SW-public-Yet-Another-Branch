@@ -13,7 +13,7 @@ namespace Content.Server.MedievalMobSpawner
     {
         [Dependency] private readonly EntityLookupSystem _lookup = default!;
         [Dependency] internal readonly IEntityManager _entityManager = default!;
-        [Dependency] internal readonly IMapManager _mapManager = default!;
+        [Dependency] internal readonly SharedMapSystem _mapManager = default!;
         [Dependency] protected readonly SharedAudioSystem Audio = default!;
         [Dependency] private readonly IGameTiming _timing = default!;
         [Dependency] private readonly IRobustRandom _random = default!;

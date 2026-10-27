@@ -13,7 +13,7 @@ namespace Content.Server.HellRespawnPoint
     public sealed partial class HellRespawnPointSystem : EntitySystem
     {
         [Dependency] internal readonly IEntityManager _entityManager = default!;
-        [Dependency] internal readonly IMapManager _mapManager = default!;
+        [Dependency] internal readonly SharedMapSystem _mapManager = default!;
         [Dependency] protected readonly SharedAudioSystem Audio = default!;
         [Dependency] private readonly ChatSystem _chat = default!;
         public override void Initialize()

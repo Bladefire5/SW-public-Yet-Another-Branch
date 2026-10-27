@@ -17,7 +17,7 @@ namespace Content.Server.MagicPotionsMaker
     public sealed partial class MagicPotionsMakerSystem : EntitySystem
     {
         [Dependency] internal readonly IEntityManager _entityManager = default!;
-        [Dependency] internal readonly IMapManager _mapManager = default!;
+        [Dependency] internal readonly SharedMapSystem _mapManager = default!;
         [Dependency] protected readonly SharedAudioSystem _audio = default!;
         [Dependency] private readonly IGameTiming _timing = default!;
         [Dependency] private readonly IRobustRandom _random = default!;

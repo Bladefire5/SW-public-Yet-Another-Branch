@@ -21,7 +21,7 @@ public sealed class SpawnWindWaveSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
+    [Dependency] private readonly SharedMapSystem _mapManager = default!;
     [Dependency] private readonly WaveSystem _wave = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     private TimeSpan _nextCheckTime;

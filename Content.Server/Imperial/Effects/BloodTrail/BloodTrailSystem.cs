@@ -18,7 +18,7 @@ namespace Content.Server.Imperial.BloodTrail
         [Dependency] private readonly IPrototypeManager _prototype = default!;
         [Dependency] private readonly SharedTransformSystem _transform = default!;
         [Dependency] private readonly IGameTiming _timing = default!;
-        [Dependency] private readonly IMapManager _map = default!;
+        [Dependency] private readonly SharedMapSystem _map = default!;
         [Dependency] private readonly DecalSystem _decal = default!;
 
         private const float MinDistanceBetweenDecals = 0.3f;

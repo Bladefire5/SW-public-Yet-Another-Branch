@@ -16,7 +16,7 @@ namespace Content.Server.MedievalPasport
     public sealed partial class MedievalPasportSystem : EntitySystem
     {
         [Dependency] internal readonly IEntityManager _entityManager = default!;
-        [Dependency] internal readonly IMapManager _mapManager = default!;
+        [Dependency] internal readonly SharedMapSystem _mapManager = default!;
         [Dependency] protected readonly SharedAudioSystem Audio = default!;
         [Dependency] private readonly MetaDataSystem _metaData = default!;
         [Dependency] private readonly SharedHandsSystem _hands = default!;
