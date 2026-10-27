@@ -44,10 +44,10 @@ public sealed class IllitidSystem : SharedIllitidSystem
     #endregion
 
     #region Const
-    [ValidatePrototypeId<EntityPrototype>] private const string ThoughtActionId     = "MedievalActionIllitidThought";
-    [ValidatePrototypeId<EntityPrototype>] private const string MassThoughtActionId = "MedievalActionIllitidMassThought";
-    [ValidatePrototypeId<EntityPrototype>] private const string ForceTalkActionId   = "MedievalActionIllitidForceTalk";
-    [ValidatePrototypeId<EntityPrototype>] private const string BlindnessActionId   = "MedievalActionIllitidBlindness";
+    private const string ThoughtActionId     = "MedievalActionIllitidThought";
+    private const string MassThoughtActionId = "MedievalActionIllitidMassThought";
+    private const string ForceTalkActionId   = "MedievalActionIllitidForceTalk";
+    private const string BlindnessActionId   = "MedievalActionIllitidBlindness";
 
     private const string ThoughtCast = "/Audio/Imperial/Medieval/Illitid/cast1.ogg";
     private const string ThoughtReceive = "/Audio/Imperial/Medieval/Illitid/target1.ogg";

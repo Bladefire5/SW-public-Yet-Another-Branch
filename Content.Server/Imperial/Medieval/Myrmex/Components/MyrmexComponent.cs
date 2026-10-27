@@ -2,7 +2,6 @@ using Content.Shared.Damage.Prototypes;
 using Content.Shared.FixedPoint;
 using Content.Shared.Mobs;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.List;
 
 namespace Content.Server.Myrmex.Components;
 

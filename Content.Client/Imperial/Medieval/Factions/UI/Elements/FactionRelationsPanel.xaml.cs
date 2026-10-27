@@ -4,14 +4,12 @@ using System.Numerics;
 using Content.Client.Imperial.Medieval.Factions;
 using Content.Shared.Imperial.Medieval.Factions;
 using Content.Shared.Imperial.Medieval.Factions.Prototypes;
-using Microsoft.Extensions.Logging;
 using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.Utility;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
-using Serilog;
 using Content.Shared.Imperial.Medieval.Factions.Components;
 
 namespace Content.Client.Imperial.Medieval.Factions.UI.Elements;

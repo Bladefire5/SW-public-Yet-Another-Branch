@@ -1,6 +1,5 @@
 using Robust.Shared.Audio;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.List;
 using Content.Shared.Inventory;
 using Content.Server.Imperial.ExplosiveProjectile;
 

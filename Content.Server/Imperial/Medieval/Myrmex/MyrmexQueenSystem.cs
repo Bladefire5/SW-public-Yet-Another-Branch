@@ -18,7 +18,6 @@ public sealed partial class MyrmexQueenSystem : EntitySystem
         "/Audio/Imperial/Medieval/ant_egg2.ogg",
     };
 
-    [ValidatePrototypeId<EntityPrototype>]
     public const string ActionId = "MedievalMyrmexQueenLayEggAction";
 
     public override void Initialize()

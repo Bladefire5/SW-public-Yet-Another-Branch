@@ -2,7 +2,6 @@ using Content.Shared.Imperial.WhitelistClothing.Components;
 using Content.Shared.Tag;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Inventory;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Content.Server.Imperial.WhitelistClothing.Systems;
 
