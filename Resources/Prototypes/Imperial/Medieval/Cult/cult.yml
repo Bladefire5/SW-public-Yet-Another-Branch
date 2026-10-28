@@ -72,10 +72,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 170
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.15
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.72
@@ -119,7 +123,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.65
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.9
+    # spellward end
   - type: CultClothing
   - type: CurseItem
     cult: true
@@ -183,10 +189,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 230
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.15
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.72
@@ -230,7 +240,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.55
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.9
+    # spellward end
   - type: ManaRegen
     regen: 2
   - type: CultClothing
@@ -297,10 +309,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 600
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.1
-    brokenExplosionResistance:
       damageCoefficient: 0.85
+    # spellward end
+    # spellward start - torso-only explosion resistance
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.65
@@ -343,7 +359,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.45
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.85
+    # spellward end
   - type: CultClothing
   - type: CurseItem
     cult: true
@@ -406,10 +424,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 270
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.12
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.6
@@ -453,7 +475,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.65
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   - type: ManaRegen
     regen: 1
   - type: CultClothing
@@ -574,10 +598,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.8
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.85
@@ -620,7 +648,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: Insulated
   - type: Tag
     tags:

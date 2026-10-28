@@ -51,10 +51,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 60
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.6
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.9
@@ -200,10 +204,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 135
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.55
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.82
@@ -248,7 +256,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.85
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   # spellward start
   - type: PoiseArmor
     armorClass: Light
@@ -391,10 +401,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 180
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.12
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.85
@@ -439,7 +453,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.85
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   # spellward start
   - type: PoiseArmor
     armorClass: Light
@@ -505,10 +521,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 175
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.15
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.82
@@ -553,7 +573,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.85
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   # spellward start
   - type: PoiseArmor
     armorClass: Light
@@ -620,10 +642,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 225
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.15
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.72
@@ -668,7 +694,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.8
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   # spellward start
   - type: PoiseArmor
     armorClass: Light
@@ -757,10 +785,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 275
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.2
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.84
@@ -801,7 +833,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.85
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.9
+    # spellward end
   - type: MedievalIronHitSound
     effectSoundOnHit: "/Audio/Imperial/Medieval/chainmail_hit.ogg"
   # spellward start
@@ -859,10 +893,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 185
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.2
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.8
@@ -903,7 +941,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.92
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.9
+    # spellward end
   - type: MedievalIronHitSound
     effectSoundOnHit: "/Audio/Imperial/Medieval/chainmail_hit.ogg"
   # spellward start
@@ -972,10 +1012,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 325
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.15
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.6
@@ -1020,7 +1064,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.78
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.9
+    # spellward end
   # spellward start
   - type: PoiseArmor
     armorClass: Medium
@@ -1130,10 +1176,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 395
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.12
-    brokenExplosionResistance:
       damageCoefficient: 0.85
+    # spellward end
+    # spellward start - torso-only explosion resistance
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.72
@@ -1177,7 +1227,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.8
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.85
+    # spellward end
   - type: MedievalIronHitSound
   # spellward start
   - type: PoiseArmor
@@ -1271,10 +1323,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 260
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.15
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.88
@@ -1318,7 +1374,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.85
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.9
+    # spellward end
   - type: MedievalIronHitSound
   # spellward start
   - type: PoiseArmor
@@ -1401,10 +1459,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 600
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.1
-    brokenExplosionResistance:
       damageCoefficient: 0.85
+    # spellward end
+    # spellward start - torso-only explosion resistance
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.65
@@ -1448,7 +1510,9 @@
   - type: Item
     size: Huge
   - type: ExplosionResistance
-    damageCoefficient: 0.7
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.85
+    # spellward end
   - type: MedievalIronHitSound
     effectSoundOnHit: "/Audio/Imperial/Medieval/chainmail_hit.ogg"
   # spellward start
@@ -1521,10 +1585,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 760
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.07
-    brokenExplosionResistance:
       damageCoefficient: 0.85
+    # spellward end
+    # spellward start - torso-only explosion resistance
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.75
@@ -1568,7 +1636,9 @@
   - type: Item
     size: Huge
   - type: ExplosionResistance
-    damageCoefficient: 0.4
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.85
+    # spellward end
   - type: MedievalIronHitSound
   - type: StealTarget # imperial medieval
     stealGroup: MedievalGetMedievalClothingOuterArmorUpIron # imperial medieval
@@ -1772,10 +1842,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 60
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.65
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.94
@@ -2025,10 +2099,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 120
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.4
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.65
@@ -2238,10 +2316,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 90
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.8
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.88
@@ -2278,7 +2360,9 @@
         flatReduction: 0
   # spellward end
   - type: ExplosionResistance
-    damageCoefficient: 0.95
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: ClothingSpeedModifier
     walkModifier: 0.99
     sprintModifier: 0.99
@@ -2355,10 +2439,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 90
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.8
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.88
@@ -2394,7 +2482,9 @@
         coefficient: 1
         flatReduction: 0
   - type: ExplosionResistance
-    damageCoefficient: 0.95
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: ClothingSpeedModifier
     walkModifier: 0.99
     sprintModifier: 0.99
@@ -2444,10 +2534,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 100
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.89
@@ -2545,10 +2639,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 75
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.7
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.93
@@ -2692,10 +2790,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 700
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.1
-    brokenExplosionResistance:
       damageCoefficient: 0.85
+    # spellward end
+    # spellward start - torso-only explosion resistance
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.75
@@ -2735,7 +2837,9 @@
   - type: Item
     size: Large
   - type: ExplosionResistance
-    damageCoefficient: 0.65
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.85
+    # spellward end
   #- type: RadiationSource
   #  intensity: 0.3
   #  slope: 0.2
@@ -2803,10 +2907,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 500
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.1
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.75
@@ -2846,7 +2954,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.75
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.9
+    # spellward end
   #- type: RadiationSource
   #  intensity: 0.3
   #  slope: 0.2
@@ -2916,10 +3026,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 75
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.8
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.92
@@ -2955,7 +3069,9 @@
         coefficient: 1
         flatReduction: 0
   - type: ExplosionResistance
-    damageCoefficient: 0.95
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: ClothingSpeedModifier
     walkModifier: 0.99
     sprintModifier: 0.99
@@ -3025,10 +3141,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 270
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.18
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.6
@@ -3073,7 +3193,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.75
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   - type: ManaRegen
     regen: 2.2
   - type: SoulboundTrigger
@@ -3371,10 +3493,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 170
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.2
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.72
@@ -3419,7 +3545,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.7
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   - type: ManaRegen
     regen: 1.2
   # spellward start
@@ -3877,10 +4005,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 135
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.2
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.8
@@ -3925,7 +4057,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.75
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   - type: ManaRegen
     regen: 0.7
   # spellward start
@@ -4010,6 +4144,13 @@
   - type: Clothing
     sprite: Imperial/Medieval/Clothing/Armor/goblin_slayer_armor.rsi
 
+  # spellward start - class override for inherited torso protection
+  - type: MedievalArmorIntegrity
+    unbrokenExplosionResistance:
+      damageCoefficient: 0.85
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+  # spellward end
 - type: entity
   parent: ClothingOuterBase
   id: MedievalClothingOuterArmorForstone
@@ -4062,10 +4203,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 530
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.1
-    brokenExplosionResistance:
       damageCoefficient: 0.85
+    # spellward end
+    # spellward start - torso-only explosion resistance
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.95
@@ -4109,7 +4254,9 @@
   - type: Item
     size: Huge
   - type: ExplosionResistance
-    damageCoefficient: 0.5
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.85
+    # spellward end
   - type: MedievalIronHitSound
   - type: StealTarget # imperial medieval
     stealGroup: MedievalGetMedievalClothingOuterArmorUpIron # imperial medieval
@@ -4179,10 +4326,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 840
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.05
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.52
@@ -4225,7 +4376,9 @@
   - type: Item
     size: Huge
   - type: ExplosionResistance
-    damageCoefficient: 0.3
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   - type: MedievalIronHitSound
   - type: StealTarget # imperial medieval
     stealGroup: MedievalGetMedievalClothingOuterArmorUpIron # imperial medieval
@@ -4306,10 +4459,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 95
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.7
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.82
@@ -4345,7 +4502,9 @@
         coefficient: 0.95
         flatReduction: 0
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: ClothingSpeedModifier
     walkModifier: 0.99
     sprintModifier: 0.99
@@ -4514,10 +4673,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 105
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.7
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.86
@@ -4723,10 +4886,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 435
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.1
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.6
@@ -4770,7 +4937,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.82
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.9
+    # spellward end
   - type: MedievalIronHitSound
     effectSoundOnHit: "/Audio/Imperial/Medieval/chainmail_hit.ogg"
   # spellward start
@@ -4813,6 +4982,13 @@
   - type: Clothing
     sprite: Imperial/Medieval/Clothing/Armor/foxei_armor.rsi
 
+  # spellward start - class override for inherited torso protection
+  - type: MedievalArmorIntegrity
+    unbrokenExplosionResistance:
+      damageCoefficient: 0.85
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+  # spellward end
 - type: entity
   parent: MedievalClothingFeetSteel
   id: MedievalClothingFeetSteelFoxei
@@ -5069,6 +5245,13 @@
   - type: Clothing
     sprite: Imperial/Medieval/Clothing/Armor/mcdonalds_armor.rsi
 
+  # spellward start - class override for inherited torso protection
+  - type: MedievalArmorIntegrity
+    unbrokenExplosionResistance:
+      damageCoefficient: 0.85
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+  # spellward end
 - type: entity
   parent: MedievalClothingOuterArmorIronCuirassLight
   id: MedievalClothingOuterArmorIronCuirassLightMcDonalds
@@ -5157,6 +5340,13 @@
   - type: Clothing
     sprite: Imperial/Medieval/Clothing/Armor/crook_armor.rsi
 
+  # spellward start - class override for inherited torso protection
+  - type: MedievalArmorIntegrity
+    unbrokenExplosionResistance:
+      damageCoefficient: 0.85
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+  # spellward end
 - type: entity
   parent: MedievalClothingOuterArmorIronCuirassLight
   id: MedievalClothingOuterArmorIronCuirassLightCrookLv
@@ -5405,6 +5595,13 @@
   - type: Clothing
     sprite: Imperial/Medieval/Clothing/Armor/zablik_armor.rsi
 
+  # spellward start - class override for inherited torso protection
+  - type: MedievalArmorIntegrity
+    unbrokenExplosionResistance:
+      damageCoefficient: 0.85
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+  # spellward end
 - type: entity
   parent: MedievalClothingOuterArmorIronCuirassLight
   id: MedievalClothingOuterArmorIronCuirassLightZablik
@@ -5656,10 +5853,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 95
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.84
@@ -5696,7 +5897,9 @@
         flatReduction: 0
   # spellward end
   - type: ExplosionResistance
-    damageCoefficient: 0.95
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: ClothingSpeedModifier
     walkModifier: 0.99
     sprintModifier: 0.99
@@ -5851,10 +6054,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 80
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.2
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.74
@@ -5964,10 +6171,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.2
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.85
@@ -6012,7 +6223,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.8
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   - type: Tag
     tags:
     - GoblinArmor
@@ -6080,10 +6293,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 225
     repairType: Smithing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.15
-    brokenExplosionResistance:
       damageCoefficient: 0.85
+    # spellward end
+    # spellward start - torso-only explosion resistance
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.8
@@ -6126,7 +6343,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.82
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.85
+    # spellward end
   - type: Tag
     tags:
     - GoblinArmor
@@ -6402,10 +6621,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 80
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.3
+      damageCoefficient: 0.95
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.9875
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.8
@@ -6450,7 +6673,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.95
+    # spellward end
   # spellward start
   - type: PoiseArmor
     armorClass: Light

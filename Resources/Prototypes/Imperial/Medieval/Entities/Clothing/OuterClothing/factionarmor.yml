@@ -362,6 +362,14 @@
         Holy: 0
         Bloodloss: 0
   - type: MedievalArmorIntegrity
+    # spellward start - torso-only explosion resistance
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+    # spellward end
+    # spellward start - torso-only explosion resistance
+    unbrokenExplosionResistance:
+      damageCoefficient: 0.85
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.7
@@ -1004,6 +1012,14 @@
         Holy: 0
         Bloodloss: 0
   - type: MedievalArmorIntegrity
+    # spellward start - torso-only explosion resistance
+    brokenExplosionResistance:
+      damageCoefficient: 0.9625
+    # spellward end
+    # spellward start - torso-only explosion resistance
+    unbrokenExplosionResistance:
+      damageCoefficient: 0.85
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.7

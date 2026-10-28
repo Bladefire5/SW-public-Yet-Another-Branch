@@ -1,4 +1,11 @@
 using Content.Shared.Armor;
+// spellward start - shared armor blast scaling, including legacy horse armor.
+using Content.Shared.CCVar;
+using Content.Shared.Clothing.Components;
+using Content.Shared.Imperial.Medieval.ArmorIntegrity;
+using Content.Shared.Inventory;
+using Robust.Shared.Configuration;
+// spellward end
 using Content.Shared.Explosion.Components;
 // spellward start
 using Content.Shared.Trigger.Components.Effects;
@@ -16,6 +23,9 @@ namespace Content.Shared.Explosion.EntitySystems;
 /// </summary>
 public abstract partial class SharedExplosionSystem : EntitySystem //spellward
 {
+    // spellward start
+    [Dependency] private readonly IConfigurationManager _armorResistanceConfig = default!;
+    // spellward end
     /// <summary>
     ///     The "default" explosion prototype.
     /// </summary>
@@ -50,7 +60,10 @@ public abstract partial class SharedExplosionSystem : EntitySystem //spellward
 
     private void OnArmorExamine(Entity<ExplosionResistanceComponent> ent, ref ArmorExamineEvent args)
     {
-        var value = MathF.Round((1f - ent.Comp.DamageCoefficient) * 100, 1);
+        // spellward start - legacy armor examine follows the live global setting too.
+        var coefficient = GetLegacyArmorExplosionDamageCoefficient(ent.Owner, ent.Comp.DamageCoefficient);
+        var value = MathF.Round((1f - coefficient) * 100, 2);
+        // spellward end
 
         if (value == 0)
             return;
@@ -58,6 +71,40 @@ public abstract partial class SharedExplosionSystem : EntitySystem //spellward
         args.Msg.PushNewline();
         args.Msg.AddMarkupOrThrow(Loc.GetString(ent.Comp.Examine, ("value", value)));
     }
+
+    // spellward start
+    /// <summary>Scale resistance and return the resulting fraction of blast damage taken.</summary>
+    public static float ScaleArmorExplosionDamageCoefficient(float coefficient, float multiplier)
+    {
+        if (!float.IsFinite(multiplier))
+            multiplier = 1f;
+
+        if (multiplier == 1f)
+            return Math.Max(0f, coefficient);
+
+        // Scale the resistance percentage: 15% at x2 becomes 30%.
+        // Negative multipliers disable the armor bonus; protection cannot exceed 100%.
+        return Math.Max(0f, 1f - (1f - coefficient) * Math.Max(0f, multiplier));
+    }
+
+    protected float GetLegacyArmorExplosionDamageCoefficient(EntityUid uid, float coefficient)
+    {
+        // Integrity armor applies the setting itself. Its legacy coefficient must stay raw
+        // during initialization so migration never bakes the multiplier into saved base stats.
+        if (HasComp<MedievalArmorIntegrityComponent>(uid) || !HasComp<ArmorComponent>(uid) ||
+            !TryComp<ClothingComponent>(uid, out var clothing))
+            return coefficient;
+
+        // Keep medallions, bags, belts, innate mob resistance and structures separate.
+        const SlotFlags armorSlots = SlotFlags.OUTERCLOTHING | SlotFlags.INNERCLOTHING |
+            SlotFlags.HEAD | SlotFlags.MASK | SlotFlags.GLOVES | SlotFlags.FEET | SlotFlags.LEGS;
+        if ((clothing.Slots & armorSlots) == 0)
+            return coefficient;
+
+        return ScaleArmorExplosionDamageCoefficient(coefficient,
+            _armorResistanceConfig.GetCVar(CCVars.MedievalArmorExplosionResistanceMultiplier));
+    }
+    // spellward end
 
     /// <summary>
     ///     Given an entity with an explosive component, spawn the appropriate explosion.

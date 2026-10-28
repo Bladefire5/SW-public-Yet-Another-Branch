@@ -48,10 +48,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.8
@@ -68,7 +72,9 @@
   - type: Meltable
     resourceCount: 2
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
 
 - type: entity
   parent: MedievalClothingHeadBase
@@ -974,10 +980,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -1021,7 +1031,9 @@
   - type: Meltable
     resourceCount: 2
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   # spellward start - saved helmet poise
   - type: PoiseArmor
     armorClass: Light
@@ -1234,10 +1246,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 100
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -1327,10 +1343,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 100
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -1419,10 +1439,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 100
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -1601,10 +1625,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -1699,10 +1727,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 85
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -1806,10 +1838,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -1904,10 +1940,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 200
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -2001,10 +2041,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -2106,10 +2150,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -2153,7 +2201,9 @@
   - type: Meltable
     resourceCount: 2
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: ManaRegen
     regen: 0.7
   - type: Tag
@@ -2256,10 +2306,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -2303,7 +2357,9 @@
   - type: Meltable
     resourceCount: 2
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: ManaRegen
     regen: 0.5
   - type: Tag
@@ -2980,10 +3036,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -3027,7 +3087,9 @@
   - type: Meltable
     resourceCount: 2
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: ManaRegen
     regen: 0.25
   - type: Tag
@@ -3159,10 +3221,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -3206,7 +3272,9 @@
   - type: Meltable
     resourceCount: 2
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: Tag
     tags:
     - HidesHair
@@ -4221,10 +4289,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -4268,7 +4340,9 @@
   - type: Meltable
     resourceCount: 2
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: IngestionBlocker
     enabled: false
   - type: IdentityBlocker
@@ -4814,10 +4888,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -4861,7 +4939,9 @@
   - type: Meltable
     resourceCount: 2
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: IdentityBlocker
   - type: Tag
     tags:
@@ -5013,10 +5093,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -5060,7 +5144,9 @@
   - type: Meltable
     resourceCount: 2
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: Tag
     tags:
     - HidesHair
@@ -5140,10 +5226,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 250
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.8
@@ -5179,7 +5269,9 @@
         coefficient: 0.9
         flatReduction: 0
   - type: ExplosionResistance
-    damageCoefficient: 0.8
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: Tag
     tags:
     - HidesHair
@@ -5246,10 +5338,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 250
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -5287,7 +5383,9 @@
         flatReduction: 0
     # spellward end
   - type: ExplosionResistance
-    damageCoefficient: 0.8
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: Tag
     tags:
     - HidesHair
@@ -5433,10 +5531,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:
@@ -5480,7 +5582,9 @@
   - type: Meltable
     resourceCount: 2
   - type: ExplosionResistance
-    damageCoefficient: 0.9
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 1
+    # spellward end
   - type: ManaRegen
     regen: 0.5
   # spellward start - saved helmet poise
@@ -5603,10 +5707,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 125
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.75
+      damageCoefficient: 1
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.9
+      damageCoefficient: 1
+    # spellward end
     # spellward start - saved helmet balance
     unbrokenResistances:
       Blunt:

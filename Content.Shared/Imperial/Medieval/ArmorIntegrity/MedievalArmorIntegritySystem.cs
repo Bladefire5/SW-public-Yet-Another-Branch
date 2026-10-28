@@ -1,4 +1,7 @@
 using Content.Shared.Armor;
+// spellward start
+using Robust.Shared.Configuration;
+// spellward end
 using Content.Shared.Damage;
 using Content.Shared.Examine;
 using Content.Shared.Explosion;
@@ -17,6 +20,9 @@ namespace Content.Shared.Imperial.Medieval.ArmorIntegrity;
 public sealed partial class MedievalArmorIntegritySystem : EntitySystem
 {
     [Dependency] private readonly INetManager _net = default!;
+    // spellward start
+    [Dependency] private readonly IConfigurationManager _configuration = default!;
+    // spellward end
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly IRobustRandom _random = default!;

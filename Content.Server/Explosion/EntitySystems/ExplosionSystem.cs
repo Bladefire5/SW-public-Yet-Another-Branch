@@ -123,9 +123,13 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
 
     private void OnGetResistance(EntityUid uid, ExplosionResistanceComponent component, ref GetExplosionResistanceEvent args)
     {
-        args.DamageCoefficient *= component.DamageCoefficient;
+        // spellward start - include legacy armor in the global armor resistance setting.
+        var coefficient = component.DamageCoefficient;
         if (component.Modifiers.TryGetValue(args.ExplosionPrototype, out var modifier))
-            args.DamageCoefficient *= modifier;
+            coefficient *= modifier;
+
+        args.DamageCoefficient *= GetLegacyArmorExplosionDamageCoefficient(uid, coefficient);
+        // spellward end
     }
 
     /// <inheritdoc/>

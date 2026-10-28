@@ -1,4 +1,8 @@
 using Content.Shared.Armor;
+// spellward start
+using Content.Shared.CCVar;
+using Content.Shared.Explosion.EntitySystems;
+// spellward end
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Explosion;
@@ -12,7 +16,9 @@ public sealed partial class MedievalArmorIntegritySystem
     private void OnArmorExamine(Entity<MedievalArmorIntegrityComponent> ent, ref ArmorExamineEvent args)
     {
         var resistance = GetExplosionResistance(ent.Comp);
-        var value = MathF.Round((1f - resistance.DamageCoefficient) * 100, 1);
+        // spellward start - examine uses the same live global multiplier as actual protection.
+        var value = MathF.Round((1f - GetScaledExplosionDamageCoefficient(resistance.DamageCoefficient)) * 100, 2);
+        // spellward end
 
         if (value == 0)
             return;
@@ -154,14 +160,24 @@ public sealed partial class MedievalArmorIntegritySystem
             : component.UnbrokenExplosionResistance;
     }
 
-    private static void ApplyExplosionResistance(
+    // spellward start - apply the global multiplier once per armor contribution.
+    private void ApplyExplosionResistance(
         MedievalArmorExplosionResistance resistance,
         ref GetExplosionResistanceEvent args)
     {
-        args.DamageCoefficient *= resistance.DamageCoefficient;
+        var coefficient = resistance.DamageCoefficient;
         if (resistance.Modifiers.TryGetValue(args.ExplosionPrototype, out var modifier))
-            args.DamageCoefficient *= modifier;
+            coefficient *= modifier;
+
+        args.DamageCoefficient *= GetScaledExplosionDamageCoefficient(coefficient);
     }
+
+    private float GetScaledExplosionDamageCoefficient(float coefficient)
+    {
+        var multiplier = _configuration.GetCVar(CCVars.MedievalArmorExplosionResistanceMultiplier);
+        return SharedExplosionSystem.ScaleArmorExplosionDamageCoefficient(coefficient, multiplier);
+    }
+    // spellward end
 
     private static DamageModifierSet CreateModifierSet(
         Dictionary<ProtoId<DamageTypePrototype>, MedievalArmorResistance> resistances)

@@ -697,10 +697,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 400
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.15
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.6
@@ -744,7 +748,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.75
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.9
+    # spellward end
   - type: ManaRegen
     regen: 0.7
   - type: CurseItem
@@ -796,10 +802,14 @@
   - type: MedievalArmorIntegrity
     containerArmorHP: 350
     repairType: Sewing
+    # spellward start - torso-only explosion resistance
     unbrokenExplosionResistance:
-      damageCoefficient: 0.15
+      damageCoefficient: 0.9
+    # spellward end
+    # spellward start - torso-only explosion resistance
     brokenExplosionResistance:
-      damageCoefficient: 0.85
+      damageCoefficient: 0.975
+    # spellward end
     unbrokenResistances:
       Blunt:
         coefficient: 0.72
@@ -843,7 +853,9 @@
   - type: Item
     size: Normal
   - type: ExplosionResistance
-    damageCoefficient: 0.85
+    # spellward start - mirror the intact integrity value
+    damageCoefficient: 0.9
+    # spellward end
   - type: ManaRegen
     regen: 2.5
   - type: CurseItem
