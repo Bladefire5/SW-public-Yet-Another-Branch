@@ -4,7 +4,7 @@
   id: ClothingNeckBase
   components:
   - type: Item
-    size: Normal # imperial medieval
+    size: Small #spellward - upstream size keeps standard fills within their storage limits.
   - type: Clothing
     quickEquip: true
     slots:

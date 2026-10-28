@@ -16,7 +16,7 @@
   - type: Food
     requiresSpecialDigestion: true
   - type: Item
-    size: Normal # imperial medieval
+    size: Small #spellward - upstream size keeps standard fills within their storage limits.
     storedRotation: -90
   - type: SolutionContainerManager
     solutions:
