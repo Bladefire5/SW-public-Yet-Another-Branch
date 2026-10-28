@@ -8,6 +8,7 @@ namespace Content.Shared.Imperial.Medieval.Bee.Components;
 public sealed partial class MedievalBeeHiveComponent : Component
 {
     public Entity<MedievalBeeGridComponent> Grid;
+    public EntityUid? InteriorMap;
     [DataField("gridDataset"), ViewVariables(VVAccess.ReadOnly)]
     public ProtoId<DatasetPrototype> GridDataset = "MBeeGrids";
     public bool Pacified = false;

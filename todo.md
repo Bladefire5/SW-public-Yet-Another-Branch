@@ -1,8 +1,8 @@
 # SW Experiment / Robust 294 migration — machine recovery note
-schema=checkpoint.v2; updated=2026-10-28; active_checkpoint=checkpoint.v33; earlier checkpoints/backlogs are HISTORICAL; refresh HEAD and CI before continuing
+schema=checkpoint.v2; updated=2026-10-28; active_checkpoint=checkpoint.v34; earlier checkpoints/backlogs are HISTORICAL; refresh HEAD and CI before continuing
 repo=Bladefire5/SW-public-Yet-Another-Branch
 branch=Experiment (case sensitive); only modify this branch; preserve Stance-Break and all other branches.
-last_source_commit=50d5cc11d10afc2e06209af5b579d9568a23c541 (parent of checkpoint.v33; refresh Experiment HEAD before work)
+last_source_commit=8f0aa021515933d98b1f2fe35283f2b1ab56e9e3 (parent of checkpoint.v34; refresh Experiment HEAD before work)
 source_commit_subject="compat: adapt client map, color and GUI APIs; remove retired reanchor event"
 RobustToolbox submodule SHA=3eeaf8253774ab59d705d453fe90ede75b84c607 (294.0.0)
 verified SS14 upstream stable=space-wizards/space-station-14@107b6552856df306ba03f95334e0819b6b2be627; pinned same Robust SHA when checked.
@@ -257,3 +257,12 @@ checkpoint.v29={"base":"1f7a6e58d4b77ff0442f0171848cf6c3e9789b4c","task":"contin
 - Removed the single stale Snowman3 decoration, UID 464, from IslandMedium45.yml and updated entityCount 573 to 572. It has only a Transform and no inbound UID references. Snowman3 has no prototype/assets in this fork or the pre-migration baseline; current upstream search also found no replacement. Removing the already unspawnable entry prevents random island map-load errors. Semantic comparison confirms no other map data changed; all 572 remaining entities and tile/physics/layout data retained.
 - Validation: semantic diff confirms decor.yml changes only the two storage grids, island YAML changes only the dead proto group and metadata count; full loot-subset placement audit passes; diff whitespace check passes. Every source commit continues to include todo.md. New CI for this checkpoint remains required.
 - Next: inspect the new early prototype/component pass and broad integration results. The historical broad-suite backlog in checkpoint.v29 is not yet resolved (buckle/pull, suicide/health-alert behavior, config preset reset, chemistry, fluids, game rules, retired map components, cargo crate pricing and others). Manual in-game UI and ship/sea/power checks remain pending. Do not claim the entire migration or complete integration suite is finished.
+
+
+## checkpoint.v34 — beehive interior ownership cleanup
+- CI 8f0aa021 run 40661021433 (job 122723767727): full build PASS, unit PASS, compatibility TRX 57 executed/57 passed/0 skipped, construction step PASS, prototype TRX 7 executed/7 passed/0 skipped. Complete DummyIconTest and AllComponentsOneToOneDeleteTest now PASS. Both maximum loot-stand placement regressions PASS. Broader integration still running when this checkpoint was prepared.
+- Traced the previously recorded MedievalBeeHive entity-count leak: interior map deletion was subscribed only to DestructionEventArgs. Direct entity deletion and component removal bypassed that handler and left the interior map/grid/entities alive.
+- The hive now tracks its owned interior map explicitly and performs idempotent cleanup on both destruction and ComponentShutdown. Physical destruction still releases resident mobs as before. Direct removal cleans up NPC residents owned by that interior's linked spawners, while visitors and residents with minds are moved out before the map is queued for deletion. Pull relations are stopped before evacuation so the general teleport helper's early-return behavior cannot leave a visitor in the deleted map. Repeated cleanup or an already terminating map is safe.
+- Added two lifecycle regressions using a real hive interior: direct entity deletion and component removal. Each inserts a visitor and a deterministic spawner-owned NPC, verifies the visitor moves to the outer grid, then verifies the interior map/grid/NPC are deleted while the visitor survives. Source compatibility count is now 59; fresh runtime verification is required. No loot, combat, hive-map assets, or bee spawn weights changed.
+- Validation: lifecycle API signatures checked against current source; both MBeeGrids variants contain the linked spawner used by the regression; direct map ownership uses the actual MapLoader return entity; diff whitespace check passes. New source CI still required.
+- Next: inspect 59-case regression results and broad integration results. Do not claim complete integration/migration success: historical broad-suite failures remain listed in checkpoint.v29 and may expose further independent issues. All previously listed manual UI/ship/power checks remain pending.
