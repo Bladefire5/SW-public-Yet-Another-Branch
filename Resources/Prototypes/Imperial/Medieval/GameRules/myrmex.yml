@@ -3,6 +3,7 @@
   id: Myrmex
   components:
   - type: GameRule
+    cancelPresetOnTooFewPlayers: false # Optional rule; do not prevent the medieval round from starting.
     minPlayers: 40
   - type: LoadMapRule
     mapPath: /Maps/Imperial/Medieval/myrmex.yml

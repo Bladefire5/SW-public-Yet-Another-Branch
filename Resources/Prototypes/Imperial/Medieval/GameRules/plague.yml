@@ -3,6 +3,7 @@
   id: MedievalPlague
   components:
   - type: GameRule
+    cancelPresetOnTooFewPlayers: false # Optional rule; do not prevent the medieval round from starting.
     minPlayers: 80
   - type: MedievalPlagueRule
   - type: AntagSelection

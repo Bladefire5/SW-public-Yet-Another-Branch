@@ -169,7 +169,7 @@
 - type: reaction
   id: FlashPowder
   impact: High
-  priority: 20
+  priority: 22 # Full stabilized mix precedes its unstabilized and upstream Flash subsets.
   reactants:
     Aluminium:
       amount: 1
@@ -188,6 +188,7 @@
 - type: reaction
   id: FlashPowderExplosion1
   impact: High
+  priority: 21 # Chlorine-containing mix precedes the upstream three-ingredient Flash reaction.
   reactants:
     Aluminium:
       amount: 1

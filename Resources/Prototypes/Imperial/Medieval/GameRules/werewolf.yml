@@ -3,6 +3,7 @@
   id: MedievalWerewolves
   components:
   - type: GameRule
+    cancelPresetOnTooFewPlayers: false # Optional rule; do not prevent the medieval round from starting.
     minPlayers: 30
   - type: LycantropyGameRule
   - type: AntagSelection

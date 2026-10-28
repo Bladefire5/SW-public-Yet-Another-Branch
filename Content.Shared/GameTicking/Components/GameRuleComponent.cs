@@ -28,7 +28,7 @@ public sealed partial class GameRuleComponent : Component
     /// If false, it will simply not run silently.
     /// </summary>
     [DataField]
-    public bool CancelPresetOnTooFewPlayers = false; //Imperial fix
+    public bool CancelPresetOnTooFewPlayers = true; //spellward - upstream preset validation
 
     /// <summary>
     /// A delay for when the rule the is started and when the starting logic actually runs.
