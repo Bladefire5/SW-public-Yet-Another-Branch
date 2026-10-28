@@ -3,6 +3,8 @@ using Content.Shared.Prying.Components;
 using Content.Shared.Tools;
 using Content.Shared.Tools.Components;
 using Content.Shared.Tools.Systems;
+using Content.Server.Xenoarchaeology.Artifact;
+using Content.Shared.Xenoarchaeology.Artifact.Components;
 using Robust.Shared.Prototypes;
 
 namespace Content.IntegrationTests.Tests.Imperial.EngineCompatibility;
@@ -17,6 +19,11 @@ public sealed class ToolQualityMigrationTest
   components:
   - type: Tool
     qualities: [Prying, Screwing]
+- type: entity
+  id: ExperimentQualityArtifact
+  components:
+  - type: XenoArtifact
+    isGenerationRequired: false
 - type: entity
   id: ExperimentQualityMultitool
   components:
@@ -65,7 +72,6 @@ public sealed class ToolQualityMigrationTest
     [TestCase("Welder", "Welding")]
     [TestCase("PowerDrill", "Screwing")]
     [TestCase("JawsOfLife", "Prying")]
-    [TestCase("XenoArtifactOmnitool", "Screwing")]
     public async Task ExistingScalarQualityPrototypesLoadAndInitialize(string prototype, string quality)
     {
         await using var pair = await PoolManager.GetServerClient();
@@ -75,6 +81,40 @@ public sealed class ToolQualityMigrationTest
         {
             var tool = server.EntMan.SpawnEntity(prototype, map.GridCoords);
             Assert.That(server.System<SharedToolSystem>().HasQuality(tool, quality), Is.True);
+        });
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task ArtifactEffectAppliesAndCyclesTheMigratedToolRegistry()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var map = await pair.CreateTestMap();
+        var server = pair.Server;
+        await server.WaitAssertion(() =>
+        {
+            var entities = server.EntMan;
+            var artifacts = server.System<XenoArtifactSystem>();
+            var tools = server.System<SharedToolSystem>();
+            var artifact = entities.SpawnEntity("ExperimentQualityArtifact", map.GridCoords);
+            var artifactComponent = entities.GetComponent<XenoArtifactComponent>(artifact);
+            var node = entities.SpawnEntity("XenoArtifactOmnitool", map.GridCoords);
+            var nodeComponent = entities.GetComponent<XenoArtifactNodeComponent>(node);
+            Assert.That(artifacts.AddNode((artifact, artifactComponent), (node, nodeComponent)), Is.True);
+            Assert.That(tools.HasQuality(artifact, "Screwing"), Is.False);
+            Assert.That(artifacts.ActivateNode((artifact, artifactComponent), (node, nodeComponent),
+                null, null, map.GridCoords, consumeDurability: false), Is.True);
+            Assert.That(tools.HasQuality(artifact, "Screwing"), Is.True);
+            Assert.That(entities.GetComponent<ToolComponent>(artifact).SpeedModifier, Is.EqualTo(2));
+
+            foreach (var quality in new[] { "Prying", "Anchoring", "Cutting", "Pulsing", "Screwing" })
+            {
+                Assert.That(tools.CycleMultipleTool(artifact), Is.True);
+                Assert.That(tools.HasQuality(artifact, quality), Is.True, quality);
+            }
+
+            entities.DeleteEntity(artifact);
+            Assert.That(entities.Deleted(node), Is.True);
         });
         await pair.CleanReturnAsync();
     }

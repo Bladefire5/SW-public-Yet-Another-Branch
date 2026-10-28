@@ -37,7 +37,7 @@
         - to: start
           completed:
             - !type:SpawnPrototype
-                prototype: MaterialWoodPlank1 #spellward - entity ID for the configured wood refund.
+                prototype: PartRodMetal #spellward - restore upstream refund for the metal table frame.
                 amount: 2
           steps:
             - tool: Anchoring
