@@ -2301,7 +2301,7 @@
         - BulletImpassable
   - type: Storage
     grid:
-    - 0,0,4,1
+    - 0,0,7,3
     maxItemSize: Ginormous
     #storageOpenSound: /Audio/Imperial/Medieval/wood_open.ogg
     #storageCloseSound: /Audio/Imperial/Medieval/wood_closed.ogg
@@ -2371,7 +2371,7 @@
         - BulletImpassable
   - type: Storage
     grid:
-    - 0,0,1,1
+    - 0,0,9,5
     maxItemSize: Ginormous
     #storageOpenSound: /Audio/Imperial/Medieval/wood_open.ogg
     #storageCloseSound: /Audio/Imperial/Medieval/wood_closed.ogg

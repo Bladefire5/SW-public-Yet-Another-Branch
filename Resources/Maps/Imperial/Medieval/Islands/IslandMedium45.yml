@@ -5,7 +5,7 @@ meta:
   forkId: ""
   forkVersion: ""
   time: 05/24/2026 00:15:11
-  entityCount: 573
+  entityCount: 572
 maps: []
 grids:
 - 1
@@ -3851,13 +3851,6 @@ entities:
       parent: 1
     - type: Fixtures
       fixtures: {}
-- proto: Snowman3
-  entities:
-  - uid: 464
-    components:
-    - type: Transform
-      pos: 15.025513,-0.20591736
-      parent: 1
 - proto: Spoon
   entities:
   - uid: 167
