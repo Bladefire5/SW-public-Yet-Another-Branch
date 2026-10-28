@@ -1,5 +1,6 @@
 using Content.Shared.Preferences;
 using NUnit.Framework;
+using Robust.Shared.Maths;
 
 namespace Content.Tests.Shared.Preferences.Humanoid;
 
@@ -24,6 +25,8 @@ public sealed class CharacterSkillsTest
     public void ClonedProfilesOwnTheirSkillSelections()
     {
         var original = new HumanoidCharacterProfile { Skills = new() { ["Strength"] = 12 } };
+        // Use a canonical byte color, as the native appearance copy constructor normalizes colors.
+        original.Appearance.SkinColor = Color.FromHex("#BBAA99");
         var edited = original.Clone();
         Assert.That(edited.MemberwiseEquals(original), Is.True);
         edited.Skills["Strength"] = 15;

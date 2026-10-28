@@ -38,6 +38,12 @@ public sealed class ServerWindSystem : EntitySystem
         _cfg.OnValueChanged(ShipsCCVars.StormLevel, OnStormLevelCVarChanged, true);
     }
 
+    public override void Shutdown()
+    {
+        _cfg.UnsubValueChanged(ShipsCCVars.StormLevel, OnStormLevelCVarChanged);
+        base.Shutdown();
+    }
+
     private void OnSeaInit(EntityUid uid, SeaComponent component, ComponentInit args)
     {
         _cfg.SetCVar(ShipsCCVars.StormLevel, component.InitStormLevel);
@@ -46,6 +52,21 @@ public sealed class ServerWindSystem : EntitySystem
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+
+        // Sea simulation must not mutate global configuration in ordinary maps or with every sea disabled.
+        var seas = EntityQueryEnumerator<SeaComponent>();
+        var activeSea = false;
+        while (seas.MoveNext(out var sea))
+        {
+            if (sea.Disabled)
+                continue;
+
+            activeSea = true;
+            break;
+        }
+
+        if (!activeSea)
+            return;
 
         var curTime = _timing.CurTime;
 
