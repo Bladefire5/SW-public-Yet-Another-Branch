@@ -78,6 +78,8 @@ public sealed class ComponentLifecycleMigrationTest
             var entities = pair.Server.EntMan;
             var terminal = entities.SpawnEntity("ExperimentTradeOfferTerminal", map.GridCoords);
             var item = entities.SpawnEntity("ExperimentTradeOfferItem", map.GridCoords);
+            // Offers can only be inserted while a trade session is active.
+            entities.GetComponent<TradeTerminalComponent>(terminal).State = TradeSessionState.Active;
             var container = entities.GetComponent<StorageComponent>(terminal).Container;
             Assert.That(pair.Server.System<SharedContainerSystem>().Insert(item, container), Is.True);
             entities.RemoveComponent<TradeTerminalComponent>(terminal);

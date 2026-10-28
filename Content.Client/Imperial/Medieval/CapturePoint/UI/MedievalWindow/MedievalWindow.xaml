@@ -28,7 +28,8 @@
 
                 <TextureButton Name="CloseButton"
                                VerticalAlignment="Center"
-                               StyleClasses="windowCloseButton" />
+                               TexturePath="/Textures/Interface/Medieval/Storage/exit.png"
+                               Scale="1.5 1.5" />
             </BoxContainer>
         </PanelContainer>
         <Control Name="ContentsContainer" Margin="12" VerticalExpand="True" />

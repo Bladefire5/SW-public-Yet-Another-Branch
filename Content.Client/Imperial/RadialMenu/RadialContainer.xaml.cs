@@ -32,8 +32,6 @@ public partial class RadialContainer : Control
     private float _moveAniTime = 0.3f;
     private float _focusAniTime = 0.25f;
 
-    private string _backgroundTexture = "/Textures/Interface/Default/SlotBackground.png";
-
     private const int MaxButtons = 8;
 
     public const string MoveAnimationKey = "move";
@@ -157,7 +155,7 @@ public partial class RadialContainer : Control
         var button = new RadialButton();
 
         button.Content = action;
-        button.Controller.TextureNormal = IoCManager.Resolve<IResourceCache>().GetTexture(_backgroundTexture);
+        button.Controller.TexturePath = "SlotBackground";
 
         if (texture != null)
             button.BackgroundTexture.Texture = IoCManager.Resolve<IResourceCache>().GetTexture(texture);
@@ -172,7 +170,7 @@ public partial class RadialContainer : Control
         var button = new RadialButton();
 
         button.Content = action;
-        button.Controller.TextureNormal = IoCManager.Resolve<IResourceCache>().GetTexture(_backgroundTexture);
+        button.Controller.TexturePath = "SlotBackground";
 
         if (texture != null)
             button.BackgroundTexture.Texture = texture;
@@ -187,7 +185,7 @@ public partial class RadialContainer : Control
         var button = new RadialButton();
 
         button.Content = action;
-        button.Controller.TextureNormal = IoCManager.Resolve<IResourceCache>().GetTexture(_backgroundTexture);
+        button.Controller.TexturePath = "SlotBackground";
 
         if (texture != null)
             button.BackgroundTexture.Texture = IoCManager.Resolve<IResourceCache>().GetTexture(texture);
@@ -211,7 +209,7 @@ public partial class RadialContainer : Control
         var button = new RadialButton();
 
         button.Content = action;
-        button.Controller.TextureNormal = IoCManager.Resolve<IResourceCache>().GetTexture(_backgroundTexture);
+        button.Controller.TexturePath = "SlotBackground";
 
         if (texture != null)
             button.BackgroundTexture.Texture = IoCManager.Resolve<IResourceCache>().GetTexture(texture);

@@ -10,7 +10,7 @@
             VerticalExpand="True"
             HorizontalExpand="True"
             Content="{Loc 'radial-ui-close'}"
-            Texture="/Textures/Interface/Default/blocked.png"/>
+            Texture="Storage/exit"/>
         <LayoutContainer Access="Public" Name="Layout" HorizontalExpand="True" VerticalExpand="True"></LayoutContainer>
         <RichTextLabel Access="Public" Name="ActionLabel" HorizontalExpand="True" Visible="False"/>
     </BoxContainer>

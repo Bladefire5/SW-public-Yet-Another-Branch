@@ -1,24 +1,29 @@
 using Robust.Client.Graphics;
+using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface.Controls;
 
 namespace Content.Client.Imperial.Medieval.UserInterface.Elements;
 
 /// <summary>
-///     imperial medieval - toggle button in the MedievalButton palette. MedievalButton has no pressed look,
-///     so selected options (tabs, modes, amounts) use this one instead.
+///     Medieval item slot using the existing inventory artwork, with distinct hover and selected states.
 /// </summary>
 [Virtual]
 public class MedievalToggleButton : Button
 {
-    private static readonly StyleBoxFlat NormalBox = Box(MedievalUiStyle.Background, MedievalUiStyle.Border);
-    private static readonly StyleBoxFlat HoverBox = Box(MedievalUiStyle.BackgroundHover, MedievalUiStyle.Gold);
-    private static readonly StyleBoxFlat PressedBox = Box(MedievalUiStyle.BackgroundPressed, MedievalUiStyle.Gold);
-    private static readonly StyleBoxFlat DisabledBox = Box(MedievalUiStyle.BackgroundDisabled, MedievalUiStyle.BorderDisabled);
+    private readonly StyleBoxTexture _normalBox;
+    private readonly StyleBoxTexture _hoverBox;
+    private readonly StyleBoxTexture _pressedBox;
+    private readonly StyleBoxTexture _disabledBox;
 
     public MedievalToggleButton()
     {
-        StyleBoxOverride = NormalBox;
-        Label.FontColorOverride = MedievalUiStyle.Text;
+        var texture = IoCManager.Resolve<IResourceCache>()
+            .GetResource<TextureResource>("/Textures/Interface/Medieval/SlotBackground.png").Texture;
+        _normalBox = Box(texture, Color.White);
+        _hoverBox = Box(texture, Color.FromHex("#fff1c8"));
+        _pressedBox = Box(texture, MedievalUiStyle.GoldBright);
+        _disabledBox = Box(texture, Color.FromHex("#635749"));
+        UpdateStyle();
     }
 
     protected override void DrawModeChanged()
@@ -26,25 +31,32 @@ public class MedievalToggleButton : Button
         base.DrawModeChanged();
 
         // can fire from the base constructor, before the label exists
-        if (Label == null)
+        if (Label == null || _normalBox == null)
             return;
 
+        UpdateStyle();
+    }
+
+    private void UpdateStyle()
+    {
         (StyleBoxOverride, Label.FontColorOverride) = DrawMode switch
         {
-            DrawModeEnum.Pressed => (PressedBox, MedievalUiStyle.GoldBright),
-            DrawModeEnum.Hover => (HoverBox, Color.White),
-            DrawModeEnum.Disabled => (DisabledBox, MedievalUiStyle.TextDisabled),
-            _ => (NormalBox, MedievalUiStyle.Text),
+            DrawModeEnum.Pressed => (_pressedBox, MedievalUiStyle.GoldBright),
+            DrawModeEnum.Hover => (_hoverBox, Color.White),
+            DrawModeEnum.Disabled => (_disabledBox, MedievalUiStyle.TextDisabled),
+            _ => (_normalBox, MedievalUiStyle.Text),
         };
     }
 
-    private static StyleBoxFlat Box(Color background, Color border)
+    private static StyleBoxTexture Box(Texture texture, Color modulate)
     {
-        return new StyleBoxFlat
+        var box = new StyleBoxTexture
         {
-            BackgroundColor = background,
-            BorderColor = border,
-            BorderThickness = new Thickness(1),
+            Texture = texture,
+            Modulate = modulate,
         };
+        box.SetPatchMargin(StyleBox.Margin.All, 3);
+        box.SetContentMarginOverride(StyleBox.Margin.All, 3);
+        return box;
     }
 }
