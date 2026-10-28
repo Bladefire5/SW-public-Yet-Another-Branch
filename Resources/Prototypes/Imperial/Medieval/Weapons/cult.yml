@@ -4,6 +4,10 @@
   id: MedievalDaggerCult
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Dagger
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 10
@@ -110,6 +114,10 @@
   id: MedievalSpearCult
   description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Spear
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 8
@@ -240,6 +248,10 @@
   id: MedievalIronSekirCult
   description: A medieval poleaxe.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Greataxe
+  # spellward end
   - type: QuestItem
     contractName: "любое двуручное оружие"
   - type: EmitSoundOnLand
@@ -349,6 +361,10 @@
   id: MedievalCultYatagan
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Melee/sword_cult.rsi
     size: Small

@@ -1,3 +1,4 @@
+// spellward - restore the stamina-only version, before light attack preparation.
 using Content.Shared.CombatMode;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
@@ -39,8 +40,6 @@ public sealed class LightAttackStaminaTest
   - type: PoiseDamage
   - type: LightAttackStamina
     staminaCost: 5
-    windup: 0
-    inputDelay: 0
 
 - type: entity
   id: LightAttackStaminaTestTarget
@@ -65,11 +64,6 @@ public sealed class LightAttackStaminaTest
 
             component.StaminaCost = null;
             Assert.That(system.GetStaminaCost(weapon), Is.EqualTo(5f));
-            component.Windup = null;
-            var windupSystem = entMan.System<LightAttackWindupSystem>();
-            Assert.That(windupSystem.GetWindup(weapon), Is.EqualTo(0.45f));
-            component.Windup = 0f;
-            Assert.That(windupSystem.GetWindup(weapon), Is.Zero);
 
             component.Preset = "LightAttackStaminaTestHeavy";
             Assert.That(system.GetStaminaCost(weapon), Is.EqualTo(12f));

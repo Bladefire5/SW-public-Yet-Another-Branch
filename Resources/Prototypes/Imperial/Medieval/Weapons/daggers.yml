@@ -4,6 +4,10 @@
   id: MedievalDaggerT3
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Dagger
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 10
@@ -109,6 +113,10 @@
   id: MedievalDaggerT3Steel
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Dagger
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 10
@@ -207,6 +215,10 @@
   id: MedievalDaggerT3Bone
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Dagger
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 10

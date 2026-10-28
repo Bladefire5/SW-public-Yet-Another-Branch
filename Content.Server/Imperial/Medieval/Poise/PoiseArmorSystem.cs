@@ -89,13 +89,20 @@ public sealed class PoiseArmorSystem : EntitySystem
 
             _armorWearers[item] = wearer;
 
+            // spellward start - resistance-only accessories do not count as armor.
+            if (!armor.ProvidesArmorBonuses)
+                continue;
+            // spellward end
+
             hasPoiseArmor = true;
 
             var isPrimaryArmor = (slot.SlotFlags & SlotFlags.OUTERCLOTHING) != 0;
 
             var broken = TryComp<MedievalArmorIntegrityComponent>(item, out var integrity) && integrity.IsBroken;
             var multiplier = PoiseArmorPresets.ResolveEffectiveMultiplier(armor, broken);
-            var poiseIncrease = PoiseArmorPresets.ResolvePoiseIncrease(armor);
+            // spellward start - share capacity resolution with the recovery bonus check.
+            var poiseIncrease = armor.GetPoiseIncrease();
+            // spellward end
 
             PoiseArmorPresets.AddMultiplierContribution(multiplier, isPrimaryArmor, ref weightedSum, ref totalWeight);
 
@@ -125,10 +132,6 @@ public sealed class PoiseArmorSystem : EntitySystem
         public const float LightMultiplier = 1.25f;
         public const float MediumMultiplier = 1.50f;
         public const float HeavyMultiplier = 1.80f;
-
-        public const float LightPoiseIncrease = 5f;
-        public const float MediumPoiseIncrease = 10f;
-        public const float HeavyPoiseIncrease = 15f;
 
         public static float GetMultiplierWeight(float multiplier, bool isPrimaryArmor)
         {
@@ -186,16 +189,6 @@ public sealed class PoiseArmorSystem : EntitySystem
             };
         }
 
-        public static float GetPoiseIncrease(PoiseArmorClass armorClass)
-        {
-            return armorClass switch
-            {
-                PoiseArmorClass.Light => LightPoiseIncrease,
-                PoiseArmorClass.Medium => MediumPoiseIncrease,
-                PoiseArmorClass.Heavy => HeavyPoiseIncrease,
-                _ => 0f,
-            };
-        }
         public static float GetBrokenMultiplier(float multiplier)
         {
             if (multiplier <= 1f)
@@ -209,11 +202,6 @@ public sealed class PoiseArmorSystem : EntitySystem
                 ?? GetMultiplier(component.ArmorClass);
         }
 
-        public static float ResolvePoiseIncrease(PoiseArmorComponent component)
-        {
-            return component.PoiseIncreaseOverride
-                ?? GetPoiseIncrease(component.ArmorClass);
-        }
     }
 
 }

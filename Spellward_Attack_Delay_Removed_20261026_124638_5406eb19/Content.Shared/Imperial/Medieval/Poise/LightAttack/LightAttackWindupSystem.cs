@@ -18,6 +18,9 @@ namespace Content.Shared.Imperial.Medieval.Poise.LightAttack;
 /// </summary>
 public sealed class LightAttackWindupSystem : EntitySystem
 {
+    // spellward - four pixels at 32 pixels per tile; newer cues sit just ahead of older ones.
+    private const float WindupStackSpacing = 0.125f;
+
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly ISharedPlayerManager _players = default!;
@@ -70,6 +73,26 @@ public sealed class LightAttackWindupSystem : EntitySystem
         return TryComp<LightAttackStaminaComponent>(weapon, out var component) && component.PendingAttack != null;
     }
 
+    // spellward start
+    /// <summary>
+    /// Consumes only the original, ready commitment. Every completion path must
+    /// pass this check before it can execute damage or remove the wind-up.
+    /// </summary>
+    public bool TryFinish(EntityUid user, EntityUid weapon, LightAttackEvent attack, TimeSpan started)
+    {
+        if (!TryComp<LightAttackStaminaComponent>(weapon, out var component) ||
+            component.Attacker != user || component.PendingAttack is not { } pending ||
+            pending.Weapon != attack.Weapon || pending.WindupId != attack.WindupId ||
+            component.WindupStarted != started || _timing.CurTime < component.WindupEnds)
+        {
+            return false;
+        }
+
+        Clear(weapon, component);
+        return true;
+    }
+    // spellward end
+
     private void OnAim(LightAttackAimEvent args, EntitySessionEventArgs session)
     {
         if (session.SenderSession.AttachedEntity is { } user)
@@ -87,7 +110,8 @@ public sealed class LightAttackWindupSystem : EntitySystem
             !TryComp<LightAttackStaminaComponent>(weapon, out var component) ||
             component.Attacker != user || component.PendingAttack is not { } pending ||
             pending.WindupId != aim.WindupId ||
-            !_melee.TryGetWeapon(user, out var currentWeapon, out var melee) || currentWeapon != weapon)
+            !_melee.IsHeldOrSelectedWeapon(user, weapon.Value) || // spellward
+            !TryComp<MeleeWeaponComponent>(weapon, out var melee)) // spellward
         {
             return false;
         }
@@ -147,6 +171,7 @@ public sealed class LightAttackWindupSystem : EntitySystem
         visual.Starts = animationStarts;
         visual.Ends = component.WindupEnds;
         Dirty(effect, visual);
+        UpdateStack(user);
         // spellward end
 
         // Reuse the existing press/release latch so holding the button does not queue swings.
@@ -170,7 +195,7 @@ public sealed class LightAttackWindupSystem : EntitySystem
             // Resolve ownership and ability again throughout the wind-up. This also
             // respects parry's attack lockout instead of finishing a swing through it.
             if (Deleted(user) || !_combat.IsInCombatMode(user) ||
-                !_melee.TryGetWeapon(user, out var currentWeapon, out _) || currentWeapon != weapon ||
+                !_melee.IsHeldOrSelectedWeapon(user, weapon) || // spellward
                 !_blocker.CanAttack(user, weapon: (weapon, melee)) || melee.NextAttack > _timing.CurTime ||
                 TryComp<ChargedAttackComponent>(weapon, out var charged) && charged.CurrentAttacking)
             {
@@ -186,7 +211,7 @@ public sealed class LightAttackWindupSystem : EntitySystem
                 attack = new LightAttackEvent(null, attack.Weapon, attack.Coordinates, attack.WindupId);
 
             var started = component.WindupStarted;
-            Clear(weapon, component);
+            // spellward - completion validates the commitment and its deadline before clearing it.
             _melee.CompleteLightAttackWindup(user, weapon, melee, attack, started);
         }
     }
@@ -200,6 +225,7 @@ public sealed class LightAttackWindupSystem : EntitySystem
 
     private void Clear(EntityUid weapon, LightAttackStaminaComponent component)
     {
+        var attacker = component.Attacker; // spellward
         if (component.Effect is { } effect && !Deleted(effect))
             PredictedQueueDel(effect);
 
@@ -209,12 +235,56 @@ public sealed class LightAttackWindupSystem : EntitySystem
         component.WindupStarted = TimeSpan.Zero;
         component.WindupEnds = TimeSpan.Zero;
         Dirty(weapon, component);
+
+        // spellward start - close the stack when an earlier swing finishes or is cancelled.
+        if (attacker is { } user && !Deleted(user))
+            UpdateStack(user);
+        // spellward end
     }
+
+    // spellward start
+    /// <summary>
+    /// Keep overlapping cues in commitment order. Local negative Y is forward
+    /// for an unrotated SS14 entity; the attacker's parent transform rotates the
+    /// tight stack with their facing. Transform replication also positions it
+    /// for observers without changing animation times or attack deadlines.
+    /// </summary>
+    private void UpdateStack(EntityUid user)
+    {
+        var stack = new List<(EntityUid Effect, TimeSpan Started, uint WindupId)>();
+        var query = EntityQueryEnumerator<LightAttackStaminaComponent, MeleeWeaponComponent>();
+        while (query.MoveNext(out _, out var light, out _))
+        {
+            if (light.Attacker != user || light.PendingAttack is not { } pending ||
+                light.Effect is not { } effect || Deleted(effect))
+            {
+                continue;
+            }
+
+            stack.Add((effect, light.WindupStarted, pending.WindupId));
+        }
+
+        stack.Sort(static (a, b) =>
+        {
+            var order = a.Started.CompareTo(b.Started);
+            return order != 0 ? order : a.WindupId.CompareTo(b.WindupId);
+        });
+
+        for (var i = 0; i < stack.Count; i++)
+            _transform.SetLocalPosition(stack[i].Effect, new System.Numerics.Vector2(0f, -i * WindupStackSpacing));
+    }
+    // spellward end
 
     private void OnShutdown(EntityUid weapon, LightAttackStaminaComponent component, ComponentShutdown args)
     {
         if (component.Effect is { } effect && !Deleted(effect))
             PredictedQueueDel(effect);
+
+        // spellward start
+        component.Effect = null;
+        if (component.Attacker is { } user && !Deleted(user))
+            UpdateStack(user);
+        // spellward end
     }
 
     private void OnDropped(EntityUid weapon, LightAttackStaminaComponent component, DroppedEvent args)

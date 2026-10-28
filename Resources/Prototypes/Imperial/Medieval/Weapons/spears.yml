@@ -7,6 +7,10 @@
   id: SpearBone
   description: A spear made of bones.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Spear
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 12
@@ -138,6 +142,10 @@
   id: MedievalSpearT3
   description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Spear
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 16
@@ -286,6 +294,10 @@
   id: MedievalSpearT3Steel
   description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Spear
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 20
@@ -432,6 +444,10 @@
   id: MedievalSpearRusty
   description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Spear
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 10
@@ -575,6 +591,10 @@
   id: MedievalSpearPilum
   description: Just a spear
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Spear
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 25
@@ -689,6 +709,10 @@
   id: MedievalSpearSulica
   description: Just a spear
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Spear
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 20

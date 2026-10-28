@@ -19,7 +19,7 @@ using Robust.Shared.Spawners;
 namespace Content.Client.Explosion.EntitySystems;
 
 // spellward start
-public sealed class ExplosionSystem : SharedExplosionSystem
+public sealed partial class ExplosionSystem : SharedExplosionSystem
 {
     [Dependency] private readonly IClientGameTiming _timing = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
@@ -36,6 +36,7 @@ public sealed class ExplosionSystem : SharedExplosionSystem
     public override void Initialize()
     {
         base.Initialize();
+        InitializePredictionBlockers(); //spellward - maintain the cache from blocker changes.
         SubscribeNetworkEvent<ExplosionSoundEvent>(OnSound);
         SubscribeLocalEvent<LocalPlayerDetachedEvent>(OnDetach);
     }
@@ -75,7 +76,7 @@ public sealed class ExplosionSystem : SharedExplosionSystem
         var radius = IntensityToRadius(total, slope, maxIntensity);
         if (!float.IsFinite(radius) || radius > FloodMaxIterations / 4)
             return null;
-        RefreshPredictionBlockers(epicenter.MapId);
+        RefreshPredictionBlockers(); //spellward - update only dirty tiles, across all relevant grids.
         var result = GetExplosionTiles(epicenter, type, total, slope, maxIntensity);
         if (result == null)
             return null;
@@ -87,29 +88,6 @@ public sealed class ExplosionSystem : SharedExplosionSystem
             SpaceMatrix = matrix, Tiles = grids.ToDictionary(pair => pair.Key, pair => pair.Value.TileLists),
         };
     }
-    private void RefreshPredictionBlockers(MapId map)
-    {
-        _airtightMap.Clear();
-        var query = EntityQueryEnumerator<ExplosionBlockerComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var blocker, out var xform))
-        {
-            if (xform.MapID != map || !xform.Anchored || blocker.BlockedDirections == AtmosDirection.Invalid ||
-                !TryComp<MapGridComponent>(xform.GridUid, out var grid))
-                continue;
-            var gridUid = xform.GridUid!.Value;
-            var tile = _map.CoordinatesToTile(gridUid, grid, xform.Coordinates);
-            if (!_airtightMap.TryGetValue(gridUid, out var blockers))
-                _airtightMap[gridUid] = blockers = new();
-            if (!blockers.TryGetValue(tile, out var data))
-                data = new(new float[_explosionTypes.Count], AtmosDirection.Invalid);
-            data.BlockedDirections |= blocker.BlockedDirections;
-            for (var i = 0; i < data.ExplosionTolerance.Length; i++)
-                data.ExplosionTolerance[i] = MathF.Max(data.ExplosionTolerance[i],
-                    blocker.Tolerance.Length == _explosionTypes.Count ? blocker.Tolerance[i] : float.MaxValue);
-            blockers[tile] = data;
-        }
-    }
-
     /// <summary>Hand over to the native wall-aware overlay without displaying two copies.</summary>
     public void ReconcileVisuals(List<ExplosionPrediction> predictions)
     {
@@ -139,6 +117,7 @@ public sealed class ExplosionSystem : SharedExplosionSystem
     {
         if (!_timing.IsFirstTimePredicted)
             return;
+        RefreshPredictionBlockers(); //spellward - also release removed blockers when no explosion is firing.
         foreach (var (key, value) in _predicted.ToArray())
             if (_timing.RealTime - value.Time > TimeSpan.FromSeconds(10))
                 _predicted.Remove(key);

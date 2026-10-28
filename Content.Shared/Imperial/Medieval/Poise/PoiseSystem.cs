@@ -1,4 +1,7 @@
 using Content.Shared.CombatMode;
+// spellward start - worn equipment can resist incoming poise damage.
+using Content.Shared.Inventory;
+// spellward end
 using Robust.Shared.Timing;
 using Robust.Shared.Network;
 using Content.Shared.Administration.Logs;
@@ -23,6 +26,9 @@ namespace Content.Shared.Imperial.Medieval.Poise;
 public sealed class PoiseSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
+    // spellward start
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    // spellward end
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     // spellward start
@@ -47,19 +53,28 @@ public sealed class PoiseSystem : EntitySystem
 
     private void OnAttacked(EntityUid uid, PoiseComponent component, AttackedEvent args)
     {
-        if (!TryComp<PoiseDamageComponent>(args.Used, out var poise))
-            return;
+        // spellward start
+        var damage = args.PoiseDamageOverride ?? GetMeleePoiseDamage(args.Used);
+        if (damage > 0)
+            TakePoiseDamage(uid, damage, source: args.User, with: args.Used == args.User ? null : args.Used);
+    }
+
+    /// <summary>Capture charge/grip-dependent poise at contact, before hit confirmation.</summary>
+    public int GetMeleePoiseDamage(EntityUid weapon)
+    {
+        if (!TryComp<PoiseDamageComponent>(weapon, out var poise))
+            return 0;
         if (poise.PoiseDamage <= 0)
-            return;
+            return 0;
 
         var damage = poise.PoiseDamage;
         // spellward start - the normal lance gains eight poise when wielded in two hands.
-        if (TryComp<LanceMeleeComponent>(args.Used, out var lance) &&
-            TryComp<WieldableComponent>(args.Used, out var wieldable) && wieldable.Wielded)
+        if (TryComp<LanceMeleeComponent>(weapon, out var lance) &&
+            TryComp<WieldableComponent>(weapon, out var wieldable) && wieldable.Wielded)
             damage += lance.TwoHandedPoiseBonus;
         // spellward end
 
-        if (TryComp<ChargedAttackComponent>(args.Used, out var charged) && charged.CurrentAttacking)
+        if (TryComp<ChargedAttackComponent>(weapon, out var charged) && charged.CurrentAttacking)
         {
             var multiplier = 1f + (poise.HeavyPoiseMultiplier - 1f) * charged.PoiseChargeRatio;
             // spellward start - preserve the lance's current grip bonus when charging.
@@ -67,7 +82,8 @@ public sealed class PoiseSystem : EntitySystem
             // spellward end
         }
 
-        TakePoiseDamage(uid, damage, source: args.User, with: args.Used == args.User ? null : args.Used);
+        return damage;
+        // spellward end
     }
 
     public static int GetEffectivePoiseThreshold(PoiseComponent component)
@@ -112,6 +128,25 @@ public sealed class PoiseSystem : EntitySystem
         if (component.PoiseBroken)
             return;
 
+        // spellward start - reduce the hit before accumulating damage or checking for a break.
+        amount = (int)MathF.Round(amount * GetPoiseDamageCoefficient(uid), MidpointRounding.AwayFromZero);
+        if (amount <= 0)
+            return;
+        // spellward end
+
+        // spellward start - ordinary hits use resistance; combat-exit damage enters below it.
+        ApplyPoiseDamage(uid, amount, component, source, with, log);
+    }
+
+    private void ApplyPoiseDamage(
+        EntityUid uid,
+        int amount,
+        PoiseComponent component,
+        EntityUid? source = null,
+        EntityUid? with = null,
+        bool log = true)
+    {
+        // spellward end
         var oldDamage = component.PoiseDamage;
 
         component.PoiseDamage = Math.Clamp(component.PoiseDamage + amount, 0, GetEffectivePoiseThreshold(component));
@@ -120,9 +155,8 @@ public sealed class PoiseSystem : EntitySystem
 
         EnsureComp<ActivePoiseComponent>(uid);
 
-        // spellward start - every NPC poise hit restarts the partial-recovery delay.
-        if (component.Npc)
-            DelayPoiseRecovery(uid, component.PoiseRecoveryDelay, component);
+        // spellward start - every poise hit restarts the target's recovery delay.
+        DelayPoiseRecovery(uid, component.PoiseRecoveryDelay, component);
         // spellward end
 
         if (log && actualDamage > 0)
@@ -150,6 +184,67 @@ public sealed class PoiseSystem : EntitySystem
 
         Dirty(uid, component);
     }
+
+    // spellward start - called only for a real transition out of combat mode.
+    public void OnCombatModeExited(EntityUid uid)
+    {
+        if (!TryComp<PoiseComponent>(uid, out var component) || component.Npc)
+            return;
+
+        // This deadline bypasses every armor timer bonus and survives re-entering combat.
+        component.PoiseRecoveryBlockedUntil = _timing.CurTime + TimeSpan.FromSeconds(30);
+
+        // Already-broken poise is capped; still restart the full recovery lock above.
+        if (!component.PoiseBroken)
+            ApplyPoiseDamage(uid, 30, component);
+
+        // Keep the existing HUD countdown aligned with the enforced broken state.
+        if (component.PoiseBroken && component.PoiseBreakEnds < component.PoiseRecoveryBlockedUntil)
+            component.PoiseBreakEnds = component.PoiseRecoveryBlockedUntil;
+
+        EnsureComp<ActivePoiseComponent>(uid);
+        Dirty(uid, component);
+    }
+
+    private TimeSpan GetRecoveryTime(EntityUid uid, PoiseComponent component, TimeSpan duration)
+    {
+        if (component.Npc || !TryComp<InventoryComponent>(uid, out var inventory))
+            return duration;
+
+        // Only a worn torso qualifies, using its own capacity rather than the whole set.
+        var slots = _inventory.GetSlotEnumerator((uid, inventory), SlotFlags.OUTERCLOTHING);
+        while (slots.NextItem(out var item))
+        {
+            if (TryComp<PoiseArmorComponent>(item, out var armor) &&
+                armor.ProvidesArmorBonuses && armor.GetPoiseIncrease() < 9f)
+                return TimeSpan.FromTicks(duration.Ticks / 2);
+        }
+
+        return duration;
+    }
+    // spellward end
+
+    // spellward start - query current equipment so equipping/removing the item works during prediction.
+    private float GetPoiseDamageCoefficient(EntityUid uid)
+    {
+        var coefficient = 1f;
+
+        if (TryComp<PoiseArmorComponent>(uid, out var innate))
+            coefficient *= Math.Clamp(innate.DamageCoefficient, 0f, 1f);
+
+        if (!TryComp<InventoryComponent>(uid, out var inventory))
+            return coefficient;
+
+        var slots = _inventory.GetSlotEnumerator((uid, inventory), SlotFlags.WITHOUT_POCKET);
+        while (slots.NextItem(out var item))
+        {
+            if (TryComp<PoiseArmorComponent>(item, out var resistance))
+                coefficient *= Math.Clamp(resistance.DamageCoefficient, 0f, 1f);
+        }
+
+        return coefficient;
+    }
+    // spellward end
 
     private void OnMeleeAttack(EntityUid uid, PoiseComponent component, ref MeleeAttackEvent args)
     {
@@ -182,7 +277,9 @@ public sealed class PoiseSystem : EntitySystem
         if (component.PoiseBroken)
             return;
 
-        var recoveryStarts = _timing.CurTime + delay;
+        // spellward start - ordinary delay is armor-sensitive; the exit lock is separate.
+        var recoveryStarts = _timing.CurTime + GetRecoveryTime(uid, component, delay);
+        // spellward end
 
         if (component.PoiseRecoveryStarts < recoveryStarts)
         {
@@ -203,9 +300,14 @@ public sealed class PoiseSystem : EntitySystem
 
         component.ProtectBreakingHit = protectBreakingHit;
         component.PoiseBroken = true;
-        component.PoiseRecoveryStarts = _timing.CurTime + component.PoiseRecoveryDelay;
+        // spellward start - halve break and recovery timers for qualifying torsos.
+        component.PoiseRecoveryStarts = _timing.CurTime + GetRecoveryTime(uid, component, component.PoiseRecoveryDelay);
         component.NextPoiseRecoveryTick = component.PoiseRecoveryStarts;
-        component.PoiseBreakEnds = _timing.CurTime + component.PoiseBreakDuration;
+        component.PoiseBreakEnds = _timing.CurTime + GetRecoveryTime(uid, component, component.PoiseBreakDuration);
+        // A later hit can break poise during an existing combat-exit lock.
+        if (component.PoiseBreakEnds < component.PoiseRecoveryBlockedUntil)
+            component.PoiseBreakEnds = component.PoiseRecoveryBlockedUntil;
+        // spellward end
 
         // spellward start - stun without knockdown; the dedicated status permits StunImmune NPCs.
         if (component.Npc)
@@ -334,8 +436,11 @@ public sealed class PoiseSystem : EntitySystem
             {
                 component.ProtectBreakingHit = false;
 
-                if (_timing.CurTime >= component.PoiseBreakEnds)
+                // spellward start - returning from a break also restores poise, so honor the lock.
+                if (_timing.CurTime >= component.PoiseBreakEnds &&
+                    _timing.CurTime >= component.PoiseRecoveryBlockedUntil)
                     ReturnPoise(uid, component);
+                // spellward end
 
                 continue;
             }
@@ -345,6 +450,10 @@ public sealed class PoiseSystem : EntitySystem
                 RemComp<ActivePoiseComponent>(uid);
                 continue;
             }
+            // spellward start - never shorten this deadline with armor or combat toggles.
+            if (_timing.CurTime < component.PoiseRecoveryBlockedUntil)
+                continue;
+            // spellward end
             if (_timing.CurTime < component.PoiseRecoveryStarts)
                 continue;
 
@@ -352,7 +461,9 @@ public sealed class PoiseSystem : EntitySystem
                 continue;
             component.PoiseDamage = Math.Max(0, component.PoiseDamage - component.PoiseRecoveryPerTick);
 
-            component.NextPoiseRecoveryTick = _timing.CurTime + component.PoiseRecoveryInterval;
+            // spellward start - low-poise torsos recover twice as often.
+            component.NextPoiseRecoveryTick = _timing.CurTime + GetRecoveryTime(uid, component, component.PoiseRecoveryInterval);
+            // spellward end
 
             Dirty(uid, component);
         }
@@ -375,7 +486,9 @@ public sealed class PoiseSystem : EntitySystem
         }
         // spellward end
 
-        component.PoiseRecoveryStarts = _timing.CurTime + component.PoiseRecoveryDelay;
+        // spellward start
+        component.PoiseRecoveryStarts = _timing.CurTime + GetRecoveryTime(uid, component, component.PoiseRecoveryDelay);
+        // spellward end
 
         component.NextPoiseRecoveryTick = component.PoiseRecoveryStarts;
 
@@ -391,3 +504,4 @@ public sealed class PoiseSystem : EntitySystem
     }
 
 }
+

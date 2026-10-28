@@ -4,6 +4,10 @@
   name: MedievalPickaxe
   description: MedievalPickaxe
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Default
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 5
@@ -100,6 +104,10 @@
   name: MedievalPickaxe
   description: MedievalPickaxe
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Default
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 6
@@ -196,6 +204,10 @@
   id: MedievalPickaxeEbonit
   description: Ebonit pickaxe.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Default
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 7
@@ -308,6 +320,10 @@
   id: MedievalPickaxeForStone
   description: ForStone pickaxe.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Default
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 4
@@ -420,6 +436,10 @@
   name: MedievalShovel
   description: MedievalShovel
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Default
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 5
@@ -488,6 +508,10 @@
   id: MedievalHoe
   description: It's used for removing weeds or scratching your back.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Default
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 4
@@ -566,6 +590,10 @@
   id: MedievalClippers
   description: A tool used to take samples from plants.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Dagger
+  # spellward end
   - type: RDWeight
     value: 1
   - type: Tag
@@ -643,6 +671,10 @@
   id: MedievalScythe
   description: A sharp and curved blade on a long fibremetal handle, this tool makes it easy to reap what you sow.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Default
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 12
@@ -760,6 +792,10 @@
   id: MedievalBanjoInstrument
   description: music!
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 3
@@ -837,6 +873,10 @@
   id: MedievalOar
   description: Обычное деревянное весло которое всем своим видом вселяет в тебя желание кого то ударить им.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Quarterstaff
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 6

@@ -1,3 +1,4 @@
+// spellward - restore the stamina-only version, before light attack preparation.
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Imperial.Medieval.Poise.LightAttack;
@@ -16,18 +17,4 @@ public sealed partial class LightAttackStaminaPresetPrototype : IPrototype
     /// </summary>
     [DataField]
     public float StaminaCost = 5f;
-
-    /// <summary>
-    /// Visible preparation in seconds, after input delay and before swinging.
-    /// </summary>
-    [DataField]
-    public float Windup = 0.45f;
-
-    // spellward start
-    /// <summary>
-    /// Hidden input delay in seconds. At 60 Hz the default occupies two simulation ticks.
-    /// </summary>
-    [DataField]
-    public float InputDelay = 0.033f;
-    // spellward end
 }

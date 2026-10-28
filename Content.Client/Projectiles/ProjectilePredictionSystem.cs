@@ -51,6 +51,8 @@ public sealed class ProjectilePredictionSystem : EntitySystem
     private readonly HashSet<EntityUid> _overlapping = new();
     private readonly Dictionary<ProjectilePredictionKey, EntityUid> _local = new();
     private readonly Dictionary<ProjectilePredictionKey, EntityUid> _server = new();
+    // spellward - reused arrows can change shot identity without scanning every tracked projectile.
+    private readonly Dictionary<EntityUid, ProjectilePredictionKey> _serverKeys = new();
     private readonly Dictionary<ProjectilePredictionKey, TimeSpan> _created = new();
     private readonly Dictionary<ProjectilePredictionKey, TimeSpan> _confirmed = new();
     // spellward start - confirmation fills missing feedback without replaying existing feedback.
@@ -163,17 +165,37 @@ public sealed class ProjectilePredictionSystem : EntitySystem
 
     private void RegisterServerProjectile(Entity<ProjectilePredictionComponent> ent)
     {
-        foreach (var (key, uid) in _server.ToArray())
-            if (uid == ent.Owner && key != ent.Comp.Key)
-            {
-                _server.Remove(key);
-                Retire(key);
-            }
+        var key = ent.Comp.Key;
+        // Clear the old identity even if somebody else has picked up and fired this arrow.
+        if (_serverKeys.TryGetValue(ent.Owner, out var oldKey) &&
+            (oldKey != key || ent.Comp.Shooter != _player.LocalEntity))
+            UnregisterServerProjectile(ent.Owner);
+
         if (ent.Comp.Shooter != _player.LocalEntity)
             return;
-        _server[ent.Comp.Key] = ent;
-        if (_local.ContainsKey(ent.Comp.Key))
+
+        // A replacement authoritative entity must not leave a stale reverse entry behind.
+        if (_server.TryGetValue(key, out var oldEntity) && oldEntity != ent.Owner)
+        {
+            _serverKeys.Remove(oldEntity);
+            SetVisible(oldEntity, true);
+        }
+
+        _server[key] = ent;
+        _serverKeys[ent.Owner] = key;
+        if (_local.ContainsKey(key))
             SetVisible(ent, false);
+    }
+
+    private void UnregisterServerProjectile(EntityUid uid)
+    {
+        if (!_serverKeys.Remove(uid, out var key) ||
+            !_server.TryGetValue(key, out var registered) || registered != uid)
+            return;
+
+        _server.Remove(key);
+        SetVisible(uid, true);
+        Retire(key);
     }
 
     private void OnShutdown(Entity<ProjectilePredictionComponent> ent, ref ComponentShutdown args)
@@ -187,8 +209,8 @@ public sealed class ProjectilePredictionSystem : EntitySystem
             if (_server.TryGetValue(ent.Comp.Key, out var server))
                 SetVisible(server, true);
         }
-        else if (_server.Remove(ent.Comp.Key))
-            Retire(ent.Comp.Key);
+        else
+            UnregisterServerProjectile(ent.Owner);
     }
 
     private void OnPrediction(Entity<ProjectilePredictionComponent> ent, ref UpdateIsPredictedEvent args)
@@ -484,6 +506,7 @@ public sealed class ProjectilePredictionSystem : EntitySystem
         foreach (var key in _local.Keys.ToArray())
             Retire(key);
         _server.Clear();
+        _serverKeys.Clear();
         _created.Clear();
         _presented.Clear();
         _confirmed.Clear();

@@ -1,4 +1,7 @@
 using Content.Shared.Actions;
+// spellward start
+using Content.Shared.Imperial.Medieval.Poise;
+// spellward end
 using Content.Shared.Imperial.Medieval.ChargedAttack;
 using Content.Shared.Mind;
 using Content.Shared.Mobs.Systems;
@@ -22,6 +25,9 @@ public abstract class SharedCombatModeSystem : EntitySystem
     [Dependency] private readonly INetManager _netMan = default!; // Imperial medieval edit end
     [Dependency] private   readonly MobStateSystem _mobStateSystem = default!;
     [Dependency] private   readonly ChargedAttackSystem _chargedAttackSystem = default!; // Imperial medieval charge attack
+    // spellward start
+    [Dependency] private readonly PoiseSystem _poiseSystem = default!;
+    // spellward end
 
     public override void Initialize()
     {
@@ -81,6 +87,11 @@ public abstract class SharedCombatModeSystem : EntitySystem
 
         component.IsInCombatMode = value;
         Dirty(entity, component);
+
+        // spellward start - run in shared prediction, after the unchanged-value guard.
+        if (!value)
+            _poiseSystem.OnCombatModeExited(entity);
+        // spellward end
 
         // Imperial medieval edit start
         if (component.NextTimeAudioPlay < Timing.CurTime && _netMan.IsServer && _mobStateSystem.IsAlive(entity))

@@ -40,6 +40,11 @@ namespace Content.Shared.Weapons.Melee.Events
 
         public DamageSpecifier BonusDamage = new();
 
+        // spellward start
+        /// <summary>For confirmed melee, preserve grip and charge poise from the original impact.</summary>
+        public int? PoiseDamageOverride;
+        // spellward end
+
         public AttackedEvent(EntityUid used, EntityUid user, EntityCoordinates clickLocation)
         {
             Used = used;
@@ -48,3 +53,4 @@ namespace Content.Shared.Weapons.Melee.Events
         }
     }
 }
+

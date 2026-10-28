@@ -4,6 +4,10 @@
   id: MedievalDaggerNecro
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Dagger
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 10
@@ -101,6 +105,10 @@
   id: MedievalFalshionNecro
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   - type: RDWeight
     value: 2
   - type: EmitSoundOnLand
@@ -211,6 +219,10 @@
   id: MedievalMaceNecro
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   - type: RDWeight
     value: 2
   - type: QuestItem
@@ -309,6 +321,10 @@
   id: MedievalSpearNecro
   description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Spear
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 10
@@ -425,6 +441,10 @@
   id: MedievalIronHalberdNecro
   description: A medieval poleaxe.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Greataxe
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 22

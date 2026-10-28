@@ -1,4 +1,5 @@
 using Content.Server.Chat.Systems;
+using Content.Server.Imperial.Medieval.Parry; // spellward
 using Content.Server.Movement.Systems;
 using Content.Shared.Damage.Events;
 using Content.Shared.Damage.Systems;
@@ -19,6 +20,7 @@ public sealed class MeleeWeaponSystem : SharedMeleeWeaponSystem
     [Dependency] private readonly DamageExamineSystem _damageExamine = default!;
     [Dependency] private readonly LagCompensationSystem _lag = default!;
     [Dependency] private readonly SharedColorFlashEffectSystem _color = default!;
+    [Dependency] private readonly MeleeHitConfirmationSystem _confirmation = default!; // spellward
 
     public override void Initialize()
     {
@@ -68,6 +70,14 @@ public sealed class MeleeWeaponSystem : SharedMeleeWeaponSystem
         // TODO: Check arc though due to the aforementioned aimbot + damage split comments it's less important.
         return true;
     }
+
+    // spellward start
+    protected override bool TryDeferMeleeHit(EntityUid user, EntityUid weapon, List<EntityUid> targets,
+        Action<List<EntityUid>, int?> resolve)
+    {
+        return _confirmation.TrySchedule(user, weapon, targets, resolve);
+    }
+    // spellward end
 
     protected override bool InRange(EntityUid user, EntityUid target, float range, ICommonSession? session)
     {
@@ -120,3 +130,4 @@ public sealed class MeleeWeaponSystem : SharedMeleeWeaponSystem
 
     }
 }
+

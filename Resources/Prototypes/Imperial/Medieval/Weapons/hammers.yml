@@ -4,6 +4,10 @@
   id: MedievalIronHammer
   description: A medieval hammer.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: WarHammer
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 25
@@ -128,6 +132,10 @@
   id: MedievalIronHammerSteel
   description: A medieval hammer.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: WarHammer
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 30

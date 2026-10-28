@@ -169,18 +169,26 @@ ent-MedaljonThieving = dexterous hands medallion
 ent-MedaljonThievingSkin = dexterous hands medallion
     .desc = Increases the speed of removing items from entities and hides the theft notification for the user. Good for thieves.
     .suffix = { "Medieval, clothes" }
-ent-MedaljonExpl = medallion with explosion protection charm
-    .desc = Increases the wearer's protection from explosions
+# spellward start - updated accessory effects.
+ent-MedaljonExpl = anti-magic medallion
+    .desc = Reduces explosion damage by 50% and Heat, Shock, Cold, Caustic, Radiation, and Holy damage by 20%.
     .suffix = { "Medieval, clothes" }
-ent-MedaljonExplSkin = medallion with explosion protection charm
-    .desc = Increases the wearer's protection from explosions
+# spellward end
+# spellward start - updated accessory effects.
+ent-MedaljonExplSkin = anti-magic medallion
+    .desc = Reduces explosion damage by 50% and Heat, Shock, Cold, Caustic, Radiation, and Holy damage by 20%.
     .suffix = { "Medieval, clothes" }
+# spellward end
+# spellward start - updated accessory effects.
 ent-MedaljonNoslip = medallion with the charm of stability
-    .desc = Makes the wearer immune to slippery puddles and objects.
+    .desc = Reduces incoming poise damage by 20% while worn.
     .suffix = { "Medieval, clothes" }
+# spellward end
+# spellward start - updated accessory effects.
 ent-MedaljonNoslipSkin = medallion with the charm of stability
-    .desc = Makes the wearer immune to slippery puddles and objects.
+    .desc = Reduces incoming poise damage by 20% while worn.
     .suffix = { "Medieval, clothes" }
+# spellward end
 ent-MedievalAirlockCraft = workpiece for a door without a lock
     .desc = Hold the workpiece in your active hand and click where you want to place the door.
     .suffix = { "Medieval" }

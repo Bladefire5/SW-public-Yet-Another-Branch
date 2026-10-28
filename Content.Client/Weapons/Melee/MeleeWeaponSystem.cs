@@ -1,12 +1,12 @@
+// spellward - per-weapon advanced input routing; pending offhand attacks retain aim and timing.
+using Content.Shared.Imperial.Medieval.Poise.LightAttack;
+using Content.Shared.Hands.EntitySystems;
 using System.Linq;
 using Content.Client.Gameplay;
 using Content.Shared.CombatMode;
 using Content.Shared.Effects;
 using Content.Shared.Hands.Components;
 using Content.Shared.Imperial.Medieval.ChargedAttack;
-// spellward start
-using Content.Shared.Imperial.Medieval.Poise.LightAttack;
-// spellward end
 using Content.Shared.Mobs.Components;
 using Content.Shared.StatusEffect;
 using Content.Shared.Weapons.Melee;
@@ -39,8 +39,11 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
     [Dependency] private readonly MapSystem _map = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
 
+    [Dependency] private readonly AdvancedLightAttackSystem _advanced = default!; // spellward
+    [Dependency] private readonly SharedHandsSystem _advancedHands = default!; // spellward
+    private uint _nextAdvancedAttackId; // spellward - allocated once per physical/predicted input.
+
     private EntityQuery<TransformComponent> _xformQuery;
-    private uint _lightAttackWindupId; // spellward
 
     private const string MeleeLungeKey = "melee-lunge";
 
@@ -50,7 +53,6 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
         _xformQuery = GetEntityQuery<TransformComponent>();
         SubscribeNetworkEvent<MeleeLungeEvent>(OnMeleeLunge);
         UpdatesOutsidePrediction = true;
-        UpdatesBefore.Add(typeof(LightAttackWindupSystem)); // spellward
     }
 
     public override void FrameUpdate(float frameTime)
@@ -72,6 +74,10 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
             return;
 
         var entity = entityNull.Value;
+        // spellward - update pending weapons before selected-weapon cooldown gates.
+        var primary = _inputSystem.CmdStates.GetState(EngineKeyFunctions.Use);
+        var secondary = _inputSystem.CmdStates.GetState(EngineKeyFunctions.UseSecondary);
+        UpdateAdvancedHeldInput(entity, primary, secondary);
 
         if (!TryGetWeapon(entity, out var weaponUid, out var weapon))
             return;
@@ -82,17 +88,43 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
             return;
         }
 
-        // spellward start
-        // Keep aiming after the click is committed, including after releasing the mouse.
-        if (TryComp<LightAttackStaminaComponent>(weaponUid, out var lightAttack) && lightAttack.PendingAttack is { } pending)
+        var useDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.Use);
+        var altDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.UseSecondary);
+
+        // spellward start - primary latch is independent of the right-click charge latch.
+        if (TryComp<AdvancedLightAttackComponent>(weaponUid, out var advanced) &&
+            useDown == BoundKeyState.Down && altDown != BoundKeyState.Down &&
+            !(TryComp<ChargedAttackComponent>(weaponUid, out var activeCharge) && activeCharge.CurrentAttacking) &&
+            !(TryComp<GunComponent>(weaponUid, out var primaryGun) && primaryGun.UseKey))
         {
-            UpdateLightAttackAim(entity, weaponUid, weapon, pending);
+            if (!_advanced.IsAttackLocked(entity) && !_advanced.IsPending(weaponUid) &&
+                weapon.NextAttack <= Timing.CurTime && (weapon.AutoAttack || !advanced.PrimaryHeld) &&
+                TryGetAdvancedCursor(out var point, out var location))
+                ClientLightAttack(entity, point, location, weaponUid, weapon);
             return;
         }
         // spellward end
 
-        var useDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.Use);
-        var altDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.UseSecondary);
+        // spellward start - a charged press has its own latch, independent of mouse release/hand selection.
+        if (TryComp<AdvancedLightAttackComponent>(weaponUid, out var advancedCharge) &&
+            HasComp<ChargedAttackComponent>(weaponUid) &&
+            !HasComp<MedievalBowChargeComponent>(weaponUid) &&
+            !(TryComp<GunComponent>(weaponUid, out var chargeGun) && chargeGun.UseKey))
+        {
+            if (altDown == BoundKeyState.Down && !advancedCharge.SecondaryHeld &&
+                !_advanced.IsPending(weaponUid) && !_advanced.IsAttackLocked(entity) &&
+                weapon.NextAttack <= Timing.CurTime && TryGetAdvancedCursor(out _, out var chargeCoordinates))
+            {
+                if (advancedCharge.Attacker == entity)
+                    _nextAdvancedAttackId = Math.Max(_nextAdvancedAttackId, advancedCharge.AttackId);
+                if (++_nextAdvancedAttackId == 0)
+                    ++_nextAdvancedAttackId;
+                RaisePredictiveEvent(new AdvancedChargedAttackStartEvent(GetNetEntity(weaponUid),
+                    _nextAdvancedAttackId, GetNetCoordinates(chargeCoordinates)));
+            }
+            return;
+        }
+        // spellward end
 
         if (weapon.AutoAttack || useDown != BoundKeyState.Down && altDown != BoundKeyState.Down)
         {
@@ -101,6 +133,10 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
                 RaisePredictiveEvent(new StopAttackEvent(GetNetEntity(weaponUid)));
             }
         }
+
+        // spellward - preparation is never released by another click or charge.
+        if (_advanced.IsPending(weaponUid) || _advanced.IsAttackLocked(entity))
+            return;
 
         if (weapon.Attacking || weapon.NextAttack > Timing.CurTime)
         {
@@ -287,42 +323,64 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
         if (Interaction.CombatModeCanHandInteract(attacker, target))
             return;
 
-        RaisePredictiveEvent(new LightAttackEvent(GetNetEntity(target), GetNetEntity(weaponUid), GetNetCoordinates(coordinates), unchecked(++_lightAttackWindupId))); // spellward
+        // spellward - stable input identity survives state correction and cue deduplication.
+        if (TryComp<AdvancedLightAttackComponent>(weaponUid, out var advanced) && advanced.Attacker == attacker)
+            _nextAdvancedAttackId = Math.Max(_nextAdvancedAttackId, advanced.AttackId);
+        var attackId = HasComp<AdvancedLightAttackComponent>(weaponUid) ? ++_nextAdvancedAttackId : 0;
+        if (HasComp<AdvancedLightAttackComponent>(weaponUid) && attackId == 0)
+            attackId = ++_nextAdvancedAttackId;
+        RaisePredictiveEvent(new LightAttackEvent(GetNetEntity(target), GetNetEntity(weaponUid), GetNetCoordinates(coordinates), attackId));
     }
 
     // spellward start
-    /// <summary>
-    /// Updates a committed swing without restarting its wind-up or creating another attack.
-    /// A cursor beyond reach or over empty space clears the target for an intentional miss.
-    /// </summary>
-    private void UpdateLightAttackAim(EntityUid attacker, EntityUid weaponUid, MeleeWeaponComponent melee, LightAttackEvent pending)
+    private bool TryGetAdvancedCursor(out MapCoordinates point, out EntityCoordinates location)
     {
-        var mousePos = _eyeManager.PixelToMap(_inputManager.MouseScreenPosition);
-        var attackerPos = TransformSystem.GetMapCoordinates(attacker);
-        var netCoordinates = pending.Coordinates;
+        point = _eyeManager.PixelToMap(_inputManager.MouseScreenPosition);
+        location = default;
+        if (point.MapId == MapId.Nullspace)
+            return false;
+        if (MapManager.TryFindGridAt(point, out var grid, out _))
+            location = TransformSystem.ToCoordinates(grid, point);
+        else
+            location = TransformSystem.ToCoordinates(_map.GetMap(point.MapId), point);
+        return true;
+    }
+
+    private void UpdateAdvancedHeldInput(EntityUid user, BoundKeyState primary, BoundKeyState secondary)
+    {
+        var validCursor = TryGetAdvancedCursor(out var point, out var location);
         EntityUid? target = null;
+        if (validCursor && _stateManager.CurrentState is GameplayStateBase screen)
+            target = screen.GetClickedEntity(point);
 
-        if (mousePos.MapId != MapId.Nullspace && mousePos.MapId == attackerPos.MapId)
+        foreach (var uid in _advancedHands.EnumerateHeld(user))
         {
-            EntityCoordinates coordinates;
-            if (MapManager.TryFindGridAt(mousePos, out var gridUid, out _))
-                coordinates = TransformSystem.ToCoordinates(gridUid, mousePos);
-            else
-                coordinates = TransformSystem.ToCoordinates(_map.GetMap(mousePos.MapId), mousePos);
+            if (!TryComp<AdvancedLightAttackComponent>(uid, out var component) ||
+                !TryComp<MeleeWeaponComponent>(uid, out var melee))
+                continue;
 
-            netCoordinates = GetNetCoordinates(coordinates);
-            if ((attackerPos.Position - mousePos.Position).LengthSquared() <= melee.Range * melee.Range &&
-                _stateManager.CurrentState is GameplayStateBase screen)
+            // spellward - a release reaches every held commitment, including an inactive hand.
+            if (component.IsCharged && component.SecondaryHeld && secondary != BoundKeyState.Down)
             {
-                target = screen.GetClickedEntity(mousePos);
+                var releaseCoordinates = validCursor ? GetNetCoordinates(location) :
+                    component.PendingAttack?.Coordinates ?? GetNetCoordinates(Transform(user).Coordinates);
+                RaisePredictiveEvent(new AdvancedChargedAttackReleaseEvent(GetNetEntity(uid), component.AttackId, releaseCoordinates));
             }
+            var charging = TryComp<ChargedAttackComponent>(uid, out var charge) && charge.CurrentAttacking;
+            // Release inactive hands too. A held secondary button must not keep
+            // the primary latch stuck after its wind-up or strike.
+            if (!component.IsCharged && primary != BoundKeyState.Down &&
+                (component.PrimaryHeld || component.UsesPrimaryLatch && melee.Attacking && !charging))
+                RaisePredictiveEvent(new StopAttackEvent(GetNetEntity(uid)));
+
+            if (!validCursor || component.Attacker != user || !_advanced.IsPending(uid))
+                continue;
+            var netTarget = GetNetEntity(target);
+            var netCoordinates = GetNetCoordinates(location);
+            if (component.PendingAttack is { } pending && pending.Target == netTarget && pending.Coordinates.Equals(netCoordinates))
+                continue;
+            RaisePredictiveEvent(new AdvancedLightAttackAimEvent(GetNetEntity(uid), component.AttackId, netTarget, netCoordinates));
         }
-
-        var netTarget = GetNetEntity(target);
-        if (pending.Target == netTarget && pending.Coordinates.Equals(netCoordinates))
-            return;
-
-        RaisePredictiveEvent(new LightAttackAimEvent(new LightAttackEvent(netTarget, GetNetEntity(weaponUid), netCoordinates, pending.WindupId)));
     }
     // spellward end
 

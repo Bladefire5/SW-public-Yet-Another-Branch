@@ -4,6 +4,10 @@
   id: MedievalHatchet
   description: A very sharp axe blade upon a short fibremetal handle. It has a long history of chopping things, but now it is used for chopping wood.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Axe
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 8
@@ -108,6 +112,10 @@
   id: MedievalFalshionT3Fox
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   - type: Sharp
   - type: Sprite
     sprite: Imperial/Medieval/Melee/iron_battle_axe.rsi

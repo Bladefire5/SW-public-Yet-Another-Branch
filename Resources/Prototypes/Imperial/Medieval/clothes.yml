@@ -1549,6 +1549,13 @@
   components:
   - type: Sprite
     sprite: Imperial/Medieval/Clothing/Backpack/charmer_light.rsi
+  # spellward start - ordinary mage bags and their skins have no resistance bonuses.
+  - type: Armor
+    modifiers:
+      coefficients:
+        Radiation: 1.0
+        Caustic: 1.0
+  # spellward end
 
 - type: entity
   parent: ClothingBackpackSatchelCharmerLight

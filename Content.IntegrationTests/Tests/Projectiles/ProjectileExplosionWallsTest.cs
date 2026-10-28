@@ -214,6 +214,47 @@ public sealed class ProjectileExplosionWallsTest
         await pair.CleanReturnAsync();
     }
 
+    [Test]
+    public async Task RemovingOneOfTwoBlockersOnTheSameTileKeepsTheOtherBlocker()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { Connected = true });
+        var scene = await Barrier(pair);
+        var entities = pair.Server.ResolveDependency<IEntityManager>();
+        EntityUid second = default;
+        await pair.Server.WaitPost(() => second = entities.SpawnEntity("WallSolid",
+            entities.GetComponent<TransformComponent>(scene.Center).Coordinates));
+        await pair.RunTicksSync(6);
+        await Compare(pair, scene, false); // Populate the cache with both contributions.
+        await pair.Server.WaitPost(() => entities.DeleteEntity(scene.Center));
+        await pair.RunTicksSync(6);
+        await Compare(pair, scene, false);
+        await pair.Server.WaitPost(() => entities.DeleteEntity(second));
+        await pair.RunTicksSync(6);
+        await Compare(pair, scene, true);
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task MovingABlockerUpdatesBothItsOldAndNewTile()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { Connected = true });
+        var scene = await Barrier(pair);
+        await Compare(pair, scene, false); // Populate the old tile before moving the wall.
+        await pair.Server.WaitPost(() =>
+        {
+            var transforms = pair.Server.System<SharedTransformSystem>();
+            transforms.Unanchor(scene.Center);
+            transforms.SetCoordinates(scene.Center,
+                new EntityCoordinates(scene.Grid.Owner, new Vector2(-1.5f, 0.5f)));
+            transforms.AnchorEntity(scene.Center);
+        });
+        await pair.RunTicksSync(6);
+        await Compare(pair, scene, true);
+        // An unchanged scene must continue to match when the cached data is reused.
+        await Compare(pair, scene, true);
+        await pair.CleanReturnAsync();
+    }
+
     private static void Same(ExplosionVisualsState native, ExplosionVisualsComponent predicted, IEntityManager entities)
     {
         Assert.That(predicted, Is.Not.Null);

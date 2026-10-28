@@ -4,6 +4,10 @@
   id: MedievalFalshionT3
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   - type: RDWeight
     value: 2
   - type: QuestItem
@@ -117,6 +121,10 @@
   id: MedievalFalshionT3Steel
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   - type: RDWeight
     value: 2
   - type: QuestItem
@@ -229,6 +237,10 @@
   id: MedievalFalshionRusty
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 7
@@ -329,6 +341,10 @@
   id: MedievalShortSword
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 5
@@ -447,6 +463,10 @@
   id: MedievalShortSwordSteel
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   - type: QuestItem
     contractName: "любые одноручные мечи"
   - type: EmitSoundOnLand
@@ -550,6 +570,10 @@
   id: MedievalShortSwordRusty
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 4
@@ -665,6 +689,10 @@
   id: MedievalSaber
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 8
@@ -783,6 +811,10 @@
   id: MedievalSaberSteel
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   - type: Sprite
     sprite: Imperial/Medieval/Melee/iron_saber.rsi
     size: Small
@@ -879,6 +911,10 @@
   id: MedievalSaberRusty
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 7
@@ -994,6 +1030,10 @@
   id: MedievalIronClaymore
   description: A medieval claymore.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Claymore
+  # spellward end
   - type: RDWeight
     value: 7
   - type: QuestItem
@@ -1124,6 +1164,10 @@
   id: MedievalIronClaymoreSteel
   description: A medieval claymore.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Claymore
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 25
@@ -1254,6 +1298,10 @@
   id: MedievalIronZweihander
   description: A medieval zweihander.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Claymore
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 25
@@ -1386,6 +1434,10 @@
   id: MedievalIronZweihanderSteel
   description: A medieval zweihander.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Claymore
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 30

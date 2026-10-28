@@ -4,6 +4,10 @@
   id: MedievalMaceT3
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   - type: RDWeight
     value: 2
   - type: QuestItem
@@ -105,6 +109,10 @@
   id: MedievalMaceT3Steel
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   - type: RDWeight
     value: 2
   - type: QuestItem
@@ -206,6 +214,10 @@
   id: MedievalMaceRusty
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 7
@@ -297,6 +309,10 @@
   id: MedievalMaceT3Heavy
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 15
@@ -400,6 +416,10 @@
   id: MedievalMaceT3SteelHeavy
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 15
@@ -503,6 +523,10 @@
   id: MedievalMaceT3HeavyBone
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   - type: RDWeight
     value: 3
   - type: QuestItem
@@ -593,6 +617,10 @@
   id: MedievalPalice
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   - type: RDWeight
     value: 3.5
   - type: QuestItem
@@ -702,6 +730,10 @@
   id: MedievalPaliceSteel
   description: A deadly knife intended for melee confrontations.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 14

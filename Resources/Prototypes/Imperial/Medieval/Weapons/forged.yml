@@ -4,6 +4,10 @@
   id: ForgedArmBlade
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   - type: Sharp
   - type: Sprite
     sprite: Imperial/Medieval/Forged/upgrades.rsi

@@ -63,8 +63,10 @@ public sealed partial class PoiseComponent : Component
     public bool PoiseBroken;
 
     // Задержка после получения урона по стойке перед началом обычного восстановления.
+    // spellward start - base player delay; eligible torso armor halves recovery timers.
     [DataField]
-    public TimeSpan PoiseRecoveryDelay = TimeSpan.FromSeconds(5f);
+    public TimeSpan PoiseRecoveryDelay = TimeSpan.FromSeconds(20f);
+    // spellward end
 
     // Интервал между тиками обычного восстановления стойки.
     [DataField]
@@ -74,10 +76,15 @@ public sealed partial class PoiseComponent : Component
     [DataField]
     public TimeSpan PoiseBreakDuration = TimeSpan.FromSeconds(10f);
 
-    [AutoPausedField]
+    // spellward start - predicted recovery state and an independent combat-exit lock.
+    [AutoPausedField, AutoNetworkedField]
     public TimeSpan PoiseRecoveryStarts;
-    [AutoPausedField]
+    [AutoPausedField, AutoNetworkedField]
     public TimeSpan NextPoiseRecoveryTick;
+
+    [AutoPausedField, AutoNetworkedField]
+    public TimeSpan PoiseRecoveryBlockedUntil;
+    // spellward end
 
     [AutoPausedField, AutoNetworkedField]
     public TimeSpan PoiseBreakEnds;
@@ -89,6 +96,22 @@ public sealed partial class PoiseComponent : Component
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class PoiseArmorComponent : Component
 {
+    // spellward start - accessories can grant resistance without armor class bonuses.
+    /// <summary>
+    /// Whether this item contributes its armor multiplier and extra poise capacity.
+    /// Disable for accessories that only reduce incoming poise damage.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool ProvidesArmorBonuses = true;
+
+    /// <summary>
+    /// Fraction of incoming poise damage taken; 0.8 means 20% resistance.
+    /// Applies independently of armor bonuses when equipped outside pockets.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float DamageCoefficient = 1f;
+    // spellward end
+
     [DataField, AutoNetworkedField]
     public PoiseArmorClass ArmorClass = PoiseArmorClass.Light;
 
@@ -97,6 +120,19 @@ public sealed partial class PoiseArmorComponent : Component
 
     [DataField, AutoNetworkedField]
     public float? PoiseIncreaseOverride;
+
+    // spellward start - one capacity rule for armor totals and recovery eligibility.
+    public float GetPoiseIncrease()
+    {
+        return PoiseIncreaseOverride ?? (ArmorClass switch
+        {
+            PoiseArmorClass.Light => 5f,
+            PoiseArmorClass.Medium => 10f,
+            PoiseArmorClass.Heavy => 15f,
+            _ => 0f,
+        });
+    }
+    // spellward end
 }
 
 [Serializable, NetSerializable]

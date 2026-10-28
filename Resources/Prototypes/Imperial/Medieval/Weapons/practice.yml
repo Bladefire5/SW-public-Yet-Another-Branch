@@ -4,6 +4,10 @@
   id: MedievalWoodenSword
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Sword
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 8
@@ -102,6 +106,10 @@
   id: MedievalWoodenClaymore
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Claymore
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 15
@@ -188,6 +196,10 @@
   id: MedievalWoodenMace
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 10
@@ -266,6 +278,10 @@
   id: MedievalWoodenMaceHeavy
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Mace
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 14
@@ -346,6 +362,10 @@
   id: MedievalWoodenSpear
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Spear
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 8
@@ -447,6 +467,10 @@
   id: MedievalWoodenDagger
   description: An ancient war blade.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Dagger
+  # spellward end
   # spellward start - dedicated thrown hit poise, distinct from melee poise
   - type: PoiseImpact
     poiseDamage: 12

@@ -4,6 +4,10 @@
   id: MedievalIronHalberdT3
   description: A medieval poleaxe.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Halberd
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 15
@@ -138,6 +142,10 @@
   id: MedievalIronHalberdT3Steel
   description: A medieval poleaxe.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Halberd
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 18
@@ -272,6 +280,10 @@
   id: MedievalIronSekir
   description: A medieval poleaxe.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Greataxe
+  # spellward end
   - type: RDWeight
     value: 7
   - type: QuestItem
@@ -404,6 +416,10 @@
   id: MedievalIronSekirSteel
   description: A medieval poleaxe.
   components:
+  # spellward start - light wind-up for this weapon from the rebalanced sheet.
+  - type: AdvancedLightAttack
+    preset: Greataxe
+  # spellward end
   # spellward start
   - type: PoiseDamage
     poiseDamage: 22

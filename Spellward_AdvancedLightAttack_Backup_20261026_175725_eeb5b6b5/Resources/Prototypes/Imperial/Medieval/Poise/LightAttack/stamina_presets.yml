@@ -1,0 +1,62 @@
+# spellward - restored stamina-only presets; light attacks execute immediately.
+# Add more presets here and reference their IDs from LightAttackStamina.preset.
+
+- type: lightAttackStaminaPreset
+  id: Default
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Sword
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Dagger
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Rapier
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Claymore
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Axe
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Greataxe
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Mace
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: ChainMace
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Spear
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Halberd
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Quarterstaff
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: WarHammer
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Warpick
+  staminaCost: 5
+
+- type: lightAttackStaminaPreset
+  id: Lance
+  staminaCost: 5
