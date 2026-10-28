@@ -10,6 +10,6 @@ namespace Content.Server.Quest.Components
         public string ContractPartner { get; set; } = string.Empty;
 
         [DataField]
-        public string QuestLink { get; set; } = string.Empty;
+        public EntProtoId? QuestLink { get; set; }
     }
 }

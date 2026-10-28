@@ -1,4 +1,5 @@
 using Content.Shared.DoAfter;
+using Content.Shared.Imperial.Medieval.Artifacts;
 using Content.Shared.Storage;
 using Content.Shared.Trade;
 using Robust.Shared.Containers;
@@ -36,6 +37,17 @@ public sealed class ComponentLifecycleMigrationTest
   id: ExperimentTradeOfferItem
   components:
   - type: Item
+- type: entity
+  id: ExperimentOwnedArtifact
+  components:
+  - type: Artifact
+    amount: 0
+    startAbilities: [ExperimentOwnedArtifactAbility]
+    spriteData: artifactSpritesSword
+- type: entity
+  id: ExperimentOwnedArtifactAbility
+  components:
+  - type: ArtifactAbility
 ";
 
     [TestCase("ExperimentBareBossHeal")]
@@ -89,6 +101,27 @@ public sealed class ComponentLifecycleMigrationTest
             Assert.That(entities.GetComponent<TransformComponent>(item).GridUid, Is.EqualTo(map.Grid.Owner));
             entities.DeleteEntity(terminal);
             entities.DeleteEntity(item);
+        });
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task RemovingArtifactDeletesItsOwnedAbilities()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var map = await pair.CreateTestMap();
+        await pair.Server.WaitAssertion(() =>
+        {
+            var entities = pair.Server.EntMan;
+            var owner = entities.SpawnEntity("ExperimentOwnedArtifact", map.GridCoords);
+            var artifact = entities.GetComponent<ArtifactComponent>(owner);
+            Assert.That(artifact.CurrentSprite, Is.Not.Empty);
+            var ability = artifact.Abilities["ExperimentOwnedArtifactAbility"];
+            Assert.That(entities.GetComponent<ArtifactAbilityComponent>(ability).OwnerUid, Is.EqualTo(owner));
+            entities.RemoveComponent<ArtifactComponent>(owner);
+            Assert.That(entities.Deleted(ability), Is.True);
+            Assert.That(entities.Deleted(owner), Is.False);
+            entities.DeleteEntity(owner);
         });
         await pair.CleanReturnAsync();
     }

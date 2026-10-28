@@ -57,7 +57,10 @@ public sealed class UniversalLockableServerSystem : EntitySystem
 
     private void OnMapInit(Entity<UniversalLockableComponent> lockableEntity, ref MapInitEvent args)
     {
-        if (_itemSlots.TryGetSlot(lockableEntity, "lockSlot", out var slot) && slot.Item is { } lockUid)
+        if (!TryComp<ItemSlotsComponent>(lockableEntity, out var slots))
+            return;
+
+        if (_itemSlots.TryGetSlot(lockableEntity, "lockSlot", out var slot, slots) && slot.Item is { } lockUid)
         {
             OnFactionLockSpawn(lockableEntity, slot, lockUid);
             return;

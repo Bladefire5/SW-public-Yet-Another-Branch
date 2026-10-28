@@ -68,7 +68,8 @@ public abstract partial class SharedTurnedToStoneSystem : EntitySystem
 
         _actionBlockerSystem.CanAttack(uid);
         _actionBlockerSystem.UpdateCanMove(uid);
-        _damageableSystem.SetDamageModifierSetId(uid, component.CachedDamageModifierSetID);
+        if (TryComp<DamageableComponent>(uid, out var damageable))
+            _damageableSystem.SetDamageModifierSetId(uid, component.CachedDamageModifierSetID, damageable);
 
         RaiseLocalEvent(uid, new AfterBecomeFromStone());
     }

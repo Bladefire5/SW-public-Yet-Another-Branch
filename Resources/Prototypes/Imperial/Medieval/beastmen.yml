@@ -107,7 +107,7 @@
   - type: Hunger
   - type: Thirst
   - type: Icon
-    sprite: Imperial/Medieval/Species/Slime/parts.rsi # It was like this beforehand, no idea why.
+    sprite: Mobs/Species/Slime/parts.rsi # Shared slime rendering also used by the other custom species.
     state: full
   - type: Respirator
     damage:

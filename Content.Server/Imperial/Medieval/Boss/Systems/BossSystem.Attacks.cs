@@ -111,7 +111,10 @@ public sealed partial class BossSystem
     }
 
     private void OnAwakeSpawn(EntityUid uid, PhysAwakeOnSpawnComponent component, ComponentInit args)
-        => _physics.WakeBody(uid);
+    {
+        if (TryComp<Robust.Shared.Physics.Components.PhysicsComponent>(uid, out var body))
+            _physics.WakeBody(uid, body: body);
+    }
 
     private void OnDamageOnContactCollide(EntityUid uid, DamageOnContactComponent component, ref StartCollideEvent args)
         => _damage.TryChangeDamage(args.OtherEntity, component.Damage);

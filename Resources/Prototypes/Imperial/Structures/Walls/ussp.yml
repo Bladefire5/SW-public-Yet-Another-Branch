@@ -11,7 +11,8 @@
       sprite: Imperial/ussp/urbandeco/wall.rsi
     - type: Icon
       sprite: Imperial/ussp/urbandeco/wall.rsi
+      state: strata_ribbed_outpost_
     - type: IconSmooth
       key: walls
       base: strata_ribbed_outpost_
-    
+

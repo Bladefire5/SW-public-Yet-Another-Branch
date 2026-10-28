@@ -22,7 +22,7 @@ namespace Content.Server.MedievalPasport.Components
         public string JobPrefix = "";
 
         [DataField]
-        public string Pasport = "MedievalPasportBase";
+        public string Pasport = "no";
 
         [DataField]
         public EntityUid? PasportEntity = null;

@@ -123,7 +123,8 @@ public partial class QuestSystem : EntitySystem
     {
         comp.Reward = _random.Next(comp.MinReward, comp.MaxReward);
         comp.Amount = _random.Next(comp.MinAmount, comp.MaxAmount);
-        comp.ContractName = _random.Pick(comp.ContractTypes);
+        if (comp.ContractTypes.Count > 0)
+            comp.ContractName = _random.Pick(comp.ContractTypes);
     }
 
     private void OnStartPallete(EntityUid uid, PalletContractComponent comp, ComponentStartup args)
@@ -138,9 +139,12 @@ public partial class QuestSystem : EntitySystem
 
     private void OnStartPallete2(EntityUid uid, PalletStorageComponent comp, ComponentStartup args)
     {
+        if (comp.QuestLink is not { } prototype)
+            return;
+
         var xform = Transform(uid);
         var coords = xform.Coordinates;
-        Spawn(comp.QuestLink, coords);
+        Spawn(prototype, coords);
     }
 
     private void OnExamine(EntityUid uid, QuestContractComponent comp, ExaminedEvent args)

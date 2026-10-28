@@ -22,7 +22,7 @@ public sealed partial class ImperialScatteringGrenadeComponent : Component
     /// What we fill our prototype with if we want to pre-spawn with entities.
     /// </summary>
     [DataField]
-    public List<EntProtoId?> FillPrototype;
+    public List<EntProtoId?> FillPrototype = new();
 
     /// <summary>
     /// Decides if contained entities trigger after getting launched

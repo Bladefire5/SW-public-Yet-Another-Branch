@@ -64,7 +64,8 @@ public sealed partial class MedievalFactionsSystem : SharedMedievalFactionsSyste
 
     public void OnStart(EntityUid uid, CloackMessageComponent comp, ComponentStartup args)
     {
-        _action.AddAction(uid, ref comp.ActionEntity, comp.Action, uid);
+        if (!string.IsNullOrEmpty(comp.Action))
+            _action.AddAction(uid, ref comp.ActionEntity, comp.Action, uid);
     }
 
     public void OnCloackMessageShutdown(EntityUid uid, CloackMessageComponent comp, ComponentShutdown args)

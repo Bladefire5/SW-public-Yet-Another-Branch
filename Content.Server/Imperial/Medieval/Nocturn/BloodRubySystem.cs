@@ -2,6 +2,7 @@ using Content.Shared.Clothing;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
 using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Hands.Components;
 using Content.Shared.Imperial.Medieval.Magic;
 using Content.Shared.Nocturn.Components;
 using Content.Shared.Popups;
@@ -57,6 +58,9 @@ public sealed class BloodRubySystem : EntitySystem
 
     private void EnsureBloodRuby(Entity<BloodRubyOwnerComponent> ent)
     {
+        if (!HasComp<HandsComponent>(ent))
+            return;
+
         if (FindBloodRuby(ent.Owner) is { } existingRuby)
         {
             ent.Comp.BloodRuby = existingRuby;

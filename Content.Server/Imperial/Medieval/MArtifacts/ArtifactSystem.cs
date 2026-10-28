@@ -1,5 +1,6 @@
 
 
+using System.Linq;
 using Content.Shared.Actions;
 using Content.Shared.Dataset;
 using Content.Shared.Examine;
@@ -21,6 +22,7 @@ public sealed class ArtifactSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<ArtifactComponent, MapInitEvent>(Init);
+        SubscribeLocalEvent<ArtifactComponent, ComponentShutdown>(OnShutdown);
         SubscribeLocalEvent<ArtifactComponent, MeleeHitEvent>(Relay);
         SubscribeLocalEvent<ArtifactComponent, GetItemActionsEvent>(Relay);
         SubscribeLocalEvent<ArtifactComponent, HeldRelayedEvent<RefreshMovementSpeedModifiersEvent>>(Relay);
@@ -52,6 +54,10 @@ public sealed class ArtifactSystem : EntitySystem
     }
     public void Init(EntityUid uid, ArtifactComponent component, MapInitEvent args)
     {
+        // An unconfigured component has no artifact to generate yet.
+        if (string.IsNullOrEmpty(component.SpriteDataset))
+            return;
+
         var abilities = new List<string>();
         abilities.AddRange(_proto.Index<DatasetPrototype>("artifactabilities").Values);
         _meta.SetEntityName(uid, $"{_random.Pick(_proto.Index<DatasetPrototype>("artifactFirstName").Values)} {_random.Pick(_proto.Index<DatasetPrototype>("artifactLastName").Values)}");
@@ -78,6 +84,17 @@ public sealed class ArtifactSystem : EntitySystem
         }
         component.CurrentSprite = _random.Pick(_proto.Index<DatasetPrototype>(component.SpriteDataset).Values);
         Dirty(uid, component);
+    }
+
+    private void OnShutdown(EntityUid uid, ArtifactComponent component, ComponentShutdown args)
+    {
+        foreach (var ability in component.Abilities.Values.ToArray())
+        {
+            if (!Deleted(ability))
+                EntityManager.DeleteEntity(ability);
+        }
+
+        component.Abilities.Clear();
     }
 }
 
