@@ -259,7 +259,7 @@
         whitelist:
           components:
           - SmokeOnTrigger
-    sprite: Imperial/VlClothes/PurpleChase/Poyas.rsi
+    sprite: Clothing/Belt/belt_overlay.rsi
   - type: Appearance
 
 - type: entity

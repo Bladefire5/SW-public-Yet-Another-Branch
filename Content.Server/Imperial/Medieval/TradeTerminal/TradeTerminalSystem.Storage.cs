@@ -255,7 +255,9 @@ public sealed partial class TradeTerminalSystem
 
     private void ReturnItemsToWorld(EntityUid uid, TradeTerminalComponent comp)
     {
-        var container = GetOfferContainer(uid, comp);
+        if (!Containers.TryGetContainer(uid, comp.ContainerId, out var container))
+            return;
+
         foreach (var item in container.ContainedEntities.ToList())
         {
             Containers.Remove(item, container, force: true);

@@ -4004,6 +4004,9 @@
   name: Invisibility in hand
   description: DO NOT PUT HER ON THE FLOOR!! Press Z to activate invisibility.
   components:
+  - type: Sprite
+    sprite: Clothing/Head/Soft/cargosoft.rsi
+    visible: false
   - type: PressureProtection
     highPressureMultiplier: 0.02
     lowPressureMultiplier: 0.02

@@ -560,4 +560,4 @@
     pack: FumoJunko
   - type: StorageFill
     contents:
-      - id: ChessBoardTabletop
+      - id: ChessBoard

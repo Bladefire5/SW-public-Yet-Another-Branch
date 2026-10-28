@@ -271,6 +271,11 @@
   - type: AccessReader
     access: [ [ "Lawyer" ] ]
   - type: Sprite
-    sprite: Imperial/HOMAK/briefcaselocker.rsi
+    sprite: Structures/Storage/Crates/secure.rsi
+    layers:
+    - sprite: Imperial/HOMAK/briefcaselocker.rsi
+      state: icon
+    - state: locked
+      map: ["enum.LockVisualLayers.Lock"]
   - type: Item
     sprite: Imperial/HOMAK/briefcaselocker.rsi

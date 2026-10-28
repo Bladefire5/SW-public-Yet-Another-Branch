@@ -159,10 +159,7 @@
   - type: Electrified
     enabled: false
     usesApcPower: true
-  - type: ContainerFill
-    containers:
-      board:
-      - WeaponEnergyTurretStationControlPanelElectronics
+  #spellward - upstream assigns electronics on each concrete control panel.
   - type: Construction
     graph: WeaponEnergyTurretControlPanel
     node: finish

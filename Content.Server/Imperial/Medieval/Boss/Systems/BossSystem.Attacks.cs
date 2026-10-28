@@ -85,7 +85,7 @@ public sealed partial class BossSystem
             NeedHand = false,
         };
 
-        _doAfter.TryStartDoAfter(doAfter);
+        _doAfter.TryStartDoAfter(doAfter, EnsureComp<DoAfterComponent>(uid));
     }
 
     private void OnBossHealDoAfter(EntityUid uid, TimedBossHealComponent component, BossHealDoAfterEvent args)
@@ -125,7 +125,7 @@ public sealed partial class BossSystem
             NeedHand = false,
         };
 
-        _doAfter.TryStartDoAfter(doAfter, out component.DoAfter);
+        _doAfter.TryStartDoAfter(doAfter, out component.DoAfter, EnsureComp<DoAfterComponent>(uid));
     }
 
     private void OnChargingDoAfter(EntityUid uid, ChargingRuneExplosionComponent component, BossRunesChargingDoAfterEvent args)

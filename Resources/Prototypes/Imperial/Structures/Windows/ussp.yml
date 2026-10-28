@@ -11,6 +11,7 @@
     drawdepth: WallTops
   - type: Icon
     sprite: Imperial/ussp/urbandeco/window.rsi
+    state: strata_window0
   - type: Repairable
     fuelCost: 10
     doAfterDelay: 2
@@ -75,6 +76,7 @@
     drawdepth: WallTops
   - type: Icon
     sprite: Imperial/ussp/urbandeco/frame.rsi
+    state: strata_frame0
   - type: Repairable
     fuelCost: 10
     doAfterDelay: 2
