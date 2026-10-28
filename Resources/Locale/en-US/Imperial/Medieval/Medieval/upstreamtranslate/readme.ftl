@@ -282,6 +282,7 @@ ent-ActionSurrender = Surrender
 stealFailedSpellward = {CAPITALIZE($entity1)} tried to rob you!
 stealFailedSpellwardUser = You've been spotted!
 ent-MedievalClothingOuterAltArmorCult = truth cult robe
+    .desc = An armored vest with fur plates to protect against melee weapons.
     .suffix = { "SKIN, Medieval" }
 ent-MedievalClothingOuterAltArmorCultMana = truth cult magical robe
 ent-MedievalClothingOuterAltArmorCultUp = truth cult armored robe

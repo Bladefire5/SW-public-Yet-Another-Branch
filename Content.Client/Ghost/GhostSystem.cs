@@ -98,7 +98,7 @@ namespace Content.Client.Ghost
                 Popup.PopupEntity(Loc.GetString("ghost-gui-toggle-lighting-manager-popup-personal-light"), args.Performer);
                 _pointLightSystem.SetEnabled(uid, true, light);
 
-                light!.NetSyncEnabled = false; // Imperial Space Start [HOTFIX]
+                //spellward - keep the component's registered networking ownership intact.
             }
             else
             {
