@@ -1,7 +1,7 @@
 - type: reaction
   id: Cryostilane
   impact: High
-  priority: 20
+  priority: 19 #spellward - upstream Fresium wins when its full mixture is available.
   minTemp: 163
   reactants:
     Water:
