@@ -1381,7 +1381,7 @@
     count: 1
   - type: Construction
     graph: MedievalGlina
-    node: ground
+    node: MedievalGlina
 
 - type: construction
   name: глиняная формочка

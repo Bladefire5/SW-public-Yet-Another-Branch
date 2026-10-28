@@ -76,12 +76,27 @@ jobs:
           path: TestResults/compatibility/**/*.trx
           if-no-files-found: ignore
 
+      - name: Run construction regressions
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        shell: pwsh
+        run: |
+          $env:DOTNET_gcServer=1
+          dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj --filter 'FullyQualifiedName~Content.IntegrationTests.Tests.Construction' --logger 'trx;LogFileName=construction.trx' --results-directory TestResults/construction -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed
+
+      - name: Upload construction test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: experiment-construction-test-results
+          path: TestResults/construction/**/*.trx
+          if-no-files-found: ignore
+
       - name: Run integration tests
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         shell: pwsh
         run: |
           $env:DOTNET_gcServer=1
-          dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj --filter 'FullyQualifiedName!~Content.IntegrationTests.Tests.Imperial.EngineCompatibility' --logger 'trx;LogFileName=integration.trx' --results-directory TestResults/integration -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed
+          dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj --filter 'FullyQualifiedName!~Content.IntegrationTests.Tests.Imperial.EngineCompatibility&FullyQualifiedName!~Content.IntegrationTests.Tests.Construction' --logger 'trx;LogFileName=integration.trx' --results-directory TestResults/integration -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed
 
       - name: Upload test results
         if: always()

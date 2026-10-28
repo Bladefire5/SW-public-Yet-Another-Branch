@@ -1900,7 +1900,7 @@
     fiberColor: fibers-white
   - type: Construction
     graph: MedievalClothingHandsGlovesCloth
-    node: ground
+    node: MedievalClothingHandsGlovesCloth
   - type: Armor
     modifiers:
       coefficients:

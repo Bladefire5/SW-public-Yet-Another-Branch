@@ -175,7 +175,7 @@
         acts: [ "Destruction" ]
   - type: Construction
     graph: PlatformImperialUSSPdestructable
-    node: PlatformBrokenImperialUSSP
+    node: platformBroken
 
 - type: entity
   parent: PlatformImperialUSSP

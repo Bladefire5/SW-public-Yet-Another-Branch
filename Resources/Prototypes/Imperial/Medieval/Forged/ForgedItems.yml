@@ -61,7 +61,7 @@
       count: 1
     - type: Construction
       graph: MedievalMagicGlina
-      node: ground
+      node: MedievalMagicGlina
     - type: Material
 
 - type: stack

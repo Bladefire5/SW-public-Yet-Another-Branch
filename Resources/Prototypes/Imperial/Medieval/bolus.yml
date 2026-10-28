@@ -19,6 +19,9 @@
   name: bolus bottle
   description: A small clay container that holds up to ten boluses.
   components:
+  - type: Construction
+    graph: MedievalBolusBottleGraph
+    node: bottle
   - type: Tag
     tags:
     - PillCanister

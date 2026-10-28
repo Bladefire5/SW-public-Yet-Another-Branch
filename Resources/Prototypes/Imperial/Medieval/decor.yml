@@ -5047,28 +5047,28 @@
   graph:
     - node: start
       edges:
-        - to: woodrailing
+        - to: railing
           completed:
             - !type:SnapToGrid { }
           steps:
             - material: WoodPlank
               amount: 1
               doAfter: 2
-        - to: woodrailingCorner
+        - to: railingCorner
           completed:
             - !type:SnapToGrid { }
           steps:
             - material: WoodPlank
               amount: 2
               doAfter: 2.5
-        - to: woodrailingCornerSmall
+        - to: railingCornerSmall
           completed:
             - !type:SnapToGrid { }
           steps:
             - material: WoodPlank
               amount: 1
               doAfter: 2
-        - to: woodrailingRound
+        - to: railingRound
           completed:
             - !type:SnapToGrid { }
           steps:
@@ -5166,7 +5166,8 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: Construction
-    node: woodrailing
+    graph: WoodRailing
+    node: railing
   - type: Fixtures
     fixtures:
       fix1:  #vertical
@@ -5215,7 +5216,8 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: Construction
-    node: woodrailingCorner
+    graph: WoodRailing
+    node: railingCorner
   - type: Fixtures
     fixtures:
       fix1:  #vertical
@@ -5273,7 +5275,8 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: Construction
-    node: woodrailingCornerSmall
+    graph: WoodRailing
+    node: railingCornerSmall
   - type: Fixtures
     fixtures:
       fix1:  #vertical
@@ -5323,7 +5326,8 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: Construction
-    node: woodrailingRound
+    graph: WoodRailing
+    node: railingRound
   - type: Fixtures
     fixtures:
       fix1:  #vertical

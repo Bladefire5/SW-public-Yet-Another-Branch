@@ -19,8 +19,6 @@
       entity: CoffeeTableFrame
       edges:
         - to: start
-          completed:
-            - !type:SpawnPrototype
           steps:
             - tool: Anchoring
               doAfter: 1

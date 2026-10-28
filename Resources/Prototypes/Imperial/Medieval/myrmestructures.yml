@@ -336,7 +336,7 @@
         acts: [ "Destruction" ]
   - type: Construction
     graph: MedievalMyrmexSupportingColumnCraft
-    node: MedievalMyrmexSupportingColumnCraft
+    node: ready
 
 - type: construction
   id: MedievalMyrmexSupportingColumnCraft

@@ -1764,7 +1764,7 @@
     size: Tiny
   - type: Construction
     graph: MedievalChemistryEmptyBottle01
-    node: ground
+    node: MedievalChemistryEmptyBottle01
 
 - type: entity
   parent: ChemistryEmptyBottle02
@@ -1776,7 +1776,7 @@
     size: Tiny
   - type: Construction
     graph: MedievalChemistryEmptyBottle02
-    node: ground
+    node: MedievalChemistryEmptyBottle02
 
 - type: entity
   parent: ChemistryEmptyBottle03
@@ -1788,7 +1788,7 @@
     size: Tiny
   - type: Construction
     graph: MedievalChemistryEmptyBottle03
-    node: ground
+    node: MedievalChemistryEmptyBottle03
 
 - type: entity
   parent: ChemistryEmptyBottle04
@@ -1800,7 +1800,7 @@
     size: Tiny
   - type: Construction
     graph: MedievalChemistryEmptyBottle04
-    node: ground
+    node: MedievalChemistryEmptyBottle04
 
 - type: construction
   name: бутылёк
@@ -7528,7 +7528,7 @@
     effectPrototype: EffectSparks
   - type: Construction
     graph: MedievalFlinter
-    node: ground
+    node: MedievalFlinter
 
 - type: construction
   name: огниво
@@ -7639,7 +7639,7 @@
     - Torch
   - type: Construction
     graph: MedievalTorch
-    node: ground
+    node: MedievalTorch
 
 - type: construction
   name: факел с тряпкой

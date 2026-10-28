@@ -7,58 +7,42 @@
         - !type:DeleteEntity {}
       edges:
         - to: WoodRailingScarlatto
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: WoodPlank
               amount: 4
               doAfter: 2
         - to: WoodRailingSideScarlatto
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: WoodPlank
               amount: 4
               doAfter: 2
         - to: WoodRailingCornerScarlatto
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: WoodPlank
               amount: 4
               doAfter: 2
         - to: WoodRailingCornerSmallScarlatto
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: WoodPlank
               amount: 4
               doAfter: 2
         #Stone
         - to: StoneRailingScarlatto
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: MedievalStoneBrick
               amount: 2
               doAfter: 2
         - to: StoneRailingSideScarlatto
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: MedievalStoneBrick
               amount: 2
               doAfter: 2
         - to: StoneRailingCornerScarlatto
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: MedievalStoneBrick
               amount: 2
               doAfter: 2
         - to: StoneRailingCornerSmallScarlatto
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: MedievalStoneBrick
               amount: 2
@@ -76,7 +60,7 @@
         - to: start
           completed:
             - !type:GivePrototype
-                prototype: WoodPlank
+                prototype: MaterialWoodPlank1
                 amount: 4
           steps:
             - tool: Screwing
@@ -87,7 +71,7 @@
         - to: start
           completed:
             - !type:GivePrototype
-                prototype: WoodPlank
+                prototype: MaterialWoodPlank1
                 amount: 4
           steps:
             - tool: Screwing
@@ -98,7 +82,7 @@
         - to: start
           completed:
             - !type:GivePrototype
-                prototype: WoodPlank
+                prototype: MaterialWoodPlank1
                 amount: 4
           steps:
             - tool: Screwing
@@ -109,7 +93,7 @@
         - to: start
           completed:
             - !type:GivePrototype
-                prototype: WoodPlank
+                prototype: MaterialWoodPlank1
                 amount: 4
           steps:
             - tool: Screwing
@@ -275,8 +259,6 @@
         - !type:DeleteEntity {}
       edges:
         - to: MedievalShipWindow
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: WoodPlank
               amount: 4
@@ -285,8 +267,6 @@
               amount: 4
               doAfter: 2
         - to: MedievalVintageWindow
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: WoodPlank
               amount: 4
@@ -295,8 +275,6 @@
               amount: 8
               doAfter: 2
         - to: DiagonalVintageWindowWood
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: WoodPlank
               amount: 4
@@ -305,8 +283,6 @@
               amount: 8
               doAfter: 2
         - to: MedievalVintageStoneWindow
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: MedievalStoneBrick
               amount: 2
@@ -315,8 +291,6 @@
               amount: 8
               doAfter: 2
         - to: DiagonalVintageWindowStone
-          completed:
-            - !type:SpawnPrototype {}
           steps:
             - material: MedievalStoneBrick
               amount: 2

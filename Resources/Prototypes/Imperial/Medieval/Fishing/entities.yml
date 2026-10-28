@@ -5,6 +5,9 @@
   name: fishing rod
   description: A simple fishing rod.
   components:
+  - type: Construction
+    graph: FishingRodT1Construction
+    node: FishingRodT1
   - type: FishingRod
     bobberPrototype: FishingBobber
     riverWaterPrototype: FloorWaterEntity

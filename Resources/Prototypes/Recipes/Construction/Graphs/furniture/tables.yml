@@ -37,7 +37,7 @@
         - to: start
           completed:
             - !type:SpawnPrototype
-                prototype: WoodPlank # Imperial Medieval
+                prototype: MaterialWoodPlank1 #spellward - entity ID for the configured wood refund.
                 amount: 2
           steps:
             - tool: Anchoring

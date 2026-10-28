@@ -5900,7 +5900,7 @@
     - GoblinArmor
   - type: Construction
     graph: MedievalClothingOuterArmorGoblinWood
-    node: ground
+    node: MedievalClothingOuterArmorGoblinWood
   - type: WhitelistClothing
     whitelistState: clothing
   - type: PoiseArmor

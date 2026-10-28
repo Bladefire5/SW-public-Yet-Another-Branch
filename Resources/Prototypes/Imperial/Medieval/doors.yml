@@ -1392,7 +1392,7 @@
   - type: Occluder
   - type: Construction
     graph: MedievalAirlockKey
-    node: medievalairlockKey
+    node: medievalairlock
   - type: UniversalLockable
   - type: ItemSlots
     slots:

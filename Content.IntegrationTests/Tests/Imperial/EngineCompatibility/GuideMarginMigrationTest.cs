@@ -1,6 +1,7 @@
 using Content.Client.Guidebook;
 using Content.Client.Guidebook.Richtext;
 using Robust.Client.UserInterface;
+using Robust.Shared.Maths;
 
 namespace Content.IntegrationTests.Tests.Imperial.EngineCompatibility;
 
