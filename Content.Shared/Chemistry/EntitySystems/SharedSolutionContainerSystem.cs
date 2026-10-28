@@ -435,6 +435,17 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
         UpdateChemicals(soln);
     }
 
+    // spellward start - pinned upstream reaction-toggle API.
+    /// <summary>
+    /// Sets whether or not the given solution entity can react and dirties it.
+    /// </summary>
+    public void SetCanReact(Entity<SolutionComponent> soln, bool canReact)
+    {
+        soln.Comp.Solution.CanReact = canReact;
+        UpdateChemicals(soln);
+    }
+    // spellward end
+
     /// <summary>
     ///     Adds reagent of an Id to the container.
     /// </summary>

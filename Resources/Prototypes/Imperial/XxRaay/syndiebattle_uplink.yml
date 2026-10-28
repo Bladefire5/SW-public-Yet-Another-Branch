@@ -2004,32 +2004,8 @@
   categories:
   - SyndiebattleUplinkCustom
 
-- type: entity
-  parent: ClothingBackpackDuffelScience
-  id: NVSetSyndieBattle
-  name: набор ПНВ
-  description: набор ПВН для тех кто не любит темноту.
-  components:
-  - type: StorageFill
-    contents:
-    - id: ClothingEyesGreenNightVisor
-      count: 1
-    - id: PowerCellHigh
-      count: 2
-
-- type: listing
-  id: UplinkNVSetSyndieBattle
-  name: Набор ПНВ
-  description: Очки ночного видения, позволяют увидеть надвигающегося клоуна с игрушечным молотком в темноте.
-  icon: { sprite: Clothing/Back/Duffels/science.rsi, state: icon}
-  productEntity: NVSetSyndieBattle
-  discountCategory: rareDiscounts
-  discountDownTo:
-    Telecrystal: 8
-  cost:
-    Telecrystal: 12
-  categories:
-  - SyndiebattleUplinkCustom
+# spellward - retired unsupported night-vision bundle and listing: its visor prototype
+# and night-vision implementation are absent from this branch.
 
 - type: listing
   id: UplinkMjollnirSyndieBattle
