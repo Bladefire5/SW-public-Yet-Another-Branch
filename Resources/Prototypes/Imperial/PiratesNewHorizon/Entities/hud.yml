@@ -1,5 +1,5 @@
 - type: entity
-  parent: [ClothingEyesBase, ClothingHeadEyeBaseFlippable, BaseRestrictedContraband]
+  parent: [ClothingEyesBase, ClothingHeadEyeBaseFlippable, BaseMinorContraband]
   id: ClothingEyesEyepatchHudChemical
   name: chemical hud eyepatch
   description: A heads-up display that can scan the chemical composition of a solution.
@@ -22,7 +22,7 @@
   name: chemical hud eyepatch
 
 - type: entity
-  parent: [ClothingEyesBase, ClothingHeadEyeBaseFlippable, BaseRestrictedContraband]
+  parent: [ClothingEyesBase, ClothingHeadEyeBaseFlippable, BaseMinorContraband]
   id: ClothingEyesEyepatchFlashProof
   name: flashproof eyepatch
   description: An eyepatch, capable of protecting your eyes from flashes.
@@ -47,7 +47,7 @@
   name: flashproof eyepatch
 
 - type: entity
-  parent: [ClothingEyesBase, ClothingHeadEyeBaseFlippable, BaseRestrictedContraband]
+  parent: [ClothingEyesBase, ClothingHeadEyeBaseFlippable, BaseMinorContraband]
   id: ClothingEyesEyepatchEngineering
   name: engineering eyepatch
   description: An eyepatch, capable of protecting your eyes while welding.
@@ -69,7 +69,7 @@
   name: engineering eyepatch
 
 - type: entity
-  parent: [ClothingEyesBase, ShowSecurityIcons, ShowMedicalIcons, BaseRestrictedContraband, ClothingHeadEyeBaseFlippable]
+  parent: [ClothingEyesBase, ShowSecurityIcons, ShowMedicalIcons, BaseMinorContraband, ClothingHeadEyeBaseFlippable]
   id: ClothingEyesEyepatchHudOmni
   name: the all seeing eyepatch
   description: An eyepatch, capable of everything.

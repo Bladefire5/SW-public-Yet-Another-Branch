@@ -167,6 +167,10 @@
       0: Alive
       80: Critical
       160: Dead
+    stateAlertDict:
+      Alive: BorgHealth
+      Critical: BorgCrit
+      Dead: BorgDead
   - type: ShowHealthBars
     damageContainers:
     - Silicon

@@ -1,0 +1,255 @@
+# Use upstream job-backed outfits so custom job names, icons and loadouts stay in sync.
+
+- type: chameleonOutfit
+  id: AdjutantChameleonOutfit
+  job: Adjutant
+  hasMindShield: true
+
+- type: chameleonOutfit
+  id: MedievalArchivistChameleonOutfit
+  job: MedievalArchivist
+
+- type: chameleonOutfit
+  id: MedievalAvanturistChameleonOutfit
+  job: MedievalAvanturist
+
+- type: chameleonOutfit
+  id: MedievalBanditLeaderChameleonOutfit
+  job: MedievalBanditLeader
+
+- type: chameleonOutfit
+  id: MedievalBanditRecruitChameleonOutfit
+  job: MedievalBanditRecruit
+
+- type: chameleonOutfit
+  id: MedievalBanditRegularChameleonOutfit
+  job: MedievalBanditRegular
+
+- type: chameleonOutfit
+  id: MedievalBanditVeteranChameleonOutfit
+  job: MedievalBanditVeteran
+
+- type: chameleonOutfit
+  id: MedievalBardChameleonOutfit
+  job: MedievalBard
+
+- type: chameleonOutfit
+  id: MedievalBlacksmithChameleonOutfit
+  job: MedievalBlacksmith
+
+- type: chameleonOutfit
+  id: MedievalBlacksmithNChameleonOutfit
+  job: MedievalBlacksmithN
+
+- type: chameleonOutfit
+  id: MedievalBlacksmithYoungChameleonOutfit
+  job: MedievalBlacksmithYoung
+
+- type: chameleonOutfit
+  id: MedievalBlacksmithYoungNChameleonOutfit
+  job: MedievalBlacksmithYoungN
+
+- type: chameleonOutfit
+  id: MedievalChaplainChameleonOutfit
+  job: MedievalChaplain
+
+- type: chameleonOutfit
+  id: MedievalCitizenChameleonOutfit
+  job: MedievalCitizen
+
+- type: chameleonOutfit
+  id: MedievalCitizenRichChameleonOutfit
+  job: MedievalCitizenRich
+
+- type: chameleonOutfit
+  id: MedievalCollegiumCommonChameleonOutfit
+  job: MedievalCollegiumCommon
+
+- type: chameleonOutfit
+  id: MedievalCollegiumLeaderChameleonOutfit
+  job: MedievalCollegiumLeader
+
+- type: chameleonOutfit
+  id: MedievalCollegiumRecruitChameleonOutfit
+  job: MedievalCollegiumRecruit
+
+- type: chameleonOutfit
+  id: MedievalInnkeeperChameleonOutfit
+  job: MedievalInnkeeper
+
+- type: chameleonOutfit
+  id: MedievalInnkeeperAssistantChameleonOutfit
+  job: MedievalInnkeeperAssistant
+
+- type: chameleonOutfit
+  id: MedievalInnkeeperGuardChameleonOutfit
+  job: MedievalInnkeeperGuard
+
+- type: chameleonOutfit
+  id: MedievalInnkeeperNChameleonOutfit
+  job: MedievalInnkeeperN
+
+- type: chameleonOutfit
+  id: MedievalInsurgencyAlchemicChameleonOutfit
+  job: MedievalInsurgencyAlchemic
+
+- type: chameleonOutfit
+  id: MedievalInsurgencyGatemanChameleonOutfit
+  job: MedievalInsurgencyGateman
+
+- type: chameleonOutfit
+  id: MedievalInsurgencyInsurgencyerChameleonOutfit
+  job: MedievalInsurgencyInsurgencyer
+
+- type: chameleonOutfit
+  id: MedievalInsurgencyLegatChameleonOutfit
+  job: MedievalInsurgencyLegat
+
+- type: chameleonOutfit
+  id: MedievalInsurgencyMagChameleonOutfit
+  job: MedievalInsurgencyMag
+
+- type: chameleonOutfit
+  id: MedievalInsurgencyOpcionChameleonOutfit
+  job: MedievalInsurgencyOpcion
+
+- type: chameleonOutfit
+  id: MedievalInsurgencyRecruitChameleonOutfit
+  job: MedievalInsurgencyRecruit
+
+- type: chameleonOutfit
+  id: MedievalInsurgencyTribunChameleonOutfit
+  job: MedievalInsurgencyTribun
+
+- type: chameleonOutfit
+  id: MedievalKayotLeaderChameleonOutfit
+  job: MedievalKayotLeader
+
+- type: chameleonOutfit
+  id: MedievalKayotRecruitChameleonOutfit
+  job: MedievalKayotRecruit
+
+- type: chameleonOutfit
+  id: MedievalKayotRegularChameleonOutfit
+  job: MedievalKayotRegular
+
+- type: chameleonOutfit
+  id: MedievalKayotVeteranChameleonOutfit
+  job: MedievalKayotVeteran
+
+- type: chameleonOutfit
+  id: MedievalLegionAlchemicChameleonOutfit
+  job: MedievalLegionAlchemic
+
+- type: chameleonOutfit
+  id: MedievalLegionCourierChameleonOutfit
+  job: MedievalLegionCourier
+
+- type: chameleonOutfit
+  id: MedievalLegionGatemanChameleonOutfit
+  job: MedievalLegionGateman
+
+- type: chameleonOutfit
+  id: MedievalLegionJailerChameleonOutfit
+  job: MedievalLegionJailer
+
+- type: chameleonOutfit
+  id: MedievalLegionLegatChameleonOutfit
+  job: MedievalLegionLegat
+
+- type: chameleonOutfit
+  id: MedievalLegionLegionerChameleonOutfit
+  job: MedievalLegionLegioner
+
+- type: chameleonOutfit
+  id: MedievalLegionMagChameleonOutfit
+  job: MedievalLegionMag
+
+- type: chameleonOutfit
+  id: MedievalLegionOpcionChameleonOutfit
+  job: MedievalLegionOpcion
+
+- type: chameleonOutfit
+  id: MedievalLegionRecruitChameleonOutfit
+  job: MedievalLegionRecruit
+
+- type: chameleonOutfit
+  id: MedievalLegionTreasurerChameleonOutfit
+  job: MedievalLegionTreasurer
+
+- type: chameleonOutfit
+  id: MedievalLegionTreasurerAssistantChameleonOutfit
+  job: MedievalLegionTreasurerAssistant
+
+- type: chameleonOutfit
+  id: MedievalLegionTribunChameleonOutfit
+  job: MedievalLegionTribun
+
+- type: chameleonOutfit
+  id: MedievalMercChameleonOutfit
+  job: MedievalMerc
+
+- type: chameleonOutfit
+  id: MedievalMercLeaderChameleonOutfit
+  job: MedievalMercLeader
+
+- type: chameleonOutfit
+  id: MedievalMinerChameleonOutfit
+  job: MedievalMiner
+
+- type: chameleonOutfit
+  id: MedievalMinerLeaderChameleonOutfit
+  job: MedievalMinerLeader
+
+- type: chameleonOutfit
+  id: MedievalTraderChameleonOutfit
+  job: MedievalTrader
+
+- type: chameleonOutfit
+  id: MedievalTraderNChameleonOutfit
+  job: MedievalTraderN
+
+- type: chameleonOutfit
+  id: MedievalTravellerChameleonOutfit
+  job: MedievalTraveller
+
+- type: chameleonOutfit
+  id: MedievalVillagerChameleonOutfit
+  job: MedievalVillager
+
+- type: chameleonOutfit
+  id: MedievalVillagerDefChameleonOutfit
+  job: MedievalVillagerDef
+
+- type: chameleonOutfit
+  id: MedievalVillagerLeaderChameleonOutfit
+  job: MedievalVillagerLeader
+
+- type: chameleonOutfit
+  id: MedievalWanderMagChameleonOutfit
+  job: MedievalWanderMag
+
+- type: chameleonOutfit
+  id: RFIChameleonOutfit
+  job: RFI
+  hasMindShield: true
+
+- type: chameleonOutfit
+  id: SeniorEngineerChameleonOutfit
+  job: SeniorEngineer
+  hasMindShield: true
+
+- type: chameleonOutfit
+  id: SeniorOfficerChameleonOutfit
+  job: SeniorOfficer
+  hasMindShield: true
+
+- type: chameleonOutfit
+  id: SeniorPhysicianChameleonOutfit
+  job: SeniorPhysician
+  hasMindShield: true
+
+- type: chameleonOutfit
+  id: SeniorResearcherChameleonOutfit
+  job: SeniorResearcher
+  hasMindShield: true

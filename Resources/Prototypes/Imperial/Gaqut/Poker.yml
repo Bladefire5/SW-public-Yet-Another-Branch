@@ -65,8 +65,6 @@
   - type: Stack
     stackType: PokerChipStackWhite
     count: 1
-  - type: StaticPrice
-    price: 1
   - type: StackPrice
     price: 1
 
@@ -88,8 +86,6 @@
   - type: Stack
     stackType: PokerChipStackRed
     count: 1
-  - type: StaticPrice
-    price: 5
   - type: StackPrice
     price: 5
 
@@ -111,8 +107,6 @@
   - type: Stack
     stackType: PokerChipStackBlue
     count: 1
-  - type: StaticPrice
-    price: 10
   - type: StackPrice
     price: 10
 
@@ -134,8 +128,6 @@
   - type: Stack
     stackType: PokerChipStackGreen
     count: 1
-  - type: StaticPrice
-    price: 25
   - type: StackPrice
     price: 25
 
@@ -157,8 +149,6 @@
   - type: Stack
     stackType: PokerChipStackBlack
     count: 1
-  - type: StaticPrice
-    price: 100
   - type: StackPrice
     price: 100
 
@@ -180,8 +170,6 @@
   - type: Stack
     stackType: PokerChipStackViolet
     count: 1
-  - type: StaticPrice
-    price: 500
   - type: StackPrice
     price: 500
 
@@ -203,7 +191,5 @@
   - type: Stack
     stackType: PokerChipStackYellow
     count: 1
-  - type: StaticPrice
-    price: 1000
   - type: StackPrice
     price: 1000

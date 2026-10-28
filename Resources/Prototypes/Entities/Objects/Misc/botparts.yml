@@ -20,7 +20,7 @@
       - ProximitySensor
       - RawMaterial # Imperial Space
       - ConstructionMaterial # Imperial Space
-  - type: StaticPrice
+  - type: StackPrice #spellward - use upstream per-item pricing for the custom sensor stack.
     price: 40
 
   # Imperial Space

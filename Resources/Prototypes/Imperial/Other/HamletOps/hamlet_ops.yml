@@ -9,7 +9,7 @@
     drawdepth: SmallMobs
     sprite: Imperial/Other/HamletOps/hamlet-agent.rsi
     layers:
-    - map: ["enum.DamageStateVisualLayers.Base", "Base", "movement"]
+    - map: ["enum.DamageStateVisualLayers.Base", "enum.TriggerVisualLayers.Base", "Base", "movement"]
       state: hamster-0
   - type: GhostRole
     makeSentient: true
@@ -50,6 +50,8 @@
     initialBeepDelay: 0
     beepInterval: 2
   - type: TimerTriggerVisuals
+    unprimedSprite: hamster-0
+    primingSprite: hamster-0
     primingSound:
       path: /Audio/Effects/minibombcountdown.ogg
       params:

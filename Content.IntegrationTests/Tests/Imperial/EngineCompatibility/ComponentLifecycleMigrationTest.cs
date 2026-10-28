@@ -29,6 +29,7 @@ public sealed class ComponentLifecycleMigrationTest
   components:
   - type: TradeTerminal
   - type: Storage
+    maxItemSize: Small
     grid:
     - 0,0,1,1
 - type: entity

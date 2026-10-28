@@ -195,10 +195,14 @@
   name: fire arrow
   components:
   - type: Sprite
-    sprite: Imperial/Medieval/Gun/arrow_fire.rsi
+    sprite: Objects/Weapons/Guns/Projectiles/arrows.rsi
     rotation: -135
     layers:
     - state: proto
+      sprite: Imperial/Medieval/Gun/arrow_fire.rsi
+    - state: solution1
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: false
   - type: PoiseArchery
     damageType: Piercing
     fixedDamage: 10
@@ -217,10 +221,14 @@
   name: necro arrow
   components:
   - type: Sprite
-    sprite: Imperial/Medieval/Gun/arrow_necro.rsi
+    sprite: Objects/Weapons/Guns/Projectiles/arrows.rsi
     rotation: -135
     layers:
     - state: proto
+      sprite: Imperial/Medieval/Gun/arrow_necro.rsi
+    - state: solution1
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: false
   - type: PoiseArchery
     damageType: Piercing
     fixedDamage: 8
@@ -236,10 +244,14 @@
   name: practice arrow
   components:
   - type: Sprite
-    sprite: Imperial/Medieval/Gun/arrow_practice.rsi
+    sprite: Objects/Weapons/Guns/Projectiles/arrows.rsi
     rotation: -135
     layers:
     - state: proto
+      sprite: Imperial/Medieval/Gun/arrow_practice.rsi
+    - state: solution1
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: false
   - type: PoiseArchery
     damageType: Blunt
     fixedDamage: 1

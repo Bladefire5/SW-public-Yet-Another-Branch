@@ -165,11 +165,15 @@
   - type: RDWeight
     value: 0.05
   - type: Sprite
-    sprite: Imperial/Medieval/Gun/draft_arrows.rsi
+    sprite: Objects/Weapons/Guns/Projectiles/arrows.rsi
     rotation: -135
     layers:
     - state: base
+      sprite: Imperial/Medieval/Gun/draft_arrows.rsi
       map: ["enum.AmmoVisualLayers.Base"]
+    - state: solution1
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: false
 
 - type: entity
   parent: MedievalDraftBaseArrow

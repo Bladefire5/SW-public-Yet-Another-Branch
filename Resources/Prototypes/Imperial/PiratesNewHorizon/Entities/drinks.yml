@@ -24,5 +24,12 @@
   #Империал перевод
     currentLabel: грог
   - type: Sprite
-    sprite: Imperial/PiratesNewHorizon/grogbottle.rsi
+    sprite: Objects/Consumable/Drinks/alco-bottle.rsi
+    layers:
+    - state: icon_empty
+      sprite: Imperial/PiratesNewHorizon/grogbottle.rsi
+      map: ["enum.OpenableVisuals.Layer"]
+    - state: fill-5
+      sprite: Imperial/PiratesNewHorizon/grogbottle.rsi
+      map: ["enum.SolutionContainerLayers.Fill"]
   - type: Sealable

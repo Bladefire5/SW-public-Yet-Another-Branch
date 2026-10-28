@@ -981,15 +981,24 @@
         - ReagentId: Kvass
           Quantity: 30
   - type: Sprite
-    sprite: Imperial/Crook/Misc/kvass.rsi
+    sprite: Objects/Consumable/Drinks/alco-bottle.rsi
     layers:
       - state: icon
+        sprite: Imperial/Crook/Misc/kvass.rsi
         map: [ "enum.SolutionContainerLayers.Base" ]
       - state: fill-1
+        sprite: Imperial/Crook/Misc/kvass.rsi
         map: [ "enum.SolutionContainerLayers.Fill" ]
         visible: false
       - state: icon_empty
+        sprite: Imperial/Crook/Misc/kvass.rsi
         map: [ "enum.SolutionContainerLayers.Overlay" ]
+  - type: SolutionContainerVisuals
+    maxFillLevels: 5
+    fillBaseName: fill-
+    metamorphicDefaultSprite:
+      sprite: Imperial/Crook/Misc/kvass.rsi
+      state: icon
   - type: Icon
     sprite: Imperial/Crook/Misc/kvass.rsi
     state: icon
