@@ -27,21 +27,21 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
     /// <summary>
     /// Хранит все реагенты в паре с одним из реактантов
     /// </summary>
-    private static Dictionary<string, List<ReactionData>> _reactionsSingle = new();
+    private readonly Dictionary<string, List<ReactionData>> _reactionsSingle = new();
 
     /// <summary>
     /// Хранит все реагенты в парах с каждым из реактантов
     /// </summary>
-    private static Dictionary<string, List<ReactionData>> _reactions = new();
+    private readonly Dictionary<string, List<ReactionData>> _reactions = new();
 
     /// <summary>
     /// Хранит все рандомно сгенерированные реагенты и инфу о них
     /// </summary>
-    private static Dictionary<string, GeneratedReagentData> _reagentsData = new();
+    private readonly Dictionary<string, GeneratedReagentData> _reagentsData = new();
     /// <summary>
     /// Хранит инфу сгенерированных груп
     /// </summary>
-    private static Dictionary<string, GeneratedGroupData> _groupData = new();
+    private readonly Dictionary<string, GeneratedGroupData> _groupData = new();
 
     /// <summary>
     /// Сид, для синхронизации клиента и сервера
@@ -482,6 +482,16 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
     #endregion
 
     #region Статичные функции
+    // Prototype properties and solution color helpers have no entity-system dependency.
+    // Resolve the current game context so another server/client cannot replace its recipes.
+    private static GeneratedReagentData? GetGeneratedData(ReagentPrototype proto)
+    {
+        if (!IoCManager.Resolve<IEntitySystemManager>().TryGetEntitySystem<SharedChemistryRandomizationSystem>(out var system))
+            return null;
+
+        return system._reagentsData.GetValueOrDefault(proto.ID);
+    }
+
     /// <summary>
     /// Получает имя реагента с учётом рандомно сгенерированных
     /// </summary>
@@ -489,7 +499,7 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
     /// <returns></returns>
     public static string GetName(ReagentPrototype proto)
     {
-        if (!_reagentsData.TryGetValue(proto.ID, out var value))
+        if (GetGeneratedData(proto) is not { } value)
             return Robust.Shared.Localization.Loc.GetString(proto.Name);
 
         return Robust.Shared.Localization.Loc.GetString("spellward-random-potion-name", ("number", value.Name));
@@ -499,7 +509,7 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
     {
         var staticName = Robust.Shared.Localization.Loc.GetString(proto.Name);
 
-        if (!_reagentsData.TryGetValue(proto.ID, out var value))
+        if (GetGeneratedData(proto) is not { } value)
             return staticName;
 
         var generatedName = value.Name;
@@ -525,7 +535,7 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
     /// <returns></returns>
     public static string GetDescription(ReagentPrototype proto)
     {
-        if (!_reagentsData.TryGetValue(proto.ID, out var value))
+        if (GetGeneratedData(proto) is not { } value)
             return Robust.Shared.Localization.Loc.GetString(proto.PhysicalDescription);
 
         return Robust.Shared.Localization.Loc.GetString(value.Description);
@@ -538,7 +548,7 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
     /// <returns></returns>
     public static ProtoId<FlavorPrototype>? GetFlavor(ReagentPrototype proto)
     {
-        if (!_reagentsData.TryGetValue(proto.ID, out var value))
+        if (GetGeneratedData(proto) is not { } value)
             return proto.Flavor;
 
         return value.Flavor;
@@ -551,7 +561,7 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
     /// <returns></returns>
     public static Color GetColor(ReagentPrototype proto)
     {
-        if (!_reagentsData.TryGetValue(proto.ID, out var value))
+        if (GetGeneratedData(proto) is not { } value)
             return proto.SubstanceColor;
 
         return value.Color;
@@ -565,7 +575,7 @@ public sealed class SharedChemistryRandomizationSystem : EntitySystem
     /// <returns></returns>
     public static List<ReactionData>? GetReactionsOrNull(ReagentPrototype proto)
     {
-        if (!_reagentsData.TryGetValue(proto.ID, out var value))
+        if (GetGeneratedData(proto) is not { } value)
             return null;
 
         return value.Reactions;
