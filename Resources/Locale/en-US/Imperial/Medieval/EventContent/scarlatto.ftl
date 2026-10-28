@@ -1,5 +1,5 @@
-ent-MedievalWirecutter = {ent-Wirecutter}
-    .desc = {ent-Wirecutter.desc}
+ent-MedievalWirecutter = wirecutter
+    .desc = This kills the wire.
     .suffix = { "Medieval, Event, Scarlatto" }
 
 ent-MedievalReinforcedUraniumWindowCraft = reinforced uranium window workpiece
@@ -16,8 +16,8 @@ ent-SprayPainterAmmo = compressed paint
 ent-MedievalActionPolymorphAcidDragon = dragon transformation
     .desc = You change your shell, taking the form of an acid dragon.
 
-ent-SheetRPGlass10 = {ent-SheetRPGlass}
-    .desc = {ent-SheetRPGlass.desc}
+ent-SheetRPGlass10 = reinforced plasma glass
+    .desc = A reinforced sheet of translucent plasma.
 
 ent-MedievalWallBlackScarlatto = unseen wall
     .desc = Something blocks your path.
@@ -27,7 +27,7 @@ ent-MedievalSteelWorkbench = steel workbench
     .desc = An advanced workbench for creating complex devices.
     .suffix = { "Medieval, Event, Scarlatto" }
 
-ent-WeaponRevolverDeckardEvent = {ent-WeaponRevolverDeckard}
+ent-WeaponRevolverDeckardEvent = Deckard
     .desc = A simple revolver.
     .suffix = { "Medieval, Event, Scarlatto" }
 
@@ -54,15 +54,15 @@ ent-DiagonalWallWoodEvent = wooden wall
     .desc = It is diagonal.
     .suffix = { "Diagonal, Medieval, Construction, Scarlatto" }
 
-ent-SheetUranium10 = {ent-SheetUranium}
-    .desc = {ent-SheetUranium.desc}
+ent-SheetUranium10 = uranium
+    .desc = A sheet of material, used often on the station in various applications.
 
 ent-MedievalItemPolymorphFireDragon = fire dragon polymorph
     .desc = An item steeped in ancient magic. Makes you dragonborn when used.
     .suffix = { "Medieval, Event, Scarlatto" }
 
-ent-MedievalFlash = {ent-Flash}
-    .desc = {ent-Flash.desc}
+ent-MedievalFlash = flash
+    .desc = An ultrabright flashbulb with a trigger, which causes the victim to be dazed and lose their eyesight for a moment. Useless when burnt out.
 
 ent-MedievalWeaponTurretNanoTrasenCraftEvent = ballistic turret workpiece
     .desc = Materials required to assemble a ballistic turret.
@@ -71,16 +71,16 @@ ent-MedievalWeaponTurretNanoTrasenCraftEvent = ballistic turret workpiece
 ent-MedievalPlasmaWindowCraft = plasma window workpiece
     .desc = Materials required to assemble a plasma window.
 
-ent-MedievalSmeltery = {ent-OreProcessor}
-    .desc = {ent-OreProcessor.desc}
+ent-MedievalSmeltery = ore processor
+    .desc = It produces sheets and ingots using ores.
     .suffix = { "Medieval, Event, Scarlatto" }
 
 ent-MedievalWallShuttleStarCorpsCraft = dark reinforced wall workpiece
     .desc = Materials required to assemble a reinforced wall.
     .suffix = { "Medieval, Event, Scarlatto" }
 
-ent-MedievalAutolathe = {ent-Autolathe}
-    .desc = {ent-Autolathe.desc}
+ent-MedievalAutolathe = autolathe
+    .desc = It produces basic items using metal and glass. Has the ability to process blueprints to print new recipes.
     .suffix = { "Medieval, Event, Scarlatto" }
 
 ent-MedievalItemPolymorphThunderDragon = thunder dragon polymorph
@@ -95,8 +95,8 @@ ent-ScarlattoStonePlatformCornerSmall = stone platform
     .desc = It is stone.
     .suffix = { "LOWER, Medieval, Construction, Scarlatto" }
 
-ent-MatterBinStockPart1 = {ent-MatterBinStockPart}
-    .desc = {ent-MatterBinStockPart.desc}
+ent-MatterBinStockPart1 = modular machine part
+    .desc = A basic machine part used in the construction of a variety of devices.
 
 ent-MedievalArmWindowCraft = reinforced window workpiece
     .desc = Materials required to assemble a reinforced window.
@@ -105,8 +105,8 @@ ent-MedievalArmWindowCraft = reinforced window workpiece
 ent-MedievalActionPolymorphFireDragon = dragon transformation
     .desc = You change your shell, taking the form of a fire dragon.
 
-ent-MedievalFlashlightSeclite = {ent-FlashlightSeclite}
-    .desc = {ent-FlashlightSeclite.desc}
+ent-MedievalFlashlightSeclite = seclite
+    .desc = A robust flashlight used by security.
 
 ent-DiagonalWallStoneEventUndestructible = {ent-WallNecropolis}
     .desc = {ent-WallNecropolis.desc}
@@ -128,7 +128,7 @@ ent-MedievalThruster_smallCraft = small engine workpiece
     .desc = Materials required to assemble a small engine.
     .suffix = { "Medieval, Event, Scarlatto" }
 
-ent-WeaponRifleM90GrenadeLauncherImperialEvent = {ent-WeaponRifleM90GrenadeLauncherImperial}
+ent-WeaponRifleM90GrenadeLauncherImperialEvent = M90 GL
     .desc = A rifle with a grenade launcher... Fireball is still stronger, but what can you do.
     .suffix = { "Medieval, Event, Scarlatto" }
 
@@ -148,8 +148,8 @@ ent-MedievalWindowCraft = window workpiece
     .desc = Materials required to assemble a window.
     .suffix = { "Medieval, Event, Scarlatto" }
 
-ent-MedievalCombatKnife = {ent-CombatKnife}
-    .desc = {ent-CombatKnife.desc}
+ent-MedievalCombatKnife = combat knife
+    .desc = A deadly knife intended for melee confrontations.
     .suffix = { "Medieval, Event, Scarlatto" }
 
 ent-WallWoodUndestructible = wooden wall
@@ -167,23 +167,23 @@ ent-ScarlattoPlatform = wooden platform
     .desc = It is wooden.
     .suffix = { "LOWER, Medieval, Construction, Scarlatto" }
 
-ent-SheetPGlass10 = {ent-SheetPGlass}
-    .desc = {ent-SheetPGlass.desc}
+ent-SheetPGlass10 = plasma glass
+    .desc = A sheet of translucent plasma.
 
 ent-MedievalUraniumWindowCraft = uranium window workpiece
     .desc = Materials required to assemble a uranium window.
 
-ent-SprayPainterEmpty = {ent-SprayPainter}
-    .desc = {ent-SprayPainter.desc}
+ent-SprayPainterEmpty = spray painter
+    .desc = A spray painter for painting airlocks, pipes, and other items.
 
-ent-SheetRGlass10 = {ent-SheetRGlass}
-    .desc = {ent-SheetRGlass.desc}
+ent-SheetRGlass10 = reinforced glass
+    .desc = A reinforced sheet of glass.
 
 ent-WoodRailingSideScarlatto = {ent-WoodRailingScarlatto}
     .desc = {ent-WoodRailingScarlatto.desc}
     .suffix = { "Medieval, Construction, Scarlatto" }
 
-ent-WeaponSniperHristovEvent = {ent-WeaponSniperHristov}
+ent-WeaponSniperHristovEvent = Hristov
     .desc = A heavy sniper rifle.
     .suffix = { "Medieval, Event, Scarlatto" }
 
@@ -198,8 +198,8 @@ ent-MedievalAPCBasicCraft = APC workpiece
 ent-MedievalActionPolymorphThunderDragon = dragon transformation
     .desc = You change your shell, taking the form of a thunder dragon.
 
-ent-SheetRUGlass10 = {ent-SheetRUGlass}
-    .desc = {ent-SheetRUGlass.desc}
+ent-SheetRUGlass10 = reinforced uranium glass
+    .desc = A reinforced sheet of uranium.
 
 ent-PlatformWoodRoundScarlatto = {ent-ScarlattoPlatform}
     .desc = {ent-ScarlattoPlatform.desc}
@@ -213,8 +213,8 @@ ent-MedievalGrilleCraft = grille workpiece
     .desc = Materials required to assemble a grille.
     .suffix = { "Medieval, Event, Scarlatto" }
 
-ent-MaterialDurathread10 = {ent-MaterialDurathread}
-    .desc = {ent-MaterialDurathread.desc}
+ent-MaterialDurathread10 = durathread
+    .desc = A raw material.
 
 ent-WallDirectionalWood = directional wooden wall
     .desc = A sturdy wall built from thick, fitted timbers.
@@ -244,8 +244,8 @@ ent-DarkWallShuttleStarCorps = star corps wall
     .desc = The wall of some iron bird.
     .suffix = { "Medieval, Event, Scarlatto" }
 
-ent-CapacitorStockPart1 = {ent-CapacitorStockPart}
-    .desc = {ent-CapacitorStockPart.desc}
+ent-CapacitorStockPart1 = modular machine part
+    .desc = A basic machine part used in the construction of a variety of devices.
 
 ent-StoneRailingCornerScarlatto = {ent-StoneRailingScarlatto}
     .desc = {ent-WoodRailingScarlatto.desc}
@@ -279,7 +279,7 @@ ent-ScarlattoPlatformRound = wooden platform
     .desc = It is wooden.
     .suffix = { "LOWER, Medieval, Construction, Scarlatto" }
 
-ent-WeaponPulsePistolEvent = {ent-WeaponPulsePistol}
+ent-WeaponPulsePistolEvent = pulse pistol
     .desc = A pistol that fires searing rays.
     .suffix = { "Medieval, Event, Scarlatto" }
 
@@ -295,7 +295,7 @@ ent-PlatformWoodCornerSmallScarlatto = {ent-ScarlattoPlatform}
     .desc = {ent-ScarlattoPlatform.desc}
     .suffix = { "UPPER, Medieval, Construction, Scarlatto" }
 
-ent-WeaponPistolViperEvent = {ent-WeaponPistolViper}
+ent-WeaponPistolViperEvent = viper
     .desc = A simple pistol.
     .suffix = { "Medieval, Event, Scarlatto" }
 
@@ -314,7 +314,7 @@ ent-MedievalDarkWallShuttleStarCorpsCraft = light reinforced wall workpiece
 ent-MedievalHatchetEvent = {ent-MedievalHatchet}
     .desc = {ent-MedievalHatchet.desc}
 
-ent-WeaponPulseCarbineEvent = {ent-WeaponPulseCarbine}
+ent-WeaponPulseCarbineEvent = pulse carbine
     .desc = A carbine that fires searing rays.
     .suffix = { "Medieval, Event, Scarlatto" }
 
@@ -322,11 +322,11 @@ ent-ScarlattoPlatformCorner = wooden platform
     .desc = It is wooden.
     .suffix = { "LOWER, Medieval, Event, Scarlatto" }
 
-ent-PartRodMetal5 = {ent-PartRodMetal}
-    .desc = {ent-PartRodMetal.desc}
+ent-PartRodMetal5 = metal rod
+    .desc = { "" }
 
-ent-MedievalScrewdriver = {ent-Screwdriver}
-    .desc = {ent-Screwdriver.desc}
+ent-MedievalScrewdriver = screwdriver
+    .desc = Industrial grade torque in a small screwdriving package.
     .suffix = { "Medieval, Event, Scarlatto" }
 
 ent-MobDohodyagaScarlatto = aberration
@@ -340,10 +340,10 @@ ent-MedievalUnfinishedMachineFrameCraft = machine frame workpiece
 ent-MedievalActionPolymorphIceDragon = dragon transformation
     .desc = You change your shell, taking the form of an ice dragon.
 
-ent-SheetUGlass10 = {ent-SheetUGlass}
-    .desc = {ent-SheetUGlass.desc}
+ent-SheetUGlass10 = uranium glass
+    .desc = A sheet of uranium glass.
 
-ent-WeaponAdvancedLaserEvent = {ent-WeaponAdvancedLaser}
+ent-WeaponAdvancedLaserEvent = advanced laser pistol
     .desc = A homemade self-recharging laser pistol.
     .suffix = { "Medieval, Event, Scarlatto" }
 
@@ -355,8 +355,8 @@ ent-WallNecropolisUndestructible = {ent-WallNecropolis}
     .desc = {ent-WallNecropolis.desc}
     .suffix = { "INDESTRUCTIBLE, Medieval, Construction, Scarlatto" }
 
-ent-MedievalCrowbar = {ent-Crowbar}
-    .desc = {ent-Crowbar.desc}
+ent-MedievalCrowbar = crowbar
+    .desc = A multipurpose tool to pry open doors and fight interdimensional invaders.
     .suffix = { "Medieval, Event, Scarlatto" }
 
 ent-MedievalDarkAirlockStarCorpsCraft = airlock workpiece
@@ -375,8 +375,8 @@ ent-MedievalItemBluespaceEssence = bluespace essence
     .desc = An essence of unknown material, vaguely resembling essences familiar to you.
     .suffix = { "Medieval, Event, Scarlatto" }
 
-ent-MedievalTruncheon = {ent-Truncheon}
-    .desc = {ent-Truncheon.desc}
+ent-MedievalTruncheon = truncheon
+    .desc = A rigid, steel-studded baton, meant to harm.
     .suffix = { "Medieval, Event, Scarlatto" }
 
 ent-MedievalItemPolymorphAcidDragon = acid dragon polymorph
