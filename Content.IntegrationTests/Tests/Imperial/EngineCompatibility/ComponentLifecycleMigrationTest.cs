@@ -1,3 +1,5 @@
+using Content.Server.Body.Components;
+using Content.Shared.Body.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.Imperial.Medieval.Artifacts;
 using Content.Shared.Storage;
@@ -122,6 +124,24 @@ public sealed class ComponentLifecycleMigrationTest
             Assert.That(entities.Deleted(ability), Is.True);
             Assert.That(entities.Deleted(owner), Is.False);
             entities.DeleteEntity(owner);
+        });
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task GearedSkeletonDoesNotAttemptToEnableBreathing()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { Dirty = true });
+        var map = await pair.CreateTestMap();
+        await pair.Server.WaitAssertion(() =>
+        {
+            var entities = pair.Server.EntMan;
+            var skeleton = entities.SpawnEntity("MedievalKaravanSkeleton", map.GridCoords);
+            Assert.That(entities.HasComponent<RespiratorComponent>(skeleton), Is.False);
+            var internals = entities.GetComponent<InternalsComponent>(skeleton);
+            Assert.That(internals.BreathTools, Is.Not.Empty, "The real starting gear must exercise the masked, breathless case.");
+            Assert.That(internals.GasTankEntity, Is.Null);
+            entities.DeleteEntity(skeleton);
         });
         await pair.CleanReturnAsync();
     }

@@ -8,9 +8,9 @@
   - 1.0
   - 1.0
   - 1.0
-  baseTurf: FloorCave
+  baseTurf: Plating #spellward - upstream removable steel flooring
   isSubfloor: false
-  #deconstructTools: [ Prying ]
+  deconstructTools: [ Prying ] #spellward - upstream tool interaction
   footstepSounds:
     collection: FootstepFloor
   itemDrop: FloorTileItemSteel

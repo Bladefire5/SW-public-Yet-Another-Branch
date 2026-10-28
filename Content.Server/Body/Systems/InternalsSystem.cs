@@ -39,8 +39,13 @@ public sealed class InternalsSystem : SharedInternalsSystem
         if (component.GasTankEntity != null)
             return; // already connected
 
+        // spellward start - breathless species can still equip masks and internals gear.
+        if (!TryComp<RespiratorComponent>(uid, out var respirator))
+            return;
+        // spellward end
+
         // Can the entity breathe the air it is currently exposed to?
-        if (_respirator.CanMetabolizeInhaledAir(uid))
+        if (_respirator.CanMetabolizeInhaledAir((uid, respirator))) //spellward
             return;
 
         var tank = FindBestGasTank(uid);
@@ -48,7 +53,7 @@ public sealed class InternalsSystem : SharedInternalsSystem
             return;
 
         // Could the entity metabolise the air in the linked gas tank?
-        if (!_respirator.CanMetabolizeInhaledAir(uid, tank.Value.Comp.Air))
+        if (!_respirator.CanMetabolizeInhaledAir((uid, respirator), tank.Value.Comp.Air)) //spellward
             return;
 
         ToggleInternals(uid, uid, force: false, component, ToggleMode.On);
