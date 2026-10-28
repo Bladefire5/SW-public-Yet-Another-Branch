@@ -7676,14 +7676,9 @@
   - type: Action
     useDelay: 60
     itemIconStyle: BigAction
-    canTargetSelf: false
     checkCanInteract: false
     checkConsciousness: false
-    interactOnMiss: false
     icon: Interface/Actions/scream.png
-    whitelist:
-      components:
-      - MobThresholds
   - type: InstantAction
     event: !type:MedievalGhostBooEvent
 

@@ -53,12 +53,35 @@ jobs:
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: dotnet test --no-build --configuration DebugOpt Content.Tests/Content.Tests.csproj --logger 'trx;LogFileName=unit.trx' --results-directory TestResults/unit -- NUnit.ConsoleOut=0
 
+      - name: Upload unit test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: experiment-unit-test-results
+          path: TestResults/unit/**/*.trx
+          if-no-files-found: ignore
+
+      - name: Run engine compatibility regressions
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        shell: pwsh
+        run: |
+          $env:DOTNET_gcServer=1
+          dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj --filter 'FullyQualifiedName~Content.IntegrationTests.Tests.Imperial.EngineCompatibility' --logger 'trx;LogFileName=compatibility.trx' --results-directory TestResults/compatibility -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed
+
+      - name: Upload compatibility test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: experiment-compatibility-test-results
+          path: TestResults/compatibility/**/*.trx
+          if-no-files-found: ignore
+
       - name: Run integration tests
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         shell: pwsh
         run: |
           $env:DOTNET_gcServer=1
-          dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj --logger 'trx;LogFileName=integration.trx' --results-directory TestResults/integration -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed
+          dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj --filter 'FullyQualifiedName!~Content.IntegrationTests.Tests.Imperial.EngineCompatibility' --logger 'trx;LogFileName=integration.trx' --results-directory TestResults/integration -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed
 
       - name: Upload test results
         if: always()

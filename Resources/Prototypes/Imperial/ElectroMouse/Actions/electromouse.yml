@@ -115,6 +115,7 @@
     useDelay: 60
     itemIconStyle: BigAction
     icon: { sprite: Imperial/electromouse.rsi, state: sm_shock1}
+  - type: TargetAction
   - type: EntityTargetAction
     event: !type:ElectroMouseLightningEvent
 

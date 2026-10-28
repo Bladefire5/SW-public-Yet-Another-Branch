@@ -177,7 +177,7 @@ public sealed partial class GuideEntityEmbed : BoxContainer, IDocumentTag
 
         if (args.TryGetValue("Margin", out var margin))
         {
-            Margin = ParseThickness(margin);
+            Margin = DocumentParsingManager.ParseThickness(margin); //spellward - use the common upstream thickness parser.
         }
         else
         {
@@ -192,19 +192,5 @@ public sealed partial class GuideEntityEmbed : BoxContainer, IDocumentTag
         return true;
     }
 
-    private static Thickness ParseThickness(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            return default;
 
-        var split = value.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(x => Parse.Float(x)).ToArray();
-        if (split.Length == 1)
-            return new Thickness(split[0]);
-        if (split.Length == 2)
-            return new Thickness(split[0], split[1]);
-        if (split.Length == 4)
-            return new Thickness(split[0], split[1], split[2], split[3]);
-
-        throw new Exception("Invalid Thickness format!");
-    }
 }

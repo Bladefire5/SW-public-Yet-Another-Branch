@@ -133,6 +133,24 @@ public sealed partial class DocumentParsingManager
             .Cast<Control>())
         .Labelled("list");
 
+    //spellward start - share the upstream entity-embed thickness parser with guidebook boxes.
+    internal static Thickness ParseThickness(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return default;
+
+        var split = value.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(x => Parse.Float(x)).ToArray();
+        if (split.Length == 1)
+            return new Thickness(split[0]);
+        if (split.Length == 2)
+            return new Thickness(split[0], split[1]);
+        if (split.Length == 4)
+            return new Thickness(split[0], split[1], split[2], split[3]);
+
+        throw new Exception("Invalid Thickness format!");
+    }
+    //spellward end
+
     #region Text Parsing
 
     #region Basic Text Parsing

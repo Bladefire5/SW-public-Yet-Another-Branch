@@ -21,7 +21,6 @@
   - type: Action
     icon: Imperial/Medieval/Myrmex/Icons/boost.png
     priority: -12
-    checkCanAccess: false
     useDelay: 70
   - type: InstantAction
     event: !type:ActionMyrmexBoostEvent
@@ -35,7 +34,6 @@
   - type: Action
     icon: Imperial/Medieval/Myrmex/Icons/armor.png
     priority: -12
-    checkCanAccess: false
     useDelay: 5
   - type: InstantAction
     event: !type:ActionMyrmexToggleArmorEvent
@@ -47,7 +45,6 @@
   - type: Action
     icon: Imperial/Medieval/Myrmex/Icons/stun.png
     priority: -12
-    checkCanAccess: false
     useDelay: 120
   - type: InstantAction
     event: !type:ActionMyrmexToggleStunEvent
@@ -59,7 +56,6 @@
   - type: Action
     icon: Imperial/Medieval/Myrmex/Icons/wall.png
     priority: -12
-    checkCanAccess: false
     useDelay: 8
   - type: InstantAction
     event: !type:ActionMyrmexSpawnEvent
@@ -73,7 +69,6 @@
   - type: Action
     icon: Imperial/Medieval/Myrmex/Icons/invis.png
     priority: -12
-    checkCanAccess: false
     useDelay: 1
   - type: InstantAction
     event: !type:ActionMyrmexToggleStealthEvent

@@ -18,8 +18,6 @@
   - type: Action
     useDelay: 80
     itemIconStyle: BigAction
-    checkCanAccess: false
-    range: 60
     sound: !type:SoundPathSpecifier
       path: /Audio/Imperial/Medieval/fireball_cast.ogg
     icon:
@@ -71,14 +69,16 @@
   parent: MedievalActionSunstrikeMiddle
   description: medieval-store-spells-light-sunstrike-senior-desc
   components:
-  - type: WorldTargetAction
-    useDelay: 90
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 90
+    itemIconStyle: BigAction
     icon:
       sprite: Imperial/Medieval/Magic/Light/Sunstrike/icons.rsi
       state: senior
+  - type: WorldTargetAction
     event: !type:MedievalProjectileSpellEvent
       projectilePrototype:
         0: MedievalProjectileSunstrikeSpotSenior

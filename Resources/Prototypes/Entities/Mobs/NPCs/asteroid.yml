@@ -513,7 +513,8 @@
   name: "[color=red]Teleportation to the target[/color]"
   description: Teleport to your target.
   components:
-  - type: InstantAction
+  #spellward - adapt action data to upstream component ownership.
+  - type: Action
     itemIconStyle: BigAction
     icon:
       sprite: Mobs/Aliens/Asteroid/goliath.rsi
@@ -521,5 +522,6 @@
     iconOn:
       sprite: Mobs/Aliens/Asteroid/goliath.rsi
       state: goliath_tentacle_wiggle
+  - type: InstantAction
     event: !type:PhantomorSummonTentacleAction
 # Imperial Space: A new Phantomor mob has been added. End

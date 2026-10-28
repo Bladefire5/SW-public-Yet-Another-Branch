@@ -1518,7 +1518,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionFireball1: -1
+      MedievalActionFireball1: null
 
 
 - type: entity
@@ -1527,17 +1527,18 @@
   description: action-description-spell-fireball
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    components:
-    useDelay: 180
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 180
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/fireball.rsi
       state: 1
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileFireball1
       posData: !type:TargetCasterPos
@@ -1561,7 +1562,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionFireball2: -1
+      MedievalActionFireball2: null
 
 
 - type: entity
@@ -1570,23 +1571,24 @@
   description: action-description-spell-fireball2
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 150
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 150
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/fireball.rsi
       state: 2
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileFireball2
       posData: !type:TargetCasterPos
         width: 0
       speech: medieval-cahrm-speech-fireball1
       manaCost: 72
-    preventCollide: true
 
 - type: entity
   id: MedievalSpellbookFireball3
@@ -1602,7 +1604,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionFireball3: -1
+      MedievalActionFireball3: null
 
 
 - type: entity
@@ -1611,16 +1613,18 @@
   description: action-description-spell-fireball3
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 120
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 120
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/fireball.rsi
       state: 3
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileFireball3
       posData: !type:TargetCasterPos
@@ -1643,7 +1647,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionDisabler1: -1
+      MedievalActionDisabler1: null
 
 
 - type: entity
@@ -1652,16 +1656,18 @@
   description: action-description-spell-disabler
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 5.4
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 5.4
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/disabler.rsi
       state: 1
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileDisabler1
       posData: !type:TargetCasterPos
@@ -1684,7 +1690,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionDisabler2: -1
+      MedievalActionDisabler2: null
 
 
 - type: entity
@@ -1693,16 +1699,18 @@
   description: action-description-spell-disabler2
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 4.9
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 4.9
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/disabler.rsi
       state: 2
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileDisabler2
       posData: !type:TargetCasterPos
@@ -1725,7 +1733,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionDisabler3: -1
+      MedievalActionDisabler3: null
 
 
 - type: entity
@@ -1734,16 +1742,18 @@
   description: action-description-spell-disabler3
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 4.7
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 4.7
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/disabler.rsi
       state: 3
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileDisabler3
       posData: !type:TargetCasterPos
@@ -1766,7 +1776,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionArrow1: -1
+      MedievalActionArrow1: null
 
 
 - type: entity
@@ -1775,16 +1785,18 @@
   description: action-description-spell-arrow
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 6
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 6
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/arrow.rsi
       state: 1
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileArrow1
       posData: !type:TargetCasterPos
@@ -1807,7 +1819,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionArrow2: -1
+      MedievalActionArrow2: null
 
 
 - type: entity
@@ -1816,16 +1828,18 @@
   description: action-description-spell-arrow2
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 4
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 4
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/arrow.rsi
       state: 2
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileArrow2
       posData: !type:TargetCasterPos
@@ -1848,7 +1862,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionArrow3: -1
+      MedievalActionArrow3: null
 
 
 - type: entity
@@ -1857,16 +1871,18 @@
   description: action-description-spell-arrow3
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 3
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 3
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/arrow.rsi
       state: 3
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileArrow3
       posData: !type:TargetCasterPos
@@ -1889,7 +1905,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionBlood1: -1
+      MedievalActionBlood1: null
 
 
 - type: entity
@@ -1898,16 +1914,18 @@
   description: action-description-spell-blood
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 7
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 7
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/blood.rsi
       state: 1
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileBlood1
       posData: !type:TargetCasterPos
@@ -1930,7 +1948,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionBlood2: -1
+      MedievalActionBlood2: null
 
 
 - type: entity
@@ -1939,16 +1957,18 @@
   description: action-description-spell-blood2
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 5
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 5
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/blood.rsi
       state: 2
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileBlood2
       posData: !type:TargetCasterPos
@@ -1971,7 +1991,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionBlood3: -1
+      MedievalActionBlood3: null
 
 
 - type: entity
@@ -1980,16 +2000,18 @@
   description: action-description-spell-blood3
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 4
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 4
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/blood.rsi
       state: 3
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileBlood3
       posData: !type:TargetCasterPos
@@ -2012,7 +2034,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionFlash1: -1
+      MedievalActionFlash1: null
 
 
 - type: entity
@@ -2021,16 +2043,18 @@
   description: action-description-spell-flash
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 16
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 16
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/flash.rsi
       state: 1
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileFlash1
       posData: !type:TargetCasterPos
@@ -2053,7 +2077,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionFlash2: -1
+      MedievalActionFlash2: null
 
 
 - type: entity
@@ -2062,16 +2086,18 @@
   description: action-description-spell-flash2
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 12
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 12
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/flash.rsi
       state: 2
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileFlash2
       posData: !type:TargetCasterPos
@@ -2094,7 +2120,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionFlash3: -1
+      MedievalActionFlash3: null
 
 
 - type: entity
@@ -2103,16 +2129,18 @@
   description: action-description-spell-flash3
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 11
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 11
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/flash.rsi
       state: 3
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileFlash3
       posData: !type:TargetCasterPos
@@ -2135,7 +2163,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionHeal1: -1
+      MedievalActionHeal1: null
 
 
 - type: entity
@@ -2144,16 +2172,18 @@
   description: action-description-spell-heal
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 29
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 29
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/heal.rsi
       state: 1
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileHeal1
       posData: !type:TargetCasterPos
@@ -2176,7 +2206,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionHeal2: -1
+      MedievalActionHeal2: null
 
 
 - type: entity
@@ -2185,16 +2215,18 @@
   description: action-description-spell-heal2
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 24
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 24
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/heal.rsi
       state: 2
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileHeal2
       posData: !type:TargetCasterPos
@@ -2217,7 +2249,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionHeal3: -1
+      MedievalActionHeal3: null
 
 
 - type: entity
@@ -2226,16 +2258,18 @@
   description: action-description-spell-heal3
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 22
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 22
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/heal.rsi
       state: 3
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileHeal3
       posData: !type:TargetCasterPos
@@ -2386,7 +2420,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionSmoke: -1
+      MedievalActionSmoke: null
 
 
 - type: entity
@@ -2395,7 +2429,7 @@
   description: action-description-spell-smoke
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: Action
     useDelay: 90
     itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
@@ -2403,6 +2437,7 @@
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/smoke.rsi
       state: 1
+  - type: InstantAction
     event: !type:InstantSpawnSpellEvent
       prototype: MedievalBeakerCharmerSmoke
       posData: !type:TargetCasterPos
@@ -2424,7 +2459,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionSmoke2: -1
+      MedievalActionSmoke2: null
 
 
 - type: entity
@@ -2433,7 +2468,7 @@
   description: action-description-spell-smoke2
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: Action
     useDelay: 75
     itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
@@ -2441,6 +2476,7 @@
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/smoke.rsi
       state: 2
+  - type: InstantAction
     event: !type:InstantSpawnSpellEvent
       prototype: MedievalBeakerCharmerSmoke2
       posData: !type:TargetCasterPos
@@ -2461,7 +2497,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionSmoke3: -1
+      MedievalActionSmoke3: null
 
 
 - type: entity
@@ -2470,7 +2506,7 @@
   description: action-description-spell-smoke3
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: Action
     useDelay: 60
     itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
@@ -2478,6 +2514,7 @@
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/smoke.rsi
       state: 3
+  - type: InstantAction
     event: !type:InstantSpawnSpellEvent
       prototype: MedievalBeakerCharmerSmoke3
       posData: !type:TargetCasterPos
@@ -2498,7 +2535,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalBlink: -1
+      MedievalBlink: null
 
 
 - type: entity
@@ -2507,15 +2544,17 @@
   description: action-description-medieval-spell-blink
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 10
+  - type: TargetAction
     range: 7
-    itemIconStyle: BigAction
     checkCanAccess: false
     repeat: true
+  - type: Action
+    useDelay: 10
+    itemIconStyle: BigAction
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/blink.rsi
       state: blink
+  - type: WorldTargetAction
     event: !type:TeleportSpellEvent
       speech: medieval-cahrm-speech-blink
       manaCost: 35
@@ -2534,7 +2573,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionBarrier: -1
+      MedievalActionBarrier: null
 
 
 - type: entity
@@ -2543,7 +2582,7 @@
   description: action-description-spell-barrier
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: Action
     useDelay: 10
     itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
@@ -2551,6 +2590,7 @@
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/barrier.rsi
       state: 1
+  - type: InstantAction
     event: !type:InstantSpawnSpellEvent
       manaCost: 28
       prototype: MedievalCrystalIceCharm1Spawner
@@ -2571,7 +2611,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionBarrier2: -1
+      MedievalActionBarrier2: null
 
 
 - type: entity
@@ -2580,7 +2620,7 @@
   description: action-description-spell-barrier2
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: Action
     useDelay: 10
     itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
@@ -2588,6 +2628,7 @@
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/barrier.rsi
       state: 2
+  - type: InstantAction
     event: !type:InstantSpawnSpellEvent
       prototype: MedievalCrystalIceCharm2Spawner
       posData: !type:TargetInFront
@@ -2608,7 +2649,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionBarrier3: -1
+      MedievalActionBarrier3: null
 
 - type: entity
   id: MedievalActionBarrier3
@@ -2616,7 +2657,7 @@
   description: action-description-spell-barrier3
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: Action
     useDelay: 10
     itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
@@ -2624,6 +2665,7 @@
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/barrier.rsi
       state: 3
+  - type: InstantAction
     event: !type:InstantSpawnSpellEvent
       prototype: MedievalCrystalIceCharm3Spawner
       posData: !type:TargetInFront
@@ -2712,7 +2754,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionLight: -1
+      MedievalActionLight: null
 
 
 - type: entity
@@ -2721,7 +2763,7 @@
   description: action-description-spell-light
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: Action
     useDelay: 80
     itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
@@ -2729,6 +2771,7 @@
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/light.rsi
       state: light
+  - type: InstantAction
     event: !type:InstantSpawnSpellEvent
       prototype: MedievalPonderingOrbCharm
       posData: !type:TargetInFrontSingle
@@ -2854,7 +2897,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionSleep1: -1
+      MedievalActionSleep1: null
 
 
 - type: entity
@@ -2863,16 +2906,18 @@
   description: action-description-spell-sleep
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 280
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 280
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/sleep.rsi
       state: 1
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalSleepProjectile1
       posData: !type:TargetCasterPos
@@ -2895,7 +2940,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionSleep2: -1
+      MedievalActionSleep2: null
 
 
 - type: entity
@@ -2904,16 +2949,18 @@
   description: action-description-spell-sleep2
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 280
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 280
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/sleep.rsi
       state: 2
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalSleepProjectile2
       posData: !type:TargetCasterPos
@@ -2936,7 +2983,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionSleep3: -1
+      MedievalActionSleep3: null
 
 
 - type: entity
@@ -2945,16 +2992,18 @@
   description: action-description-spell-sleep3
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 280
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 280
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/sleep.rsi
       state: 3
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalSleepProjectile3
       posData: !type:TargetCasterPos
@@ -3082,7 +3131,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionBoost1: -1
+      MedievalActionBoost1: null
 
 
 - type: entity
@@ -3091,16 +3140,18 @@
   description: action-description-spell-boost
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 270
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 270
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/boost.rsi
       state: 1
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalBoostProjectile1
       posData: !type:TargetCasterPos
@@ -3123,7 +3174,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionBoost2: -1
+      MedievalActionBoost2: null
 
 
 - type: entity
@@ -3132,16 +3183,18 @@
   description: action-description-spell-boost2
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 225
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 225
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/boost.rsi
       state: 2
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalBoostProjectile2
       posData: !type:TargetCasterPos
@@ -3164,7 +3217,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalActionBoost3: -1
+      MedievalActionBoost3: null
 
 
 - type: entity
@@ -3173,16 +3226,18 @@
   description: action-description-spell-boost3
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 200
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 200
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/boost.rsi
       state: 3
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalBoostProjectile3
       posData: !type:TargetCasterPos
@@ -3312,7 +3367,7 @@
     learnPermanently: true
     learnTime: 1
     spellActions:
-      MedievalActionArrowRespawn: -1
+      MedievalActionArrowRespawn: null
 
 
 - type: entity
@@ -3321,16 +3376,18 @@
   description: action-description-spell-arrow
   noSpawn: true
   components:
-  - type: WorldTargetAction
-    useDelay: 4
-    itemIconStyle: BigAction
+  - type: TargetAction
     checkCanAccess: false
     range: 60
+  - type: Action
+    useDelay: 4
+    itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
       path: /Audio/Weapons/Guns/Gunshots/Magic/staff_healing.ogg
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/arrow.rsi
       state: 2
+  - type: WorldTargetAction
     event: !type:ProjectileSpellEvent
       prototype: MedievalProjectileArrowRespawn
       posData: !type:TargetCasterPos
@@ -3402,7 +3459,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalSelfHealCommonAction: -1
+      MedievalSelfHealCommonAction: null
 
 
 - type: entity
@@ -3411,7 +3468,7 @@
   description: action-description-medieval-spell-self-heal
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: Action
     useDelay: 90
     itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
@@ -3419,6 +3476,7 @@
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/heal.rsi
       state: 3
+  - type: InstantAction
     event: !type:InstantSpawnSpellEvent
       prototype: MedievalSelfHealCommon
       posData: !type:TargetCasterPos
@@ -3439,7 +3497,7 @@
     learnPermanently: true
     learnTime: 3
     spellActions:
-      MedievalSelfHealSoulAction: -1
+      MedievalSelfHealSoulAction: null
 
 
 - type: entity
@@ -3448,7 +3506,7 @@
   description: action-description-medieval-spell-self-heal
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: Action
     useDelay: 30
     itemIconStyle: BigAction
     sound: !type:SoundPathSpecifier
@@ -3456,6 +3514,7 @@
     icon:
       sprite: Imperial/Medieval/Gun/Charmer/heal.rsi
       state: 3
+  - type: InstantAction
     event: !type:InstantSpawnSpellEvent
       prototype: MedievalSelfHealSoul
       posData: !type:TargetCasterPos

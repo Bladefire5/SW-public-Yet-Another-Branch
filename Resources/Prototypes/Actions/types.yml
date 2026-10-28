@@ -319,12 +319,10 @@
   components:
   - type: Action
     startDelay: true
-    useDelay: 2
+    useDelay: 36 #spellward - move the configured cooldown to the upstream Action component.
     icon: { sprite: Clothing/Head/Hats/pyjamasyndicatered.rsi, state: icon }
   - type: InstantAction
     event: !type:WakeActionEvent
-    startDelay: true
-    useDelay: 36 # imperial medieval
 
 - type: entity
   parent: BaseImplantAction
@@ -399,12 +397,14 @@
   name: Toggle Paramedic Siren
   description: Toggles the paramedic siren on and off.
   components:
-  - type: InstantAction
+  #spellward - adapt action data to upstream component ownership.
+  - type: Action
     icon:
       sprite: Clothing/OuterClothing/Hardsuits/paramed.rsi
       state: icon-siren
     useDelay: 1
     itemIconStyle: BigAction
+  - type: InstantAction
 
 #  TODO: Add back once we have animated tails again. Were removed due to the sprite rework, causing all of them to not fit anymore.
 # - type: entity

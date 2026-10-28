@@ -36,5 +36,6 @@
   name: Toggle ninja gloves
   description: Toggles all glove actions on left click. Includes your doorjack, draining power, stunning enemies and hacking certain computers.
   components:
+  - type: Action
   - type: InstantAction
     event: !type:ToggleActionEvent {}

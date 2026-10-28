@@ -12,7 +12,7 @@ public sealed class Box : BoxContainer, IDocumentTag
         control = this;
 
         if (args.TryGetValue("Margin", out var margin))
-            Margin = new Thickness(float.Parse(margin));
+            Margin = DocumentParsingManager.ParseThickness(margin); //spellward - same margin syntax as upstream entity embeds.
 
         if (args.TryGetValue("Orientation", out var orientation))
             Orientation = Enum.Parse<LayoutOrientation>(orientation);

@@ -8,7 +8,7 @@
       size: Tiny
     - type: Spellbook
       spellActions:
-        WitchersSpellVendigo: -1
+        WitchersSpellVendigo: null
 
 - type: entity
   id: WtchersBookYlitka
@@ -20,7 +20,7 @@
       size: Tiny
     - type: Spellbook
       spellActions:
-        WitchersSpellYlitka: -1
+        WitchersSpellYlitka: null
 
 - type: entity
   id: WtchersBookVorons
@@ -32,4 +32,4 @@
       size: Tiny
     - type: Spellbook
       spellActions:
-        WitchersSpellVorons: -1
+        WitchersSpellVorons: null

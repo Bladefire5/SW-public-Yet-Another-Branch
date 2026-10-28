@@ -16,7 +16,7 @@ public sealed class ColorBox : PanelContainer, IDocumentTag
         control = this;
 
         if (args.TryGetValue("Margin", out var margin))
-            Margin = new Thickness(float.Parse(margin));
+            Margin = DocumentParsingManager.ParseThickness(margin); //spellward - same margin syntax as upstream entity embeds.
 
         if (args.TryGetValue("HorizontalAlignment", out var halign))
             HorizontalAlignment = Enum.Parse<HAlignment>(halign);
