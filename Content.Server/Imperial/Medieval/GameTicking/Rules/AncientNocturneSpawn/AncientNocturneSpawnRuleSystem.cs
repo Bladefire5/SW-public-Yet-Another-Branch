@@ -78,18 +78,19 @@ public sealed class AncientNocturneSpawnRuleSystem : GameRuleSystem<AncientNoctu
 
         if (spawnCount == 0)
         {
-            Log.Error("Ancient nocturne spawn rule started without available spawn markers");
+            // Forced starts on ordinary maps or exhausted markers are a valid unavailable event.
+            Log.Debug("Skipping ancient nocturne spawn rule: no available spawn markers");
+            GameTicker.EndGameRule(uid, gameRule);
+            return;
         }
-        else
-        {
-            _chat.DispatchGlobalAnnouncement(
-                Loc.GetString("medieval-ancient-nocturne-event-announcement", ("count", spawnCount)),
-                playSound: true,
-                colorOverride: Color.MediumPurple,
-                sender: Loc.GetString("medieval-ancient-nocturne-event-sender"));
 
-            StartInquisitionTimer(uid, component);
-        }
+        _chat.DispatchGlobalAnnouncement(
+            Loc.GetString("medieval-ancient-nocturne-event-announcement", ("count", spawnCount)),
+            playSound: true,
+            colorOverride: Color.MediumPurple,
+            sender: Loc.GetString("medieval-ancient-nocturne-event-sender"));
+
+        StartInquisitionTimer(uid, component);
 
         GameTicker.EndGameRule(uid, gameRule);
     }

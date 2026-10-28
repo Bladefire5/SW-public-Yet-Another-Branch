@@ -1,5 +1,6 @@
 #nullable enable
 using Content.Shared.CCVar;
+using Content.Shared.Imperial.ICCVar;
 
 namespace Content.IntegrationTests;
 
@@ -15,6 +16,11 @@ public static partial class PoolManager
         (CCVars.DatabaseSqliteDelay.Name,     "0"),
         (CCVars.HolidaysEnabled.Name,         "false"),
         (CCVars.GameMap.Name,                 TestMap),
+        // spellward start - native rule fixtures need standard presets and no unrelated lobby votes.
+        (CCVars.GameLobbyDefaultPreset.Name,  "secret"),
+        (CCVars.GameLobbyFallbackPreset.Name, "Extended"),
+        (ICCVars.VoteAutoStartInLobby.Name,    "false"),
+        // spellward end
         (CCVars.AdminLogsQueueSendDelay.Name, "0"),
         (CCVars.NPCMaxUpdates.Name,           "999999"),
         (CCVars.GameRoleTimers.Name,          "false"),
