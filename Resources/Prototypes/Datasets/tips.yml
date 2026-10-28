@@ -4,4 +4,4 @@
   id: Tips
   values:
     prefix: tips-dataset-
-    count: 101 # Imperial Space Datasets
+    count: 139 # Imperial Space Datasets #spellward - match the available localized values.

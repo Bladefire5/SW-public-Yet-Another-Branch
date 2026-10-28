@@ -2,4 +2,4 @@
   id: NamesAI
   values:
     prefix: names-ai-dataset-
-    count: 88
+    count: 108 #spellward - match the available localized values.

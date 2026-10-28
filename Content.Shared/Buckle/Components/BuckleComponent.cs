@@ -20,7 +20,7 @@ public sealed partial class BuckleComponent : Component
     /// across a table two tiles away" problem.
     /// </summary>
     [DataField]
-    public float Range = 0.6f; // Imperial Medieval
+    public float Range = SharedInteractionSystem.InteractionRange; //spellward - use upstream interaction reach for buckling and pulling.
 
     /// <summary>
     /// True if the entity is buckled, false otherwise.

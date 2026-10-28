@@ -83,6 +83,16 @@
 - type: entity
   name: MedievalRevent
   parent: MedievalRevent
+  id: MedievalRevent35
+  description: furry :)
+  components:
+  - type: Stack
+    stackType: MedievalRevent
+    count: 35
+
+- type: entity
+  name: MedievalRevent
+  parent: MedievalRevent
   id: MedievalRevent50
   description: furry :)
   components:

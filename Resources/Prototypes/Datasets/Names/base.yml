@@ -2,10 +2,10 @@
   id: NamesFirst
   values:
     prefix: names-first-dataset-
-    count: 907 # Imperial Space
+    count: 1395 # Imperial Space #spellward - match the available localized values.
 
 - type: localizedDataset
   id: NamesLast
   values:
     prefix: names-last-dataset-
-    count: 471 # Imperial Space
+    count: 553 # Imperial Space #spellward - match the available localized values.

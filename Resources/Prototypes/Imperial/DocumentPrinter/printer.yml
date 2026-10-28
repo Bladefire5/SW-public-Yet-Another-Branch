@@ -24,6 +24,7 @@
       - Document
       components:
       - Paper
+      - Material
   - type: Lathe
     producingSound: /Audio/Machines/printer.ogg
     idleState: icon

@@ -2,10 +2,10 @@
   id: NamesFirstMale
   values:
     prefix: names-first-male-dataset-
-    count: 440 # Imperial Space
+    count: 666 # Imperial Space #spellward - match the available localized values.
 
 - type: localizedDataset
   id: NamesFirstFemale
   values:
     prefix: names-first-female-dataset-
-    count: 467 # Imperial Space
+    count: 771 # Imperial Space #spellward - match the available localized values.

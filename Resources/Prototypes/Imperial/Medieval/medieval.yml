@@ -5513,7 +5513,7 @@
 - type: startingGear
   id: MobAghostDantanatGear
   equipment:
-    back: ClothingBackpackSatchelHoldingAdmin
+    back: ClothingBackpackSatchelAdmin
     id: AdminPDA
     mask: ClothingKrilBig
     head: MedievalClothingHeadCrownKing

@@ -8,10 +8,10 @@
   id: NamesRevenantAdjective
   values:
     prefix: names-revenant-adjective-dataset-
-    count: 16 # Imperial Space
+    count: 18 # Imperial Space #spellward - match the available localized values.
 
 - type: localizedDataset
   id: NamesRevenantTheme
   values:
     prefix: names-revenant-theme-dataset-
-    count: 13
+    count: 18 #spellward - match the available localized values.
