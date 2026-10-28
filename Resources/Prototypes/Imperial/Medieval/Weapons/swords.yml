@@ -1532,13 +1532,13 @@
         volume: 1
   - type: Sharp
   - type: Sprite
-    sprite: Imperial/Medieval/Melee/rapier.rsi
+    sprite: Imperial/Medieval/Melee/rapira.rsi
     state: icon
   - type: Item
     size: Normal
-    sprite: Imperial/Medieval/Melee/rapier.rsi
+    sprite: Imperial/Medieval/Melee/rapira.rsi
   - type: Clothing
-    sprite: Imperial/Medieval/Melee/rapier.rsi
+    sprite: Imperial/Medieval/Melee/rapira.rsi
     slots:
     - back
     - suitStorage
