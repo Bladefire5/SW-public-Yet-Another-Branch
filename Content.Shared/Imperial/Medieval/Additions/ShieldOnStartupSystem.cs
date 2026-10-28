@@ -57,7 +57,12 @@ public partial class ShieldOnStartupSystem : EntitySystem
 
     private void OnCombatModeChanged(Entity<ShieldOnStartupComponent> ent, ref ToggleCombatActionEvent args)
     {
-        _alert.ClearAlert(ent.Owner, "SpawnProtection");
-        RemComp<ShieldOnStartupComponent>(ent);
+        EndProtection(ent);
+    }
+
+    public void EndProtection(EntityUid uid)
+    {
+        _alert.ClearAlert(uid, "SpawnProtection");
+        RemComp<ShieldOnStartupComponent>(uid);
     }
 }

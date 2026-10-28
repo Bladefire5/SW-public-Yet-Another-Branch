@@ -1,8 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-// imperial medieval statusbars start
-// using Content.Shared.Alert;
-// imperial medieval statusbars end
+using Content.Shared.Alert; //spellward - retain upstream alerts alongside medieval vitals.
 using Content.Shared.Damage;
 using Content.Shared.FixedPoint;
 using Content.Shared.Mobs.Components;
@@ -14,18 +12,14 @@ namespace Content.Shared.Mobs.Systems;
 public sealed class MobThresholdSystem : EntitySystem
 {
     [Dependency] private readonly MobStateSystem _mobStateSystem = default!;
-    // imperial medieval statusbars start
-    // [Dependency] private readonly AlertsSystem _alerts = default!;
-    // imperial medieval statusbars end
+    [Dependency] private readonly AlertsSystem _alerts = default!; //spellward - restore upstream alert lifecycle.
 
     public override void Initialize()
     {
         SubscribeLocalEvent<MobThresholdsComponent, ComponentGetState>(OnGetState);
         SubscribeLocalEvent<MobThresholdsComponent, ComponentHandleState>(OnHandleState);
 
-        // imperial medieval statusbars start
-        // SubscribeLocalEvent<MobThresholdsComponent, ComponentShutdown>(MobThresholdShutdown);
-        // imperial medieval statusbars end
+        SubscribeLocalEvent<MobThresholdsComponent, ComponentShutdown>(MobThresholdShutdown); //spellward - restore upstream cleanup.
         SubscribeLocalEvent<MobThresholdsComponent, ComponentStartup>(MobThresholdStartup);
         SubscribeLocalEvent<MobThresholdsComponent, DamageChangedEvent>(OnDamaged);
         SubscribeLocalEvent<MobThresholdsComponent, UpdateMobStateEvent>(OnUpdateMobState);
@@ -373,61 +367,62 @@ public sealed class MobThresholdSystem : EntitySystem
         _mobStateSystem.UpdateMobState(target, mobState, origin);
     }
 
+    //spellward start - upstream health alert behavior with this fork's scalar damage storage.
     private void UpdateAlerts(EntityUid target, MobState currentMobState, MobThresholdsComponent? threshold = null,
         DamageableComponent? damageable = null)
     {
-        // imperial medieval statusbars start
-        // if (!Resolve(target, ref threshold, ref damageable))
-        //     return;
-        //
-        // // don't handle alerts if they are managed by another system... BobbySim (soon TM)
-        // if (!threshold.TriggersAlerts)
-        //     return;
-        //
-        // if (!threshold.StateAlertDict.TryGetValue(currentMobState, out var currentAlert))
-        // {
-        //     Log.Error($"No alert alert for mob state {currentMobState} for entity {ToPrettyString(target)}");
-        //     return;
-        // }
-        //
-        // if (!_alerts.TryGet(currentAlert, out var alertPrototype))
-        // {
-        //     Log.Error($"Invalid alert type {currentAlert}");
-        //     return;
-        // }
-        //
-        // if (alertPrototype.SupportsSeverity)
-        // {
-        //     var severity = _alerts.GetMinSeverity(currentAlert);
-        //
-        //     var ev = new BeforeAlertSeverityCheckEvent(currentAlert, severity);
-        //     RaiseLocalEvent(target, ev);
-        //
-        //     if (ev.CancelUpdate)
-        //     {
-        //         _alerts.ShowAlert(target, ev.CurrentAlert, ev.Severity);
-        //         return;
-        //     }
-        //
-        //     if (TryGetNextState(target, currentMobState, out var nextState, threshold) &&
-        //         TryGetPercentageForState(target, nextState.Value, damageable.TotalDamage, out var percentage))
-        //     {
-        //         percentage = FixedPoint2.Clamp(percentage.Value, 0, 1);
-        //
-        //         severity = (short) MathF.Round(
-        //             MathHelper.Lerp(
-        //                 _alerts.GetMinSeverity(currentAlert),
-        //                 _alerts.GetMaxSeverity(currentAlert),
-        //                 percentage.Value.Float()));
-        //     }
-        //     _alerts.ShowAlert(target, currentAlert, severity);
-        // }
-        // else
-        // {
-        //     _alerts.ShowAlert(target, currentAlert);
-        // }
-        // imperial medieval statusbars end
+        if (!Resolve(target, ref threshold, ref damageable))
+            return;
+
+        // don't handle alerts if they are managed by another system... BobbySim (soon TM)
+        if (!threshold.TriggersAlerts)
+            return;
+
+        if (!threshold.StateAlertDict.TryGetValue(currentMobState, out var currentAlert))
+        {
+            Log.Error($"No alert alert for mob state {currentMobState} for entity {ToPrettyString(target)}");
+            return;
+        }
+
+        if (!_alerts.TryGet(currentAlert, out var alertPrototype))
+        {
+            Log.Error($"Invalid alert type {currentAlert}");
+            return;
+        }
+
+        if (alertPrototype.SupportsSeverity)
+        {
+            var severity = _alerts.GetMinSeverity(currentAlert);
+
+            var ev = new BeforeAlertSeverityCheckEvent(currentAlert, severity);
+            RaiseLocalEvent(target, ev);
+
+            if (ev.CancelUpdate)
+            {
+                _alerts.ShowAlert(target, ev.CurrentAlert, ev.Severity);
+                return;
+            }
+
+            if (TryGetNextState(target, currentMobState, out var nextState, threshold) &&
+                TryGetPercentageForState(target, nextState.Value, damageable.TotalDamage, out var percentage))
+            {
+                percentage = FixedPoint2.Clamp(percentage.Value, 0, 1);
+
+                severity = (short) MathF.Round(
+                    MathHelper.Lerp(
+                        _alerts.GetMinSeverity(currentAlert),
+                        _alerts.GetMaxSeverity(currentAlert),
+                        percentage.Value.Float()));
+            }
+            _alerts.ShowAlert(target, currentAlert, severity);
+        }
+        else
+        {
+            _alerts.ShowAlert(target, currentAlert);
+        }
     }
+
+    //spellward end
 
     private void OnDamaged(EntityUid target, MobThresholdsComponent thresholds, DamageChangedEvent args)
     {
@@ -447,13 +442,13 @@ public sealed class MobThresholdSystem : EntitySystem
         UpdateAllEffects((target, thresholds, mobState, damageable), mobState.CurrentState);
     }
 
-    // imperial medieval statusbars start
-    // private void MobThresholdShutdown(EntityUid target, MobThresholdsComponent component, ComponentShutdown args)
-    // {
-    //     if (component.TriggersAlerts)
-    //         _alerts.ClearAlertCategory(target, component.HealthAlertCategory);
-    // }
-    // imperial medieval statusbars end
+    //spellward start - retain upstream alert cleanup.
+    private void MobThresholdShutdown(EntityUid target, MobThresholdsComponent component, ComponentShutdown args)
+    {
+        if (component.TriggersAlerts)
+            _alerts.ClearAlertCategory(target, component.HealthAlertCategory);
+    }
+    //spellward end
 
     private void OnUpdateMobState(EntityUid target, MobThresholdsComponent component, ref UpdateMobStateEvent args)
     {

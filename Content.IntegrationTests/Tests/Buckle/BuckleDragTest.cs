@@ -3,6 +3,7 @@ using Content.Shared.Buckle;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Input;
 using Content.Shared.Movement.Pulling.Components;
+using Content.Shared.Movement.Pulling.Systems;
 
 namespace Content.IntegrationTests.Tests.Buckle;
 
@@ -48,6 +49,14 @@ public sealed class BuckleDragTest : InteractionTest
         Assert.That(pullable.BeingPulled, Is.False);
 
         // Start pulling, and thus unbuckle them
+        //spellward - diagnose custom interaction guards while retaining the upstream behavior assertions.
+        await Server.WaitAssertion(() =>
+        {
+            Assert.That(Server.System<SharedBuckleSystem>().CanUnbuckle((sUrist, buckle), SPlayer, false),
+                Is.True, "The buckled target must permit the player's unbuckle attempt.");
+            Assert.That(Server.System<PullingSystem>().CanPull(SPlayer, sUrist),
+                Is.True, "The native pulling preconditions must allow this interaction.");
+        });
         await PressKey(ContentKeyFunctions.TryPullObject, cursorEntity: urist);
         await RunTicks(5);
         Assert.That(buckle.Buckled, Is.False);
