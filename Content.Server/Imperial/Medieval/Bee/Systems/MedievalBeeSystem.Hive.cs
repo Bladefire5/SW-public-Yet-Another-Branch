@@ -18,6 +18,7 @@ public sealed partial class MedievalBeeSystem : EntitySystem
         SubscribeLocalEvent<MedievalBeeHiveComponent, InteractHandEvent>(HiveInteract);
         SubscribeLocalEvent<MedievalBeeHiveComponent, ExaminedEvent>(HiveExamined);
         SubscribeLocalEvent<MedievalBeeHiveComponent, DestructionEventArgs>(HiveDestroyed);
+        SubscribeLocalEvent<MedievalBeeHiveComponent, EntityTerminatingEvent>(HiveTerminating);
         SubscribeLocalEvent<MedievalBeeHiveComponent, ComponentShutdown>(HiveShutdown);
     }
     private void HiveInitialize(EntityUid uid, MedievalBeeHiveComponent component, ComponentInit args)
@@ -66,6 +67,9 @@ public sealed partial class MedievalBeeSystem : EntitySystem
     private void HiveShutdown(EntityUid uid, MedievalBeeHiveComponent component, ComponentShutdown args)
         => CleanupHive(uid, component, releaseResidents: false);
 
+    private void HiveTerminating(EntityUid uid, MedievalBeeHiveComponent component, ref EntityTerminatingEvent args)
+        => CleanupHive(uid, component, releaseResidents: false);
+
     private void CleanupHive(EntityUid uid, MedievalBeeHiveComponent component, bool releaseResidents)
     {
         if (component.InteriorMap is not { } map)
@@ -75,7 +79,9 @@ public sealed partial class MedievalBeeSystem : EntitySystem
         if (TerminatingOrDeleted(map))
             return;
 
-        if (!TerminatingOrDeleted(component.Grid.Owner))
+        // EntityTerminatingEvent runs before the engine detaches the hive from this parent.
+        var destination = Transform(uid).Coordinates;
+        if (!TerminatingOrDeleted(destination.EntityId) && !TerminatingOrDeleted(component.Grid.Owner))
         {
             HashSet<Entity<MobStateComponent>> mobs = new();
             _lookup.GetGridEntities(component.Grid, mobs);
@@ -98,7 +104,7 @@ public sealed partial class MedievalBeeSystem : EntitySystem
                 if (TryComp<PullableComponent>(mob, out var pullable))
                     _pulling.TryStopPull(mob, pullable);
 
-                _transform.SetCoordinates(mob, Transform(uid).Coordinates);
+                _transform.SetCoordinates(mob, destination);
                 _transform.AttachToGridOrMap(mob);
             }
         }

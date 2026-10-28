@@ -13,7 +13,7 @@ public sealed class BeeHiveLifecycleMigrationTest
     [TestCase(false)]
     public async Task RemovingHiveReleasesItsMapAndEvacuatesOccupants(bool deleteOwner)
     {
-        await using var pair = await PoolManager.GetServerClient();
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { Dirty = true });
         var map = await pair.CreateTestMap();
         EntityUid hive = default;
         EntityUid interiorMap = default;

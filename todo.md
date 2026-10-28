@@ -1,8 +1,8 @@
 # SW Experiment / Robust 294 migration — machine recovery note
-schema=checkpoint.v2; updated=2026-10-28; active_checkpoint=checkpoint.v34; earlier checkpoints/backlogs are HISTORICAL; refresh HEAD and CI before continuing
+schema=checkpoint.v2; updated=2026-10-28; active_checkpoint=checkpoint.v35; earlier checkpoints/backlogs are HISTORICAL; refresh HEAD and CI before continuing
 repo=Bladefire5/SW-public-Yet-Another-Branch
 branch=Experiment (case sensitive); only modify this branch; preserve Stance-Break and all other branches.
-last_source_commit=8f0aa021515933d98b1f2fe35283f2b1ab56e9e3 (parent of checkpoint.v34; refresh Experiment HEAD before work)
+last_source_commit=eb39f3c33e9d004c19938bc4860487aea71512c2 (parent of checkpoint.v35; refresh Experiment HEAD before work)
 source_commit_subject="compat: adapt client map, color and GUI APIs; remove retired reanchor event"
 RobustToolbox submodule SHA=3eeaf8253774ab59d705d453fe90ede75b84c607 (294.0.0)
 verified SS14 upstream stable=space-wizards/space-station-14@107b6552856df306ba03f95334e0819b6b2be627; pinned same Robust SHA when checked.
@@ -266,3 +266,12 @@ checkpoint.v29={"base":"1f7a6e58d4b77ff0442f0171848cf6c3e9789b4c","task":"contin
 - Added two lifecycle regressions using a real hive interior: direct entity deletion and component removal. Each inserts a visitor and a deterministic spawner-owned NPC, verifies the visitor moves to the outer grid, then verifies the interior map/grid/NPC are deleted while the visitor survives. Source compatibility count is now 59; fresh runtime verification is required. No loot, combat, hive-map assets, or bee spawn weights changed.
 - Validation: lifecycle API signatures checked against current source; both MBeeGrids variants contain the linked spawner used by the regression; direct map ownership uses the actual MapLoader return entity; diff whitespace check passes. New source CI still required.
 - Next: inspect 59-case regression results and broad integration results. Do not claim complete integration/migration success: historical broad-suite failures remain listed in checkpoint.v29 and may expose further independent issues. All previously listed manual UI/ship/power checks remain pending.
+
+
+## checkpoint.v35 — evacuate hive occupants before engine detachment
+- eb39f3c3 CI run 40662257107 (job 122727907442): build and unit steps PASS. Compatibility TRX 59 executed/57 passed/2 failed: direct hive deletion logs an attempt to attach its visitor to the terminating hive; a TimedSpawner case also reported a pool CleanDisposed lifecycle exception. The component-removal hive case passed. No tests skipped.
+- Verified the precise engine contract at Robust pin: EntityManager.RecursiveDeleteEntity detaches an entity before firing ComponentShutdown; TransformComponent.Coordinates falls back to the entity itself when detached. Cleanup therefore cannot retrieve the live outer coordinates at shutdown for direct deletion.
+- Hive evacuation now also handles EntityTerminatingEvent, which the engine raises before detachment. Cleanup captures the destination once, refuses a terminating destination during enclosing-map teardown, and remains idempotent when ComponentShutdown follows. Live component removal still uses its valid current coordinates. This adapts custom behavior to upstream lifecycle ordering without engine changes.
+- Hive regressions use isolated Dirty pool pairs because they load real maps and NPC spawners; assertions for visitor survival and owned map/grid/NPC deletion are unchanged. The TimedSpawner implementation/test is unchanged; rerun to determine whether its pool exception was a cascade/flaky reuse issue.
+- Source APIs/event ordering verified against pinned TransformComponent.cs and EntityManager.cs plus existing EntityTerminatingEvent handlers; diff whitespace check passes. Compatibility still has 59 cases; fresh CI required.
+- Last fully verified early checkpoint remains 8f0aa021: 57/57 compatibility, 7/7 prototype/lifecycle/icon checks, build/unit/construction PASS. Full integration success is still unverified; continue from the broader backlog after the new hive regressions pass.
