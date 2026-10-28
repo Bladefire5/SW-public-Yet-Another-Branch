@@ -11,8 +11,9 @@ public sealed class ChemistryContextMigrationTest
     [Test]
     public async Task PotionRecipesAndAppearanceBelongToEachGameContext()
     {
-        // Disconnected contexts let us supply seeds without the normal synchronization message.
-        await using var pair = await PoolManager.GetServerClient(new PoolSettings { Dirty = true });
+        // Connecting loads client entity systems; finish its initial seed exchange before supplying test seeds.
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { Connected = true, Dirty = true });
+        await pair.RunTicksSync(5);
         string serverRecipes = string.Empty;
         string clientRecipes = string.Empty;
 

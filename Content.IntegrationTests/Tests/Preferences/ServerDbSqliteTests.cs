@@ -86,6 +86,16 @@ namespace Content.IntegrationTests.Tests.Preferences
             var username = new NetUserId(new Guid("640bd619-fc8d-4fe2-bf3c-4a5fb17d6ddd"));
             const int slot = 0;
             var originalProfile = CharlieCharlieson();
+            // spellward start - exercise custom skill values through the real database conversion.
+            originalProfile.Skills = new()
+            {
+                ["Strength"] = 12,
+                ["Endurance"] = 9,
+                ["Intelligence"] = 11,
+                ["Agility"] = 8,
+                ["Vitality"] = 10,
+            };
+            // spellward end
             await db.InitPrefsAsync(username, originalProfile);
             var prefs = await db.GetPlayerPreferencesAsync(username);
             Assert.That(prefs.Characters.Single(p => p.Key == slot).Value.MemberwiseEquals(originalProfile));

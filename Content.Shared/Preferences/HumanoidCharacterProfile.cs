@@ -195,7 +195,7 @@ namespace Content.Shared.Preferences
                 new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
                 new Dictionary<string, RoleLoadout>(other.Loadouts),
                 // imperial medieval start
-                other.Skills)
+                new Dictionary<string, int>(other.Skills)) //spellward - cloned profiles own their skill selections
                 // imperial medieval end
         {
         }
@@ -489,7 +489,10 @@ namespace Content.Shared.Preferences
             if (!Loadouts.SequenceEqual(other.Loadouts)) return false;
             if (FlavorText != other.FlavorText) return false;
             // imperial medieval start
-            if (!Skills.Equals(other.Skills)) return false;
+            //spellward - persisted/networked profiles have distinct dictionaries with the same values.
+            if (Skills.Count != other.Skills.Count ||
+                Skills.Any(skill => !other.Skills.TryGetValue(skill.Key, out var level) || level != skill.Value))
+                return false;
             // imperial medieval end
             return Appearance.MemberwiseEquals(other.Appearance);
         }
